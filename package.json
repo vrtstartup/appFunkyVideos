@@ -1,0 +1,19 @@
+{
+  "name": "animation",
+  "version": "1.0.0",
+  "description": "animation for VTR",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "VRT",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "morgan": "^1.6.1",
+    "path": "^0.12.7"
+  }
+}

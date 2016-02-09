@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8">
+        <title>Videos</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body ng-app="app" ng-controller="AppCtrl as vm">
+
+        <button class="btn-primary" ng-click="vm.fadeIt()">Click to fade</button>
+
+        <div  id="container" class='container'>
+            <div id="progress" hide-me="vm.isHidden"></div>
+        </div>
+
+
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/1.2.1/jquery-migrate.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.2/angular.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-animate.js"></script>
+        <script src='html2canvas.js'></script>
+        <script type="text/javascript" src="app.js"></script>
+    </body>
+</html>
