@@ -7,8 +7,18 @@ var ffmpeg = require('fluent-ffmpeg');
 router.post('/images', function(req, res, next) {
     var files = fs.readdirSync('temp/').length;
     var buff = [];
-    var command = ffmpeg('temp/');
-    ffmpeg().addInput('temp/img%03d.png')
+    //var command = ffmpeg('temp/');
+    ffmpeg('temp/img%03d.jpeg')
+        .loop(5)
+        .fps(25)
+        .on('end', function() {
+            console.log('file has been converted succesfully');
+        })
+        .on('error', function(err) {
+            console.log('an error happened: ' + err.message);
+        })
+        // save to file
+        .save('temp/arget.m4v');
 
     if (files < 10) {
         files = '00' + files;

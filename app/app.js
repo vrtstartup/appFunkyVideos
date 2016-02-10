@@ -1,14 +1,25 @@
 var app = angular.module("app", ["ngAnimate"]);
 
-app.controller("AppCtrl", function($http, $scope) {
+app.controller("AppCtrl", function ($http, $scope) {
     this.isHidden = false;
-    this.fadeIt = function() {
+    this.fadeIt = function () {
         this.isHidden = !this.isHidden;
     };
 
+    this.getVideo = function () {
+        $http({
+            method: 'GET',
+            url: '/api/images'
+            }).then(function successCallback(res) {
+                console.log('Success!', res)
+            }, function errorCallback(err) {
+                console.log('Error', err);
+            });
+    }
+
 });
 
-app.directive("hideMe", function($animate) {
+app.directive("hideMe", function ($animate) {
     return function(scope, element, attrs) {
         scope.$watch(attrs.hideMe, function(newVal) {
             if (newVal) {
