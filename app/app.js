@@ -38,7 +38,7 @@ app.directive("hideMe", function ($animate) {
 app.animation(".fade", function($document, $window, $http) {
     return {
         addClass: function(element, className) {
-            TweenMax.to(element, 50, {width:496, onUpdate: takeScreenshot, onUpdateParams: [element]});
+            TweenMax.to(element, 10, {width:496, onUpdate: takeScreenshot, onUpdateParams: [element]});
         },
         removeClass: function(element, className) {
             TweenMax.to(element, 1, {width:0});

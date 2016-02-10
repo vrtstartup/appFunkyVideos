@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
+var findRemoveSync = require('find-remove');
 
 router.post('/images', function(req, res, next) {
     var files = fs.readdirSync('temp/').length;
@@ -37,6 +38,7 @@ router.get('/images', function(req, res) {
     ffmpeg('temp/img%03d.jpeg')
         .fps(30)
         .on('end', function() {
+            var result = findRemoveSync('temp', { extensions: '.jpeg' });
             console.log('File has been converted succesfully');
         })
         .on('error', function(err) {
