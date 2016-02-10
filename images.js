@@ -3,7 +3,15 @@ var router = express.Router();
 var fs = require('fs');
 
 router.post('/images', function(req, res, next) {
-    var fileName = Math.random().toString(36);
+    var files = fs.readdirSync('temp/').length;
+
+    if (files < 10) {
+        files = '00' + files;
+    } else if (files > 9 && files < 100) {
+        files = '0' + files;
+    }
+
+    var fileName = 'img' + files;
     var path = 'temp/' + fileName;
     var wstream = fs.createWriteStream(path);
 
