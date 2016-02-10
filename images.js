@@ -1,10 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var _ffmpeg = require('ffmpeg');
+var ffmpeg = require('fluent-ffmpeg');
 
 router.post('/images', function(req, res, next) {
     var files = fs.readdirSync('temp/').length;
     var buff = [];
+    var command = ffmpeg('temp/');
+    ffmpeg().addInput('temp/img%03d.png')
 
     if (files < 10) {
         files = '00' + files;
@@ -13,7 +17,7 @@ router.post('/images', function(req, res, next) {
     }
 
     var fileName = 'img' + files;
-    var path = 'temp/' + fileName + '.png';
+    var path = 'temp/' + fileName + '.jpeg';
 
     // Converting blob to png & writing it to /temp
     req.on('data', function (data) {
