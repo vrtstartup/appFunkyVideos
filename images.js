@@ -1,24 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var _ffmpeg = require('ffmpeg');
 var ffmpeg = require('fluent-ffmpeg');
 
 router.post('/images', function(req, res, next) {
     var files = fs.readdirSync('temp/').length;
     var buff = [];
-    //var command = ffmpeg('temp/');
-    ffmpeg('temp/img%03d.jpeg')
-        .loop(5)
-        .fps(25)
-        .on('end', function() {
-            console.log('file has been converted succesfully');
-        })
-        .on('error', function(err) {
-            console.log('an error happened: ' + err.message);
-        })
-        // save to file
-        .save('temp/arget.m4v');
 
     if (files < 10) {
         files = '00' + files;
@@ -46,6 +33,18 @@ router.post('/images', function(req, res, next) {
 
 //url /api
 router.get('/images', function(req, res) {
+    // ffmpeg -i img%03d.jpeg -c:v libx264 -r 30 -pix_fmt yuv420p abc.mp4
+    ffmpeg('temp/img%03d.jpeg')
+        .fps(30)
+        .on('end', function() {
+            console.log('File has been converted succesfully');
+        })
+        .on('error', function(err) {
+            console.log('Error: ' + err.message);
+        })
+        // save to file
+        .save('temp/abc.mp4');
+
     res.json({ message: 'hooray! welcome to our api! 1' });
 });
 
