@@ -7,14 +7,18 @@ app.controller("AppCtrl", function ($http, $scope) {
     };
 
     this.getVideo = function () {
+        var url;
         $http({
             method: 'GET',
             url: '/api/images'
             }).then(function successCallback(res) {
-                console.log('Success!', res)
+                console.log('Success!', res.config.url);
+                url = res.config.url;
+                console.log('URL1', url);
             }, function errorCallback(err) {
                 console.log('Error', err);
             });
+
     }
 
 });

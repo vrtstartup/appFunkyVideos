@@ -45,7 +45,7 @@ router.get('/images', function(req, res) {
         // save to file
         .save('temp/abc.mp4');
 
-    res.json({ message: 'hooray! welcome to our api! 1' });
+        res.json({ url: 'temp/abc.mp4' });
 });
 
 
