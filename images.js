@@ -4,6 +4,7 @@ var fs = require('fs');
 
 router.post('/images', function(req, res, next) {
     var files = fs.readdirSync('temp/').length;
+    var buff = [];
 
     if (files < 10) {
         files = '00' + files;
@@ -12,14 +13,21 @@ router.post('/images', function(req, res, next) {
     }
 
     var fileName = 'img' + files;
-    var path = 'temp/' + fileName;
-    var wstream = fs.createWriteStream(path);
+    var path = 'temp/' + fileName + '.png';
 
-    req.pipe(wstream) // pipe the http request body to the file stream
-        .on('error', next) // something went wrong with the fs, return 500
-        .on('finish', function () {
-            res.status(204).send();
-        });
+    // Converting blob to png & writing it to /temp
+    req.on('data', function (data) {
+            buff.push(data);
+        })
+        .on('error', next)
+        .on('end', function () {
+            fs.writeFile(path, Buffer.concat(buff), function (err) {
+                if (err) return next(err); // something went wrong with the fs, return 500
+
+                res.status(204).send(); // success!
+            });
+    });
+
 });
 
 //url /api
