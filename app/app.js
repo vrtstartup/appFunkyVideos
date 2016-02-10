@@ -40,7 +40,10 @@ app.animation(".fade", function($document, $window, $http) {
     }
 
     function upload(data) {
-        $http.post('/api/images', {
+        console.log(data);
+        $http({
+            method: 'POST',
+            url: '/api/images',
             headers: {
                 'Content-Type': 'image/jpeg'
             },

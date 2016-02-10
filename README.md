@@ -1,2 +1,1 @@
-# appFunkyVideos
-# appFunkyVideos
+# Funky Videos App
