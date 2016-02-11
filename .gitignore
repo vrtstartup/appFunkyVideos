@@ -39,6 +39,7 @@ node_modules
 
 # Temporary files
 temp
+app/build
 
 ### OSX ###
 .DS_Store
