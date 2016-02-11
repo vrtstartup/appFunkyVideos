@@ -7,3 +7,6 @@ First install all npm dependencies
 
 To start app
 `npm start`
+
+To watch & build with webpack
+`webpack-dev-server --progress --colors --hot --inline`
