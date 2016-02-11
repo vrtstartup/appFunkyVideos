@@ -3,6 +3,7 @@ var path = require('path');
 var nodeModulesPath = path.resolve(__dirname, 'node_modules');
 var buildPath = path.resolve(__dirname, 'app', 'build');
 var mainPath = path.resolve(__dirname, 'app', 'app.js');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var config = {
 
@@ -17,7 +18,7 @@ var config = {
     './app/style.scss',
 
     // The script refreshing the browser on none hot updates
-    'webpack-dev-server/client?http://localhost:8080',
+    'webpack-dev-server/client?http://localhost:3000',
 
     // Our application
     mainPath],
@@ -51,7 +52,7 @@ var config = {
     // expand with less-loader etc.
     {
         test: /\.scss$/,
-        loader: "style!css!autoprefixer!sass"
+        loader: ExtractTextPlugin.extract('style', 'css?sourceMap!autoprefixer-loader?browsers=last 2 versions!sass?sourceMap'),
     },
 
     ]
@@ -59,7 +60,12 @@ var config = {
 
   // We have to manually add the Hot Replacement plugin when running
   // from Node
-  plugins: [new Webpack.HotModuleReplacementPlugin()]
+  plugins: [
+        new Webpack.HotModuleReplacementPlugin(),
+
+        // styles from initial chunks into separate css output file
+        new ExtractTextPlugin('bundle.css'),
+    ]
 };
 
 module.exports = config;
