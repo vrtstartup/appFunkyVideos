@@ -16,7 +16,7 @@ app.use(morgan('dev'));
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'app'))); //all in app folder
+app.use(express.static('app')); // all in app folder is publicly accessible
 app.use('/temp', express.static('temp')); //temp is public
 // ROUTES FOR OUR API
 // =============================================================================
