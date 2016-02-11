@@ -5,7 +5,7 @@ var morgan = require('morgan');
 var cors = require('cors');
 var httpProxy = require('http-proxy');
 
-var imagesApi = require('./images');
+var imagesApi = require('./routes/images');
 
 var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
 var app = express(); // define our app using express
