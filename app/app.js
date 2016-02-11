@@ -1,5 +1,7 @@
 console.log ('HALLO! Im app');
-var app = angular.module("app", ["ngAnimate"]);
+const angular = require('angular');
+
+var app = angular.module('app', [require('angular-animate')]);;
 
 app.controller("AppCtrl", function ($http, $scope) {
     this.isHidden = false;
@@ -12,7 +14,7 @@ app.controller("AppCtrl", function ($http, $scope) {
         $http({
             method: 'GET',
             url: '/api/images'
-            }).then((res) => {
+            }).then( function(res) {
                 console.log('Success!', res.config.url);
                 url = res.config.url;
                 console.log('URL1', url);
@@ -24,75 +26,75 @@ app.controller("AppCtrl", function ($http, $scope) {
 
 });
 
-// app.directive("hideMe", function ($animate) {
-//     return function(scope, element, attrs) {
-//         scope.$watch(attrs.hideMe, function(newVal) {
-//             if (newVal) {
-//                 $animate.addClass(element, "fade");
-//             } else {
-//                 $animate.removeClass(element, "fade");
-//             }
-//         });
-//     };
-// });
+app.directive("hideMe", function ($animate) {
+    return function(scope, element, attrs) {
+        scope.$watch(attrs.hideMe, function(newVal) {
+            if (newVal) {
+                $animate.addClass(element, "fade");
+            } else {
+                $animate.removeClass(element, "fade");
+            }
+        });
+    };
+});
 
-// app.animation(".fade", function($document, $window, $http) {
-//     return {
-//         addClass: function(element, className) {
-//             TweenMax.to(element, 10, {width:496, onUpdate: takeScreenshot, onUpdateParams: [element]});
-//         },
-//         removeClass: function(element, className) {
-//             TweenMax.to(element, 1, {width:0});
-//         }
-//     };
+app.animation(".fade", function($document, $window, $http) {
+    return {
+        addClass: function(element, className) {
+            TweenMax.to(element, 10, {width:496, onUpdate: takeScreenshot, onUpdateParams: [element]});
+        },
+        removeClass: function(element, className) {
+            TweenMax.to(element, 1, {width:0});
+        }
+    };
 
-//     function takeScreenshot(element) {
-//         const el = element.parent();
-//         html2canvas(el, {
-//             onrendered: function(canvas) {
-//                 canvasToJPG(canvas, upload);
-//             },
-//         });
-//     }
+    function takeScreenshot(element) {
+        const el = element.parent();
+        html2canvas(el, {
+            onrendered: function(canvas) {
+                canvasToJPG(canvas, upload);
+            },
+        });
+    }
 
-//     function upload(data) {
-//         console.log(data);
-//         $http({
-//             method: 'POST',
-//             url: '/api/images',
-//             headers: {
-//                 'Content-Type': 'image/jpeg'
-//             },
-//             data: data,
-//             transformRequest: []
-//         })
-//         .success(function() {
-//             console.log('image uploaded :)');
-//         })
-//         .error(function(err) {
-//             console.log('upload error', err);
-//         });
-//     }
+    function upload(data) {
+        console.log(data);
+        $http({
+            method: 'POST',
+            url: '/api/images',
+            headers: {
+                'Content-Type': 'image/jpeg'
+            },
+            data: data,
+            transformRequest: []
+        })
+        .success(function() {
+            console.log('image uploaded :)');
+        })
+        .error(function(err) {
+            console.log('upload error', err);
+        });
+    }
 
-//     function dataURItoBlob(dataURI) {
-//         var binary = atob(dataURI.split(',')[1]);
-//         var array = [];
-//         for (var i = 0; i < binary.length; i++) {
-//             array.push(binary.charCodeAt(i));
-//         }
-//         return new Blob([new Uint8Array(array)], {
-//             type: 'image/jpeg'
-//         });
-//     }
+    function dataURItoBlob(dataURI) {
+        var binary = atob(dataURI.split(',')[1]);
+        var array = [];
+        for (var i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], {
+            type: 'image/jpeg'
+        });
+    }
 
-//     function canvasToJPG(cvs, done) {
-//         var quality = 90; // jpeg quality
+    function canvasToJPG(cvs, done) {
+        var quality = 90; // jpeg quality
 
-//         if (cvs.toBlob) { // some browsers has support for toBlob
-//             cvs.toBlob(done, 'image/jpeg', quality / 100);
-//         }
-//         else{
-//             done(dataURItoBlob(cvs.toDataURL('image/jpeg', quality / 100)));
-//         }
-//     }
-// });
+        if (cvs.toBlob) { // some browsers has support for toBlob
+            cvs.toBlob(done, 'image/jpeg', quality / 100);
+        }
+        else{
+            done(dataURItoBlob(cvs.toDataURL('image/jpeg', quality / 100)));
+        }
+    }
+});
