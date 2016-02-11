@@ -14,6 +14,7 @@ var config = {
 
     // For hot style updates
     'webpack/hot/dev-server',
+    './app/style.scss',
 
     // The script refreshing the browser on none hot updates
     'webpack-dev-server/client?http://localhost:8080',
@@ -49,9 +50,9 @@ var config = {
     // Let us also add the style-loader and css-loader, which you can
     // expand with less-loader etc.
     {
-      test: /\.css$/,
-      loader: 'style!css'
-    }
+        test: /\.scss$/,
+        loader: "style!css!autoprefixer!sass"
+    },
 
     ]
   },

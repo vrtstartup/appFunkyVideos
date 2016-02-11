@@ -15,6 +15,7 @@
     "body-parser": "^1.14.2",
     "cors": "^2.7.1",
     "express": "^4.13.4",
+    "extract-text-webpack-plugin": "^1.0.1",
     "ffmpeg": "0.0.4",
     "find-remove": "^0.2.10",
     "fluent-ffmpeg": "^2.0.1",
@@ -24,9 +25,13 @@
   },
   "devDependencies": {
     "angular": "^1.5.0",
+    "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.5.1",
     "babel-loader": "^6.2.2",
     "css-loader": "^0.23.1",
+    "sass-loader": "^3.1.2",
+    "scss-loader": "0.0.1",
+    "style-loader": "^0.13.0",
     "webpack": "^1.12.13",
     "webpack-dev-server": "^1.14.1"
   }
