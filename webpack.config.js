@@ -46,7 +46,10 @@ var config = {
             {
               test: /\.js$/,
               loader: 'babel',
-              exclude: [nodeModulesPath]
+              exclude: [nodeModulesPath],
+              query: {
+                  presets: ['es2015']
+                }
             },
 
             // Let us also add the style-loader and css-loader, which you can
@@ -54,6 +57,10 @@ var config = {
             {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract('style', 'css?sourceMap!autoprefixer-loader?browsers=last 2 versions!sass?sourceMap'),
+            },
+            {
+                test: /\.html$/,
+                loader: 'raw'
             },
 
         ]

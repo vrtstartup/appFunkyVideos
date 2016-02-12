@@ -1,21 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app" ng-strict-di ng-cloak>
     <head lang="en">
         <meta charset="utf-8">
         <title>Videos</title>
         <link rel="stylesheet" href="build/bundle.css">
     </head>
 
-    <body ng-app="app" ng-controller="AppCtrl as vm">
+    <body>
 
-        <button class="btn-primary" ng-click="vm.fadeIt()">Click to animate</button>
+        <h1>Opps!</h1>
+
+        <!-- <button class="btn-primary" ng-click="vm.fadeIt()">Click to animate</button>
         <button class="btn-primary" ng-click="vm.getVideo()">Click to get video</button>
         <a href="">Download</a>
         <div  id="container" class='container'>
             <div id="progress" hide-me="vm.isHidden"></div>
-        </div>
+        </div> -->
 
-        <p>TEST</p>
+        <app>
+            Loading ...
+        </app>
+
         <script type="text/javascript" src="//code.jquery.com/jquery-1.10.1.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/1.2.1/jquery-migrate.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>

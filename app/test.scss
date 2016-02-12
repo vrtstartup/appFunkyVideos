@@ -1,4 +1,4 @@
-$bgcolor: #0594cf;
+$bgcolor: rebeccapurple;
 
 * {
   box-sizing: border-box;
@@ -7,6 +7,7 @@ $bgcolor: #0594cf;
 body {
   background: $bgcolor;
   padding: 1em;
+  color: #fff;
 }
 
 div.container {
