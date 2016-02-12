@@ -4,33 +4,7 @@
 
 import './main.js';
 
-// const angular = require('angular');
 
-// var app = angular.module('app', [require('angular-animate')]);;
-// angular.module('app', []);
-
-// app.controller("AppCtrl", function ($http, $scope) {
-//     this.isHidden = false;
-//     this.fadeIt = function () {
-//         this.isHidden = !this.isHidden;
-//     };
-
-//     this.getVideo = function () {
-//         var url;
-//         $http({
-//             method: 'GET',
-//             url: '/api/images'
-//             }).then( function(res) {
-//                 console.log('Success!', res.config.url);
-//                 url = res.config.url;
-//                 console.log('URL1', url);
-//             }, function errorCallback(err) {
-//                 console.log('Error', err);
-//             });
-
-//     }
-
-// });
 
 // app.directive("hideMe", function ($animate) {
 //     return function(scope, element, attrs) {

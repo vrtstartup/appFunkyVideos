@@ -13,7 +13,7 @@ module.config(['$stateProvider', ($stateProvider) => {
         .state('home', {
             url: '/',
             title: 'Funky VRT',
-            templateUrl: './components/home/home.html',
+            templateUrl: '/components/home/home.html',
             controller: homeController,
             controllerAs: 'vm',
         });
