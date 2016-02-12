@@ -33,7 +33,7 @@ app.use('/api', imagesApi);
 // set our port
 var isProduction = process.env.NODE_ENV === 'production';
 var port = isProduction ? process.env.PORT : 3000;
-
+app.use('app/build', express.static('build'));
 
 // We only want to run the workflow when not in production
 if (!isProduction) {
@@ -46,7 +46,7 @@ if (!isProduction) {
 
     // Any requests to localhost:3000/build is proxied
     // to webpack-dev-server
-    app.all('/build/*', function (req, res) {
+    app.all('app/build/*', function (req, res) {
         proxy.web(req, res, {
             target: 'http://localhost:8080'
         });
