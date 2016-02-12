@@ -10,7 +10,7 @@ var config = {
   // Makes sure errors in console map to the correct file
   // and line number
   // devtool: 'eval',
-  devtool: "source-map",
+  devtool: ["source-map", "eval"],
   entry: [
 
     // For hot style updates
@@ -18,7 +18,7 @@ var config = {
     './app/style.scss',
 
     // The script refreshing the browser on none hot updates
-    'webpack-dev-server/client?http://localhost:3000',
+    'webpack-dev-server/client?http://localhost:8080',
 
     // Our application
     mainPath],

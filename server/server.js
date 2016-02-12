@@ -38,6 +38,7 @@ var port = isProduction ? process.env.PORT : 3000;
 // We only want to run the workflow when not in production
 if (!isProduction) {
 
+    console.log('DEVELOPMENT');
     // We require the bundler inside the if block because
     // it is only needed in a development environment.
     var bundle = require('./bundle.js');

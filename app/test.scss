@@ -1,25 +1,25 @@
 $bgcolor: #fff;
 
 * {
-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-background: $bgcolor;
-padding: 1em;
+  background: $bgcolor;
+  padding: 1em;
 }
 
 div.container {
-border: 1em solid #473662;
-position: absolute;
-top: 30%;
-left: 30%;
-margin-right: -50%;
-width: 33em;
+  border: 1em solid #473662;
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  margin-right: -50%;
+  width: 33em;
 }
 
 #progress {
-background: #91C5A9;
-height: 8em;
-width: 0em;
+  background: #91C5A9;
+  height: 8em;
+  width: 0em;
 }

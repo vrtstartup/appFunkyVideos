@@ -1,4 +1,4 @@
-console.log ('HALLO! Im app');
+console.log ('HALLO! Im app 1111');
 const angular = require('angular');
 
 var app = angular.module('app', [require('angular-animate')]);;
