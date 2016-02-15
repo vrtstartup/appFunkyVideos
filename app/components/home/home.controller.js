@@ -3,8 +3,9 @@ export default class HomeController {
         this.$log = $log;
         this.$http = $http;
         this.isHidden = false;
+        this.url = '';
 
-        console.log('Home HomeController');
+        console.log('Home HomeController', this.url);
     }
 
     fadeIt() {
@@ -13,19 +14,18 @@ export default class HomeController {
     }
 
     getVideo() {
-        console.log('URL1', url);
-        var url;
+
         this.$http({
             method: 'GET',
             url: '/api/images'
-            }).then( function(res) {
-                console.log('Success!', res.config.url);
-                url = res.config.url;
-                console.log('URL1', url);
-            }, function errorCallback(err) {
+            }).then( (res) => {
+                console.log('Success!', res.data.video_url);
+                this.url = res.data.video_url;
+                console.log('URL1', this.url);
+                return this.url;
+            }, (err) => {
                 console.log('Error', err);
             });
-
     }
 
 }

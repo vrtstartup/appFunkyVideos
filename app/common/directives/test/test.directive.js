@@ -44,15 +44,6 @@ class TestDirectiveController {
         });
     }
 
-    test() {
-        console.log('test 222');
-        this.test2();
-    }
-
-    test2() {
-        console.log('!!!!!!!!');
-    }
-
     upload(data) {
         console.log(data);
         this.$http({
@@ -65,7 +56,7 @@ class TestDirectiveController {
             transformRequest: []
         })
         .success(function() {
-            console.log('image uploaded :)');
+            console.log('image uploaded');
         })
         .error(function(err) {
             console.log('upload error', err);
