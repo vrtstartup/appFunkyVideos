@@ -39,7 +39,7 @@ router.get('/images', function(req, res) {
     var videoFileName = getDateTime();
 
     ffmpeg('temp/img%03d.jpeg')
-        .fps(30)
+        .fps(60)
         .on('end', function() {
             var result = findRemoveSync('temp', { extensions: '.jpeg'});
             console.log('File has been converted succesfully');

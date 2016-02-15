@@ -1,41 +1,23 @@
-// app.directive("hideMe", function ($animate) {
-//     return function(scope, element, attrs) {
-//         scope.$watch(attrs.hideMe, function(newVal) {
-//             if (newVal) {
-//                 $animate.addClass(element, "fade");
-//             } else {
-//                 $animate.removeClass(element, "fade");
-//             }
-//         });
-//     };
-// });
-
 import template from './test.directive.html';
 
 class TestDirectiveController {
-    constructor($scope, $log, $animate, $element, $http) {
+    constructor($scope, $log, $element, $http) {
         this.$log = $log;
         this.$http = $http;
         this.$element = $element;
         this.$scope = $scope;
 
-        console.log('controller', this);
 
         $scope.$watch('vm.isHidden', (value) => {
             if (value) {
-                console.log('test hidden', this);
-                // $animate.addClass($element, "fade");
-                 TweenMax.to(this.$element, 10, {width:496, onUpdate: this.takeScreenshot.bind(this), onUpdateParams: [this.$element]});
+                TweenMax.to(this.$element, 10, {width:496, onUpdate: this.takeScreenshot.bind(this), onUpdateParams: [this.$element]});
             } else {
                 TweenMax.to(this.$element, 1, {width:0});
-                // $animate.removeClass($element, "fade");
             }
         }, true);
     }
 
     takeScreenshot(element) {
-
-        console.log('test takeScreenshot');
         const el = element.parent();
         html2canvas(el, {
             onrendered: (canvas) => {
@@ -55,17 +37,17 @@ class TestDirectiveController {
             data: data,
             transformRequest: []
         })
-        .success(function() {
-            console.log('image uploaded');
+        .success(() => {
+            this.$log.info('image uploaded');
         })
-        .error(function(err) {
-            console.log('upload error', err);
+        .error((err) => {
+            this.$log.error('upload error', err);
         });
     }
 
     dataURItoBlob(dataURI) {
-        var binary = atob(dataURI.split(',')[1]);
-        var array = [];
+        const binary = atob(dataURI.split(',')[1]);
+        const array = [];
         for (var i = 0; i < binary.length; i++) {
             array.push(binary.charCodeAt(i));
         }
@@ -75,7 +57,7 @@ class TestDirectiveController {
     }
 
     canvasToJPG(cvs, done) {
-        var quality = 90; // jpeg quality
+        const quality = 90; // jpeg quality
 
         if (cvs.toBlob) { // some browsers has support for toBlob
             cvs.toBlob(done, 'image/jpeg', quality / 100);
@@ -99,4 +81,4 @@ export const testDirective = function() {
     };
 };
 
-TestDirectiveController.$inject = ['$scope', '$log', '$animate', '$element', '$http'];
+TestDirectiveController.$inject = ['$scope', '$log', '$element', '$http'];
