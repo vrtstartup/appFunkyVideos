@@ -8,7 +8,6 @@ class TestDirectiveController {
         this.$scope = $scope;
         this.videoGeneration = videoGeneration;
 
-        console.log('Service', this.videoGeneration.getName());
 
         $scope.$watch('vm.isHidden', (value) => {
             if (value) {
@@ -18,57 +17,6 @@ class TestDirectiveController {
             }
         }, true);
     }
-
-    //takeScreenshot(element) {
-    //    const el = element.parent();
-    //    html2canvas(el, {
-    //        onrendered: (canvas) => {
-    //            //this.canvasToJPG(canvas, this.upload.bind(this));
-    //            this.videoGeneration.getName(canvas);
-    //        },
-    //    });
-    //}
-    //
-    //upload(data) {
-    //    console.log(data);
-    //    this.$http({
-    //        method: 'POST',
-    //        url: '/api/images',
-    //        headers: {
-    //            'Content-Type': 'image/jpeg'
-    //        },
-    //        data: data,
-    //        transformRequest: []
-    //    })
-    //    .success(() => {
-    //        this.$log.info('image uploaded');
-    //    })
-    //    .error((err) => {
-    //        this.$log.error('upload error', err);
-    //    });
-    //}
-    //
-    //dataURItoBlob(dataURI) {
-    //    const binary = atob(dataURI.split(',')[1]);
-    //    const array = [];
-    //    for (var i = 0; i < binary.length; i++) {
-    //        array.push(binary.charCodeAt(i));
-    //    }
-    //    return new Blob([new Uint8Array(array)], {
-    //        type: 'image/jpeg'
-    //    });
-    //}
-    //
-    //canvasToJPG(cvs, done) {
-    //    const quality = 90; // jpeg quality
-    //
-    //    if (cvs.toBlob) { // some browsers has support for toBlob
-    //        cvs.toBlob(done, 'image/jpeg', quality / 100);
-    //    }
-    //    else{
-    //        done(dataURItoBlob(cvs.toDataURL('image/jpeg', quality / 100)));
-    //    }
-    //}
 }
 
 export const testDirective = function() {
