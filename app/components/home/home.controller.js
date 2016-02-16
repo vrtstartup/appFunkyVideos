@@ -1,9 +1,13 @@
 export default class HomeController {
-    constructor($log, $http) {
+    constructor($log, $http, $interval, $scope) {
         this.$log = $log;
         this.$http = $http;
         this.isHidden = false;
+        this.$scope = $scope;
         this.url = '';
+
+
+
 
     }
 
@@ -12,7 +16,6 @@ export default class HomeController {
     }
 
     getVideo() {
-
         this.$http({
             method: 'GET',
             url: '/api/images'
@@ -26,4 +29,4 @@ export default class HomeController {
 
 }
 
-HomeController.$inject = ['$log', '$http'];
+HomeController.$inject = ['$log', '$http', '$interval', '$scope'];
