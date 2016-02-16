@@ -39,6 +39,7 @@ class pieChartDirectiveController {
         return {
             '1': '#36a25c',
             '2': '#345f5f',
+            '3': '#666666',
         }[i];
     }
 

@@ -18,9 +18,19 @@ export default class HomeController {
         this.isAnimated = !this.isAnimated;
         console.log('BAR', this.$scope.bar);
 
+        let fValue = parseInt(this.$scope.bar.percOne);
+        let sValue = parseInt(this.$scope.bar.percTwo);
+        let sum = fValue + sValue;
+        let difference = 0;
+
+        if (sum < 100) {
+            difference = 100 - sum;
+        }
+
         this.data = [
-            {"nb":"1", "title": this.$scope.bar.titleOne, "data": parseInt(this.$scope.bar.percOne)},
-            {"nb":"2", "title": this.$scope.bar.titleTwo, "data": parseInt(this.$scope.bar.percTwo)},
+            {"nb":"1", "title": this.$scope.bar.titleOne, "data": fValue},
+            {"nb":"2", "title": this.$scope.bar.titleTwo, "data": sValue},
+            {"nb":"3", "title": this.$scope.bar.titleTwo, "data": difference},
         ];
 
         console.log('DATA', this.data);
