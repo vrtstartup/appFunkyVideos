@@ -39,8 +39,6 @@ class pieChartDirectiveController {
         return {
             '1': '#36a25c',
             '2': '#345f5f',
-            //'3': '#a9e536',
-            //'4': '#0594cf'
         }[i];
     }
 
@@ -57,7 +55,7 @@ class pieChartDirectiveController {
             .append("g")
             .attr("transform", "translate(" + dimensions.width/2 + "," + dimensions.height/2+")");
 
-        let arc = d3.svg.arc().outerRadius(dimensions.r - 10).innerRadius(30);
+        let arc = d3.svg.arc().outerRadius(dimensions.r - 10).innerRadius(80);
 
         let pie = d3.layout.pie().sort(null).value(function(d) { return d.data });
 
