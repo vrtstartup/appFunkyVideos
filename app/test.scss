@@ -4,18 +4,13 @@ $bgcolor: rebeccapurple;
   box-sizing: border-box;
 }
 
-body {
-  background: $bgcolor;
-  padding: 1em;
-  color: #fff;
-}
 
 div.container {
   border: 1em solid #473662;
-  position: absolute;
-  top: 30%;
-  left: 30%;
-  margin-right: -50%;
+  //position: absolute;
+  //top: 30%;
+  //left: 30%;
+  //margin-right: -50%;
   width: 33em;
 }
 

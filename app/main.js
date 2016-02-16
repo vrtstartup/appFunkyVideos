@@ -1,5 +1,8 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
+import ngMessages from 'angular-messages';
+import ngSanitize from 'angular-sanitize';
+import ngMaterial from 'angular-material';
 
 import components from './components';
 import common from './common';
@@ -10,6 +13,9 @@ export default angular
     .module('app', [
         // 3rd party
         uiRouter,
+        ngMessages,
+        ngSanitize,
+        ngMaterial,
         // application
         components,
         common,

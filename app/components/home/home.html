@@ -1,11 +1,52 @@
 
-<!--<vrt-piechart></vrt-piechart>-->
+<md-content>
+    <section  layout="row" layout-align="center center" layout-wrap="">
+        <div layout-gt-sm="row">
+            <md-input-container>
+                <label>Title</label>
+                <input ng-model="bar.titleOne">
+            </md-input-container>
 
-<div vrt-piechart chart-data=""></div>
+            <md-input-container>
+                <label>%</label>
+                <input ng-model="bar.percOne" >
+            </md-input-container>
+        </div>
+        <div layout-gt-sm="row">
+            <md-input-container>
+                <label>Title</label>
+                <input ng-model="bar.titleTwo">
+            </md-input-container>
 
-<button class="btn-primary" ng-click="vm.fadeIt()">Click to animate</button>
-<button class="btn-primary" ng-click="vm.getVideo()">Click to get video</button>
-<a ng-href="{{vm.url}}">Download</a>
-<div  id="container" class='container'>
-    <div id="progress" vrt-test="vm.isHidden" is-hidden="vm.isHidden"></div>
-</div>
+            <md-input-container>
+                <label>%</label>
+                <input ng-model="bar.percTwo">
+            </md-input-container>
+        </div>
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm="">
+                <label>Question</label>
+                <input ng-model="bar.question">
+            </md-input-container>
+        </div>
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+
+        <div vrt-piechart chart-data="vm.data" is-animated="vm.isAnimated"></div>
+
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+        <div  id="container" class='container'>
+            <div id="progress" vrt-test="vm.isHidden" is-hidden="vm.isHidden"></div>
+        </div>
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+        <md-button class="md-raised" ng-click="vm.animatePieChart()">Animate piechart</md-button>
+        <md-button class="md-raised" ng-click="vm.fadeIt()">Animate bar</md-button>
+        <md-button class="md-raised" ng-click="vm.getVideo()">Get video</md-button>
+        <a ng-href="{{vm.url}}">Download</a>
+    </section>
+</md-content>

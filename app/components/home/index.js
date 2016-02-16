@@ -1,11 +1,12 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
+import ngMaterial from 'angular-material';
 
 import homeController from './home.controller.js';
 import './home.scss';
 
 const module = angular.module('app.components.home', [
-    uiRouter,
+    uiRouter, ngMaterial,
 ]);
 
 module.config(['$stateProvider', ($stateProvider) => {

@@ -2,30 +2,45 @@ import './pieChart.directive.scss';
 import template from './pieChart.directive.html';
 
 class pieChartDirectiveController {
-    constructor($scope, $log, $parse, $window, $element) {
+    constructor($scope, $log, $parse, $window, $element, $document) {
         this.$log = $log;
         this.$parse = $parse;
         this.$window = $window;
         this.$element = $element;
 
-        var data = [
-            {"title": "Segment One", "data": 33, "color" : '#36a25c'},
-            {"title": "Segment Two", "data": 67, "color" : '#345f5f'},
-            {"title": "Segment Three", "data": 25},
-            {"title": "Segment Four", "data": 78}
-        ];
+        //var data = [
+        //    {"title": "1", "data": 33},
+        //    {"title": "2", "data": 17},
+        //    //{"title": "3", "data": 20},
+        //    //{"title": "4", "data": 30}
+        //];
 
-        this.piechart($element, data);
+        //this.piechart($element, data);
 
-        $log.info('ctrl pieChartDirectiveController', this.chartData);
+
+        //let paths = $document.find('path');
+
+        $scope.$watch('vm.isAnimated', (value) => {
+            if (value) {
+                console.log('pieChartDATA', this.chartData);
+                this.piechart($element, this.chartData);
+                TweenMax.to($element, 1, {rotation:360, transformOrigin:"150px 150px"});
+
+                console.log('value changed', value);
+            } else {
+                console.log('value changed', value);
+                TweenMax.to($element, 1, {rotation:0, transformOrigin:"150px 150px"});
+            }
+        }, true);
     }
 
 
     segmentColour(i) {
         return {
-            'Segment One': '#36a25c',
-            'Segment Two': '#345f5f',
-            'Segment Three': '#a9e536'
+            '1': '#36a25c',
+            '2': '#345f5f',
+            //'3': '#a9e536',
+            //'4': '#0594cf'
         }[i];
     }
 
@@ -42,15 +57,15 @@ class pieChartDirectiveController {
             .append("g")
             .attr("transform", "translate(" + dimensions.width/2 + "," + dimensions.height/2+")");
 
-        let arc = d3.svg.arc().outerRadius(dimensions.r - 10).innerRadius(0);
+        let arc = d3.svg.arc().outerRadius(dimensions.r - 10).innerRadius(30);
 
         let pie = d3.layout.pie().sort(null).value(function(d) { return d.data });
 
         svg.selectAll("li")
            .data(pie(data))
            .enter()
-           .append("path").attr("d", arc)
-           .style("fill", (d) => { return this.segmentColour(d.data.title); } );
+           .append("path").attr("d", arc).attr("fill-rule", "evenodd")
+           .style("fill", (d) => { return this.segmentColour(d.data.nb); } );
     }
 
 }
@@ -64,9 +79,10 @@ export const pieChartDirective = function() {
         controllerAs: 'vm',
         bindToController: {
             chartData: '=',
+            isAnimated: '=',
         },
     };
 
 };
 
-pieChartDirectiveController.$inject = ['$scope', '$log', '$parse', '$window', '$element'];
+pieChartDirectiveController.$inject = ['$scope', '$log', '$parse', '$window', '$element', '$document'];
