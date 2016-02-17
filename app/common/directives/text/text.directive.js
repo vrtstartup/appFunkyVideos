@@ -9,15 +9,18 @@ class TextDirectiveController {
         this.$scope = $scope;
         this.videoGeneration = videoGeneration;
 
-        console.log('DATA TEXT', this.percValue);
 
-        //$scope.$watch('vm.isAnimated', (value) => {
-        //    if (value) {
-        //        TweenMax.to(this.$element, 10, {width:496, onUpdate: this.videoGeneration.takeScreenshot, onUpdateParams: [this.$element]});
-        //    } else {
-        //        TweenMax.to(this.$element, 1, {width:0});
-        //    }
-        //}, true);
+        $scope.$watch('vm.isAnimated', (value) => {
+
+            let target = this.$element.find('div');
+            console.log('DATA TEXT', target);
+
+            if (value) {
+                TweenMax.to(target, 10, {width:496});
+            } else {
+                TweenMax.to(target, 1, {width:0});
+            }
+        }, true);
     }
 }
 

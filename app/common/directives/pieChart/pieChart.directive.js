@@ -8,7 +8,6 @@ class pieChartDirectiveController {
         this.$window = $window;
         this.$element = $element;
 
-
         $scope.$watch('vm.isAnimated', (value) => {
             if (value) {
                 //console.log('pieChartDATA', this.chartData);

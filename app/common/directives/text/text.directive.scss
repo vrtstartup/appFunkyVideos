@@ -1,6 +1,8 @@
 .textBlock {
   padding-left: 30px;
+  width: 0px;
 }
+
 
 .text {
   color: #1D303E;
@@ -10,5 +12,6 @@
   display: inline-block;
   background-color: #8FC94F;
   padding: 10px;
-  width: auto;
+  //width: auto;
+  margin: 10px 0;
 }
