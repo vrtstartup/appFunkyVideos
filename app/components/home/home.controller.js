@@ -6,7 +6,7 @@ export default class HomeController {
         this.isAnimated = false;
         this.$scope = $scope;
         this.url = '';
-
+        this.question = '';
         this.data = [];
 
         console.log('BAR', this.$scope.bar);
@@ -14,9 +14,7 @@ export default class HomeController {
     }
 
     animatePieChart() {
-        console.log('Animated:', this.isAnimated);
         this.isAnimated = !this.isAnimated;
-        console.log('BAR', this.$scope.bar);
 
         let fValue = parseInt(this.$scope.bar.percOne);
         let sValue = parseInt(this.$scope.bar.percTwo);
@@ -33,7 +31,8 @@ export default class HomeController {
             {"nb":"3", "title": this.$scope.bar.titleTwo, "data": difference},
         ];
 
-        console.log('DATA', this.data);
+        this.question = this.$scope.bar.question;
+
     }
 
     fadeIt() {

@@ -26,9 +26,9 @@ class pieChartDirectiveController {
 
     segmentColour(i) {
         return {
-            '1': '#36a25c',
-            '2': '#345f5f',
-            '3': '#666666',
+            '1': '#8FC94F',
+            '2': '#ffffff',
+            '3': '#A1A1A1',
         }[i];
     }
 
@@ -62,13 +62,15 @@ class pieChartDirectiveController {
             .transition()
             .duration(2000)
             .attrTween( 'd', function( d ) {
-                               var interpolate = d3.interpolate( this._current, d );
-                               this._current = interpolate( 0 );
 
-                               return function( t ) {
-                                 return arc( interpolate( t ) );
-                               };
-                             } );
+                console.log(this._current);
+                var interpolate = d3.interpolate( this._current, d );
+                this._current = interpolate( 0 );
+
+                return ( t ) => {
+                    return arc( interpolate( t ) );
+                };
+            });
 
     }
 

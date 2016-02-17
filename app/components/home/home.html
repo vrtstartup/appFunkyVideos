@@ -1,5 +1,6 @@
 
 <md-content>
+
     <section  layout="row" layout-align="center center" layout-wrap="">
         <div layout-gt-sm="row">
             <md-input-container>
@@ -30,13 +31,12 @@
             </md-input-container>
         </div>
     </section>
-
+    <div id="container" class="dark-container">
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-
         <div vrt-piechart chart-data="vm.data" is-animated="vm.isAnimated"></div>
-
+        <h2 class="vrt-txt">{{vm.question}}</h2>
     </section>
-
+    </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
         <div  id="container" class='container'>
             <div id="progress" vrt-test="vm.isHidden" is-hidden="vm.isHidden"></div>
