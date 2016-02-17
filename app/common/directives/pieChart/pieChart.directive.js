@@ -8,23 +8,12 @@ class pieChartDirectiveController {
         this.$window = $window;
         this.$element = $element;
 
-        //var data = [
-        //    {"title": "1", "data": 33},
-        //    {"title": "2", "data": 17},
-        //    //{"title": "3", "data": 20},
-        //    //{"title": "4", "data": 30}
-        //];
-
-        //this.piechart($element, data);
-
-
-        //let paths = $document.find('path');
 
         $scope.$watch('vm.isAnimated', (value) => {
             if (value) {
                 console.log('pieChartDATA', this.chartData);
                 this.piechart($element, this.chartData);
-                TweenMax.to($element, 1, {rotation:360, transformOrigin:"150px 150px"});
+                //TweenMax.to($element, 1, {rotation:360, transformOrigin:"150px 150px"});
 
                 console.log('value changed', value);
             } else {
@@ -54,17 +43,38 @@ class pieChartDirectiveController {
             .attr("width", dimensions.width)
             .attr("height", dimensions.height)
             .append("g")
+            .attr("class", "slices")
             .attr("transform", "translate(" + dimensions.width/2 + "," + dimensions.height/2+")");
 
         let arc = d3.svg.arc().outerRadius(dimensions.r - 10).innerRadius(80);
 
-        let pie = d3.layout.pie().sort(null).value(function(d) { return d.data });
+        let pie = d3.layout.pie().sort(d3.descending).value(function(d) { return d.data });
 
         svg.selectAll("li")
            .data(pie(data))
            .enter()
-           .append("path").attr("d", arc).attr("fill-rule", "evenodd")
-           .style("fill", (d) => { return this.segmentColour(d.data.nb); } );
+           .append("path")
+           .attr("d", arc)
+           .style("fill", (d) => { return this.segmentColour(d.data.nb); } )
+            .attr('stroke-width', '25px')
+            .attr('transform', (d, i) => 'rotate(-180, 0, 0)')
+            .style('opacity', 0)
+            .transition()
+            .delay((d, i) => (i * 150) + 300)
+            .duration(6000)
+            .ease('elastic')
+            .style('opacity', 1)
+            .attr('transform', 'rotate(0,0,0)');
+
+        let slice = svg.select('.slices')
+            .datum(data)
+            .selectAll('path')
+            .data(pie);
+
+        slice.transition()
+            .delay((d, i) => arcAnimDur + (i * 150))
+            .duration(1000)
+            .attr('stroke-width', '1px');
     }
 
 }
