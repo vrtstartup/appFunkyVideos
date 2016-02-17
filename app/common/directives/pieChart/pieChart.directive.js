@@ -48,7 +48,7 @@ class pieChartDirectiveController {
 
         let arc = d3.svg.arc().outerRadius(dimensions.r - 10).innerRadius(80);
 
-        let pie = d3.layout.pie().sort(d3.descending).value(function(d) { return d.data });
+        let pie = d3.layout.pie().sort(d3.ascending).value(function(d) { return d.data });
 
         svg.selectAll("li")
            .data(pie(data))
@@ -56,25 +56,20 @@ class pieChartDirectiveController {
            .append("path")
            .attr("d", arc)
            .style("fill", (d) => { return this.segmentColour(d.data.nb); } )
-            .attr('stroke-width', '25px')
-            .attr('transform', (d, i) => 'rotate(-180, 0, 0)')
-            .style('opacity', 0)
+            .each( function() {
+                this._current = { startAngle: 0, endAngle: 0 };
+            } )
             .transition()
-            .delay((d, i) => (i * 150) + 300)
-            .duration(6000)
-            .ease('elastic')
-            .style('opacity', 1)
-            .attr('transform', 'rotate(0,0,0)');
+            .duration(2000)
+            .attrTween( 'd', function( d ) {
+                               var interpolate = d3.interpolate( this._current, d );
+                               this._current = interpolate( 0 );
 
-        let slice = svg.select('.slices')
-            .datum(data)
-            .selectAll('path')
-            .data(pie);
+                               return function( t ) {
+                                 return arc( interpolate( t ) );
+                               };
+                             } );
 
-        slice.transition()
-            .delay((d, i) => arcAnimDur + (i * 150))
-            .duration(1000)
-            .attr('stroke-width', '1px');
     }
 
 }
