@@ -32,9 +32,16 @@
         </div>
     </section>
     <div id="container" class="dark-container">
-    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-        <div vrt-piechart chart-data="vm.data" is-animated="vm.isAnimated"></div>
-        <h2 class="vrt-txt">{{vm.question}}</h2>
+    <section layout="row" layout-sm="column"  layout-align="center center" layout-wrap="">
+        <div layout-align="center end">
+            <vrt-piechart chart-data="vm.data" is-animated="vm.isAnimated" flex="50"></vrt-piechart>
+        </div>
+
+        <div flex="50" layout-align="top center">
+            <h2 class="vrt-txt">{{vm.question}}</h2>
+            <vrt-text title-text="vm.firstTitle" perc-value="vm.fValue">{{vm.firstTitle}}</vrt-text>
+            <vrt-text title-text="vm.secondTitle" perc-value="vm.sValue">{{vm.secondTitle}}</vrt-text>
+        </div>
     </section>
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">

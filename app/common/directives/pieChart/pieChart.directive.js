@@ -11,13 +11,13 @@ class pieChartDirectiveController {
 
         $scope.$watch('vm.isAnimated', (value) => {
             if (value) {
-                console.log('pieChartDATA', this.chartData);
+                //console.log('pieChartDATA', this.chartData);
                 this.piechart($element, this.chartData);
                 //TweenMax.to($element, 1, {rotation:360, transformOrigin:"150px 150px"});
 
-                console.log('value changed', value);
+                //console.log('value changed', value);
             } else {
-                console.log('value changed', value);
+                //console.log('value changed', value);
                 TweenMax.to($element, 1, {rotation:0, transformOrigin:"150px 150px"});
             }
         }, true);
@@ -46,7 +46,7 @@ class pieChartDirectiveController {
             .attr("class", "slices")
             .attr("transform", "translate(" + dimensions.width/2 + "," + dimensions.height/2+")");
 
-        let arc = d3.svg.arc().outerRadius(dimensions.r - 10).innerRadius(80);
+        let arc = d3.svg.arc().outerRadius(dimensions.r - 10).innerRadius(90);
 
         let pie = d3.layout.pie().sort(d3.ascending).value(function(d) { return d.data });
 
