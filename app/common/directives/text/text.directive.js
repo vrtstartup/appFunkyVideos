@@ -12,14 +12,11 @@ class TextDirectiveController {
 
         $scope.$watch('vm.isAnimated', (value) => {
             let target = this.$element.find('span');
-            console.log('DATA TEXT', target);
-
             if (value) {
                 this.text = this.percValue + '%'+ ' ' +  this.titleText;
-
-                TweenMax.to(target, 10, {right:0});
+                TweenMax.to(target, 5, {right: 100, width:0});
             } else {
-                TweenMax.to(target, 1, {width:290});
+                //TweenMax.to(target, 1, {right:200});
             }
         }, true);
     }
