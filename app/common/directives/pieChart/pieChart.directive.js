@@ -54,13 +54,13 @@ class pieChartDirectiveController {
            .enter()
            .append("path")
            .attr("d", arc)
-           .style("fill", (d) => { return this.segmentColour(d.data.nb); } )
-            .each( function() {
+            .style("fill", (d) => { return this.segmentColour(d.data.nb); } )
+            .each( () => {
                 this._current = { startAngle: 0, endAngle: 0 };
             } )
             .transition()
-            .duration(2000)
-            .attrTween( 'd', function( d ) {
+            .duration(4000)
+            .attrTween( 'd', ( d ) => {
 
                 console.log(this._current);
                 var interpolate = d3.interpolate( this._current, d );
