@@ -2,7 +2,7 @@ import './text.directive.scss';
 import template from './text.directive.html';
 
 class TextDirectiveController {
-    constructor($scope, $log, $element, $http, videoGeneration) {
+    constructor($scope, $log, $element, $http, videoGeneration, $document) {
         this.$log = $log;
         this.$http = $http;
         this.$element = $element;
@@ -10,11 +10,12 @@ class TextDirectiveController {
         this.videoGeneration = videoGeneration;
 
 
+
         $scope.$watch('vm.isAnimated', (value) => {
             let target = this.$element.find('span');
             if (value) {
                 this.text = this.percValue + '%'+ ' ' +  this.titleText;
-                TweenMax.to(target, 5, {right: 100, width:0});
+                TweenMax.to(target, 5, {left: 400});
             } else {
                 //TweenMax.to(target, 1, {right:200});
             }
@@ -38,4 +39,4 @@ export const textDirective = function() {
     };
 };
 
-TextDirectiveController.$inject = ['$scope', '$log', '$element', '$http', 'videoGeneration'];
+TextDirectiveController.$inject = ['$scope', '$log', '$element', '$http', 'videoGeneration', '$document'];

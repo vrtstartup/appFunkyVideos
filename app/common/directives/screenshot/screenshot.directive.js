@@ -12,7 +12,7 @@ class ScreenshotDirectiveController {
         $scope.$watch('vm.isAnimated', (value) => {
             let target = this.$element.find('section');
             if (value) {
-                TweenMax.to(target, 20, {opacity: 1, onUpdate: this.videoGeneration.takeScreenshot, onUpdateParams: [target]});
+                TweenMax.to(target, 20, {color: '#fff', onUpdate: this.videoGeneration.takeScreenshot, onUpdateParams: [target]});
             } else {
                 TweenMax.to(this.$element, 1, {opacity: 1});
             }
