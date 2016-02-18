@@ -2,11 +2,12 @@ import './pieChart.directive.scss';
 import template from './pieChart.directive.html';
 
 class pieChartDirectiveController {
-    constructor($scope, $log, $parse, $window, $element, $document) {
+    constructor($scope, $log, $parse, $window, $element, $document, $timeout) {
         this.$log = $log;
         this.$parse = $parse;
         this.$window = $window;
         this.$element = $element;
+        this.$timeout = $timeout;
 
         $scope.$watch('vm.isAnimated', (value) => {
             if (value) {
@@ -50,10 +51,10 @@ class pieChartDirectiveController {
         let pie = d3.layout.pie().sort(d3.ascending).value(function(d) { return d.data });
 
         svg.selectAll("li")
-           .data(pie(data))
-           .enter()
-           .append("path")
-           .attr("d", arc)
+            .data(pie(data))
+            .enter()
+            .append("path")
+            .attr("d", arc)
             .style("fill", (d) => { return this.segmentColour(d.data.nb); } )
             .each( () => {
                 this._current = { startAngle: 0, endAngle: 0 };
@@ -62,7 +63,6 @@ class pieChartDirectiveController {
             .duration(4000)
             .attrTween( 'd', ( d ) => {
 
-                console.log(this._current);
                 var interpolate = d3.interpolate( this._current, d );
                 this._current = interpolate( 0 );
 
@@ -90,4 +90,4 @@ export const pieChartDirective = function() {
 
 };
 
-pieChartDirectiveController.$inject = ['$scope', '$log', '$parse', '$window', '$element', '$document'];
+pieChartDirectiveController.$inject = ['$scope', '$log', '$parse', '$window', '$element', '$document', '$timeout'];
