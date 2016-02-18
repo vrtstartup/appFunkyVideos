@@ -45,9 +45,9 @@ export default class HomeController {
         this.sValue = sValue;
     }
 
-    fadeIt() {
-        this.isHidden = !this.isHidden;
-    }
+    //fadeIt() {
+    //    this.isHidden = !this.isHidden;
+    //}
 
     getVideo() {
         this.$http({

@@ -1,3 +1,6 @@
+// USAGE: <div id="progress" vrt-test is-hidden="vm.isHidden"></div>
+
+
 import template from './test.directive.html';
 
 class TestDirectiveController {
