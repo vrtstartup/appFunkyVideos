@@ -9,7 +9,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/server.js",
-    "postinstall": "node deploy",
     "webpack": "webpack-dev-server --progress --colors --hot --inline"
   },
   "author": "VRT",
