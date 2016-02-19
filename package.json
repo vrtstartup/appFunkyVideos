@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/server.js",
+    "postinstall": "node deploy",
     "webpack": "webpack-dev-server --progress --colors --hot --inline"
   },
   "author": "VRT",
@@ -28,6 +29,7 @@
     "http-proxy": "^1.13.1",
     "json-loader": "^0.5.4",
     "morgan": "^1.6.1",
+    "nodemon": "^1.9.0",
     "path": "^0.12.7"
   },
   "devDependencies": {
