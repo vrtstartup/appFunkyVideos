@@ -32,21 +32,21 @@
         </div>
     </section>
     <div id="container" class="dark-container" vrt-screenshot is-animated="vm.isAnimated">
-        <section layout="row" layout-sm="column"  layout-align="center center">
-                <div layout-align="center end">
-                    <vrt-piechart chart-data="vm.data" is-animated="vm.isAnimated" flex="50"></vrt-piechart>
+        <section layout="row" layout-sm="column"  layout-align="center">
+                <div layout-align="center end" class="chart-wrap">
+                    <vrt-piechart chart-data="vm.data" is-animated="vm.isAnimatedPiechart" flex="50"></vrt-piechart>
                 </div>
 
                 <div flex="50" layout-align="top center" class="text-wrap">
-                    <h2 class="vrt-txt--question">{{vm.question}}</h2>
-                    <vrt-text title-text="vm.firstTitle" perc-value="vm.fValue" is-animated="vm.isAnimated">{{vm.firstTitle}}</vrt-text>
-                    <vrt-text title-text="vm.secondTitle" perc-value="vm.sValue" is-animated="vm.isAnimated">{{vm.secondTitle}}</vrt-text>
+                    <h2 class="vrt-txt--question">{{bar.question}}</h2>
+                    <vrt-text title-text="vm.firstTitle" perc-value="vm.fValue" is-animated="vm.isAnimatedText">{{vm.firstTitle}}</vrt-text>
+                    <vrt-text title-text="vm.secondTitle" perc-value="vm.sValue" is-animated="vm.isAnimatedText">{{vm.secondTitle}}</vrt-text>
                 </div>
         </section>
     </div>
 
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-        <md-button class="md-raised" ng-click="vm.animatePieChart()">Animate piechart</md-button>
+        <md-button class="md-raised" ng-click="vm.startAnimation()">Animate piechart</md-button>
         <md-button class="md-raised" ng-click="vm.getVideo()">Get video</md-button>
         <a ng-href="{{vm.url}}">Download</a>
     </section>

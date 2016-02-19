@@ -48,9 +48,9 @@ router.get('/images', function(req, res) {
             console.log('Error: ' + err.message);
         })
         // save to file
-        .save('temp/videos/'+ videoFileName + '.mp4');
+        .save('temp/videos/'+ videoFileName + '.mov');
 
-    res.json({ video_url: 'temp/videos/'+ videoFileName + '.mp4' }).send();
+    res.json({ video_url: 'temp/videos/'+ videoFileName + '.mov' }).send();
 });
 
 function getDateTime() {

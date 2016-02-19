@@ -18,7 +18,7 @@ class pieChartDirectiveController {
                 //console.log('value changed', value);
             } else {
                 //console.log('value changed', value);
-                TweenMax.to($element, 1, {rotation:0, transformOrigin:"150px 150px"});
+               // TweenMax.to($element, 1, {rotation:0, transformOrigin:"150px 150px"});
             }
         }, true);
     }
@@ -48,18 +48,20 @@ class pieChartDirectiveController {
 
         let arc = d3.svg.arc().outerRadius(dimensions.r - 10).innerRadius(90);
 
-        let pie = d3.layout.pie().sort(d3.ascending).value(function(d) { return d.data });
+        let pie = d3.layout.pie().sort(d3.ascending).value((d) => { return d.data });
 
         svg.selectAll("li")
             .data(pie(data))
             .enter()
             .append("path")
             .attr("d", arc)
+            .attr("opacity", 0)
             .style("fill", (d) => { return this.segmentColour(d.data.nb); } )
             .each( () => {
                 this._current = { startAngle: 0, endAngle: 0 };
             } )
             .transition()
+            .attr("opacity", 1)
             .duration(4000)
             .attrTween( 'd', ( d ) => {
 

@@ -1,10 +1,13 @@
 export default class HomeController {
-    constructor($log, $http, $scope) {
+    constructor($log, $http, $scope, $timeout) {
         this.$log = $log;
         this.$http = $http;
         this.isHidden = false;
         this.isAnimated = false;
+        this.isAnimatedPiechart = false;
+        this.isAnimatedText = false;
         this.$scope = $scope;
+        this.$timeout = $timeout;
         this.url = '';
 
         this.question = '';
@@ -18,9 +21,20 @@ export default class HomeController {
 
     }
 
-    animatePieChart() {
+    startAnimation() {
         this.isAnimated = !this.isAnimated;
-        console.log('BAR', this.fValue);
+
+        this.$timeout(()=>{
+            console.log(this.isAnimated);
+            this.isAnimatedText = !this.isAnimatedText;
+
+            this.animatePieChart();
+        }, 4000);
+    }
+
+    animatePieChart() {
+        //this.isAnimatedText = !this.isAnimatedText;
+        this.isAnimatedPiechart = !this.isAnimatedPiechart;
 
         let fValue = parseInt(this.$scope.bar.percOne);
         let sValue = parseInt(this.$scope.bar.percTwo);
@@ -63,4 +77,4 @@ export default class HomeController {
 
 }
 
-HomeController.$inject = ['$log', '$http', '$scope'];
+HomeController.$inject = ['$log', '$http', '$scope', '$timeout'];
