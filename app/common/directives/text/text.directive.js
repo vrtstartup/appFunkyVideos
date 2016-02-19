@@ -15,7 +15,7 @@ class TextDirectiveController {
             let target = this.$element.find('span');
             if (value) {
                 this.text = this.percValue + '%'+ ' ' +  this.titleText;
-                TweenMax.to(target, 5, {left: 400});
+                TweenMax.to(target, 5, {height: 0});
             } else {
                 //TweenMax.to(target, 1, {right:200});
             }
