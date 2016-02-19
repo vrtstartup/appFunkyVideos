@@ -15,6 +15,7 @@
   "author": "VRT",
   "license": "ISC",
   "dependencies": {
+    "angular": "^1.5.0",
     "angular-animate": "^1.5.0",
     "angular-aria": "^1.5.0",
     "angular-material": "^1.0.5",
@@ -37,7 +38,6 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "angular": "^1.5.0",
     "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.5.1",
     "babel-loader": "^6.2.2",
