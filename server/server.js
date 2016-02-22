@@ -55,7 +55,7 @@ if (!isProduction) {
         });
     });
 
-}else{
+ } else {
     console.log('production', port);
 }
 
