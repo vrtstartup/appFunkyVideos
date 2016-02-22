@@ -1,9 +1,8 @@
 import template from './templateMurderface.directive.html';
 
 class TemplateMurderfaceDirectiveController {
-    constructor(videoGeneration) {
+    constructor() {
 
-        this.videoGeneration = videoGeneration;
 
         console.log('templateMurderface');
 
@@ -12,16 +11,14 @@ class TemplateMurderfaceDirectiveController {
 
 export const templateMurderfaceDirective = function() {
     return {
-        restrict: 'AE',
+        restrict: 'E',
         template: template,
         scope: {},
         controller: TemplateMurderfaceDirectiveController,
         controllerAs: 'vm',
-        bindToController: {
-            isHidden: '=',
-        },
+        bindToController: {},
         transclude: true,
     };
 };
 
-TemplateMurderfaceDirectiveController.$inject = ['videoGeneration'];
+TemplateMurderfaceDirectiveController.$inject = [];
