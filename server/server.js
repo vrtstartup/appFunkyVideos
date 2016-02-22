@@ -55,6 +55,8 @@ if (!isProduction) {
         });
     });
 
+}else{
+    console.log('production', port);
 }
 
 // It is important to catch any errors from the proxy or the
