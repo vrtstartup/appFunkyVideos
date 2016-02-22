@@ -6,6 +6,7 @@ var cors = require('cors');
 var httpProxy = require('http-proxy');
 
 var imagesApi = require('./routes/images');
+var subtitlesApi = require('./routes/subtitles');
 
 var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
 var app = express(); // define our app using express
@@ -26,6 +27,7 @@ var router = express.Router(); // get an instance of the express Router
 
 // all of our routes will be prefixed with /api
 app.use('/api', imagesApi);
+app.use('/api', subtitlesApi);
 
 // START THE SERVER
 // =============================================================================
