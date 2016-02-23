@@ -4,7 +4,7 @@
   width: 700px;
 }
 .image {
-  background-image: url('http://cs9902.vk.me/u586044/-6/x_e872c8fd.jpg');
+  //background-image: url('http://cs9902.vk.me/u586044/-6/x_e872c8fd.jpg');
   background-size: cover;
   height: 100%;
   overflow: hidden;
@@ -31,13 +31,10 @@
   width: 80px;
 }
 
-.quote:before{
-  content: '"';
+.sign{
+
   font-size: 45px;
-  font-style: italic;
-  left: -10px;
-  position: absolute;
-  top: -10px;
+
 }
 
 .quote {
