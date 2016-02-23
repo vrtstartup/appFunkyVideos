@@ -1,27 +1,37 @@
+import './templateMurderface.directive.scss';
 import template from './templateMurderface.directive.html';
 
 class TemplateMurderfaceDirectiveController {
-    constructor(videoGeneration) {
-
+    constructor($scope, $element, videoGeneration) {
         this.videoGeneration = videoGeneration;
+        this.$element = $element;
 
-        console.log('templateMurderface');
+        console.log('templateMurderface', this.isReady);
+        $scope.$watch('vm.isReady', (value) => {
+            if (!value) return;
+            let target = this.$element.find('section');
+            if (this.isReady){
+                console.log('Element', target );
+                this.videoGeneration.takeScreenshot(this.$element);
+            }
+        });
 
     }
 }
 
 export const templateMurderfaceDirective = function() {
     return {
-        restrict: 'AE',
+        restrict: 'E',
         template: template,
         scope: {},
         controller: TemplateMurderfaceDirectiveController,
         controllerAs: 'vm',
         bindToController: {
-            isHidden: '=',
+            quote: '=',
+            isReady: '=',
+            image: '=',
         },
-        transclude: true,
     };
 };
 
-TemplateMurderfaceDirectiveController.$inject = ['videoGeneration'];
+TemplateMurderfaceDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];

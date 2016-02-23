@@ -4,10 +4,11 @@ import pieChart from './pieChart';
 import text from './text';
 import screenshot from './screenshot';
 import templateMurderface from './templateMurderface';
+import imagePreview from './imagePreview';
 
 
 const module = angular.module('app.common.directives', [
-    test, pieChart, text, screenshot, templateMurderface,
+    test, pieChart, text, screenshot, templateMurderface, imagePreview,
 ]);
 
 export default module.name;
