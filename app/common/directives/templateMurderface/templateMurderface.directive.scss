@@ -1,0 +1,57 @@
+.wrap {
+  width: 700px;
+  height: 400px;
+  margin: 20px auto;
+}
+.image {
+  background-image: url('http://cs9902.vk.me/u586044/-6/x_e872c8fd.jpg');
+  background-size: cover;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.overlay {
+  background: rgba(39,62,84,0.82);
+  overflow: hidden;
+  height: 100%;
+  z-index: 2;
+}
+
+.line-under {
+  width: 100%;
+  background-color: #7AC039;
+  height: 10px;
+}
+
+
+.logo {
+  //background-image: url('http://deredactie.be/polopoly_fs/1.1566207!image/2286545015.png');
+  position: absolute;
+  width: 105px;
+  height: 44px;
+  background-size: 100% auto;
+  top: 20px;
+  left: 20px;
+}
+
+.quote:before{
+  content: '"';
+  font-size: 45px;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  font-style: italic;
+}
+
+.quote {
+  font-style: italic;
+  color: white;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  width: 500px;
+  margin: 0 auto;
+  display: block;
+  font-size: 30px;
+}

@@ -1,3 +1,4 @@
+import './templateMurderface.directive.scss';
 import template from './templateMurderface.directive.html';
 
 class TemplateMurderfaceDirectiveController {
