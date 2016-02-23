@@ -15,4 +15,4 @@ Surf to http://localhost:3000/#/ and enjoy!
 
 #### Deploy to heroku
 Install heroku toolbelt [https://toolbelt.heroku.com]
-Then follow guidlines for deploy
+Then follow guidlines for deploy    
