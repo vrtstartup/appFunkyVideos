@@ -6,17 +6,14 @@ class imagePreviewDirectiveController {
         this.imageSrc = '';
 
         this.getFile = (file) => {
-            console.log('FILE', file);
             this.fileReader.readAsDataURL(file, $scope)
                 .then((result) => {
-                    console.log('DIRECTIVE', this.$rootScope);
-                    this.$scope.imageSrc = result;
+                    //this.$scope.imageSrc = result;
                     this.ngModel.$setViewValue(result);
                 });
             return this.$scope.imageSrc;
         };
 
-        console.log('imagePreviewDirective', this.$scope.imageSrc);
     }
 
     init(model) {
@@ -42,7 +39,6 @@ export const imagePreviewDirective = function() {
                 thumbCtrl.init(ngModel);
                 thumbCtrl.getFile(file);
 
-                console.log('img model', ngModel);
             });
         },
     };

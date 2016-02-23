@@ -6,13 +6,14 @@
             <input ng-model="quote.question" md-maxlength="200">
         </md-input-container>
         <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
-        <img ng-src="{{quote.img}}" alt="" class="" width="700px">
     </md-content>
-    <md-content layout-padding="">
-        <vrt-template-murderface  class="container-screenshot" is-ready="vm.isReady" quote="quote.question">
-
-        </vrt-template-murderface>
-    </md-content>
+    <!--<md-content layout-padding="" >-->
+        <div class="dir-wrap">
+            <vrt-template-murderface class="dir-wrap"
+                    is-ready="vm.isReady" quote="quote.question" image="quote.img">
+            </vrt-template-murderface>
+        </div>
+    <!--</md-content>-->
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
         <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
         <a ng-href="{{vm.url}}">Download</a>

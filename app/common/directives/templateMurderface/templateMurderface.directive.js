@@ -9,10 +9,9 @@ class TemplateMurderfaceDirectiveController {
         console.log('templateMurderface', this.isReady);
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
-            //console.log('templateMurderface here comes', this.quote);
-
+            let target = this.$element.find('section');
             if (this.isReady){
-                console.log('Take screenshot, it is ready!', this.$element);
+                console.log('Element', target );
                 this.videoGeneration.takeScreenshot(this.$element);
             }
         });
@@ -30,8 +29,8 @@ export const templateMurderfaceDirective = function() {
         bindToController: {
             quote: '=',
             isReady: '=',
+            image: '=',
         },
-        transclude: true,
     };
 };
 

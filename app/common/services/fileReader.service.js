@@ -1,6 +1,5 @@
 export default class FileReaderService {
     constructor($q) {
-        console.log('file reader service');
         this.$q = $q;
     }
 
