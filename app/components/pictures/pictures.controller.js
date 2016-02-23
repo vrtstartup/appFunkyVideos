@@ -3,7 +3,7 @@ export default class PicturesController {
         this.$log = $log;
 
 
-        console.log('Pic pic');
+        console.log('Pic pic', this.quote);
 
     }
 

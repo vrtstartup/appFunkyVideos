@@ -1,1 +1,10 @@
-<vrt-template-murderface></vrt-template-murderface>
+
+<div layout="column" class="md-inline-form">
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Quote</label>
+            <input ng-model="quote" md-maxlength="200">
+        </md-input-container>
+        <vrt-template-murderface quote="vm.quote"></vrt-template-murderface>
+    </md-content>
+</div>
