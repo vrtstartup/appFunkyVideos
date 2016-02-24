@@ -1,1 +1,71 @@
-<p>subtitles page</p>
+<md-content layout-padding>
+
+    <videogular vg-theme="vm.videogularConfig.theme" vg-player-ready="vm.onPlayerReady($API)">
+        <vg-media vg-src="vm.videogularConfig.sources" vg-tracks="vm.videogularConfig.tracks">
+        </vg-media>
+        <vg-controls>
+            <vg-play-pause-button></vg-play-pause-button>
+            <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+            <vg-scrub-bar>
+                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            </vg-scrub-bar>
+            <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+            <vg-volume>
+                <vg-mute-button></vg-mute-button>
+                <vg-volume-bar></vg-volume-bar>
+            </vg-volume>
+            <vg-fullscreen-button></vg-fullscreen-button>
+        </vg-controls>
+        <vg-overlay-play></vg-overlay-play>
+        <vg-poster vg-url='vm.videogularConfig.plugins.poster'></vg-poster>
+    </videogular>
+
+
+    <form name="templateForm">
+        <div layout="column" layout-align="center center" class="temp_form">
+            <md-input-container>
+                <label>In</label>
+                <input name="file" ng-model="vm.form.start" required>
+            </md-input-container>
+            <md-input-container>
+                <label>Out</label>
+                <input name="title" ng-model="vm.form.end" required>
+            </md-input-container>
+            <md-input-container>
+                <label>text</label>
+                <input name="title" ng-model="vm.form.text" required>
+            </md-input-container>
+            <md-button ng-click="vm.addLine(vm.form)" class="md-raised">Add Line</md-button>
+            <md-button ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised">Download</md-button>
+        </div>
+    </form>
+    <md-list>
+    <div ng-repeat="(key, t) in vm.srtObj">
+        <div ng-click="filterLine = key">{{key}}</div>
+    </div>
+
+        <md-list-item ng-repeat="(key, t) in vm.srtObj">
+            {{t.id}}
+            <div class="md-list-item-text" layout="row">
+                <input ng-model="t.start">
+                <input ng-model="t.end">
+                <textarea ng-model="t.text"></textarea>
+            </div>
+        </md-list-item>
+    </md-list>
+
+
+<form  enctype="multipart/form-data" method="post">
+    <input type="file" ngf-select ngf-change="vm.onFileSelect($files)">
+
+</form>
+    <!--    <div ngf-drop ngf-select ng-model="files" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true" accept="video/*" ngf-pattern="'video/*'">Drop Video or click to upload</div>
+    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+    Files:
+    <ul>
+        <li ng-repeat="f in files" style="font:smaller">{{f}}
+        {{f.name}} {{f.$error}} {{f.$errorParam}}</li>
+    </ul>
+    Upload Log:
+    <pre>{{log}}</pre> -->
+</md-content>
