@@ -10,7 +10,6 @@ export default class VideoGenerationService {
             const el = element.parent();
             html2canvas(el, {
                 onrendered: (canvas) => {
-                    //canvas.font = 'Roboto, "Helvetica Neue", sans-serif';
                     that._canvasToJPG(canvas, that._upload.bind(this));
                 },
             });

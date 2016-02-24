@@ -11,6 +11,7 @@ class TestDirectiveController {
         this.$scope = $scope;
         this.videoGeneration = videoGeneration;
 
+        console.log('TEST');
 
         $scope.$watch('vm.isHidden', (value) => {
             if (value) {
@@ -24,7 +25,7 @@ class TestDirectiveController {
 
 export const testDirective = function() {
     return {
-        restrict: 'A',
+        restrict: 'AE',
         template: template,
         scope: {},
         controller: TestDirectiveController,

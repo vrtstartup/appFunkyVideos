@@ -2,19 +2,23 @@
   "name": "animation",
   "version": "1.0.0",
   "description": "animation for VTR",
+  "engines": {
+    "node": "4.1.0"
+  },
   "main": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/server.js",
-    "postinstall": "node deploy",
     "webpack": "webpack-dev-server --progress --colors --hot --inline"
   },
   "author": "VRT",
   "license": "ISC",
   "dependencies": {
+    "angular": "^1.5.0",
     "angular-animate": "^1.5.0",
     "angular-aria": "^1.5.0",
     "angular-file-saver": "^1.0.3",
+    "angular-file-upload": "^2.2.0",
     "angular-material": "^1.0.5",
     "angular-messages": "^1.5.0",
     "angular-route": "^1.5.0",
@@ -35,7 +39,6 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "angular": "^1.5.0",
     "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.5.1",
     "babel-loader": "^6.2.2",

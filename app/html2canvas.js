@@ -3353,22 +3353,38 @@ exports.decode64 = function(base64) {
 
     return output;
 };
+//
+//exports.getBounds = function(node) {
+//    if (node.getBoundingClientRect) {
+//        var clientRect = node.getBoundingClientRect();
+//        var width = node.offsetWidth == null ? clientRect.width : node.offsetWidth;
+//        return {
+//            top: clientRect.top,
+//            bottom: clientRect.bottom || (clientRect.top + clientRect.height),
+//            right: clientRect.left + width,
+//            left: clientRect.left,
+//            width:  width,
+//            height: node.offsetHeight == null ? clientRect.height : node.offsetHeight
+//        };
+//    }
+//    return {};
+//};
 
 exports.getBounds = function(node) {
-    if (node.getBoundingClientRect) {
-        var clientRect = node.getBoundingClientRect();
-        var width = node.offsetWidth == null ? clientRect.width : node.offsetWidth;
-        return {
-            top: clientRect.top,
-            bottom: clientRect.bottom || (clientRect.top + clientRect.height),
-            right: clientRect.left + width,
-            left: clientRect.left,
-            width:  width,
-            height: node.offsetHeight == null ? clientRect.height : node.offsetHeight
-        };
-    }
-    return {};
-};
+	if (node.getBoundingClientRect) {
+		var clientRect = node.getBoundingClientRect();
+		var width = node.offsetWidth == null ? clientRect.width : node.offsetWidth;
+		return {
+			top   : Math.floor(clientRect.top),
+			bottom: Math.floor(clientRect.bottom || (clientRect.top + clientRect.height)),
+			right : Math.floor(clientRect.left + width),
+			left  : Math.floor(clientRect.left),
+			width : width,
+			height: node.offsetHeight == null ? clientRect.height : node.offsetHeight
+		};
+	}
+	return {};
+}
 
 exports.offsetBounds = function(node) {
     var parent = node.offsetParent ? exports.offsetBounds(node.offsetParent) : {top: 0, left: 0};

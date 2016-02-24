@@ -3,7 +3,11 @@ import uiRouter from 'angular-ui-router';
 import ngMessages from 'angular-messages';
 import ngSanitize from 'angular-sanitize';
 import ngMaterial from 'angular-material';
+
 import ngFileSaver from 'angular-file-saver';
+
+import 'angular-file-upload';
+
 
 
 import components from './components';
@@ -18,7 +22,12 @@ export default angular
         ngMessages,
         ngSanitize,
         ngMaterial,
+
         ngFileSaver,
+
+        'angularFileUpload',
+
+
         // application
         components,
         common,
