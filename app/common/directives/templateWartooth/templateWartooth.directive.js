@@ -27,9 +27,13 @@ export const templateWartoothDirective = function() {
         controller: TemplateWartoothDirectiveController,
         controllerAs: 'vm',
         bindToController: {
-            quote: '=',
             isReady: '=',
-            image: '=',
+            textOne: '=',
+            imgOne: '=',
+            imgTwo: '=',
+            textTwo: '=',
+            textThree: '=',
+            imgThree: '=',
         },
     };
 };

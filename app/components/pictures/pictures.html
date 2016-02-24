@@ -19,30 +19,34 @@
 <!--</div>-->
 
 <div layout="column" class="md-inline-form">
-    <md-content layout-padding="">
-        <md-input-container class="md-block">
-            <label>Quote</label>
-            <input ng-model="quote.question" md-maxlength="200">
-        </md-input-container>
-        <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
-    </md-content>
 
-    <!--<image-cropper image-url="../../assets/kitty.jpg"-->
-                   <!--width="200"-->
-                   <!--height="180"-->
-                   <!--show-controls="true"-->
-                   <!--fit-on-init="false"-->
-                   <!--center-on-init="true"-->
-                   <!--api="getApiFunction"-->
-                   <!--crop-callback="myCallbackFunction"-->
-                   <!--check-cross-origin="false"-->
-                   <!--zoom-step="0.1"-->
-                   <!--button-labels="myButtonLabelsObject"-->
-    <!--&gt;</image-cropper>-->
+    <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm="">
+            <label>Nieuws 1</label>
+            <input ng-model="news.textOne">
+            <input ng-model="news.imgOne" type="file" vrt-image-preview="onFileSelect($files)"/>
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm="">
+            <label>Nieuws 2</label>
+            <input ng-model="news.textTwo">
+            <input ng-model="news.imgTwo" type="file" vrt-image-preview="onFileSelect($files)"/>
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm="">
+            <label>Nieuws 3</label>
+            <input ng-model="news.textThree">
+            <input ng-model="news.imgThree" type="file" vrt-image-preview="onFileSelect($files)"/>
+        </md-input-container>
+    </div>
+
 
     <div class="dir-wrap">
         <vrt-template-wartooth class="dir-wrap"
-                                 is-ready="vm.isReady" quote="quote.question" image="quote.img">
+                               is-ready="vm.isReady"
+                               text-one="news.textOne" img-one="news.imgOne"
+                               text-two="news.textTwo" img-two="news.imgTwo"
+                               text-three="news.textThree" img-three="news.imgThree">
         </vrt-template-wartooth>
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">

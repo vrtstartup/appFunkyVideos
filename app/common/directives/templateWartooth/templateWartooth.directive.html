@@ -2,34 +2,56 @@
     <div class='wth-content-wrap'>
         <div class='wth-event'>
             <div class='wth-picture'>
-                <image-cropper ng-if="vm.image" image-url=' {{vm.image}} '
+                <image-cropper ng-if="vm.imgOne" image-url=' {{vm.imgOne}} '
                                height="398"
-                               show-controls="true"
-                               fit-on-init="false"
+                               show-controls="false"
+                               fit-on-init="true"
                                center-on-init="true"
                                api="getApiFunction"
                                crop-callback="myCallbackFunction"
                                check-cross-origin="false"
-                               zoom-step="0.01"
+                               zoom-step="0.1"
                                button-labels="myButtonLabelsObject"
                 ></image-cropper>
             </div>
             <div class='wth-text'>
-                <p>HTML5 and CSS3 are the future of web development.</p>
+                <p>{{vm.textOne}}</p>
             </div>
         </div>
         <div class='wth-event'>
             <div class='wth-picture' >
+                <image-cropper ng-if="vm.imgTwo" image-url=' {{vm.imgTwo}} '
+                               height="398"
+                               show-controls="false"
+                               fit-on-init="true"
+                               center-on-init="true"
+                               api="getApiFunction"
+                               crop-callback="myCallbackFunction"
+                               check-cross-origin="false"
+                               zoom-step="0.1"
+                               button-labels="myButtonLabelsObject"
+                ></image-cropper>
             </div>
             <div class='wth-text'>
-                <p>HTML5 and CSS3 are the future of web development.</p>
+                <p>{{vm.textTwo}}</p>
             </div>
         </div>
         <div class='wth-event'>
             <div class='wth-picture'>
+                <image-cropper ng-if="vm.imgThree" image-url=' {{vm.imgThree}} '
+                               height="398"
+                               show-controls="false"
+                               fit-on-init="true"
+                               center-on-init="true"
+                               api="getApiFunction"
+                               crop-callback="myCallbackFunction"
+                               check-cross-origin="false"
+                               zoom-step="0.1"
+                               button-labels="myButtonLabelsObject"
+                ></image-cropper>
             </div>
             <div class='wth-text'>
-                <p>{{vm.quote}}</p>
+                <p>{{vm.textThree}}</p>
             </div>
         </div>
     </div>
