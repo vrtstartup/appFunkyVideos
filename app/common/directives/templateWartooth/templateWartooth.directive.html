@@ -2,6 +2,17 @@
     <div class='wth-content-wrap'>
         <div class='wth-event'>
             <div class='wth-picture'>
+                <image-cropper ng-if="vm.image" image-url=' {{vm.image}} '
+                               height="398"
+                               show-controls="true"
+                               fit-on-init="false"
+                               center-on-init="true"
+                               api="getApiFunction"
+                               crop-callback="myCallbackFunction"
+                               check-cross-origin="false"
+                               zoom-step="0.01"
+                               button-labels="myButtonLabelsObject"
+                ></image-cropper>
             </div>
             <div class='wth-text'>
                 <p>HTML5 and CSS3 are the future of web development.</p>
