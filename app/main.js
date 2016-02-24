@@ -3,7 +3,7 @@ import uiRouter from 'angular-ui-router';
 import ngMessages from 'angular-messages';
 import ngSanitize from 'angular-sanitize';
 import ngMaterial from 'angular-material';
-import 'angular-img-cropper';
+import imageCropper from 'angular-image-cropper';
 
 import components from './components';
 import common from './common';
@@ -17,7 +17,7 @@ export default angular
         ngMessages,
         ngSanitize,
         ngMaterial,
-        'angular-img-cropper',
+        imageCropper,
 
         // application
         components,

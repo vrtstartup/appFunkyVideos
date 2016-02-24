@@ -4,7 +4,7 @@ export default class PicturesController {
         this.$scope = $scope;
 
         //What do you mean, 'booze ain't food'? I'd rather chop off my ding-dong than admit that!
-        this.isReady = false;
+
 
     }
 

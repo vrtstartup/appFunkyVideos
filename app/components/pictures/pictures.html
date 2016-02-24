@@ -26,13 +26,27 @@
         </md-input-container>
         <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
     </md-content>
-    <div class="dir-wrap">
-        <vrt-template-wartooth class="dir-wrap"
-                                 is-ready="vm.isReady" quote="quote.question" image="quote.img">
-        </vrt-template-wartooth>
-    </div>
-    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-        <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
-        <a ng-href="{{vm.url}}">Download</a>
-    </section>
+
+    <image-cropper image-url="../../assets/kitty.jpg"
+                   width="640"
+                   height="480"
+                   show-controls="true"
+                   fit-on-init="false"
+                   center-on-init="true"
+                   api="getApiFunction"
+                   crop-callback="myCallbackFunction"
+                   check-cross-origin="false"
+                   zoom-step="0.1"
+                   button-labels="myButtonLabelsObject"
+    ></image-cropper>
+
+    <!--<div class="dir-wrap">-->
+        <!--<vrt-template-wartooth class="dir-wrap"-->
+                                 <!--is-ready="vm.isReady" quote="quote.question" image="quote.img">-->
+        <!--</vrt-template-wartooth>-->
+    <!--</div>-->
+    <!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">-->
+        <!--<md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>-->
+        <!--<a ng-href="{{vm.url}}">Download</a>-->
+    <!--</section>-->
 </div>
