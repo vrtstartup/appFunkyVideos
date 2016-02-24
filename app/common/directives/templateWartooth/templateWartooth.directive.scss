@@ -1,0 +1,45 @@
+.wth-wrap {
+  height: 550px;
+  width: 980px;
+  background-color: #80C242;
+  box-sizing: border-box;
+}
+.wth-content-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wth-event {
+  width: 327px;
+}
+
+.wth-picture {
+  height: 325px;
+  background-size: cover;
+  background-color: #222;
+}
+
+.wth-text {
+  background-color: #1D303E;
+  color: #fff;
+  padding: 5px 5px 5px 15px;
+  font-size: 24px;
+  min-height: 122px;
+}
+
+.wth-footer {
+  height: 84px;
+  color: #fff;
+  display: flex;
+  font-size: 40px;
+  padding: 22px 25px;
+  position: relative;
+}
+
+.wth-logo {
+  position: absolute;
+  height: 44px;
+  right: 25px;
+  bottom: 10px;
+}
