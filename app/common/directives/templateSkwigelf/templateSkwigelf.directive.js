@@ -29,6 +29,7 @@ export const templateSkwigelfDirective = function() {
             image: '=',
             authorName: '=',
             authorTitle: '=',
+            isMirrored: '=',
         },
     };
 };

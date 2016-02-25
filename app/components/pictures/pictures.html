@@ -80,13 +80,19 @@
         <md-input-container class="md-block">
             <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
         </md-input-container>
+        <div flex-xs="" flex="50">
+            <md-checkbox ng-model="quote.isMirrored" aria-label="Checkbox 1">
+                Flip image & text?
+            </md-checkbox>
+        </div>
     </div>
 
 
     <div class="dir-wrap">
         <vrt-template-skwigelf class="dir-wrap vrt-txt"
                                is-ready="vm.isReady" quote="quote.question" image="quote.img"
-                               author-name="quote.authorName" author-title="quote.authorTitle">
+                               author-name="quote.authorName" author-title="quote.authorTitle"
+                               is-mirrored="quote.isMirrored">
         </vrt-template-skwigelf>
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
