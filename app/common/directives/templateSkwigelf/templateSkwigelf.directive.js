@@ -27,6 +27,8 @@ export const templateSkwigelfDirective = function() {
             quote: '=',
             isReady: '=',
             image: '=',
+            authorName: '=',
+            authorTitle: '=',
         },
     };
 };
