@@ -1,1 +1,25 @@
-<p>skwigelf</p>
+<div class='wrap'>
+    <img class='logo' src="./assets/deredactie.svg">
+    <div class='quote-wrap'>
+        <div class='quote'><span class="sign">"</span>{{vm.quote}}</div>
+        <div class="author">
+            <p class='auth-name'>Lia van Bekhoven</p>
+            <p class='auth-title'>Correspondente in Londen</p>
+        </div>
+    </div>
+    <div class='hor-line'></div>
+    <div class='skwg-image'>
+        <image-cropper ng-if="vm.image" image-url=' {{vm.image}} '
+                       height="688"
+                       show-controls="true"
+                       fit-on-init="true"
+                       center-on-init="true"
+                       api="getApiFunction"
+                       crop-callback="myCallbackFunction"
+                       check-cross-origin="false"
+                       zoom-step="0.1"
+                       button-labels="myButtonLabelsObject"
+        ></image-cropper>
+    </div>
+</div>
+
