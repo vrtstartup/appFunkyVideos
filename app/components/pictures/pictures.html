@@ -1,4 +1,3 @@
-
 <!--<div layout="column" class="md-inline-form">-->
     <!--<md-content layout-padding="">-->
         <!--<md-input-container class="md-block">-->
@@ -15,6 +14,51 @@
     <!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">-->
         <!--<md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>-->
         <!--<a ng-href="{{vm.url}}">Download</a>-->
+    <!--</section>-->
+<!--</div>-->
+
+<!--<div layout="column" class="md-inline-form">-->
+
+    <!--<div layout-gt-sm="row">-->
+        <!--<md-input-container class="md-block" flex-gt-sm="">-->
+            <!--<label>Nieuws 1</label>-->
+            <!--<input ng-model="news.textOne">-->
+        <!--</md-input-container>-->
+
+        <!--<md-input-container class="md-block" flex-gt-sm="">-->
+            <!--<label>Nieuws 2</label>-->
+            <!--<input ng-model="news.textTwo">-->
+        <!--</md-input-container>-->
+
+        <!--<md-input-container class="md-block" flex-gt-sm="">-->
+            <!--<label>Nieuws 3</label>-->
+            <!--<input ng-model="news.textThree">-->
+        <!--</md-input-container>-->
+    <!--</div>-->
+
+    <!--<div layout-gt-sm="row">-->
+        <!--<md-input-container class="md-block" flex-gt-sm="">-->
+            <!--<input ng-model="news.imgOne" type="file" vrt-image-preview="onFileSelect($files)"/>-->
+        <!--</md-input-container>-->
+        <!--<md-input-container class="md-block" flex-gt-sm="">-->
+            <!--<input ng-model="news.imgTwo" type="file" vrt-image-preview="onFileSelect($files)"/>-->
+        <!--</md-input-container>-->
+        <!--<md-input-container class="md-block" flex-gt-sm="">-->
+            <!--<input ng-model="news.imgThree" type="file" vrt-image-preview="onFileSelect($files)"/>-->
+        <!--</md-input-container>-->
+    <!--</div>-->
+
+    <!--<div class="dir-wrap">-->
+        <!--<vrt-template-wartooth class="dir-wrap vrt-txt"-->
+                               <!--is-ready="vm.isReady"-->
+                               <!--text-one="news.textOne" img-one="news.imgOne"-->
+                               <!--text-two="news.textTwo" img-two="news.imgTwo"-->
+                               <!--text-three="news.textThree" img-three="news.imgThree">-->
+        <!--</vrt-template-wartooth>-->
+    <!--</div>-->
+    <!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">-->
+        <!--<md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>-->
+        <!--<a ng-href="{{vm.$rootScope.template_url}}">Download</a>-->
     <!--</section>-->
 <!--</div>-->
 
@@ -50,16 +94,11 @@
     </div>
 
     <div class="dir-wrap">
-        <vrt-template-wartooth class="dir-wrap vrt-txt"
-                               is-ready="vm.isReady"
-                               text-one="news.textOne" img-one="news.imgOne"
-                               text-two="news.textTwo" img-two="news.imgTwo"
-                               text-three="news.textThree" img-three="news.imgThree">
-        </vrt-template-wartooth>
+        <vrt-template-skwigelf class="dir-wrap vrt-txt">
+        </vrt-template-skwigelf>
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
         <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
         <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
     </section>
-    <p class="vrt-txt">TEST</p>
 </div>

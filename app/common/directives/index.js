@@ -5,11 +5,12 @@ import text from './text';
 import screenshot from './screenshot';
 import templateMurderface from './templateMurderface';
 import templateWartooth from './templateWartooth';
+import templateSkwigelf from './templateSkwigelf';
 import imagePreview from './imagePreview';
 
 
 const module = angular.module('app.common.directives', [
-    test, pieChart, text, screenshot, templateMurderface, templateWartooth, imagePreview,
+    test, pieChart, text, screenshot, templateMurderface, templateWartooth, templateSkwigelf, imagePreview,
 ]);
 
 export default module.name;
