@@ -4,18 +4,18 @@
 }
 
 @font-face {
-  font-family: 'din bold';
-  //src: url('./fonts/ufonts.com_din-bold-webfont.eot'); /* IE9 Compat Modes */
-  //src: url('./fonts/ufonts.com_din-bold-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  //url('./fonts/ufonts.com_din-bold-webfont.woff2') format('woff2'), /* Super Modern Browsers */
-  //url('./fonts/ufonts.com_din-bold-webfont.woff') format('woff'), /* Pretty Modern Browsers */
-  //url('./fonts/ufonts.com_din-bold-webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
-  //url('./fonts/ufonts.com_din-bold-webfont.svg#dinbold') format('svg'); /* Legacy iOS */
+  font-family: 'dinbold';
+  src: url('./fonts/din-bold.eot'); /* IE9 Compat Modes */
+  src: url('./fonts/din-bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('./fonts/din-bold.woff2') format('woff2'), /* Super Modern Browsers */
+  url('./fonts/din-bold.woff') format('woff'), /* Pretty Modern Browsers */
+  url('./fonts/din-bold.ttf')  format('truetype'), /* Safari, Android, iOS */
+  url('./fonts/din-bold.svg#dinbold') format('svg'); /* Legacy iOS */
 }
 
-//.vrt-txt {
-//  font-family: "din bold";
-//}
+.vrt-txt {
+  font-family: "dinbold", Fallback, sans-serif;
+}
 
 div.container {
   border: 1em solid #473662;

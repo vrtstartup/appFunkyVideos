@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
-var findRemoveSync = require('find-remove');
 var mkdirp = require('mkdirp');
 
 
@@ -16,7 +15,7 @@ router.post('/templates', function(req, res, next) {
     createPath();
 
     var files = fs.readdirSync('temp/templates').length;
-    var buff = [];
+    var buff  = [];
 
     if (files < 10) {
         files = '00' + files;
@@ -25,7 +24,8 @@ router.post('/templates', function(req, res, next) {
     }
 
     var fileName = 'img' + files;
-    var path = 'temp/templates/' + fileName + '.jpeg';
+    var path     = 'temp/templates/' + fileName + '.jpeg';
+
 
     // Converting blob to png & writing it to /temp
     req.on('data', function (data) {
