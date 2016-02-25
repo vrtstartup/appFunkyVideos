@@ -9,10 +9,8 @@ class TemplateWartoothDirectiveController {
         console.log('templateWartooth', this.isReady);
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
-            let target = this.$element.find('section');
             if (this.isReady){
-                console.log('Element', target );
-                this.videoGeneration.takeScreenshot(this.$element);
+                this.videoGeneration.takeScreenshot(this.$element, true);
             }
         });
 

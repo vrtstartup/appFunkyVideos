@@ -1,9 +1,10 @@
 export default class PicturesController {
-    constructor($log, $scope) {
+    constructor($log, $rootScope, $http) {
         this.$log = $log;
-        this.$scope = $scope;
-
+        this.$rootScope = $rootScope;
+        this.$http = $http;
         //What do you mean, 'booze ain't food'? I'd rather chop off my ding-dong than admit that!
+
 
 
     }
@@ -15,4 +16,4 @@ export default class PicturesController {
 
 }
 
-PicturesController.$inject = ['$log', '$scope'];
+PicturesController.$inject = ['$log', '$rootScope', '$http'];

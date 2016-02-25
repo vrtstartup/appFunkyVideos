@@ -24,22 +24,30 @@
         <md-input-container class="md-block" flex-gt-sm="">
             <label>Nieuws 1</label>
             <input ng-model="news.textOne">
-            <input ng-model="news.imgOne" type="file" vrt-image-preview="onFileSelect($files)"/>
         </md-input-container>
 
         <md-input-container class="md-block" flex-gt-sm="">
             <label>Nieuws 2</label>
             <input ng-model="news.textTwo">
-            <input ng-model="news.imgTwo" type="file" vrt-image-preview="onFileSelect($files)"/>
         </md-input-container>
 
         <md-input-container class="md-block" flex-gt-sm="">
             <label>Nieuws 3</label>
             <input ng-model="news.textThree">
-            <input ng-model="news.imgThree" type="file" vrt-image-preview="onFileSelect($files)"/>
         </md-input-container>
     </div>
 
+    <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm="">
+            <input ng-model="news.imgOne" type="file" vrt-image-preview="onFileSelect($files)"/>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="">
+            <input ng-model="news.imgTwo" type="file" vrt-image-preview="onFileSelect($files)"/>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="">
+            <input ng-model="news.imgThree" type="file" vrt-image-preview="onFileSelect($files)"/>
+        </md-input-container>
+    </div>
 
     <div class="dir-wrap">
         <vrt-template-wartooth class="dir-wrap"
@@ -51,6 +59,6 @@
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
         <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
-        <a ng-href="{{vm.url}}">Download</a>
+        <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
     </section>
 </div>

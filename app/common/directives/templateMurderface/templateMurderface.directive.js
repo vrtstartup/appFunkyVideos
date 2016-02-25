@@ -9,7 +9,7 @@ class TemplateMurderfaceDirectiveController {
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
             if (this.isReady){
-                this.videoGeneration.takeScreenshot(this.$element);
+                this.videoGeneration.takeScreenshot(this.$element, true);
             }
         });
 
