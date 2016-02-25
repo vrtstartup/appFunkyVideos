@@ -1,8 +1,3 @@
-
-* {
-  box-sizing: border-box;
-}
-
 @font-face {
   font-family: 'dinbold';
   src: url('./fonts/din-bold.eot'); /* IE9 Compat Modes */
@@ -13,21 +8,10 @@
   url('./fonts/din-bold.svg#dinbold') format('svg'); /* Legacy iOS */
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .vrt-txt {
   font-family: "dinbold", "Roboto Condensed", sans-serif;
-}
-
-div.container {
-  border: 1em solid #473662;
-  //position: absolute;
-  //top: 30%;
-  //left: 30%;
-  //margin-right: -50%;
-  width: 33em;
-}
-
-#progress {
-  background: #91C5A9;
-  height: 8em;
-  width: 0em;
 }

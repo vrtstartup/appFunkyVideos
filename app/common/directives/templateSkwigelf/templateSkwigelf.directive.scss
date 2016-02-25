@@ -1,7 +1,9 @@
+@import "../../style/variables";
+
 .wrap {
   width: 980px;
   height: 550px;
-  background-color: #1D303E;
+  background-color: $main-bg-color;
   position: relative;
   display: flex;
   align-items: center;
@@ -16,7 +18,7 @@
 
 .hor-line{
   height: 100%;
-  background-color: #7AC039;
+  background-color: $main-color;
   width: 10px;
 }
 
@@ -29,13 +31,13 @@
 .quote {
   font-size: 42px;
   font-style: italic;
-  color: white;
+  color: $white;
   text-align: center;
 }
 
 .author {
   line-height: 6px;
-  color: white;
+  color: $white;
   width: 100% ;
   height: 100px;
   position: absolute;
@@ -45,7 +47,7 @@
 
 .auth-name {
   text-transform: uppercase;
-  color: #80C242;
+  color: $main-color;
   font-size: 24px;
 }
 .auth-title {

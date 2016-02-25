@@ -1,7 +1,9 @@
+@import "../../style/variables";
+
 .wth-wrap {
   height: 550px;
   width: 980px;
-  background-color: #80C242;
+  background-color: $main-color;
   box-sizing: border-box;
 }
 .wth-content-wrap {
@@ -21,8 +23,8 @@
 }
 
 .wth-text {
-  background-color: #1D303E;
-  color: #fff;
+  background-color: $main-bg-color;
+  color: $white;
   padding: 5px 5px 5px 15px;
   font-size: 24px;
   min-height: 122px;
@@ -30,7 +32,7 @@
 
 .wth-footer {
   height: 84px;
-  color: #fff;
+  color: $white;
   display: flex;
   font-size: 42px;
   padding: 30px 25px;

@@ -1,11 +1,10 @@
+@import "../../common/style/variables";
+
 .container-screenshot {
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #1D303E;
+  background-color: $main-bg-color;
 }
 
 .dir-wrap {
-  //font-family: Roboto, "Helvetica Neue", sans-serif;
-  //width: 700px;
   margin: 20px auto;
-  background-color: red;
 }
