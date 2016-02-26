@@ -8,6 +8,19 @@
     <md-button class="md-raised" ng-click="vm.showWartooth()">While you were asleep</md-button>
     <md-button class="md-raised" ng-click="vm.showSkwigelf()">Quote + img</md-button>
 </section>
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+    <div flex="20">
+        <p>Choose the desired color scheme</p>
+    </div>
+    <md-input-container class="md-block" flex-gt-sm="">
+        <label>State</label>
+        <md-select ng-model="scheme.name">
+            <md-option ng-repeat="scheme in schemes" value="{{scheme.name}}">
+                {{scheme.name}}
+            </md-option>
+        </md-select>
+    </md-input-container>
+</section>
 
 
 
@@ -121,7 +134,7 @@
     </div>
 
     <div class="dir-wrap">
-        <vrt-template-skwigelf class="dir-wrap vrt-txt"
+        <vrt-template-skwigelf class="dir-wrap vrt-txt drd"
                                is-ready="vm.isReady" quote="quote.question" image="quote.img"
                                author-name="quote.authorName" author-title="quote.authorTitle"
                                is-mirrored="quote.isMirrored">

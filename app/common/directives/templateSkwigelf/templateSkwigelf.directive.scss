@@ -3,7 +3,6 @@
 .wrap {
   width: 984px;
   height: 550px;
-  background-color: $main-bg-color;
   position: relative;
   display: flex;
   align-items: center;
@@ -18,7 +17,6 @@
 
 .hor-line{
   height: 100%;
-  background-color: $main-color;
   width: 10px;
 }
 
@@ -47,9 +45,9 @@
 
 .auth-name {
   text-transform: uppercase;
-  color: $main-color;
   font-size: 24px;
 }
+
 .auth-title {
   font-style: italic;
   font-size: 20px;
@@ -65,4 +63,32 @@
 
 .skwg-author {
   text-align: right;
+}
+
+.drd {
+  .auth-name {
+    color: $drd-main-color;
+  }
+
+  .hor-line {
+    background-color: $drd-main-color;
+  }
+
+  .wrap {
+    background-color: $drd-main-bg-color;
+  }
+}
+
+.ak {
+  .auth-name {
+    color: $ak-main-color;
+  }
+
+  .hor-line {
+    background-color: $ak-main-color;
+  }
+
+  .wrap {
+    background-color: $ak-main-bg-color;
+  }
 }

@@ -3,7 +3,7 @@
 .wth-wrap {
   height: 550px;
   width: 984px;
-  background-color: $main-bg-color;
+  background-color: $drd-main-bg-color;
   box-sizing: border-box;
 }
 .wth-content-wrap {
@@ -23,7 +23,7 @@
 }
 
 .wth-text {
-  background-color: $main-bg-color;
+  background-color: $drd-main-bg-color;
   color: $white;
   padding: 5px 5px 5px 15px;
   font-size: 24px;
@@ -37,7 +37,7 @@
   font-size: 42px;
   padding: 30px 25px;
   position: relative;
-  background-color: $main-color;
+  background-color: $drd-main-color;
 }
 
 .wth-logo {
