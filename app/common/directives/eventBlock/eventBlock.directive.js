@@ -1,8 +1,7 @@
 import template from './eventBlock.directive.html';
 
 class EventBlockDirectiveController {
-    constructor($scope) {
-        console.log('EventBlock');
+    constructor() {
     }
 }
 
@@ -20,4 +19,4 @@ export const eventBlockDirective = function() {
     };
 };
 
-EventBlockDirectiveController.$inject = ['$scope'];
+EventBlockDirectiveController.$inject = [];

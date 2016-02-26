@@ -1,12 +1,10 @@
 @import "../../style/variables";
 
-.wrap {
-  height: 420px;
-  width: 700px;
-}
+
 .image {
   background-size: cover;
   height: 100%;
+  width: 100%;
   overflow: hidden;
   position: relative;
 }

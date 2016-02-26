@@ -1,23 +1,32 @@
-<!--<div layout="column" class="md-inline-form">-->
-    <!--<md-content layout-padding="">-->
-        <!--<md-input-container class="md-block">-->
-            <!--<label>Quote</label>-->
-            <!--<input ng-model="quote.question" md-maxlength="200">-->
-        <!--</md-input-container>-->
-        <!--<input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>-->
-    <!--</md-content>-->
-    <!--<div class="dir-wrap">-->
-        <!--<vrt-template-murderface class="dir-wrap"-->
-                <!--is-ready="vm.isReady" quote="quote.question" image="quote.img">-->
-        <!--</vrt-template-murderface>-->
-    <!--</div>-->
-    <!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">-->
-        <!--<md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>-->
-        <!--<a ng-href="{{vm.url}}">Download</a>-->
-    <!--</section>-->
-<!--</div>-->
 
-<div layout="column" class="md-inline-form">
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+    <md-button class="md-raised" ng-click="vm.showMurderface()">Quote</md-button>
+    <md-button class="md-raised" ng-click="vm.showWartooth()">While you were asleep</md-button>
+    <md-button class="md-raised" ng-click="vm.showSkwigelf()">Quote + img</md-button>
+</section>
+
+
+
+<div layout="column" class="md-inline-form" ng-if="vm.isMurderface">
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Quote</label>
+            <input ng-model="quote.question" md-maxlength="200">
+        </md-input-container>
+        <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
+    </md-content>
+    <div class="dir-wrap">
+        <vrt-template-murderface class="dir-wrap"
+                is-ready="vm.isReady" quote="quote.question" image="quote.img">
+        </vrt-template-murderface>
+    </div>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+        <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
+        <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
+    </section>
+</div>
+
+<div layout="column" class="md-inline-form" ng-if="vm.isWartooth">
 
     <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm="">
@@ -62,55 +71,54 @@
     </section>
 </div>
 
-<!--<div layout="column" class="md-inline-form">-->
+<div layout="column" class="md-inline-form" ng-if="vm.isSkwigelf">
 
-    <!--<div layout-gt-sm="row">-->
-        <!--<div flex>-->
-        <!--<md-input-container class="md-block">-->
-            <!--<label>Quote</label>-->
-            <!--<input ng-model="quote.question" md-maxlength="200">-->
-        <!--</md-input-container>-->
-        <!--</div>-->
+    <div layout-gt-sm="row">
+        <div flex>
+        <md-input-container class="md-block">
+            <label>Quote</label>
+            <input ng-model="quote.question" md-maxlength="200">
+        </md-input-container>
+        </div>
 
-    <!--</div>-->
-    <!--<div layout-gt-sm="row">-->
-        <!--<div flex="50">-->
-            <!--<md-input-container class="md-block">-->
-                <!--<label>Author name</label>-->
-                <!--<input ng-model="quote.authorName" md-maxlength="100">-->
-            <!--</md-input-container>-->
-        <!--</div>-->
-        <!--<div flex="50">-->
-            <!--<md-input-container class="md-block">-->
-                <!--<label>Author title</label>-->
-                <!--<input ng-model="quote.authorTitle" md-maxlength="100">-->
-            <!--</md-input-container>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div layout-gt-sm="row"  layout-align="center">-->
+    </div>
+    <div layout-gt-sm="row">
+        <div flex="50">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <input ng-model="quote.authorName" md-maxlength="100">
+            </md-input-container>
+        </div>
+        <div flex="50">
+            <md-input-container class="md-block">
+                <label>Author title</label>
+                <input ng-model="quote.authorTitle" md-maxlength="100">
+            </md-input-container>
+        </div>
+    </div>
+    <div layout-gt-sm="row"  layout-align="center">
 
-        <!--<div flex="20">-->
-            <!--<md-input-container class="md-block">-->
-                <!--<input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>-->
-            <!--</md-input-container>-->
-        <!--</div>-->
-        <!--<div flex="20">-->
-            <!--<md-checkbox ng-model="quote.isMirrored" aria-label="Checkbox 1">-->
-                <!--Flip image & text?-->
-            <!--</md-checkbox>-->
-        <!--</div>-->
-    <!--</div>-->
+        <div flex="20">
+            <md-input-container class="md-block">
+                <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
+            </md-input-container>
+        </div>
+        <div flex="20">
+            <md-checkbox ng-model="quote.isMirrored" aria-label="Checkbox 1">
+                Flip image & text?
+            </md-checkbox>
+        </div>
+    </div>
 
-
-    <!--<div class="dir-wrap">-->
-        <!--<vrt-template-skwigelf class="dir-wrap vrt-txt"-->
-                               <!--is-ready="vm.isReady" quote="quote.question" image="quote.img"-->
-                               <!--author-name="quote.authorName" author-title="quote.authorTitle"-->
-                               <!--is-mirrored="quote.isMirrored">-->
-        <!--</vrt-template-skwigelf>-->
-    <!--</div>-->
-    <!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">-->
-        <!--<md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>-->
-        <!--<a ng-href="{{vm.$rootScope.template_url}}">Download</a>-->
-    <!--</section>-->
-<!--</div>-->
+    <div class="dir-wrap">
+        <vrt-template-skwigelf class="dir-wrap vrt-txt"
+                               is-ready="vm.isReady" quote="quote.question" image="quote.img"
+                               author-name="quote.authorName" author-title="quote.authorTitle"
+                               is-mirrored="quote.isMirrored">
+        </vrt-template-skwigelf>
+    </div>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+        <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
+        <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
+    </section>
+</div>
