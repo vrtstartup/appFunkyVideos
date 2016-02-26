@@ -32,6 +32,7 @@ export const templateWartoothDirective = function() {
             textTwo: '=',
             textThree: '=',
             imgThree: '=',
+            footerText: '=',
         },
     };
 };

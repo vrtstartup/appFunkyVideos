@@ -6,8 +6,8 @@
         <vrt-event-block image="vm.imgThree" text="vm.textThree"></vrt-event-block>
 
     </div>
-    <div class='wth-footer'>
-        <div class='wth-footer-text'>TERWIJL U SLIEP</div>
+    <div class='wth-footer' ng-if="vm.footerText">
+        <div class='wth-footer-text'>{{vm.footerText}}</div>
         <img class='wth-logo' src="./assets/deredactie.svg">
     </div>
 </div>

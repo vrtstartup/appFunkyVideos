@@ -1,4 +1,8 @@
-
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+    <div flex="20">
+       <p>Choose the desired template</p>
+    </div>
+</section>
 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
     <md-button class="md-raised" ng-click="vm.showMurderface()">Quote</md-button>
     <md-button class="md-raised" ng-click="vm.showWartooth()">While you were asleep</md-button>
@@ -56,10 +60,16 @@
             <input ng-model="news.imgThree" type="file" vrt-image-preview="onFileSelect($files)"/>
         </md-input-container>
     </div>
+    <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm="">
+            <label>Footer text</label>
+            <input ng-model="news.footerText">
+        </md-input-container>
+    </div>
 
     <div class="dir-wrap">
         <vrt-template-wartooth class="dir-wrap vrt-txt"
-                               is-ready="vm.isReady"
+                               is-ready="vm.isReady" footer-text="news.footerText"
                                text-one="news.textOne" img-one="news.imgOne"
                                text-two="news.textTwo" img-two="news.imgTwo"
                                text-three="news.textThree" img-three="news.imgThree">
