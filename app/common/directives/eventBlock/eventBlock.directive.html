@@ -1,0 +1,16 @@
+<div class='wth-event'>
+    <div class='wth-picture'>
+        <image-cropper ng-if="vm.image" image-url=' {{vm.image}} '
+                       height="398"
+                       show-controls="false"
+                       fit-on-init="true"
+                       center-on-init="true"
+                       check-cross-origin="false"
+                       zoom-step="0.1"
+                       button-labels="myButtonLabelsObject"
+        ></image-cropper>
+    </div>
+    <div class='wth-text'>
+        <p>{{vm.text}}</p>
+    </div>
+</div>

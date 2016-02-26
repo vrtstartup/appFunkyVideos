@@ -1,53 +1,10 @@
 <div class='wth-wrap'>
     <div class='wth-content-wrap'>
-        <div class='wth-event'>
-            <div class='wth-picture'>
-                <image-cropper ng-if="vm.imgOne" image-url=' {{vm.imgOne}} '
-                               height="398"
-                               show-controls="false"
-                               fit-on-init="true"
-                               center-on-init="true"
-                               check-cross-origin="false"
-                               zoom-step="0.1"
-                               button-labels="myButtonLabelsObject"
-                ></image-cropper>
-            </div>
-            <div class='wth-text'>
-                <p>{{vm.textOne}}</p>
-            </div>
-        </div>
-        <div class='wth-event'>
-            <div class='wth-picture' >
-                <image-cropper ng-if="vm.imgTwo" image-url=' {{vm.imgTwo}} '
-                               height="398"
-                               show-controls="false"
-                               fit-on-init="true"
-                               center-on-init="true"
-                               check-cross-origin="false"
-                               zoom-step="0.1"
-                               button-labels="myButtonLabelsObject"
-                ></image-cropper>
-            </div>
-            <div class='wth-text'>
-                <p>{{vm.textTwo}}</p>
-            </div>
-        </div>
-        <div class='wth-event'>
-            <div class='wth-picture'>
-                <image-cropper ng-if="vm.imgThree" image-url=' {{vm.imgThree}} '
-                               height="398"
-                               show-controls="false"
-                               fit-on-init="true"
-                               center-on-init="true"
-                               check-cross-origin="false"
-                               zoom-step="0.1"
-                               button-labels="myButtonLabelsObject"
-                ></image-cropper>
-            </div>
-            <div class='wth-text'>
-                <p>{{vm.textThree}}</p>
-            </div>
-        </div>
+
+        <vrt-event-block image="vm.imgOne" text="vm.textOne"></vrt-event-block>
+        <vrt-event-block image="vm.imgTwo" text="vm.textTwo"></vrt-event-block>
+        <vrt-event-block image="vm.imgThree" text="vm.textThree"></vrt-event-block>
+        
     </div>
     <div class='wth-footer'>
         <div class='wth-footer-text'>TERWIJL U SLIEP</div>
