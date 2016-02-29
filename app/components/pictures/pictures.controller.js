@@ -10,6 +10,14 @@ export default class PicturesController {
         this.isSkwigelf = false;
         this.isReady = false;
 
+        this.schemes = [
+            {
+            name: 'drd',
+            },
+            {
+                name: 'ak',
+            },
+        ];
 
 
     }

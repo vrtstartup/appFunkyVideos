@@ -8,22 +8,24 @@
     <md-button class="md-raised" ng-click="vm.showWartooth()">While you were asleep</md-button>
     <md-button class="md-raised" ng-click="vm.showSkwigelf()">Quote + img</md-button>
 </section>
-<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+<section layout="row" layout-sm="column" layout-align="center" layout-wrap="">
+
     <div flex="20">
-        <p>Choose the desired color scheme</p>
-    </div>
     <md-input-container class="md-block" flex-gt-sm="">
-        <label>State</label>
-        <md-select ng-model="scheme.name">
-            <md-option ng-repeat="scheme in schemes" value="{{scheme.name}}">
+        <label>Choose color scheme</label>
+        <md-select ng-model="scheme">
+            <md-option ng-repeat="scheme in vm.schemes" ng-value="scheme.name">
                 {{scheme.name}}
             </md-option>
         </md-select>
     </md-input-container>
+        </div>
 </section>
 
+<div ng-model="scheme" ng-class="vm.scheme"> {{vm.scheme}}</div>
 
 
+<div ng-model="scheme" ng-class="scheme.name">
 <div layout="column" class="md-inline-form" ng-if="vm.isMurderface">
     <md-content layout-padding="">
         <md-input-container class="md-block">
@@ -144,4 +146,5 @@
         <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
         <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
     </section>
+</div>
 </div>
