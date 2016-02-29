@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/server.js",
-    "webpack": "webpack-dev-server --progress --colors --hot --inline"
+    "webpack": "webpack-dev-server --progress --colors --hot --inline",
+    "postinstall": "webapck",
   },
   "author": "VRT",
   "license": "ISC",
