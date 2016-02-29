@@ -31,8 +31,23 @@
         </md-input-container>
         <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
     </md-content>
+    <div layout-gt-sm="row">
+        <div flex="50">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <input ng-model="quote.authorName" md-maxlength="100">
+            </md-input-container>
+        </div>
+        <div flex="50">
+            <md-input-container class="md-block">
+                <label>Author title</label>
+                <input ng-model="quote.authorTitle" md-maxlength="100">
+            </md-input-container>
+        </div>
+    </div>
     <div class="dir-wrap">
         <vrt-template-murderface class="dir-wrap"
+                author-name="quote.authorName" author-title="quote.authorTitle"
                 is-ready="vm.isReady" quote="quote.question" image="quote.img">
         </vrt-template-murderface>
     </div>
