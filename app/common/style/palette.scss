@@ -1,6 +1,7 @@
 @import "./variables";
 
 .drd {
+  text-transform: uppercase;
   .auth-name, .sign {
     color: $drd-main-color;
   }
@@ -24,6 +25,7 @@
 }
 
 .ak {
+
   .sign {
     color: $ak-main-color;
     font-family: "proxima", "Roboto Condensed", sans-serif;
