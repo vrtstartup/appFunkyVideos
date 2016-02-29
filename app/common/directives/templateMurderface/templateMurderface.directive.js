@@ -27,6 +27,8 @@ export const templateMurderfaceDirective = function() {
             quote: '=',
             isReady: '=',
             image: '=',
+            authorName: '=',
+            authorTitle: '=',
         },
     };
 };
