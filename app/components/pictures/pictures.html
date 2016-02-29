@@ -14,15 +14,13 @@
     <md-input-container class="md-block" flex-gt-sm="">
         <label>Choose color scheme</label>
         <md-select ng-model="scheme">
-            <md-option ng-repeat="scheme in vm.schemes" ng-value="scheme.name">
+            <md-option ng-repeat="scheme in vm.schemes" ng-value="scheme.className">
                 {{scheme.name}}
             </md-option>
         </md-select>
     </md-input-container>
         </div>
 </section>
-
-<div ng-show="scheme"> You've chosen: {{scheme}}</div>
 
 <div ng-class="scheme">
 <div layout="column" class="md-inline-form" ng-if="vm.isMurderface">

@@ -8,6 +8,33 @@
   url('./fonts/din-bold.svg#dinbold') format('svg'); /* Legacy iOS */
 }
 
+@font-face {
+  font-family: 'din-cndmedium';
+  src: url('./fonts/din-cndmedium.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: 'din-cndbold';
+  src: url('./fonts/din-cndbold.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: 'din-cndit';
+  src: url('./fonts/din-cndit.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: 'utopia';
+  src: url('./fonts/utopia.ttf')  format('truetype'), /* Safari, Android, iOS */
+  url('./fonts/utopia.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'proxima';
+  src: url('./fonts/proxima-bold.ttf')  format('truetype'), /* Safari, Android, iOS */
+  url('./fonts/proxima-bold.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
 * {
   box-sizing: border-box;
 }
