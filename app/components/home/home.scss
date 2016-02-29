@@ -1,3 +1,5 @@
+@import "../../common/style/variables";
+
 .vrt-txt--question {
   text-transform: uppercase;
   text-align: left;
@@ -6,8 +8,8 @@
 }
 
 .dark-container {
-  background-color: #1D303E;
-  color: #fff;
+  background-color: $drd-main-bg-color;
+  color: $white;
   padding: 80px 0 30px 0;
   width: 800px;
   height: 450px;
@@ -15,13 +17,12 @@
 }
 
 .text-wrap vrt-text:nth-child(3) .textBlock .text {
-  background-color: #fff;
+  background-color: $white;
 }
 
 .chart-wrap {
   min-width: 300px;
   margin-left: 50px;
-  //padding-top: 30px;
 }
 
 .text-wrap {
@@ -31,7 +32,7 @@
 
 .line {
   display: inline-block;
-  background-color: #8FC94F;
+  background-color: $drd-main-color;
   width: 70px;
   height: 10px;
   position: absolute;

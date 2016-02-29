@@ -1,0 +1,48 @@
+@import "../../style/variables";
+
+.wth-wrap, .wrap {
+  height: 550px;
+  width: 984px;
+  background-color: $drd-main-bg-color;
+  box-sizing: border-box;
+}
+.wth-content-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wth-event {
+  width: 328px;
+}
+
+.wth-picture {
+  height: 325px;
+  background-size: cover;
+  background-color: #222;
+}
+
+.wth-text {
+  background-color: $drd-main-bg-color;
+  color: $white;
+  padding: 5px 5px 5px 15px;
+  font-size: 24px;
+  min-height: 122px;
+}
+
+.wth-footer {
+  height: 103px;
+  color: $white;
+  display: flex;
+  font-size: 42px;
+  padding: 30px 25px;
+  position: relative;
+  background-color: $drd-main-color;
+}
+
+.wth-logo {
+  position: absolute;
+  height: 44px;
+  right: 25px;
+  bottom: 29px;
+}

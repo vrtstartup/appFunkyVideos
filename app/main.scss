@@ -1,0 +1,49 @@
+@font-face {
+  font-family: 'dinbold';
+  src: url('./fonts/din-bold.eot'); /* IE9 Compat Modes */
+  src: url('./fonts/din-bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('./fonts/din-bold.woff2') format('woff2'), /* Super Modern Browsers */
+  url('./fonts/din-bold.woff') format('woff'), /* Pretty Modern Browsers */
+  url('./fonts/din-bold.ttf')  format('truetype'), /* Safari, Android, iOS */
+  url('./fonts/din-bold.svg#dinbold') format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: 'din-cndmedium';
+  src: url('./fonts/din-cndmedium.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: 'din-cndbold';
+  src: url('./fonts/din-cndbold.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: 'din-cndit';
+  src: url('./fonts/din-cndit.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: 'utopia';
+  src: url('./fonts/utopia.ttf')  format('truetype'), /* Safari, Android, iOS */
+  url('./fonts/utopia.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'proxima';
+  src: url('./fonts/proxima-bold.ttf')  format('truetype'), /* Safari, Android, iOS */
+  url('./fonts/proxima-bold.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+//.vrt-txt {
+//  font-family: "dinbold", "Roboto Condensed", sans-serif;
+//}
+
+.imgCropper-controls {
+  position: absolute;
+  top: -26px;
+}

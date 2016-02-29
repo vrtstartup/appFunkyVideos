@@ -1,0 +1,75 @@
+@import "./variables";
+
+.drd {
+  text-transform: uppercase;
+  .auth-name, .sign {
+    color: $drd-main-color;
+  }
+
+  .hor-line, .line-under, .wth-footer {
+    background-color: $drd-main-color;
+  }
+
+  .wrap, .wth-wrap {
+    background-color: $drd-main-bg-color;
+  }
+
+  .logo-ak {
+    display: none;
+  }
+
+  .dir-wrap {
+    font-family: "din-cndbold", "Roboto Condensed", sans-serif;
+  }
+
+}
+
+.ak {
+
+  .sign {
+    color: $ak-main-color;
+    font-family: "proxima", "Roboto Condensed", sans-serif;
+  }
+
+  .hor-line,  .line-under {
+    background-color: $ak-main-color;
+  }
+
+  .wrap, .wth-wrap, .wth-footer {
+    background-color: $ak-main-bg-color;
+  }
+  .logo-drd {
+    display: none;
+  }
+  .logo-ak {
+    background-image: url("/../../assets/logo_AK.svg");
+    width: 150px;
+    height: 70px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .wth-logo {
+    bottom: 15px;
+  }
+
+  .logo {
+    top: 10px;
+  }
+
+  .auth-name , .auth-title {
+    font-family: "proxima", "Roboto Condensed", sans-serif;
+    color: #fff;
+    font-style: normal;
+  }
+  
+  .auth-title {
+    color: #999999;
+  }
+
+  .quote {
+    font-family: "utopia", "Roboto Condensed", sans-serif;
+    font-style: normal;
+  }
+
+}

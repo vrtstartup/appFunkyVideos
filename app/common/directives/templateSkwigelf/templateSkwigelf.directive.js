@@ -1,7 +1,7 @@
-import './templateMurderface.directive.scss';
-import template from './templateMurderface.directive.html';
+import './templateSkwigelf.directive.scss';
+import template from './templateSkwigelf.directive.html';
 
-class TemplateMurderfaceDirectiveController {
+class TemplateSkwigelfDirectiveController {
     constructor($scope, $element, videoGeneration) {
         this.videoGeneration = videoGeneration;
         this.$element = $element;
@@ -16,19 +16,22 @@ class TemplateMurderfaceDirectiveController {
     }
 }
 
-export const templateMurderfaceDirective = function() {
+export const templateSkwigelfDirective = function() {
     return {
         restrict: 'E',
         template: template,
         scope: {},
-        controller: TemplateMurderfaceDirectiveController,
+        controller: TemplateSkwigelfDirectiveController,
         controllerAs: 'vm',
         bindToController: {
             quote: '=',
             isReady: '=',
             image: '=',
+            authorName: '=',
+            authorTitle: '=',
+            isMirrored: '=',
         },
     };
 };
 
-TemplateMurderfaceDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
+TemplateSkwigelfDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
