@@ -1,5 +1,6 @@
 <div class='wrap' ng-show="vm.isMirrored">
-    <img class='logo' src="./assets/deredactie.svg">
+    <div class="logo logo-ak"></div>
+    <img class='logo logo-drd' src="./assets/deredactie.svg">
     <div class='quote-wrap'>
         <div class='quote'><span class="sign">"</span>{{vm.quote}}</div>
         <div class="author">
@@ -7,7 +8,7 @@
             <p class='auth-title'>{{vm.authorTitle}}</p>
         </div>
     </div>
-    <div class='hor-line'></div>
+    <!--<div class='hor-line'></div>-->
     <div class='skwg-image'>
         <image-cropper ng-if="vm.image" image-url=' {{vm.image}} '
                        height="688"
@@ -19,10 +20,12 @@
                        button-labels="myButtonLabelsObject"
         ></image-cropper>
     </div>
+    <div class='line-under'></div>
 </div>
 
 <div class='wrap' ng-hide="vm.isMirrored">
-    <img class='skwg-logo' src="./assets/deredactie.svg">
+    <div class="skwg-logo logo-ak"></div>
+    <img class='skwg-logo logo-drd' src="./assets/deredactie.svg">
     <div class='skwg-image'>
         <image-cropper ng-if="vm.image" image-url=' {{vm.image}} '
                        height="688"
@@ -34,7 +37,7 @@
                        button-labels="myButtonLabelsObject"
         ></image-cropper>
     </div>
-    <div class='hor-line'></div>
+    <!--<div class='hor-line'></div>-->
     <div class='quote-wrap'>
         <div class='quote'><span class="sign">"</span>{{vm.quote}}</div>
         <div class="author skwg-author">
@@ -42,5 +45,6 @@
             <p class='auth-title'>{{vm.authorTitle}}</p>
         </div>
     </div>
+    <div class='line-under'></div>
 </div>
 

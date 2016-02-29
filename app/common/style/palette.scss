@@ -1,0 +1,52 @@
+@import "./variables";
+
+.drd {
+  .auth-name, .sign {
+    color: $drd-main-color;
+  }
+
+  .hor-line, .line-under, .wth-footer {
+    background-color: $drd-main-color;
+  }
+
+  .wrap, .wth-wrap {
+    background-color: $drd-main-bg-color;
+  }
+
+  .logo-ak {
+    display: none;
+  }
+}
+
+.ak {
+  .auth-name, .sign {
+    color: $ak-main-color;
+  }
+
+  .hor-line,  .line-under {
+    background-color: $ak-main-color;
+  }
+
+  .wrap, .wth-wrap, .wth-footer {
+    background-color: $ak-main-bg-color;
+  }
+  .logo-drd {
+    display: none;
+  }
+  .logo-ak {
+    background-image: url("/../../assets/logo_AK.svg");
+    width: 150px;
+    height: 70px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .wth-logo {
+    bottom: 15px;
+  }
+
+  .logo {
+    top: 10px;
+  }
+
+}

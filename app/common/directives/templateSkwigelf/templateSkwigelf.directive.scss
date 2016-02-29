@@ -15,10 +15,10 @@
 }
 
 
-.hor-line{
-  height: 100%;
-  width: 10px;
-}
+//.hor-line{
+//  height: 100%;
+//  width: 10px;
+//}
 
 .quote-wrap {
   width: 560px;
@@ -63,32 +63,4 @@
 
 .skwg-author {
   text-align: right;
-}
-
-.drd {
-  .auth-name {
-    color: $drd-main-color;
-  }
-
-  .hor-line {
-    background-color: $drd-main-color;
-  }
-
-  .wrap {
-    background-color: $drd-main-bg-color;
-  }
-}
-
-.ak {
-  .auth-name, .sign {
-    color: $ak-main-color;
-  }
-
-  .hor-line,  .line-under, .wth-footer {
-    background-color: $ak-main-color;
-  }
-
-  .wrap, .wth-wrap {
-    background-color: $ak-main-bg-color;
-  }
 }
