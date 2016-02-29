@@ -22,10 +22,9 @@
         </div>
 </section>
 
-<div ng-model="scheme" ng-class="vm.scheme"> {{vm.scheme}}</div>
+<div ng-show="scheme"> You've chosen: {{scheme}}</div>
 
-
-<div ng-model="scheme" ng-class="scheme.name">
+<div ng-class="scheme">
 <div layout="column" class="md-inline-form" ng-if="vm.isMurderface">
     <md-content layout-padding="">
         <md-input-container class="md-block">

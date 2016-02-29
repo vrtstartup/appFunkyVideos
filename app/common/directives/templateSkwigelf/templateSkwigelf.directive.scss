@@ -80,15 +80,15 @@
 }
 
 .ak {
-  .auth-name {
+  .auth-name, .sign {
     color: $ak-main-color;
   }
 
-  .hor-line {
+  .hor-line,  .line-under, .wth-footer {
     background-color: $ak-main-color;
   }
 
-  .wrap {
+  .wrap, .wth-wrap {
     background-color: $ak-main-bg-color;
   }
 }
