@@ -18,7 +18,7 @@ var config = {
         './app/style.scss',
 
         // The script refreshing the browser on none hot updates
-        'webpack-dev-server/client?https://localhost:8080',
+        'webpack-dev-server/client?http://localhost:8080',
 
         // Our application
         mainPath,
