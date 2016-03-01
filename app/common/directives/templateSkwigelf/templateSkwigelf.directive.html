@@ -1,5 +1,5 @@
 <div class='wrap' ng-show="vm.isMirrored">
-    <div class="logo logo-ak"></div>
+    <img class="logo logo-ak" src="./assets/logoak.svg">
     <img class='logo logo-drd' src="./assets/deredactie.svg">
     <div class='quote-wrap'>
         <div class='quote'><span class="sign">"</span>{{vm.quote}}</div>
@@ -23,7 +23,7 @@
 </div>
 
 <div class='wrap' ng-hide="vm.isMirrored">
-    <div class="skwg-logo logo-ak"></div>
+    <img class="logo logo-ak" src="./assets/logoak.svg">
     <img class='skwg-logo logo-drd' src="./assets/deredactie.svg">
     <div class='skwg-image'>
         <image-cropper ng-if="vm.image" image-url=' {{vm.image}} '

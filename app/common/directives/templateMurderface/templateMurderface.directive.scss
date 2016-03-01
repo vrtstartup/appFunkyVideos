@@ -25,10 +25,14 @@
 }
 
 .logo {
-  height: 44px;
   left: 20px;
   position: absolute;
   top: 20px;
+  display: none;
+}
+
+.logo-drd {
+  height: 44px;
 }
 
 .sign{

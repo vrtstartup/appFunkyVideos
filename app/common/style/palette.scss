@@ -13,17 +13,28 @@
     background-color: $drd-main-bg-color;
   }
 
-  .logo-ak {
-    display: none;
-  }
 
   .dir-wrap {
     font-family: "din-cndbold", "Roboto Condensed", sans-serif;
   }
 
+  .logo-drd {
+    display: block;
+    height: 44px;
+  }
+
+  .logo-ak {
+    display: none;
+  }
+
 }
 
 .ak {
+
+  .logo {
+    display: block;
+    top: 25px;
+  }
 
   .sign {
     color: $ak-main-color;
@@ -41,19 +52,12 @@
     display: none;
   }
   .logo-ak {
-    background-image: url("/../../assets/logo_AK.svg");
-    width: 150px;
-    height: 70px;
-    background-size: contain;
-    background-repeat: no-repeat;
+    width: 180px;
+    height: 59px;
   }
 
   .wth-logo {
     bottom: 15px;
-  }
-
-  .logo {
-    top: 10px;
   }
 
   .auth-name , .auth-title {
