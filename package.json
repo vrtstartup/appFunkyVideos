@@ -8,8 +8,7 @@
   "main": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/server.js",
-    "webpack": "webpack"
+    "start": "nodemon server/server.js"
   },
   "author": "VRT",
   "license": "ISC",

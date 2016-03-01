@@ -75,4 +75,6 @@ if (env === 'development') {
 var server = app.listen(port, function(){
     console.log('Express server listening on port: '
         + server.address().port);
+    console.log('Current environment is: '
+        + env);
 });
