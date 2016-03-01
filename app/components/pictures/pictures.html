@@ -151,13 +151,18 @@
                 Flip image & text?
             </md-checkbox>
         </div>
+        <div flex="20">
+            <md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote">
+                Is it a quote?
+            </md-checkbox>
+        </div>
     </div>
 
     <div class="dir-wrap">
         <vrt-template-skwigelf class="dir-wrap vrt-txt"
                                is-ready="vm.isReady" quote="quote.question" image="quote.img"
                                author-name="quote.authorName" author-title="quote.authorTitle"
-                               is-mirrored="quote.isMirrored">
+                               is-mirrored="quote.isMirrored" is-hidden-sign="quote.isHiddenSign">
         </vrt-template-skwigelf>
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">

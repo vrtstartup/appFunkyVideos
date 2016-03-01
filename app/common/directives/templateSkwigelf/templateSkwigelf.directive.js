@@ -30,6 +30,8 @@ export const templateSkwigelfDirective = function() {
             authorName: '=',
             authorTitle: '=',
             isMirrored: '=',
+            isHiddenSign: '=',
+
         },
     };
 };
