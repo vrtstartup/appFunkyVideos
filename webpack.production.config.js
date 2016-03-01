@@ -10,7 +10,10 @@ var config = {
 
     // We change to normal source mapping
     devtool: 'source-map',
-    entry: mainPath,
+    entry: [
+        './app/style.scss',
+        mainPath,
+    ],
     output: {
         path: buildPath,
         filename: 'bundle.js'
