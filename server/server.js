@@ -3,14 +3,14 @@ var bodyParser = require('body-parser');
 var path = require('path'); //part of node
 var morgan = require('morgan');
 var cors = require('cors');
-var httpProxy = require('http-proxy');
+//var httpProxy = require('http-proxy');
 
 var imagesApi = require('./routes/images');
 var subtitlesApi = require('./routes/subtitles');
 var templatesApi = require('./routes/templates');
 
 
-var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
+//var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
 var app = express(); // define our app using express
 
 app.use(cors());
@@ -44,6 +44,8 @@ app.use(express.static('./app/build'));
 
 // We only want to run the workflow when not in production
 if (!isProduction) {
+    var httpProxy = require('http-proxy');
+    var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
 
     console.log('DEVELOPMENT');
     // We require the bundler inside the if block because
