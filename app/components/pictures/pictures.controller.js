@@ -25,7 +25,7 @@ export default class PicturesController {
     }
 
     getPicture() {
-        this.isReady = true;
+        this.isReady = !this.isReady;
     }
 
     showMurderface() {

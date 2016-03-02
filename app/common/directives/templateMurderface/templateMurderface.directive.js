@@ -10,6 +10,7 @@ class TemplateMurderfaceDirectiveController {
             if (!value) return;
             if (this.isReady){
                 this.videoGeneration.takeScreenshot(this.$element, true);
+                this.isReady = !this.isReady;
             }
         });
 
