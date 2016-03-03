@@ -8,6 +8,7 @@ import rzModule from 'angularjs-slider';
 import 'videogular';
 import 'videogular-controls';
 import 'angular-file-upload';
+import imageCropper from 'angular-image-cropper';
 
 
 
@@ -28,6 +29,7 @@ export default angular
         'rzModule',
         'com.2fdevs.videogular',
         'com.2fdevs.videogular.plugins.controls',
+        imageCropper,
         // application
         components,
         common,

@@ -1,5 +1,29 @@
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+    <div flex="20">
+       <p>Choose the desired template</p>
+    </div>
+</section>
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+    <md-button class="md-raised" ng-click="vm.showMurderface()">Quote</md-button>
+    <md-button class="md-raised" ng-click="vm.showWartooth()">While you were asleep</md-button>
+    <md-button class="md-raised" ng-click="vm.showSkwigelf()">Quote + img</md-button>
+</section>
+<section layout="row" layout-sm="column" layout-align="center" layout-wrap="">
 
-<div layout="column" class="md-inline-form">
+    <div flex="20">
+    <md-input-container class="md-block" flex-gt-sm="">
+        <label>Choose color scheme</label>
+        <md-select ng-model="scheme">
+            <md-option ng-repeat="scheme in vm.schemes" ng-value="scheme.className">
+                {{scheme.name}}
+            </md-option>
+        </md-select>
+    </md-input-container>
+        </div>
+</section>
+
+<div ng-class="scheme">
+<div layout="column" class="md-inline-form" ng-if="vm.isMurderface">
     <md-content layout-padding="">
         <md-input-container class="md-block">
             <label>Quote</label>
@@ -7,15 +31,143 @@
         </md-input-container>
         <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
     </md-content>
-    <!--<md-content layout-padding="" >-->
-        <div class="dir-wrap">
-            <vrt-template-murderface class="dir-wrap"
-                    is-ready="vm.isReady" quote="quote.question" image="quote.img">
-            </vrt-template-murderface>
+    <div layout-gt-sm="row">
+        <div flex="40">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <input ng-model="quote.authorName" md-maxlength="100">
+            </md-input-container>
         </div>
-    <!--</md-content>-->
+        <div flex="40">
+            <md-input-container class="md-block">
+                <label>Author title</label>
+                <input ng-model="quote.authorTitle" md-maxlength="100">
+            </md-input-container>
+        </div>
+        <div flex="20">
+            <md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote">
+                Is it a quote?
+            </md-checkbox>
+        </div>
+    </div>
+    <div class="dir-wrap">
+        <vrt-template-murderface class="dir-wrap"
+                is-hidden-sign="quote.isHiddenSign"
+                author-name="quote.authorName" author-title="quote.authorTitle"
+                is-ready="vm.isReady" quote="quote.question" image="quote.img">
+        </vrt-template-murderface>
+    </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
         <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
-        <a ng-href="{{vm.url}}">Download</a>
+        <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
     </section>
+</div>
+
+<div layout="column" class="md-inline-form" ng-if="vm.isWartooth">
+
+    <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm="">
+            <label>Nieuws 1</label>
+            <input ng-model="news.textOne">
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm="">
+            <label>Nieuws 2</label>
+            <input ng-model="news.textTwo">
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm="">
+            <label>Nieuws 3</label>
+            <input ng-model="news.textThree">
+        </md-input-container>
+    </div>
+
+    <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm="">
+            <input ng-model="news.imgOne" type="file" vrt-image-preview="onFileSelect($files)"/>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="">
+            <input ng-model="news.imgTwo" type="file" vrt-image-preview="onFileSelect($files)"/>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="">
+            <input ng-model="news.imgThree" type="file" vrt-image-preview="onFileSelect($files)"/>
+        </md-input-container>
+    </div>
+    <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm="">
+            <label>Footer text</label>
+            <input ng-model="news.footerText">
+        </md-input-container>
+    </div>
+
+    <div class="dir-wrap">
+        <vrt-template-wartooth class="dir-wrap vrt-txt"
+                               is-ready="vm.isReady" footer-text="news.footerText"
+                               text-one="news.textOne" img-one="news.imgOne"
+                               text-two="news.textTwo" img-two="news.imgTwo"
+                               text-three="news.textThree" img-three="news.imgThree">
+        </vrt-template-wartooth>
+    </div>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+        <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
+        <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
+    </section>
+</div>
+
+<div layout="column" class="md-inline-form" ng-if="vm.isSkwigelf">
+
+    <div layout-gt-sm="row">
+        <div flex>
+        <md-input-container class="md-block">
+            <label>Quote</label>
+            <input ng-model="quote.question" md-maxlength="200">
+        </md-input-container>
+        </div>
+
+    </div>
+    <div layout-gt-sm="row">
+        <div flex="50">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <input ng-model="quote.authorName" md-maxlength="100">
+            </md-input-container>
+        </div>
+        <div flex="50">
+            <md-input-container class="md-block">
+                <label>Author title</label>
+                <input ng-model="quote.authorTitle" md-maxlength="100">
+            </md-input-container>
+        </div>
+    </div>
+    <div layout-gt-sm="row"  layout-align="center">
+
+        <div flex="20">
+            <md-input-container class="md-block">
+                <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
+            </md-input-container>
+        </div>
+        <div flex="20">
+            <md-checkbox ng-model="quote.isMirrored" aria-label="Checkbox flip image">
+                Flip image & text?
+            </md-checkbox>
+        </div>
+        <div flex="20">
+            <md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote">
+                Is it a quote?
+            </md-checkbox>
+        </div>
+    </div>
+
+    <div class="dir-wrap">
+        <vrt-template-skwigelf class="dir-wrap vrt-txt"
+                               is-ready="vm.isReady" quote="quote.question" image="quote.img"
+                               author-name="quote.authorName" author-title="quote.authorTitle"
+                               is-mirrored="quote.isMirrored" is-hidden-sign="quote.isHiddenSign">
+        </vrt-template-skwigelf>
+    </div>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+        <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
+        <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
+    </section>
+</div>
 </div>

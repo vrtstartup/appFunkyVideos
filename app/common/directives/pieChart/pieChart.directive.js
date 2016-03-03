@@ -1,4 +1,3 @@
-import './pieChart.directive.scss';
 import template from './pieChart.directive.html';
 
 class pieChartDirectiveController {

@@ -1,12 +1,16 @@
 // TODO: refactoring that=this bullshit
 
 export default class VideoGenerationService {
-    constructor($log, $http) {
+    constructor($log, $http, $rootScope) {
         const that = this;
         that.$http = $http;
         that.$log  = $log;
+        that.$rootScope = $rootScope;
+        that.isTemplate = false;
 
-        this.takeScreenshot = function(element) {
+        this.takeScreenshot = function(element, isTemplate) {
+            console.log('isTemplate', isTemplate);
+            that.isTemplate = isTemplate;
             const el = element.parent();
             html2canvas(el, {
                 onrendered: (canvas) => {
@@ -16,17 +20,25 @@ export default class VideoGenerationService {
         };
 
         that._upload = function(data) {
+            console.log('isTemplate 2', that.isTemplate);
+            let url = '/api/images';
+
+            if (that.isTemplate) {
+                url = '/api/templates';
+            }
+
             that.$http({
                     method: 'POST',
-                    url: '/api/images',
+                    url: url,
                     headers: {
                         'Content-Type': 'image/jpeg'
                     },
                     data: data,
                     transformRequest: []
                 })
-                .success(() => {
-                    that.$log.info('image uploaded');
+                .success((res) => {
+                    that.$log.info('image uploaded', res);
+                    that.$rootScope.template_url = res.template_url;
                 })
                 .error((err) => {
                     that.$log.error('upload error', err);
@@ -58,4 +70,4 @@ export default class VideoGenerationService {
     }
 }
 
-VideoGenerationService.$inject = ['$log', '$http'];
+VideoGenerationService.$inject = ['$log', '$http', '$rootScope'];

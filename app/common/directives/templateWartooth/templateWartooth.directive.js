@@ -1,11 +1,12 @@
-import './templateMurderface.directive.scss';
-import template from './templateMurderface.directive.html';
+import './templateWartooth.directive.scss';
+import template from './templateWartooth.directive.html';
 
-class TemplateMurderfaceDirectiveController {
+class TemplateWartoothDirectiveController {
     constructor($scope, $element, videoGeneration) {
         this.videoGeneration = videoGeneration;
         this.$element = $element;
 
+        console.log('templateWartooth', this.isReady);
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
             if (this.isReady){
@@ -17,22 +18,24 @@ class TemplateMurderfaceDirectiveController {
     }
 }
 
-export const templateMurderfaceDirective = function() {
+export const templateWartoothDirective = function() {
     return {
         restrict: 'E',
         template: template,
         scope: {},
-        controller: TemplateMurderfaceDirectiveController,
+        controller: TemplateWartoothDirectiveController,
         controllerAs: 'vm',
         bindToController: {
-            quote: '=',
             isReady: '=',
-            image: '=',
-            authorName: '=',
-            authorTitle: '=',
-            isHiddenSign: '=',
+            textOne: '=',
+            imgOne: '=',
+            imgTwo: '=',
+            textTwo: '=',
+            textThree: '=',
+            imgThree: '=',
+            footerText: '=',
         },
     };
 };
 
-TemplateMurderfaceDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
+TemplateWartoothDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];

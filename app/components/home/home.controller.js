@@ -17,8 +17,6 @@ export default class HomeController {
         this.sValue = '';
         this.data = [];
 
-        console.log('BAR', this.fValue);
-
     }
 
     startAnimation() {

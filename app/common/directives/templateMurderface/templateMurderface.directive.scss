@@ -1,13 +1,9 @@
-.wrap {
-  height: 420px;
-  //margin: 20px auto;
-  width: 700px;
+@import "../../style/variables";
 
-}
 .image {
-  //background-image: url('http://cs9902.vk.me/u586044/-6/x_e872c8fd.jpg');
   background-size: cover;
   height: 100%;
+  width: 100%;
   overflow: hidden;
   position: relative;
 }
@@ -19,48 +15,42 @@
 }
 
 .line-under {
-  background-color: #7AC039;
+  background-color: $drd-main-color;
   height: 10px;
   width: 100%;
   position: absolute;
   bottom: 0;
+  left: 0;
+  z-index: 2;
 }
 
 .logo {
-  height: 44px;
   left: 20px;
   position: absolute;
   top: 20px;
-  //width: 80px;
+  display: none;
+}
+
+.logo-drd {
+  height: 44px;
 }
 
 .sign{
-
   font-size: 45px;
-
+  color: $drd-main-color;
 }
 
 .quote {
   margin: 0 auto;
-  color: white;
-
+  color: $white;
   text-align: center;
   width: 500px;
   font-size: 30px;
   font-style: italic;
   font-weight: 700;
-
-  //justify-content: center;
-  //align-items: center;
-  //display: block;
-  //position: relative;
-  //top: 50%;
-  //-webkit-transform: translateY(-50%);
-  //-ms-transform: translateY(-50%);
-  //transform: translateY(-50%);
 }
 
-.test {
+.quote-wrap {
   width: 100%;
   height: 100%;
   display: flex;
