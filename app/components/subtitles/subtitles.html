@@ -1,1 +1,43 @@
-<p>subtitles page</p>
+<md-content layout-padding layout="row" layout-align="center center" ng-init="vm.srcChanged()">
+    <div flex-gt-md="50" flex="100" flex-md="80">
+        <div>
+            <vrt-videoplayer source="vm.subtitle.video" start="vm.form.start" end="vm.form.end"></vrt-videoplayer>
+            <section>
+                <md-input-container>
+                    <label>URL To Video</label>
+                    <input ng-model="vm.subtitle.video" ng-blur="vm.srcChanged()" type="text" />
+                </md-input-container>
+                <!-- <button ng-click="vm.srcChanged()">klik</button> -->
+            </section>
+            <rzslider rz-slider-model="vm.form.start" id="vm.key" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
+            <form name="templateForm">
+                <div layout="row" layout-align="center center">
+                </div>
+                <md-input-container>
+                    <label>text</label>
+                    <input name="title" ng-model="vm.form.text">
+                </md-input-container>
+            </form>
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-input-container>
+                    <input ng-model="vm.form.start" ng-change="changeSlider()">
+                </md-input-container>
+                <md-button class="md-fab" aria-label="In" ng-click="vm.setIn()">
+                    < </md-button>
+                        <md-button ng-click="vm.addLine(vm.form)" class="md-raised md-primary">Add Line</md-button>
+                        <md-button class="md-fab" aria-label="Out" ng-click="vm.setOut()">
+                            >
+                        </md-button>
+                        <md-input-container>
+                            <input ng-model="vm.form.end">
+                        </md-input-container>
+            </section>
+            <md-list>
+                <div ng-repeat="(key, l) in vm.srtObj">
+                    <subtitle-line key="key" in="l.start" out="l.end" text="l.text"></subtitle-line>
+                </div>
+            </md-list>
+            <md-button ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised">Download</md-button>
+        </div>
+    </div>
+</md-content>

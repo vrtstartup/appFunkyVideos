@@ -16,12 +16,15 @@
     "angular": "^1.5.0",
     "angular-animate": "^1.5.0",
     "angular-aria": "^1.5.0",
+    "angular-file-saver": "^1.0.3",
+    "angular-file-upload": "^2.2.0",
     "angular-image-cropper": "^1.1.4",
     "angular-material": "^1.0.5",
     "angular-messages": "^1.5.0",
     "angular-route": "^1.5.0",
     "angular-sanitize": "^1.5.0",
     "angular-ui-router": "^0.2.18",
+    "angularjs-slider": "^2.9.0",
     "body-parser": "^1.14.2",
     "cors": "^2.7.1",
     "express": "^4.13.4",
@@ -31,7 +34,9 @@
     "mkdirp": "^0.5.1",
     "morgan": "^1.6.1",
     "nodemon": "^1.9.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "videogular": "^1.4.1",
+    "videogular-controls": "^1.4.1"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
