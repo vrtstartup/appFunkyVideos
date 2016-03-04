@@ -5,39 +5,32 @@ var ffmpeg = require('fluent-ffmpeg');
 var findRemoveSync = require('find-remove');
 var mkdirp = require('mkdirp');
 
+var multiparty = require('connect-multiparty');
+var multipartyMiddleware = multiparty({ uploadDir: 'temp/subtitleVideos/' });
+
 //url /api
+router.get('/subtitles', function(req, res) {
+
+    res.json({ message: 'subtitles get api' }).send();
+});
 
 
+router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
+    //createPath();
 
-router.post('/subtitleVideos', function(req, res, next) {
-    createPath();
+    var file = req.files.file;
 
-    var files = fs.readdirSync('temp/').length;
-    var buff = [];
+    console.log(file.name);
+    console.log(file.type);
 
-    if (files < 10) {
-        files = '00' + files;
-    } else if (files > 9 && files < 100) {
-        files = '0' + files;
-    }
+    var url = req.files.file.path;
+    console.log('REQ', req.files.file.path);
 
-    var fileName = 'video' + files;
-    var path = 'temp/subtitleVideos/' + fileName + '.mov';
-
-    // // Converting blob to png & writing it to /temp
-    // req.on('data', function (data) {
-    //         buff.push(data);
-    //     })
-    //     .on('error', next)
-    //     .on('end', function () {
-    //         fs.writeFile(path, Buffer.concat(buff), function (err) {
-    //             if (err) return next(err); // something went wrong with the fs, return 500
-
-    //             res.status(204).send(); // success!
-    //         });
-    // });
+    res.json({ url: url }).send();
 
 });
+
+
 
 
 function createPath() {
@@ -48,11 +41,6 @@ function createPath() {
 
     });
 }
-
-router.get('/subtitles', function(req, res) {
-
-    res.json({ message: 'subtitles get api' }).send();
-});
 
 
 module.exports = router;

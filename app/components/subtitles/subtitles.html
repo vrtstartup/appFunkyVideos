@@ -1,11 +1,17 @@
 <md-content layout-padding layout="row" layout-align="center center" ng-init="vm.srcChanged()">
     <div flex-gt-md="50" flex="100" flex-md="80">
-        <div>
+        <md-button>
             <vrt-videoplayer source="vm.subtitle.video" start="vm.form.start" end="vm.form.end"></vrt-videoplayer>
+
+            <video controls ngf-src="file"></video>
             <section>
                 <md-input-container>
                     <label>URL To Video</label>
                     <input ng-model="vm.subtitle.video" ng-blur="vm.srcChanged()" type="text" />
+                </md-input-container>
+                <md-input-container>
+                    <label>Upload Video</label>
+                    <input ngf-select="upload($file)" type="file" />
                 </md-input-container>
                 <!-- <button ng-click="vm.srcChanged()">klik</button> -->
             </section>

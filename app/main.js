@@ -9,6 +9,7 @@ import 'videogular';
 import 'videogular-controls';
 import 'angular-file-upload';
 import imageCropper from 'angular-image-cropper';
+import ngFileUpload from 'ng-file-upload';
 
 
 
@@ -25,11 +26,12 @@ export default angular
         ngSanitize,
         ngMaterial,
         ngFileSaver,
-        'angularFileUpload',
         'rzModule',
         'com.2fdevs.videogular',
         'com.2fdevs.videogular.plugins.controls',
+        'angularFileUpload',
         imageCropper,
+        ngFileUpload,
         // application
         components,
         common,

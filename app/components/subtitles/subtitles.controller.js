@@ -1,5 +1,5 @@
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular) {
+    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload) {
         this.$log = $log;
         this.$sce = $sce;
         this.srt = srt;
@@ -8,7 +8,7 @@ export default class SubtitlesController {
         this.srtObj = {};
         this.videogular = videogular;
         this.subtitle = {
-            video: 'videos/am1.mov'
+            video: 'temp/videos/am1.mov'
         };
         const that = this;
 
@@ -31,6 +31,24 @@ export default class SubtitlesController {
             that.form.start = modelValue;
             that.form.end = highValue;
         });
+
+        $scope.upload = function (file) {
+
+            console.log('UPLOAD', file);
+
+            Upload.upload({
+                url: 'api/subtitleVideos',
+                data: {file: file, 'username': $scope.username},
+                method: 'POST',
+            }).then(function (resp) {
+                console.log('Success, URL:', resp.data.url);
+            }, function (resp) {
+                console.log('Error status: ' + resp.status);
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
+        };
     }
 
 
@@ -119,4 +137,4 @@ export default class SubtitlesController {
 
 }
 
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular'];
+SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload'];
