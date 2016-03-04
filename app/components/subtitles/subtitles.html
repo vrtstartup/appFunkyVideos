@@ -1,9 +1,7 @@
 <md-content layout-padding layout="row" layout-align="center center" ng-init="vm.srcChanged()">
     <div flex-gt-md="50" flex="100" flex-md="80">
         <md-button>
-            <vrt-videoplayer source="vm.subtitle.video" start="vm.form.start" end="vm.form.end"></vrt-videoplayer>
-
-            <video controls ngf-src="file"></video>
+            <vrt-videoplayer  source="f.url" start="vm.form.start" end="vm.form.end"></vrt-videoplayer>
             <section>
                 <md-input-container>
                     <label>URL To Video</label>
@@ -13,6 +11,7 @@
                     <label>Upload Video</label>
                     <input ngf-select="upload($file)" type="file" />
                 </md-input-container>
+                <p>URL: {{f.result}}</p>
                 <!-- <button ng-click="vm.srcChanged()">klik</button> -->
             </section>
             <rzslider rz-slider-model="vm.form.start" id="vm.key" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>

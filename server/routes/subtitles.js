@@ -16,7 +16,6 @@ router.get('/subtitles', function(req, res) {
 
 
 router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
-    //createPath();
 
     var file = req.files.file;
 
@@ -24,23 +23,13 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     console.log(file.type);
 
     var url = req.files.file.path;
-    console.log('REQ', req.files.file.path);
+    console.log('REQ', req.files);
 
     res.json({ url: url }).send();
 
 });
 
 
-
-
-function createPath() {
-    mkdirp('temp/subtitleVideos', function(err) {
-
-        // path was created unless there was error
-        console.log('Error while creating path:', err);
-
-    });
-}
 
 
 module.exports = router;

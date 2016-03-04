@@ -34,21 +34,24 @@ export default class SubtitlesController {
 
         $scope.upload = function (file) {
 
-            console.log('UPLOAD', file);
+            $scope.f = file;
 
             Upload.upload({
                 url: 'api/subtitleVideos',
                 data: {file: file, 'username': $scope.username},
                 method: 'POST',
             }).then(function (resp) {
-                console.log('Success, URL:', resp.data.url);
+                console.log('Success, URL:', resp);
+                file.url = resp.data.url;
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
             }, function (evt) {
                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
             });
+
         };
+
     }
 
 
