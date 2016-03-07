@@ -10,16 +10,14 @@ class VideoPlayerDirectiveController {
         this.$scope = $scope;
         this.videogular = videogular;
 
-
-
+        console.log('END', this.end);
 
 
         $scope.$watch('vm.source', (value) => {
             if (value) {
                 const that = this;
 
-                var theSource = $sce.trustAsResourceUrl(value);
-
+                var theSource = this.$sce.trustAsResourceUrl(value);
 
                 this.config = {
                     sources: [{ src: theSource, type: 'video/mp4' }],
@@ -48,23 +46,25 @@ class VideoPlayerDirectiveController {
 
 
         $scope.$watch('vm.start', (value) => {
-            if (value) {
-                this.config.cuePoints.timePoint[0].timeLapse.start = value;
-                console.log(this.config);
-            } else {}
-        }, true);
+            if (!value) return;
+
+            console.log('vm.start', value)
+            this.config.cuePoints.timePoint[0].timeLapse.start = value;
+            console.log('vm.start', this.config);
+        });
 
         $scope.$watch('vm.end', (value) => {
-            if (value) {
-                console.log(value);
-                this.config.cuePoints.timePoint[0].timeLapse.end = value;
-                this.config.cuePoints.timePoint[0].onComplete = function onComplete(currentTime, timeLapse, params) {
-                    console.log('end of loop');
-                    that.videogular.api.seekTime(timeLapse.start);
-                }
-                console.log(this.config);
-            } else {}
-        }, true);
+            if (!value) return;
+
+            console.log('vm.end', value);
+            this.config.cuePoints.timePoint[0].timeLapse.end = value;
+
+            this.config.cuePoints.timePoint[0].onComplete = function onComplete(currentTime, timeLapse, params) {
+                console.log('end of loop');
+                that.videogular.api.seekTime(timeLapse.start);
+                console.log('vm.end', this.config);
+            }
+        });
 
 
     }
@@ -105,7 +105,7 @@ export const videoPlayerDirective = function() {
         bindToController: {
             source: '=',
             start: '=',
-            end: '='
+            end: '=',
         },
     };
 };

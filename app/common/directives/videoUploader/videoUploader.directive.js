@@ -41,7 +41,6 @@ export const videoUploaderDirective = function() {
                 videoCtrl.init(ngModel);
                 videoCtrl.getFile(file);
 
-
             });
         },
     };
