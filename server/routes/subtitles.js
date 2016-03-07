@@ -19,13 +19,18 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
     var file = req.files.file;
 
-    console.log(file.name);
-    console.log(file.type);
+    //console.log(file.name);
+    //console.log(file.type);
 
     var url = file.path;
     var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mov', '');
+    console.log('REQ', req.body.fileName);
 
-    console.log('REQ', file);
+    if(file.type === 'srt') {
+        const path = "temp/subtitleVideos/";
+        fs.renameSync(path + name, path + req.body.fileName);
+
+    }
 
     res.json({ url: url, name: name }).send();
 

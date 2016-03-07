@@ -33,7 +33,6 @@ export default class SubtitlesController {
         //    this.form.end = highValue;
         //});
 
-        console.log('this.form.end', this.end);
 
         //if (isNaN(this.form.end) || isNaN(this.form.start)) {
         //    this.form.end = 0;
@@ -42,17 +41,20 @@ export default class SubtitlesController {
 
     }
 
-    upload(file) {
+    upload(file, name) {
 
         this.$scope.f = file;
 
+        console.log('FILE', file);
+
         this.Upload.upload({
             url: 'api/subtitleVideos',
-            data: {file: file, 'username': this.$scope.username},
+            data: {file: file, fileName: name},
             method: 'POST',
         }).then((resp) => {
             console.log('RESP', resp.data);
             file.url = resp.data.url;
+            file.nm = resp.data.name;
         }, (resp) => {
             console.log('Error status: ' + resp.status);
         }, (evt) => {
@@ -101,13 +103,15 @@ export default class SubtitlesController {
 
 
     downloadSRTFile(srtObj) {
-        console.log('srtObj', srtObj);
-        var srtString = this.createSRT(srtObj);
-        var data = new Blob([srtString], {
+        console.log('srtObj', this.$scope.f.nm);
+        const srtString = this.createSRT(srtObj);
+        const name =  this.$scope.f.nm + '.srt';
+        const data = new Blob([srtString], {
             type: 'srt',
         });
 
-        this.FileSaver.saveAs(data, 'sub.srt');
+        //this.FileSaver.saveAs(data, name);
+        this.upload(data, name);
     }
 
     addLine(obj) {
