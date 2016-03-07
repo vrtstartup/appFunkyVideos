@@ -41,13 +41,21 @@ export default class SubtitlesController {
                 data: {file: file, 'username': $scope.username},
                 method: 'POST',
             }).then(function (resp) {
-                console.log('Success, URL:', resp);
+                console.log('Success URL:', resp);
                 file.url = resp.data.url;
+                console.log('THIS',this);
+                that.srcChanged();
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
             }, function (evt) {
                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
+
+            Upload.mediaDuration(file).then(function(durationInSeconds){
+
+                console.log('durationInSeconds', durationInSeconds);
+                file.duration = durationInSeconds;
             });
 
         };
