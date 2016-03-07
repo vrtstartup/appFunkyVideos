@@ -22,10 +22,12 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     console.log(file.name);
     console.log(file.type);
 
-    var url = req.files.file.path;
-    console.log('REQ', req.files);
+    var url = file.path;
+    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mov', '');
 
-    res.json({ url: url }).send();
+    console.log('REQ', file);
+
+    res.json({ url: url, name: name }).send();
 
 });
 

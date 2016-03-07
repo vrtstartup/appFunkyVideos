@@ -10,13 +10,9 @@ class VideoPlayerDirectiveController {
         this.$scope = $scope;
         this.videogular = videogular;
 
-        console.log('END', this.end);
-
 
         $scope.$watch('vm.source', (value) => {
             if (value) {
-                const that = this;
-
                 var theSource = this.$sce.trustAsResourceUrl(value);
 
                 this.config = {
@@ -27,18 +23,16 @@ class VideoPlayerDirectiveController {
                                 start: 0,
                                 end: 100000
                             },
-                            onComplete: function onComplete(currentTime, timeLapse, params) {
-                                console.log('end of loop');
-                                that.videogular.api.seekTime(timeLapse.start);
+                            onComplete: (currentTime, timeLapse, params) => {
+                                console.log('onComplete');
+                                this.videogular.api.seekTime(timeLapse.start);
                             },
-                            onUpdate: function onUpdate(currentTime, timeLapse, params) {
-                                console.log(currentTime, timeLapse);
+                            onUpdate: (currentTime, timeLapse, params) => {
+                                console.log('onUpdate', currentTime, timeLapse);
                             }
                         }]
                     },
                 };
-                // this.sourceChanged();
-
             } else {
 
             }
@@ -47,30 +41,20 @@ class VideoPlayerDirectiveController {
 
         $scope.$watch('vm.start', (value) => {
             if (!value) return;
-
-            console.log('vm.start', value)
             this.config.cuePoints.timePoint[0].timeLapse.start = value;
-            console.log('vm.start', this.config);
         });
 
         $scope.$watch('vm.end', (value) => {
             if (!value) return;
-
-            console.log('vm.end', value);
             this.config.cuePoints.timePoint[0].timeLapse.end = value;
 
-            this.config.cuePoints.timePoint[0].onComplete = function onComplete(currentTime, timeLapse, params) {
-                console.log('end of loop');
-                that.videogular.api.seekTime(timeLapse.start);
-                console.log('vm.end', this.config);
+            this.config.cuePoints.timePoint[0].onComplete = (currentTime, timeLapse, params) => {
+                this.videogular.api.seekTime(timeLapse.start);
             }
         });
 
 
     }
-
-
-
 
 
     onEnter() {

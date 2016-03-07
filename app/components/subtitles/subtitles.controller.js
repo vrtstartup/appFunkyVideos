@@ -7,10 +7,9 @@ export default class SubtitlesController {
         this.FileSaver = FileSaver;
         this.srtObj = {};
         this.videogular = videogular;
-        this.subtitle = {
-            video: 'temp/videos/am1.mov'
-        };
-        const that = this;
+        //this.subtitle = {
+        //    video: 'temp/videos/am1.mov'
+        //};
         this.Upload = Upload;
 
         this.slider = {
@@ -27,37 +26,19 @@ export default class SubtitlesController {
 
         };
 
-        this.$scope.$on('sliderChanged', (message, sliderId, modelValue, highValue) => {
-            console.log('sliderChanged');
-            this.changeSlider(sliderId, modelValue, highValue);
-            this.form.start = modelValue;
-            this.form.end = highValue;
-        });
+        //this.$scope.$on('sliderChanged', (message, sliderId, modelValue, highValue) => {
+        //    console.log('sliderChanged');
+        //    this.changeSlider(sliderId, modelValue, highValue);
+        //    this.form.start = modelValue;
+        //    this.form.end = highValue;
+        //});
 
+        console.log('this.form.end', this.end);
 
-        //$scope.upload = function (file) {
-        //
-        //    $scope.f = file;
-        //
-        //    Upload.upload({
-        //        url: 'api/subtitleVideos',
-        //        data: {file: file, 'username': $scope.username},
-        //        method: 'POST',
-        //    }).then(function (resp) {
-        //        file.url = resp.data.url;
-        //
-        //
-        //        that.srcChanged();
-        //    }, function (resp) {
-        //        console.log('Error status: ' + resp.status);
-        //    }, function (evt) {
-        //        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-        //        console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-        //    });
-        //
-        //};
-
-        //this.upload();
+        //if (isNaN(this.form.end) || isNaN(this.form.start)) {
+        //    this.form.end = 0;
+        //    this.form.start = 0;
+        //}
 
     }
 
@@ -70,6 +51,7 @@ export default class SubtitlesController {
             data: {file: file, 'username': this.$scope.username},
             method: 'POST',
         }).then((resp) => {
+            console.log('RESP', resp.data);
             file.url = resp.data.url;
         }, (resp) => {
             console.log('Error status: ' + resp.status);
@@ -79,11 +61,9 @@ export default class SubtitlesController {
         });
 
         if(isNaN(this.slider.options.ceil)) {
-            console.log('upload', this.slider.options.ceil);
             this.Upload.mediaDuration(file).then((durationInSeconds) =>{
                 this.slider.options.ceil = durationInSeconds;
                 this.form.end =  durationInSeconds;
-                console.log('upload durationInSeconds', this.slider.options.ceil);
             });
         }
 
@@ -92,8 +72,6 @@ export default class SubtitlesController {
 
 
     srcChanged() {
-        console.log('srcChanged', this);
-
 
         this.form = {
             start: 0,
@@ -123,9 +101,10 @@ export default class SubtitlesController {
 
 
     downloadSRTFile(srtObj) {
+        console.log('srtObj', srtObj);
         var srtString = this.createSRT(srtObj);
         var data = new Blob([srtString], {
-            type: 'srt'
+            type: 'srt',
         });
 
         this.FileSaver.saveAs(data, 'sub.srt');
