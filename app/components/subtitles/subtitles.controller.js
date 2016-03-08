@@ -122,7 +122,6 @@ export default class SubtitlesController {
     }
 
     changeSlider(id, start, end) {
-        console.log('THIS', start);
         if(!start) return;
         this.videogular.api.seekTime(start);
     }

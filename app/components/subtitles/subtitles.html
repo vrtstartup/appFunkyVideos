@@ -42,7 +42,7 @@
                 </div>
             </md-list>
             <pre>{{ f | json}}</pre>
-            <md-button ng-disabled="!f.converted" ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised">Generate</md-button>
+            <md-button ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised">Generate</md-button>
             <a ng-if='f.subtitled' target="_self" ng-href='/{{f.url}}' download="filename">download</a>
     </div>
 </md-content>

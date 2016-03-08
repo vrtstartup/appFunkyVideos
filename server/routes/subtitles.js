@@ -28,24 +28,24 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     console.log('REQ', fName);
 
 
-    if (fName !== 'mp4') {
-        console.log('~~~My file type is', file.type);
-        // convert to mp4
-        // ffmpeg -i movie.mov -vcodec copy -acodec copy out.mp4
-        ffmpeg(file.path)
-            .videoCodec('libx264')
-            .format('mp4')
-            .on('error', function(err, stdout, stderr) {
-                console.log('Error: ', stdout);
-                console.log('Error: ', err.message);
-                console.log('Error: ', stderr);
-            })
-            .on('end', function() {
-                console.log('END of converting to mp4');
-                res.json({ url: url, name: name, subtitled: false, converted: true }).send();
-            })
-            .save(path + name + '.mp4');
-    }
+    //if (fName !== 'mp4' || fName !== 'srt') {
+    //    console.log('~~~My file type is', file.type);
+    //    // convert to mp4
+    //    // ffmpeg -i movie.mov -vcodec copy -acodec copy out.mp4
+    //    ffmpeg(file.path)
+    //        .videoCodec('libx264')
+    //        .format('mp4')
+    //        .on('error', function(err, stdout, stderr) {
+    //            console.log('Error: ', stdout);
+    //            console.log('Error: ', err.message);
+    //            console.log('Error: ', stderr);
+    //        })
+    //        .on('end', function() {
+    //            console.log('END of converting to mp4');
+    //            //res.json({ url: url, name: name, subtitled: false, converted: true }).send();
+    //        })
+    //        .save(path + name + '.mp4');
+    //}
 
 
     if (file.type === 'srt') {
@@ -60,7 +60,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
         ffmpeg(path + videoPath)
             .on('start', function(commandLine) {
-                console.log('Spawned Ffmpeg with command: ' + commandLine);
+                console.log('FFMPEG is really working hard: ' + commandLine);
             })
             .outputOptions(
                 '-vf subtitles=' + srtPath
@@ -71,6 +71,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 console.log('Error: ', stderr);
             })
             .on('end', function() {
+                console.log('END: ', url);
                 res.json({ url: url, name: name, subtitled: true }).send();
             })
             .save(url);
