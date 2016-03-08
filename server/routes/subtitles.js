@@ -17,22 +17,42 @@ router.get('/subtitles', function(req, res) {
 
 router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
+    // ffmpeg -i out.mp4 -vf subtitles=sub.srt:force_style='Fontsize=20' vide.mp4
+    const path = "temp/subtitleVideos/";
     var file = req.files.file;
-
-    //console.log(file.name);
-    //console.log(file.type);
-
     var url = file.path;
-    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mov', '');
+    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '');
     console.log('REQ', req.body.fileName);
 
-    if(file.type === 'srt') {
-        const path = "temp/subtitleVideos/";
-        fs.renameSync(path + name, path + req.body.fileName);
+    // convert to mp4
 
+
+    if (file.type === 'srt') {
+        const srtPath = path + req.body.fileName;
+        const videoPath = (req.body.fileName).replace('.srt', '.mp4');
+        fs.renameSync(path + name, srtPath);
+
+        console.log('URL video', videoPath);
+        console.log('URL srt', srtPath);
+        // burn subtitles
+        url = path + 'gen' + videoPath;
+
+        ffmpeg(path + videoPath)
+            .outputOptions(
+                '-vf subtitles=' + srtPath
+            )
+            .on('error', function(err, stdout, stderr) {
+                console.log('Error: ', stdout);
+                console.log('Error: ', err.message);
+                console.log('Error: ', stderr);
+            })
+            .save(url);
+        res.json({ url: url, name: name, type:'subtitled' }).send();
+    } else {
+        res.json({ url: url, name: name }).send();
     }
 
-    res.json({ url: url, name: name }).send();
+
 
 });
 
