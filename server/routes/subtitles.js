@@ -21,10 +21,29 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
     var url = file.path;
-    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '');
-    console.log('REQ', req.files.file);
+    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '').replace('.mov', '').replace('.avi', '');
+    console.log('REQ', req.files.file.type);
 
-    // convert to mp4
+
+
+    if ((file.type !== 'srt') || (file.type !== 'video/mp4')) {
+        console.log('~~~My file type is', file.type);
+        // convert to mp4
+        // ffmpeg -i movie.mov -vcodec copy -acodec copy out.mp4
+        ffmpeg(file.path)
+            .videoCodec('libx264')
+            .format('mp4')
+            .on('error', function(err, stdout, stderr) {
+                console.log('Error: ', stdout);
+                console.log('Error: ', err.message);
+                console.log('Error: ', stderr);
+            })
+            .on('end', function() {
+                console.log('END of converting to mp4');
+                res.json({ url: url, name: name, subtitled: false }).send();
+            })
+            .save(path + name + '.mp4');
+    }
 
 
     if (file.type === 'srt') {
@@ -38,6 +57,9 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         url = path + 'gen' + videoPath;
 
         ffmpeg(path + videoPath)
+            .on('start', function(commandLine) {
+                console.log('Spawned Ffmpeg with command: ' + commandLine);
+            })
             .outputOptions(
                 '-vf subtitles=' + srtPath
             )
@@ -46,11 +68,16 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 console.log('Error: ', err.message);
                 console.log('Error: ', stderr);
             })
+            .on('end', function() {
+                res.json({ url: url, name: name, subtitled: true }).send();
+            })
             .save(url);
-        res.json({ url: url, name: name, subtitled: true }).send();
-    } else {
-        res.json({ url: url, name: name, subtitled: false }).send();
+        // send response after save
+        // res.json({ url: url, name: name, subtitled: true }).send();
     }
+    //else {
+    //    res.json({ url: url, name: name, subtitled: false }).send();
+    //}
 
 
 

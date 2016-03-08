@@ -63,12 +63,13 @@ export default class SubtitlesController {
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
         });
 
-        if(isNaN(this.slider.options.ceil)) {
+        //if(isNaN(this.slider.options.ceil)) {
             this.Upload.mediaDuration(file).then((durationInSeconds) =>{
+                console.log('durationInSeconds', durationInSeconds);
                 this.slider.options.ceil = durationInSeconds;
                 this.form.end =  durationInSeconds;
             });
-        }
+        //}
 
 
     }
