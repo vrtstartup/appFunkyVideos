@@ -47,9 +47,9 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 console.log('Error: ', stderr);
             })
             .save(url);
-        res.json({ url: url, name: name, type:'subtitled' }).send();
+        res.json({ url: url, name: name, subtitled: true }).send();
     } else {
-        res.json({ url: url, name: name }).send();
+        res.json({ url: url, name: name, subtitled: false }).send();
     }
 
 

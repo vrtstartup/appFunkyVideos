@@ -55,6 +55,7 @@ export default class SubtitlesController {
             console.log('RESP', resp.data);
             file.url = resp.data.url;
             file.nm = resp.data.name;
+            file.subtitled = resp.data.subtitled;
         }, (resp) => {
             console.log('Error status: ' + resp.status);
         }, (evt) => {
@@ -103,7 +104,6 @@ export default class SubtitlesController {
 
 
     downloadSRTFile(srtObj) {
-        console.log('srtObj', this.$scope.f.nm);
         const srtString = this.createSRT(srtObj);
         const name =  this.$scope.f.nm + '.srt';
         const data = new Blob([srtString], {
@@ -112,6 +112,7 @@ export default class SubtitlesController {
 
         //this.FileSaver.saveAs(data, name);
         this.upload(data, name);
+        console.log('this.$scope.f', this.$scope.f.url);
     }
 
     addLine(obj) {
