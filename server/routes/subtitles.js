@@ -8,8 +8,26 @@ var mkdirp = require('mkdirp');
 var multiparty = require('connect-multiparty');
 var multipartyMiddleware = multiparty({ uploadDir: 'temp/subtitleVideos/' });
 
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pwd@smtp.gmail.com');
+
+var mailOptions = {
+    from: '"Fred Foo 👥" <foo@blurdybloop.com>', // sender address
+    to: 'kusksu@gmail.com, maarten.lauwaert@vrt.be, ksenia.karelskaya@vrt.be', // list of receivers
+    subject: 'Hello ✔', // Subject line
+    text: 'Hello world 🐴', // plaintext body
+    html: '<b>Hello world 🐴</b>' // html body
+};
+
 //url /api
 router.get('/subtitles', function(req, res) {
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            return console.log(error);
+        }
+        console.log('Message sent: ' + info.response);
+    });
 
     res.json({ message: 'subtitles get api' }).send();
 });
