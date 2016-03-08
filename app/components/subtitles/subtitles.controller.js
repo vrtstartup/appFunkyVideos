@@ -26,12 +26,12 @@ export default class SubtitlesController {
 
         };
 
-        //this.$scope.$on('sliderChanged', (message, sliderId, modelValue, highValue) => {
-        //    console.log('sliderChanged');
-        //    this.changeSlider(sliderId, modelValue, highValue);
-        //    this.form.start = modelValue;
-        //    this.form.end = highValue;
-        //});
+        this.$scope.$on('sliderChanged', (message, sliderId, modelValue, highValue) => {
+            console.log('sliderChanged');
+            this.changeSlider(sliderId, modelValue, highValue);
+            this.form.start = modelValue;
+            this.form.end = highValue;
+        });
 
 
         //if (isNaN(this.form.end) || isNaN(this.form.start)) {
@@ -113,7 +113,6 @@ export default class SubtitlesController {
 
         //this.FileSaver.saveAs(data, name);
         this.upload(data, name);
-        console.log('this.$scope.f', this.$scope.f.url);
     }
 
     addLine(obj) {
@@ -123,7 +122,9 @@ export default class SubtitlesController {
     }
 
     changeSlider(id, start, end) {
-        return this.videogular.api.seekTime(start);
+        console.log('THIS', start);
+        if(!start) return;
+        this.videogular.api.seekTime(start);
     }
 
 

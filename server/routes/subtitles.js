@@ -21,12 +21,14 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
     var url = file.path;
-    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '').replace('.mov', '').replace('.avi', '');
-    console.log('REQ', req.files.file.type);
+    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '').replace('.mov', '').replace('.avi', '').replace('.mkv', '');
+    //console.log('REQ', req.files.file);
+
+    const fName = getExtension(file.name);
+    console.log('REQ', fName);
 
 
-
-    if ((file.type !== 'srt') || (file.type !== 'video/mp4')) {
+    if (fName !== 'mp4') {
         console.log('~~~My file type is', file.type);
         // convert to mp4
         // ffmpeg -i movie.mov -vcodec copy -acodec copy out.mp4
@@ -40,7 +42,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
             })
             .on('end', function() {
                 console.log('END of converting to mp4');
-                res.json({ url: url, name: name, subtitled: false }).send();
+                res.json({ url: url, name: name, subtitled: false, converted: true }).send();
             })
             .save(path + name + '.mp4');
     }
@@ -74,15 +76,18 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
             .save(url);
         // send response after save
         // res.json({ url: url, name: name, subtitled: true }).send();
+    } else {
+        res.json({ url: url, name: name, subtitled: false }).send();
     }
-    //else {
-    //    res.json({ url: url, name: name, subtitled: false }).send();
-    //}
 
 
 
 });
 
+function getExtension(filename) {
+    var parts = filename.split('.');
+    return parts[parts.length - 1];
+}
 
 
 
