@@ -42,6 +42,6 @@
                 </div>
             </md-list>
             <md-button ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised">Generate</md-button>
-            <a ng-if='f.subtitled' target="_self" ng-href='/{{f.url}}'>download</a>
+            <a ng-if='f.subtitled' target="_self" ng-href='/{{f.url}}' download="filename">download</a>
     </div>
 </md-content>

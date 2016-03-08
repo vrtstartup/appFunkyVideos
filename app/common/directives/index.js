@@ -16,7 +16,7 @@ import eventBlock from './eventBlock';
 const module = angular.module('app.common.directives', [
     test, pieChart, text, screenshot,
     templateMurderface, templateWartooth, templateSkwigelf, imagePreview,
-    eventBlock, subtitleLine, videoUploader, videoPlayer
+    eventBlock, subtitleLine, videoUploader, videoPlayer,
 
 ]);
 

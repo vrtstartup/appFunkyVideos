@@ -22,7 +22,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     var file = req.files.file;
     var url = file.path;
     var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '');
-    console.log('REQ', req.body.fileName);
+    console.log('REQ', req.files.file);
 
     // convert to mp4
 
