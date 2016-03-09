@@ -1,13 +1,19 @@
-<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-    <div flex="20">
-       <p>Choose the desired template</p>
-    </div>
+<section layout="row" layout-sm="column" layout-align="center" layout-wrap="" >
+    <md-button ng-repeat="scheme in vm.schemes" ng-class="scheme.class" class="md-raised" ng-click="vm.getScheme(scheme)">{{scheme.name}}</md-button>
 </section>
-<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-    <md-button class="md-raised" ng-click="vm.showMurderface()">Quote</md-button>
-    <md-button class="md-raised" ng-click="vm.showWartooth()">While you were asleep</md-button>
-    <md-button class="md-raised" ng-click="vm.showSkwigelf()">Quote + img</md-button>
-</section>
+
+<div ng-show="vm.showAvailiableTemplates">
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+        <div flex="20">
+           <p>Choose the desired template</p>
+        </div>
+    </section>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+        <md-button class="md-raised" ng-click="vm.showMurderface()">Quote</md-button>
+        <md-button class="md-raised" ng-click="vm.showWartooth()">While you were asleep</md-button>
+        <md-button class="md-raised" ng-click="vm.showSkwigelf()">Quote + img</md-button>
+    </section>
+</div>
 <!--<section layout="row" layout-sm="column" layout-align="center" layout-wrap="">-->
 
     <!--<div flex="20">-->
@@ -21,9 +27,7 @@
         <!--</md-input-container>-->
     <!--</div>-->
 <!--</section>-->
-<section layout="row" layout-sm="column" layout-align="center" layout-wrap=""  ng-repeat="scheme in vm.schemes" >
-    <md-button class="md-raised" ng-click="vm.getScheme(scheme)">{{scheme.name}}</md-button>
-</section>
+
 
 <div ng-class="vm.className">
 <div layout="column" class="md-inline-form" ng-if="vm.isMurderface">
@@ -169,7 +173,7 @@
         </vrt-template-skwigelf>
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-        <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
+        <md-button class="md-raised" ng-click="vm.getPicture()">Generate Picture</md-button>
         <a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>
     </section>
 </div>

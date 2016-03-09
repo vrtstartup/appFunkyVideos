@@ -10,15 +10,18 @@ export default class PicturesController {
         this.isSkwigelf = false;
         this.isReady = false;
         this.className = 'drd';
+        this.showAvailiableTemplates = false;
 
         this.schemes = [
             {
-                name: 'amerika kiest color scheme',
-                className: 'ak',
-            },
-            {
                 name: 'de redactie color scheme',
                 className: 'drd',
+                class: 'vrt-drd-btn',
+            },
+            {
+                name: 'amerika kiest color scheme',
+                className: 'ak',
+                class: 'vrt-ak-btn',
             },
         ];
 
@@ -26,8 +29,8 @@ export default class PicturesController {
     }
 
     getScheme(scheme) {
-        console.log('Scheme', scheme);
         this.className = scheme.className;
+        this.showAvailiableTemplates = true;
     }
 
     getPicture() {
@@ -55,7 +58,6 @@ export default class PicturesController {
         this.isWartooth = false;
         this.isSkwigelf = true;
         this.isReady = false;
-
     }
 
 

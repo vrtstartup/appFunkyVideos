@@ -6,7 +6,6 @@ class TemplateWartoothDirectiveController {
         this.videoGeneration = videoGeneration;
         this.$element = $element;
 
-        console.log('templateWartooth', this.isReady);
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
             if (this.isReady){
