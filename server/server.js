@@ -4,6 +4,7 @@ var path = require('path'); //part of node
 var morgan = require('morgan');
 var cors = require('cors');
 //var httpProxy = require('http-proxy');
+var mkdirp = require('mkdirp');
 
 var imagesApi = require('./routes/images');
 var subtitlesApi = require('./routes/subtitles');
@@ -67,6 +68,26 @@ if (env === 'development') {
     // server when webpack is bundling
     proxy.on('error', function(e) {
         console.log('Could not connect to proxy, please try again...');
+    });
+}
+
+createPath();
+
+// create paths
+function createPath() {
+    mkdirp('temp/videos', function(err) {
+        console.log('Path is created temp/videos');
+        // path was created unless there was error
+        if(err)
+        console.log('Error while creating path:', err);
+
+    });
+    mkdirp('temp/templates', function(err) {
+        console.log('Path is created temp/templates');
+        // path was created unless there was error
+        if(err)
+        console.log('Error while creating path:', err);
+
     });
 }
 

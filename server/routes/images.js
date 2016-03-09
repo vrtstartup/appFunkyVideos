@@ -3,12 +3,10 @@ var router = express.Router();
 var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var findRemoveSync = require('find-remove');
-var mkdirp = require('mkdirp');
 
 
 router.post('/images', function(req, res, next) {
-    createPath();
-    
+
     var files = fs.readdirSync('temp/').length;
     var buff = [];
 
@@ -56,15 +54,6 @@ router.get('/images', function(req, res) {
 
     res.json({ video_url: 'temp/videos/'+ videoFileName + '.mov' }).send();
 });
-
-function createPath() {
-    mkdirp('temp/videos', function(err) {
-
-        // path was created unless there was error
-        console.log('Error while creating path:', err);
-
-    });
-}
 
 function getDateTime() {
 
