@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
-var mkdirp = require('mkdirp');
 
 
 //url /api
@@ -12,7 +11,6 @@ router.get('/templates', function(req, res) {
 });
 
 router.post('/templates', function(req, res, next) {
-    createPath();
 
     var files = fs.readdirSync('temp/templates').length;
     var buff  = [];
@@ -41,13 +39,5 @@ router.post('/templates', function(req, res, next) {
         });
 });
 
-function createPath() {
-    mkdirp('temp/templates', function(err) {
-
-        // path was created unless there was error
-        console.log('Error while creating path:', err);
-
-    });
-}
 
 module.exports = router;
