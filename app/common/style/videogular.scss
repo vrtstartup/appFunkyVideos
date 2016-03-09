@@ -116,7 +116,7 @@ videogular, [videogular] {
   }
 
   vg-overlay-play .play:before {
-    content: "\e000";
+    content: "\e901";
   }
 
   vg-overlay-play .overlayPlayContainer {
@@ -486,11 +486,11 @@ videogular, [videogular] {
 
   /* Controlbar icons */
   vg-play-pause-button .play:before {
-    content: "\e000";
+    content: "\e901";
   }
 
   vg-play-pause-button .pause:before {
-    content: "\e001";
+    content: "\e903";
   }
 
   vg-mute-button {
@@ -499,31 +499,31 @@ videogular, [videogular] {
   }
 
   vg-mute-button .level3:before {
-    content: "\e002";
+    content: "\e905";
   }
 
   vg-mute-button .level2:before {
-    content: "\e003";
+    content: "\e902";
   }
 
   vg-mute-button .level1:before {
-    content: "\e004";
+    content: "\e906";
   }
 
   vg-mute-button .level0:before {
-    content: "\e005";
+    content: "\e907";
   }
 
   vg-mute-button .mute:before {
-    content: "\e006";
+    content: "\e008";
   }
 
   vg-fullscreen-button .enter:before {
-    content: "\e007";
+    content: "\e900";
   }
 
   vg-fullscreen-button .exit:before {
-    content: "\e008";
+    content: "\e904";
   }
 
   /********************/

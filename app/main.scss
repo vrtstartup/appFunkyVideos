@@ -26,14 +26,40 @@
 
 @font-face {
   font-family: 'utopia';
-  src: url('./fonts/utopia.ttf')  format('truetype'), /* Safari, Android, iOS */
-  url('./fonts/utopia.woff') format('woff'); /* Pretty Modern Browsers */
+  src: url('./fonts/UtopiaStd-BoldSubhIt.otf'), /* Safari, Android, iOS */
+  url('./fonts/UtopiaStd-BoldSubhIt.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
 @font-face {
   font-family: 'proxima';
   src: url('./fonts/proxima-bold.ttf')  format('truetype'), /* Safari, Android, iOS */
   url('./fonts/proxima-bold.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src:    url('fonts/icomoon.eot?zh1o51');
+  src:    url('fonts/icomoon.eot?zh1o51#iefix') format('embedded-opentype'),
+  url('fonts/icomoon.ttf?zh1o51') format('truetype'),
+  url('fonts/icomoon.woff?zh1o51') format('woff'),
+  url('fonts/icomoon.svg?zh1o51#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
