@@ -3,7 +3,6 @@ var router = express.Router();
 var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var findRemoveSync = require('find-remove');
-var mkdirp = require('mkdirp');
 
 var multiparty = require('connect-multiparty');
 var multipartyMiddleware = multiparty({ uploadDir: 'temp/subtitleVideos/' });
