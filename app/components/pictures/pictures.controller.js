@@ -9,6 +9,7 @@ export default class PicturesController {
         this.isWartooth = false;
         this.isSkwigelf = false;
         this.isReady = false;
+        this.className = 'drd';
 
         this.schemes = [
             {
@@ -22,6 +23,11 @@ export default class PicturesController {
         ];
 
 
+    }
+
+    getScheme(scheme) {
+        console.log('Scheme', scheme);
+        this.className = scheme.className;
     }
 
     getPicture() {

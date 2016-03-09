@@ -8,21 +8,24 @@
     <md-button class="md-raised" ng-click="vm.showWartooth()">While you were asleep</md-button>
     <md-button class="md-raised" ng-click="vm.showSkwigelf()">Quote + img</md-button>
 </section>
-<section layout="row" layout-sm="column" layout-align="center" layout-wrap="">
+<!--<section layout="row" layout-sm="column" layout-align="center" layout-wrap="">-->
 
-    <div flex="20">
-    <md-input-container class="md-block" flex-gt-sm="">
-        <label>Choose color scheme</label>
-        <md-select ng-model="scheme">
-            <md-option selected="selected" ng-repeat="scheme in vm.schemes" ng-value="scheme.className">
-                {{scheme.name}}
-            </md-option>
-        </md-select>
-    </md-input-container>
-        </div>
+    <!--<div flex="20">-->
+        <!--<md-input-container class="md-block" flex-gt-sm="">-->
+            <!--<label>Choose color scheme</label>-->
+            <!--<md-select ng-model="scheme">-->
+                <!--<md-option selected="selected" ng-repeat="scheme in vm.schemes" ng-value="scheme.className">-->
+                    <!--{{scheme.name}}-->
+                <!--</md-option>-->
+            <!--</md-select>-->
+        <!--</md-input-container>-->
+    <!--</div>-->
+<!--</section>-->
+<section layout="row" layout-sm="column" layout-align="center" layout-wrap=""  ng-repeat="scheme in vm.schemes" >
+    <md-button class="md-raised" ng-click="vm.getScheme(scheme)">{{scheme.name}}</md-button>
 </section>
 
-<div ng-class="scheme">
+<div ng-class="vm.className">
 <div layout="column" class="md-inline-form" ng-if="vm.isMurderface">
     <md-content layout-padding="">
         <md-input-container class="md-block">
