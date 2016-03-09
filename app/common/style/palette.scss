@@ -15,7 +15,7 @@
 
 
   .dir-wrap {
-    font-family: "din-cndbold", "Roboto Condensed", sans-serif;
+    font-family: "din-med", "Roboto Condensed", sans-serif;
   }
 
   .logo-drd {
@@ -35,9 +35,26 @@
     display: block;
     top: 25px;
   }
+  .logo-drd {
+    display: none;
+  }
+  .logo-ak {
+    width: 150px;
+    height: 59px;
+  }
+
+  .skwg-logo {
+    top: 20px;
+    left: 23px;
+  }
+
+  .wth-logo {
+    bottom: 15px;
+  }
 
   .sign {
     color: $ak-main-color;
+    letter-spacing: 10px;
     font-family: "proxima", "Roboto Condensed", sans-serif;
   }
 
@@ -47,17 +64,6 @@
 
   .wrap, .wth-wrap, .wth-footer {
     background-color: $ak-main-bg-color;
-  }
-  .logo-drd {
-    display: none;
-  }
-  .logo-ak {
-    width: 180px;
-    height: 59px;
-  }
-
-  .wth-logo {
-    bottom: 15px;
   }
 
   .auth-name , .auth-title {
@@ -72,15 +78,14 @@
 
   .quote {
     font-family: "utopia", "Roboto Condensed", sans-serif;
-    font-style: normal;
   }
 
   .wth-footer-text {
     font-family: "proxima", "Roboto Condensed", sans-serif;
-    text-transform: uppercase;
   }
 
   .wth-text {
+    background-color: $ak-main-color;
     font-family: "proxima", "Roboto Condensed", sans-serif;
   }
 

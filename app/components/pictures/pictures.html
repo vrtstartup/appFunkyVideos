@@ -14,7 +14,7 @@
     <md-input-container class="md-block" flex-gt-sm="">
         <label>Choose color scheme</label>
         <md-select ng-model="scheme">
-            <md-option ng-repeat="scheme in vm.schemes" ng-value="scheme.className">
+            <md-option selected="selected" ng-repeat="scheme in vm.schemes" ng-value="scheme.className">
                 {{scheme.name}}
             </md-option>
         </md-select>
@@ -27,7 +27,7 @@
     <md-content layout-padding="">
         <md-input-container class="md-block">
             <label>Quote</label>
-            <input ng-model="quote.question" md-maxlength="200">
+            <input ng-model="quote.question" md-maxlength="130">
         </md-input-container>
         <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
     </md-content>
@@ -59,7 +59,7 @@
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
         <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
-        <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
+        <a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>
     </section>
 </div>
 
@@ -68,17 +68,17 @@
     <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm="">
             <label>Nieuws 1</label>
-            <input ng-model="news.textOne">
+            <input ng-model="news.textOne" md-maxlength="50">
         </md-input-container>
 
         <md-input-container class="md-block" flex-gt-sm="">
             <label>Nieuws 2</label>
-            <input ng-model="news.textTwo">
+            <input ng-model="news.textTwo" md-maxlength="50">
         </md-input-container>
 
         <md-input-container class="md-block" flex-gt-sm="">
             <label>Nieuws 3</label>
-            <input ng-model="news.textThree">
+            <input ng-model="news.textThree" md-maxlength="50">
         </md-input-container>
     </div>
 
@@ -110,7 +110,7 @@
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
         <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
-        <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
+        <a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>
     </section>
 </div>
 
@@ -120,7 +120,7 @@
         <div flex>
         <md-input-container class="md-block">
             <label>Quote</label>
-            <input ng-model="quote.question" md-maxlength="200">
+            <input ng-model="quote.question" md-maxlength="100">
         </md-input-container>
         </div>
 
@@ -146,11 +146,11 @@
                 <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
             </md-input-container>
         </div>
-        <div flex="20">
-            <md-checkbox ng-model="quote.isMirrored" aria-label="Checkbox flip image">
-                Flip image & text?
-            </md-checkbox>
-        </div>
+        <!--<div flex="20">-->
+            <!--<md-checkbox ng-model="quote.isMirrored" aria-label="Checkbox flip image">-->
+                <!--Flip image & text?-->
+            <!--</md-checkbox>-->
+        <!--</div>-->
         <div flex="20">
             <md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote">
                 Is it a quote?
@@ -167,7 +167,7 @@
     </div>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
         <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
-        <a ng-href="{{vm.$rootScope.template_url}}">Download</a>
+        <a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>
     </section>
 </div>
 </div>

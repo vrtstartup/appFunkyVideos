@@ -12,12 +12,12 @@ export default class PicturesController {
 
         this.schemes = [
             {
-                name: 'de redactie color scheme',
-                className: 'drd',
-            },
-            {
                 name: 'amerika kiest color scheme',
                 className: 'ak',
+            },
+            {
+                name: 'de redactie color scheme',
+                className: 'drd',
             },
         ];
 

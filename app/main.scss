@@ -9,8 +9,9 @@
 }
 
 @font-face {
-  font-family: 'din-cndmedium';
-  src: url('./fonts/din-cndmedium.ttf')  format('truetype'); /* Safari, Android, iOS */
+  font-family: 'din-med';
+  src: url('./fonts/din-med.ttf')  format('truetype'),  /* Safari, Android, iOS */
+  url('./fonts/din-med.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
 @font-face {
