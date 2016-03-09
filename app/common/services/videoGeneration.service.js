@@ -9,7 +9,7 @@ export default class VideoGenerationService {
         that.isTemplate = false;
 
         this.takeScreenshot = function(element, isTemplate) {
-            console.log('isTemplate', isTemplate);
+            //console.log('isTemplate', isTemplate);
             that.isTemplate = isTemplate;
             const el = element.parent();
             html2canvas(el, {
@@ -20,7 +20,7 @@ export default class VideoGenerationService {
         };
 
         that._upload = function(data) {
-            console.log('isTemplate 2', that.isTemplate);
+            //console.log('isTemplate 2', that.isTemplate);
             let url = '/api/images';
 
             if (that.isTemplate) {

@@ -1,4 +1,3 @@
-// TODO: refactoring that=this bullshit
 
 export default class VideoUploaderService {
     constructor($log, $http) {

@@ -89,6 +89,13 @@ function createPath() {
         console.log('Error while creating path:', err);
 
     });
+    mkdirp('temp/subtitleVideos', function(err) {
+        console.log('Path is created temp/subtitleVideos');
+        // path was created unless there was error
+        if(err)
+            console.log('Error while creating path:', err);
+
+    });
 }
 
 
