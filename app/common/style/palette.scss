@@ -33,7 +33,7 @@
 
   .logo {
     display: block;
-    top: 25px;
+    //top: 25px;
   }
   .logo-drd {
     display: none;
@@ -54,7 +54,8 @@
 
   .sign {
     color: $ak-main-color;
-    font-family: "proxima", "Roboto Condensed", sans-serif;
+    display: inline-block;
+    padding-top: -20px;
   }
 
   .hor-line,  .line-under {
@@ -77,6 +78,7 @@
 
   .quote {
     font-family: "utopia", "Roboto Condensed", sans-serif;
+    letter-spacing: 1.5px;
   }
 
   .wth-footer-text {

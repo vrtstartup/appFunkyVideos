@@ -3,20 +3,18 @@
             <vrt-videoplayer source="f.url" start="vm.form.start" end="vm.form.end"></vrt-videoplayer>
             <section>
                 <md-input-container>
-                    <label>URL To Video</label>
-                    <input ng-model="vm.subtitle.video" ng-blur="vm.srcChanged()" type="text" />
+                    <label>Your email</label>
+                    <input ng-model="vm.subtitle.email" type="text" />
                 </md-input-container>
                 <md-input-container>
                     <label>Upload Video</label>
-                    <input ngf-select="vm.upload($file)" type="file" />
+                    <input ng-model="vm.subtitle.video" ngf-select="vm.upload($file)" type="file" />
                 </md-input-container>
 
-                <!-- <button ng-click="vm.srcChanged()">klik</button> -->
             </section>
+            <section ng-if="f.url">
             <rzslider rz-slider-model="vm.form.start" id="vm.key" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
             <form name="templateForm">
-                <div layout="row" layout-align="center center">
-                </div>
                 <md-input-container>
                     <label>text</label>
                     <input name="title" ng-model="vm.form.text">
@@ -41,6 +39,7 @@
                     <subtitle-line key="key" in="l.start" out="l.end" text="l.text"></subtitle-line>
                 </div>
             </md-list>
+            </section>
             <pre>{{ f | json}}</pre>
             <md-button ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised">Generate</md-button>
             <a ng-if='f.subtitled' target="_self" ng-href='/{{f.url}}' download="filename">download</a>
