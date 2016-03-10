@@ -62,7 +62,6 @@ export default class SubtitlesController {
 
         //if(isNaN(this.slider.options.ceil)) {
             this.Upload.mediaDuration(file).then((durationInSeconds) =>{
-                console.log('durationInSeconds', durationInSeconds);
                 this.slider.options.ceil = durationInSeconds;
                 this.form.end =  durationInSeconds;
             });
@@ -97,28 +96,23 @@ export default class SubtitlesController {
 
 
     createSRT(srtObj) {
-        console.log('srt', keys(srtObj).length );
         for(let i = 0; i <  keys(srtObj).length; i++) {
             srtObj[i].end = this.checkIfDecimal(srtObj[i].end);
             srtObj[i].start = this.checkIfDecimal(srtObj[i].start);
         }
-        console.log('srtObj', srtObj);
         return this.srt.stringify(srtObj);
     }
 
 
     downloadSRTFile(srtObj) {
-        console.log('srtObj', srtObj);
         const srtString = this.createSRT(srtObj);
-
-        console.log('srtString', srtString);
 
         const name =  this.$scope.f.nm + '.srt';
         const data = new Blob([srtString], {
             type: 'srt',
         });
 
-        this.FileSaver.saveAs(data, name);
+        //this.FileSaver.saveAs(data, name);
         this.upload(data, name);
     }
 
@@ -126,8 +120,6 @@ export default class SubtitlesController {
         this.totalTime = this.videogular.api.currentTime / 1000.0;
         var id = Object.keys(this.srtObj).length++;
         this.srtObj[id] = {id: id, start: obj.start, end: obj.end, text: obj.text};
-
-        console.log("srtObj", this.srtObj);
     }
 
     checkIfDecimal(a) {
