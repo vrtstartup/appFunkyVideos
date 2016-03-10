@@ -1,3 +1,4 @@
+import {keys} from 'lodash';
 export default class SubtitlesController {
     constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload) {
         this.$log = $log;
@@ -13,7 +14,6 @@ export default class SubtitlesController {
         this.slider = {
             options: {
                 id: 'main',
-                floor: 0,
                 ceil: this.videogular.api.totalTime / 1000,
                 step: 0.001,
                 precision: 10,
@@ -26,8 +26,8 @@ export default class SubtitlesController {
 
         this.$scope.$on('sliderChanged', (message, sliderId, modelValue, highValue) => {
             this.changeSlider(sliderId, modelValue, highValue);
-            //this.form.start = modelValue;
-            //this.form.end = highValue;
+            this.form.start = modelValue;
+            this.form.end = highValue;
         });
 
 
@@ -65,8 +65,6 @@ export default class SubtitlesController {
                 console.log('durationInSeconds', durationInSeconds);
                 this.slider.options.ceil = durationInSeconds;
                 this.form.end =  durationInSeconds;
-                //this.form.start = 0.001;
-                console.log('this.form.end', this.form.end);
             });
         //}
 
@@ -75,8 +73,6 @@ export default class SubtitlesController {
 
 
     srcChanged() {
-
-        console.log('this.videogular.api.totalTime', this.videogular.api.totalTime);
 
         this.form = {
             start: 0.001,
@@ -101,28 +97,49 @@ export default class SubtitlesController {
 
 
     createSRT(srtObj) {
-        console.log('SRT', srtObj);
+        console.log('srt', keys(srtObj).length );
+        for(let i = 0; i <  keys(srtObj).length; i++) {
+            srtObj[i].end = this.checkIfDecimal(srtObj[i].end);
+            srtObj[i].start = this.checkIfDecimal(srtObj[i].start);
+        }
+        console.log('srtObj', srtObj);
         return this.srt.stringify(srtObj);
     }
 
 
     downloadSRTFile(srtObj) {
+        console.log('srtObj', srtObj);
         const srtString = this.createSRT(srtObj);
+
+        console.log('srtString', srtString);
+
         const name =  this.$scope.f.nm + '.srt';
         const data = new Blob([srtString], {
             type: 'srt',
         });
 
-        //this.FileSaver.saveAs(data, name);
+        this.FileSaver.saveAs(data, name);
         this.upload(data, name);
     }
 
     addLine(obj) {
-        console.log('ADD LINE obj', obj);
         this.totalTime = this.videogular.api.currentTime / 1000.0;
         var id = Object.keys(this.srtObj).length++;
-        this.srtObj[id] = { id: id, start: obj.start, end: obj.end, text: obj.text };
+        this.srtObj[id] = {id: id, start: obj.start, end: obj.end, text: obj.text};
+
+        console.log("srtObj", this.srtObj);
     }
+
+    checkIfDecimal(a) {
+        if (a%1 === 0) {
+            return a - 0.001;
+        }
+        if (a === 0) {
+            return a + 0.001;
+        }
+        return a;
+    }
+
 
     changeSlider(id, start, end) {
         if(!start) return;
