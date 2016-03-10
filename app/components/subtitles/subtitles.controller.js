@@ -38,7 +38,7 @@ export default class SubtitlesController {
 
     }
 
-    upload(file, name) {
+    upload(file, name, email) {
 
         this.$scope.f = file;
 
@@ -46,7 +46,7 @@ export default class SubtitlesController {
 
         this.Upload.upload({
             url: 'api/subtitleVideos',
-            data: {file: file, fileName: name},
+            data: {file: file, fileName: name, email: email},
             method: 'POST',
         }).then((resp) => {
             console.log('RESP', resp.data);
@@ -106,6 +106,9 @@ export default class SubtitlesController {
 
     downloadSRTFile(srtObj) {
         const srtString = this.createSRT(srtObj);
+        const email = this.subtitle.email;
+
+        console.log('Email', email);
 
         const name =  this.$scope.f.nm + '.srt';
         const data = new Blob([srtString], {
@@ -113,7 +116,7 @@ export default class SubtitlesController {
         });
 
         //this.FileSaver.saveAs(data, name);
-        this.upload(data, name);
+        this.upload(data, name, email);
     }
 
     addLine(obj) {
