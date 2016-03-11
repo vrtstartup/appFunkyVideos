@@ -4,7 +4,10 @@
             <section>
                 <md-input-container>
                     <label>Your email</label>
-                    <input ng-model="vm.subtitle.email" type="text" />
+                    <input required ng-model="vm.subtitle.email" type="text" />
+                    <div ng-messages="subtitle.email.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
                 </md-input-container>
                 <md-input-container>
                     <label>Upload Video</label>
