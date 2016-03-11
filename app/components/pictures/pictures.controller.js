@@ -14,12 +14,12 @@ export default class PicturesController {
 
         this.schemes = [
             {
-                name: 'de redactie color scheme',
+                name: 'de redactie',
                 className: 'drd',
                 class: 'vrt-drd-btn',
             },
             {
-                name: 'amerika kiest color scheme',
+                name: 'amerika kiest',
                 className: 'ak',
                 class: 'vrt-ak-btn',
             },

@@ -48,8 +48,8 @@
     </section>
 
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-        <md-button class="md-raised" ng-click="vm.startAnimation()">Animate piechart</md-button>
-        <md-button class="md-raised" ng-click="vm.getVideo()">Get video</md-button>
-        <a ng-href="{{vm.url}}">Download</a>
+        <md-button class="md-raised" ng-click="vm.startAnimation()">Animeer grafiek</md-button>
+        <md-button class="md-raised" ng-click="vm.getVideo()">Finaliseer video</md-button>
+        <a ng-if="vm.url" ng-href="{{vm.url}}" download="filename" target="_self">Download</a>
     </section>
 </md-content>

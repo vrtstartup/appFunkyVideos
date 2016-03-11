@@ -109,9 +109,9 @@ function sendNotificationTo(email, url) {
     var mailOptions = {
         from: '"Fred Foo 👥" <foo@blurdybloop.com>', // sender address
         to: email, // list of receivers
-        subject: 'Hello ✔', // Subject line
-        text: 'Hello world ?', // plaintext body
-        html: '<b>Hello world 🐴</b><a href='+ fullUrl+'>Download</a>' // html body
+        subject: 'VRT: Jouw video met subtitles is klaar', // Subject line
+        text: 'Jouw video met subtitles is klaar! Je kan hem: ', // plaintext body
+        html: '<a href='+ fullUrl+'>downloaden</a>' // html body
     };
 
     transporter.sendMail(mailOptions, function(error, info){
