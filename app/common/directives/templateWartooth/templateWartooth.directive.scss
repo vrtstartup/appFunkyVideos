@@ -1,7 +1,7 @@
 @import "../../style/variables";
 
 .wth-wrap, .wrap {
-  min-height: 513px;
+  height: 513px;
   width: 984px;
   background-color: $drd-main-bg-color;
   box-sizing: border-box;
@@ -20,6 +20,7 @@
   height: 288px;
   background-size: cover;
   background-color: #222;
+  overflow: hidden;
 }
 
 .wth-text {
@@ -27,7 +28,7 @@
   color: $white;
   padding: 5px 5px 5px 15px;
   font-size: 24px;
-  height: 145px;
+  height: 125px;
 }
 
 .wth-footer {

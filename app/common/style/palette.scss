@@ -27,6 +27,10 @@
     display: none;
   }
 
+  .wth-text p{
+    margin: 12px 0;
+  }
+
 }
 
 .ak {
@@ -49,7 +53,7 @@
   }
 
   .wth-logo {
-    bottom: 15px;
+    bottom: 25px;
   }
 
   .sign {
@@ -87,6 +91,7 @@
   .wth-text {
     background-color: $ak-main-color;
     font-family: "proxima", "Roboto Condensed", sans-serif;
+    height: 125px;
   }
 
 }
