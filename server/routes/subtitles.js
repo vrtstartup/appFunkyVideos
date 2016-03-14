@@ -13,14 +13,6 @@ var transporter = nodemailer.createTransport('smtps://vrtfunkyvideos%40gmail.com
 
 //url /api
 router.get('/subtitles', function(req, res) {
-
-    //transporter.sendMail(mailOptions, function(error, info){
-    //    if(error){
-    //        return console.log(error);
-    //    }
-    //    console.log('Message sent: ' + info.response);
-    //});
-
     res.json({ message: 'subtitles get api' }).send();
 });
 
@@ -83,6 +75,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
             })
             .on('end', function() {
                 console.log('END: ', url);
+                var result = findRemoveSync('temp', {files: videoPath});
                 sendNotificationTo(email, url);
                 res.json({ url: url, name: name, subtitled: true }).send();
             })
