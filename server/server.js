@@ -9,6 +9,7 @@ var mkdirp = require('mkdirp');
 var imagesApi = require('./routes/images');
 var subtitlesApi = require('./routes/subtitles');
 var templatesApi = require('./routes/templates');
+var templaterApi = require('./routes/templater');
 
 
 //var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
@@ -32,6 +33,7 @@ app.use('/temp', express.static('temp')); //temp is public
 app.use('/api', imagesApi);
 app.use('/api', subtitlesApi);
 app.use('/api', templatesApi);
+app.use('/api', templaterApi);
 
 
 // START THE SERVER

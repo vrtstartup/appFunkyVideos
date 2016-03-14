@@ -1,1 +1,50 @@
-<h1>Test template {{vm.test}}</h1>
+<div layout="column" layout-align="center center" class="temp_form">
+    <h1>Video Templater</h1>
+    <label>Upload Video</label>
+    <md-input-container>
+        <input ng-model="vm.templater.video" ngf-select="vm.upload($file)" type="file" />
+    </md-input-container>
+    <p ng-if="vm.fileUploading">Your video is uploading, please wait...</p>
+</div>
+
+<div ng-if="vm.fileUploaded" layout="column" layout-align="center center" class="temp_form">
+    <form name="templateForm">
+        <div layout="column" layout-align="center center" class="temp_form">
+            <md-select placeholder="Choose template" ng-model="main.template" ng-change="main.form.template = main.template">
+                <md-option ng-value="t.id" ng-repeat="t in main.templates">{{t.name}}</md-option>
+            </md-select>
+            <md-input-container>
+                <label>Filename</label>
+                <input name="file" ng-model="main.form.filename" required>
+            </md-input-container>
+            <md-input-container>
+                <label>Title</label>
+                <input name="title" ng-model="main.form.title" required>
+            </md-input-container>
+            <md-input-container>
+                <label>Tekst lijn 1</label>
+                <input name="textOne" ng-model="main.form.textOne" md-maxlength="70">
+                <div class="error" ng-if="templateForm.textOne.$invalid">Too long!</div>
+            </md-input-container>
+            <md-input-container>
+                <label>Tekst lijn 2</label>
+                <input  name="textTwo" ng-model="main.form.textTwo" md-maxlength="70">
+                <div class="error" ng-if="templateForm.textTwo.$invalid">Too long!</div>
+            </md-input-container>
+            <md-input-container ng-if="main.template == 2 || main.template == 3">
+                <label>Tekst lijn 3</label>
+                <input  name="textThree" ng-model="main.form.textThree" md-maxlength="70">
+                <div class="error" ng-if="templateForm.textThree.$invalid">Too long!</div>
+            </md-input-container>
+            <md-input-container ng-if="main.template == 3">
+                <label>Tekst lijn 4</label>
+                <input  name="textFour" ng-model="main.form.textFour" md-maxlength="70">
+                <div class="error" ng-if="templateForm.textfour.$invalid">Too long!</div>
+            </md-input-container>
+            <md-button ng-click="main.sendToZapier(main.form)" class="md-raised">Send</md-button>
+        </div>
+    </form>
+</div>
+
+
+
