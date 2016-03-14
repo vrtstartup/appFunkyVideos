@@ -12,7 +12,6 @@ import imageCropper from 'angular-image-cropper';
 import ngFileUpload from 'ng-file-upload';
 
 
-
 import components from './components';
 import common from './common';
 
@@ -36,4 +35,14 @@ export default angular
         components,
         common,
     ])
-    .directive('app', appComponent);
+    .directive('app', appComponent)
+    .run(registerStateEvents);
+
+//set page title
+registerStateEvents.$inject = ['$rootScope'];
+function registerStateEvents($rootScope) {
+    $rootScope.pageTitle = 'VRT';
+    $rootScope.$on('$stateChangeSuccess', (event, toState) => {
+        $rootScope.pageTitle = `${toState.title}`;
+    });
+}

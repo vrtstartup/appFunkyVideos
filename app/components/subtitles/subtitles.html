@@ -3,19 +3,19 @@
             <vrt-videoplayer source="f.url" start="vm.form.start" end="vm.form.end"></vrt-videoplayer>
             <section>
                 <md-input-container>
-                    <label>Your email</label>
+                    <label>Jouw email - wij sturen download link naar dit email!</label>
                     <input required ng-model="vm.subtitle.email" type="text" />
                     <div ng-messages="subtitle.email.$error">
                         <div ng-message="required">This is required.</div>
                     </div>
                 </md-input-container>
+                <label>Upload Video: only .mp4 is supported</label>
                 <md-input-container>
-                    <label>Upload Video</label>
-                    <input ng-model="vm.subtitle.video" ngf-select="vm.upload($file)" type="file" />
+                    <input ng-model="vm.subtitle.video" ngf-accept="'video/mp4'" ngf-select="vm.upload($file)" type="file" />
                 </md-input-container>
 
             </section>
-            <section ng-if="f.url">
+            <section ng-if="f.url || vm.isReadyForProcess">
             <rzslider rz-slider-model="vm.form.start" id="vm.key" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
             <form name="templateForm">
                 <md-input-container>
@@ -44,7 +44,11 @@
             </md-list>
             </section>
             <pre>{{ f | json}}</pre>
-            <md-button ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised">Generate</md-button>
+            <p ng-if="vm.isReadyForProcess">
+                Wij zijn bezig met jouw video te processen. Als het klaar is - sturen wij je een email met een url.
+                Check jouw email binnen een uur, en vergeet niet om in de spam folder te kijken :)
+            </p>
+            <md-button ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised" ng-disabled="!vm.subtitle.email">Generate</md-button>
             <a ng-if='f.subtitled' target="_self" ng-href='/{{f.url}}' download="filename">download</a>
     </div>
 </md-content>

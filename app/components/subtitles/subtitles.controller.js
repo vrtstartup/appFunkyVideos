@@ -8,7 +8,7 @@ export default class SubtitlesController {
         this.FileSaver = FileSaver;
         this.srtObj = {};
         this.videogular = videogular;
-
+        this.isReadyForProcess = false;
         this.Upload = Upload;
 
         this.slider = {
@@ -39,7 +39,6 @@ export default class SubtitlesController {
     }
 
     upload(file, name, email) {
-
         this.$scope.f = file;
 
         console.log('FILE', file);
@@ -54,20 +53,17 @@ export default class SubtitlesController {
             file.nm = resp.data.name;
             file.subtitled = resp.data.subtitled;
         }, (resp) => {
+            console.log('Error: ' + resp.error);
             console.log('Error status: ' + resp.status);
         }, (evt) => {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
         });
 
-        //if(isNaN(this.slider.options.ceil)) {
-            this.Upload.mediaDuration(file).then((durationInSeconds) =>{
-                this.slider.options.ceil = durationInSeconds;
-                this.form.end =  durationInSeconds;
-            });
-        //}
-
-
+        this.Upload.mediaDuration(file).then((durationInSeconds) =>{
+            this.slider.options.ceil = durationInSeconds;
+            this.form.end =  durationInSeconds;
+        });
     }
 
 
@@ -75,7 +71,7 @@ export default class SubtitlesController {
 
         this.form = {
             start: 0.001,
-            end: this.videogular.api.totalTime / 1000,
+            end: this.videogular.api.totalTime / 10000,
             text: 'test text'
         };
 
@@ -107,9 +103,6 @@ export default class SubtitlesController {
     downloadSRTFile(srtObj) {
         const srtString = this.createSRT(srtObj);
         const email = this.subtitle.email;
-
-        console.log('Email', email);
-
         const name =  this.$scope.f.nm + '.srt';
         const data = new Blob([srtString], {
             type: 'srt',
@@ -117,6 +110,8 @@ export default class SubtitlesController {
 
         //this.FileSaver.saveAs(data, name);
         this.upload(data, name, email);
+        this.isReadyForProcess = true;
+
     }
 
     addLine(obj) {
@@ -152,9 +147,6 @@ export default class SubtitlesController {
     }
 
 
-
-
-
     // hotkeys.add({
     //     combo: 'ctrl+i',
     //     description: 'getInTime',
@@ -170,8 +162,6 @@ export default class SubtitlesController {
     //         setOut();
     //     }
     // });
-
-
 
 
 }

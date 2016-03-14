@@ -13,7 +13,7 @@ module.config(['$stateProvider', ($stateProvider) => {
     $stateProvider
         .state('chart', {
             url: '/chart',
-            title: 'Funky VRT',
+            title: 'VRT Chart Tool',
             templateUrl: '/components/chart/chart.html',
             controller: chartController,
             controllerAs: 'vm',
