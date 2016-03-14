@@ -8,7 +8,7 @@ var multiparty = require('connect-multiparty');
 var multipartyMiddleware = multiparty({ uploadDir: 'temp/subtitleVideos/' });
 
 var nodemailer = require('nodemailer');
-var transporter = nodemailer.createTransport('smtps://user40gmail.com:pwd@smtp.gmail.com');
+var transporter = nodemailer.createTransport('smtps://vrtfunkyvideos%40gmail.com:sxB-8kc-6p4-ekF@smtp.gmail.com');
 
 
 //url /api
@@ -107,11 +107,11 @@ function sendNotificationTo(email, url) {
     var fullUrl = 'https://cryptic-everglades-93518.herokuapp.com/' + url;
 
     var mailOptions = {
-        from: '"Fred Foo 👥" <foo@blurdybloop.com>', // sender address
+        from: '"VRT funky videos👥" <vrtfunkyvideos@gmail.com>', // sender address
         to: email, // list of receivers
         subject: 'VRT: Jouw video met subtitles is klaar', // Subject line
-        text: 'Jouw video met subtitles is klaar! Je kan hem: ', // plaintext body
-        html: '<a href='+ fullUrl+'>downloaden</a>' // html body
+        text: 'Jouw video met subtitles is klaar!', // plaintext body
+        html: '<p>Je kan hem hier <a href='+ fullUrl+'>downloaden</a></p>' // html body
     };
 
     transporter.sendMail(mailOptions, function(error, info){
