@@ -2,9 +2,9 @@
 <html ng-app="app" ng-strict-di ng-cloak>
     <head lang="en">
         <meta charset="utf-8">
-        <title>Videos</title>
+        <title ng-bind="pageTitle ? pageTitle : 'VRT'">VRT</title>
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.css">
-        <link rel="stylesheet" href="http://www.videogular.com/styles/themes/default/latest/videogular.css">
+        <!--<link rel="stylesheet" href="https://www.videogular.com/styles/themes/default/latest/videogular.css">-->
         <link rel="stylesheet" href="build/bundle.css">
     </head>
 
@@ -16,7 +16,7 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
 
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
 
         <script src='html2canvas.js'></script>
 

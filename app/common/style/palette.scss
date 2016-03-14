@@ -27,13 +27,17 @@
     display: none;
   }
 
+  .wth-text p{
+    margin: 12px 0;
+  }
+
 }
 
 .ak {
 
   .logo {
     display: block;
-    top: 25px;
+    //top: 25px;
   }
   .logo-drd {
     display: none;
@@ -49,12 +53,12 @@
   }
 
   .wth-logo {
-    bottom: 15px;
+    bottom: 25px;
   }
 
   .sign {
     color: $ak-main-color;
-    font-family: "proxima", "Roboto Condensed", sans-serif;
+    display: inline-block;
   }
 
   .hor-line,  .line-under {
@@ -77,6 +81,7 @@
 
   .quote {
     font-family: "utopia", "Roboto Condensed", sans-serif;
+    letter-spacing: 1.5px;
   }
 
   .wth-footer-text {
@@ -86,6 +91,7 @@
   .wth-text {
     background-color: $ak-main-color;
     font-family: "proxima", "Roboto Condensed", sans-serif;
+    height: 125px;
   }
 
 }
