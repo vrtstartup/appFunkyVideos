@@ -104,8 +104,7 @@ function sendNotificationTo(email, url) {
         from: '"VRT funky videos👥" <vrtfunkyvideos@gmail.com>', // sender address
         to: email, // list of receivers
         subject: 'VRT: Jouw video met subtitles is klaar', // Subject line
-        text: 'Jouw video met subtitles is klaar!', // plaintext body
-        html: '<p>Je kan hem hier <a href='+ fullUrl+'>downloaden</a></p>' // html body
+        html: '<p>Je kan hem hier <a href='+ fullUrl+'>downloaden</a></p><br/><p>Deze video wordt na 10u verwijderd</p>' // html body
     };
 
     transporter.sendMail(mailOptions, function(error, info){

@@ -61,14 +61,10 @@ export default class SubtitlesController {
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
         });
 
-        //if(isNaN(this.slider.options.ceil)) {
-            this.Upload.mediaDuration(file).then((durationInSeconds) =>{
-                this.slider.options.ceil = durationInSeconds;
-                this.form.end =  durationInSeconds;
-            });
-        //}
-
-
+        this.Upload.mediaDuration(file).then((durationInSeconds) =>{
+            this.slider.options.ceil = durationInSeconds;
+            this.form.end =  durationInSeconds;
+        });
     }
 
 
@@ -76,14 +72,14 @@ export default class SubtitlesController {
 
         this.form = {
             start: 0.001,
-            end: this.videogular.api.totalTime / 1000,
+            end: this.videogular.api.totalTime / 10000,
             text: 'test text'
         };
 
         this.slider = {
             options: {
                 id: 'main',
-                floor: 0.001,
+                floor: 0.00001,
                 ceil: this.videogular.api.totalTime / 1000,
                 step: 0.001,
                 precision: 10,
@@ -108,9 +104,6 @@ export default class SubtitlesController {
     downloadSRTFile(srtObj) {
         const srtString = this.createSRT(srtObj);
         const email = this.subtitle.email;
-
-        console.log('Email', email);
-
         const name =  this.$scope.f.nm + '.srt';
         const data = new Blob([srtString], {
             type: 'srt',
@@ -153,9 +146,6 @@ export default class SubtitlesController {
     }
 
 
-
-
-
     // hotkeys.add({
     //     combo: 'ctrl+i',
     //     description: 'getInTime',
@@ -171,8 +161,6 @@ export default class SubtitlesController {
     //         setOut();
     //     }
     // });
-
-
 
 
 }
