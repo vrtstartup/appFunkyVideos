@@ -63,6 +63,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
         ffmpeg(path + videoPath)
             .on('start', function(commandLine) {
+                var result = findRemoveSync('temp', {age: {seconds: 36000}});
                 console.log('FFMPEG is really working hard: ' + commandLine);
             })
             .outputOptions(
@@ -72,6 +73,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 console.log('Error: ', stdout);
                 console.log('Error: ', err.message);
                 console.log('Error: ', stderr);
+                res.json({ error: stderr }).send();
             })
             .on('end', function() {
                 console.log('END: ', url);
@@ -80,8 +82,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 res.json({ url: url, name: name, subtitled: true }).send();
             })
             .save(url);
-        // send response after save
-        // res.json({ url: url, name: name, subtitled: true }).send();
+
     } else {
         res.json({ url: url, name: name, subtitled: false }).send();
     }

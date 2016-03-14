@@ -54,6 +54,7 @@ export default class SubtitlesController {
             file.nm = resp.data.name;
             file.subtitled = resp.data.subtitled;
         }, (resp) => {
+            console.log('Error: ' + resp.error);
             console.log('Error status: ' + resp.status);
         }, (evt) => {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
