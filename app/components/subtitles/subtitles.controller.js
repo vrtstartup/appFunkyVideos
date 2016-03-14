@@ -8,7 +8,7 @@ export default class SubtitlesController {
         this.FileSaver = FileSaver;
         this.srtObj = {};
         this.videogular = videogular;
-
+        this.isReadyForProcess = false;
         this.Upload = Upload;
 
         this.slider = {
@@ -39,7 +39,6 @@ export default class SubtitlesController {
     }
 
     upload(file, name, email) {
-
         this.$scope.f = file;
 
         console.log('FILE', file);
@@ -79,7 +78,7 @@ export default class SubtitlesController {
         this.slider = {
             options: {
                 id: 'main',
-                floor: 0.00001,
+                floor: 0.001,
                 ceil: this.videogular.api.totalTime / 1000,
                 step: 0.001,
                 precision: 10,
@@ -111,6 +110,8 @@ export default class SubtitlesController {
 
         //this.FileSaver.saveAs(data, name);
         this.upload(data, name, email);
+        this.isReadyForProcess = true;
+
     }
 
     addLine(obj) {
