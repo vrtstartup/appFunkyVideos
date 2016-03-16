@@ -1,13 +1,16 @@
 import template from './track.directive.html';
 
 class TrackDirectiveController {
-    constructor($scope, $log, $element, $document) {
+    constructor($scope, $log, $element, $interval) {
         this.$log = $log;
         this.$element = $element;
         this.$scope = $scope;
+        this.$interval = $interval;
         this.ctx = new AudioContext();
         const audio = this.$element[0].querySelector('audio');
         this.analyser = this.ctx.createAnalyser();
+
+        const that = this;
 
         this.trackVolume = 100;
         this.loading = true;
@@ -27,6 +30,7 @@ class TrackDirectiveController {
         console.log("trackSrc", this.trackSrc);
         console.log("trackName", this.trackName);
         this.track = {};
+
 
         this.init();
     }
@@ -54,7 +58,6 @@ class TrackDirectiveController {
 
     play(buffer) {
 
-        console.log("buffer",buffer);
         //audioTrack.play();
         //this.analyser = audioTrack.analyser;
         console.log('play');
@@ -63,6 +66,10 @@ class TrackDirectiveController {
         this.analyser.connect(this.ctx.destination);
         this.source.connect(this.analyser);
         this.source.start(0);
+
+        console.log("this.source", this.source);
+
+
         this.visualize();
     }
 
@@ -90,22 +97,36 @@ class TrackDirectiveController {
 
     visualize() {
 
+        this.analyser.minDecibels = -90;
+        this.analyser.maxDecibels = -10;
+        this.analyser.smoothingTimeConstant = 0.85;
+
         this.analyser.fftSize = 2048;
         this.bufferLength = this.analyser.frequencyBinCount; // half the FFT value
         this.dataArray = new Uint8Array(this.bufferLength); // create an array to store the data
 
         this.track.cCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-        this.draw();
+        //this.draw();
+
+        this.$interval(() => {
+            this.track.cCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+            this.draw();
+
+        }, 120);
+
     }
 
-    draw(){
 
-        this.drawVisual = requestAnimationFrame(this.draw);
+    draw() {
+        console.log('This draw');
 
         this.analyser.getByteTimeDomainData(this.dataArray); // get waveform data and put it into the array created above
 
         this.track.cCtx.beginPath();
+
+        console.log('DRAW', this.dataArray);
+
 
         var sliceWidth = this.canvasWidth * 1.0 / this.bufferLength;
         var x = 0;
@@ -132,6 +153,8 @@ class TrackDirectiveController {
         // set canvasImg image src to dataURL
         // so it can be saved as an image
         this.canvas.src = dataURL;
+        //this.drawVisual = requestAnimationFrame(this.draw.apply(this));
+
     }
 
 
@@ -151,4 +174,4 @@ export const trackDirective = function() {
     };
 };
 
-TrackDirectiveController.$inject = ['$scope', '$log', '$element', '$document'];
+TrackDirectiveController.$inject = ['$scope', '$log', '$element', '$interval'];
