@@ -1,19 +1,22 @@
 var express = require('express');
 var router = express.Router();
+var Boom = require('boom');
 var Dropbox = require('dropbox');
+var fs = require('fs');
+var multiparty = require('multiparty');
+
+//var multiparty = require('connect-multiparty');
+//var multipartyMiddleware = multiparty({ uploadDir: 'temp/templaterVideos/' });
 
 //url /api
-router.post('/templaterVideo', function(req, res) {
-
-    //upload video to dropbox
-
-    //sign in to dropbox app, get key/secret from ENV
+router.post('/templaterVideo', function(req, res, next) {
+    //handle dropbox login (with ENV variables)
     var db_key = process.env.DB_KEY;
     var db_secret = process.env.DB_SECRET;
     var db_token = process.env.DB_TOKEN;
 
-    if(db_key || db_secret || db_token) {
-
+    if(!db_key || !db_secret || !db_token) {
+        return next(Boom.badRequest('no key/secret or token found'));
     }
 
     var client = new Dropbox.Client({
@@ -23,28 +26,22 @@ router.post('/templaterVideo', function(req, res) {
         sandbox: false
     });
 
-    client.writeFile("hello_world.txt", "Hello, world!\n", function(error, stat) {
-        if (error) {
-            console.log(error);
-            return;
-        }
+    //handle file with multer - read file to convert into binary - save file to dropbox
+    var form = new multiparty.Form();
 
-        console.log("File saved");
-        res.json({ message: 'file saved'}).send();
+    form.parse(req);
+
+    form.on('file', function(name, file) {
+        fs.readFile(file.path, function(err, data) {
+            client.writeFile(file.originalFilename, data, function(error, stat) {
+                if(error) {
+                    return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+                }
+
+                res.json({filename: file.originalFilename.replace(/(?:\.([^.]+))?$/, '')}).send();
+            });
+        });
     });
-
-    //dbClient.readdir("/", function(error, entries) {
-    //    if(error) {
-    //        console.log(error);
-    //        return;
-    //    }
-    //
-    //    res.json(entries).send();
-    //});
-
-    //setTimeout(() => {
-    //    res.json({ message: 'templates post api' }).send();
-    //}, 2000)
 });
 
 module.exports = router;
