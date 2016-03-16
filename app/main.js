@@ -41,7 +41,6 @@ export default angular
 //set page title
 registerStateEvents.$inject = ['$rootScope'];
 function registerStateEvents($rootScope) {
-    $rootScope.pageTitle = 'VRT';
     $rootScope.$on('$stateChangeSuccess', (event, toState) => {
         $rootScope.pageTitle = `${toState.title}`;
     });

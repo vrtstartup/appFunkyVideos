@@ -72,3 +72,21 @@
   position: absolute;
   top: -26px;
 }
+
+//md toast
+.md-toast-content {
+  color: white;
+  font-weight: bold;
+}
+
+.md-toast.success, .md-toast.success .md-toast-content {
+  background-color: $drd-main-color;
+}
+
+.md-toast.error, .md-toast.error .md-toast-content {
+  background-color: red;
+}
+
+.md-toast.warn, .md-toast.warn .md-toast-content {
+  background-color: orange;
+}
