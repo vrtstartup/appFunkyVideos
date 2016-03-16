@@ -28,7 +28,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     //console.log('REQ', req.files.file);
 
     const fName = getExtension(file.name);
-    console.log('REQ', email);
+    console.log('REQ', file);
 
 
     //if (fName !== 'mp4' || fName !== 'srt') {

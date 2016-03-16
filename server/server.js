@@ -1,14 +1,17 @@
-var express = require('express');        // call express
-var bodyParser = require('body-parser');
-var path = require('path'); //part of node
-var morgan = require('morgan');
-var cors = require('cors');
-//var httpProxy = require('http-proxy');
-var mkdirp = require('mkdirp');
+const express = require('express');        // call express
+const bodyParser = require('body-parser');
+const path = require('path'); //part of node
+const morgan = require('morgan');
+const cors = require('cors');
+const Boom = require('boom');
+//const httpProxy = require('http-proxy');
+const mkdirp = require('mkdirp');
 
-var imagesApi = require('./routes/images');
-var subtitlesApi = require('./routes/subtitles');
-var templatesApi = require('./routes/templates');
+const errorHandler = require('./middleware/errorHandler');
+const imagesApi = require('./routes/images');
+const subtitlesApi = require('./routes/subtitles');
+const templatesApi = require('./routes/templates');
+const templaterApi = require('./routes/templater');
 
 
 //var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
@@ -32,6 +35,7 @@ app.use('/temp', express.static('temp')); //temp is public
 app.use('/api', imagesApi);
 app.use('/api', subtitlesApi);
 app.use('/api', templatesApi);
+app.use('/api', templaterApi);
 
 
 // START THE SERVER
@@ -96,8 +100,21 @@ function createPath() {
             console.log('Error while creating path:', err);
 
     });
+    mkdirp('temp/templaterVideos', function(err) {
+        console.log('Path is created temp/subtitleVideos');
+        // path was created unless there was error
+        if(err) console.log('Error while creating path:', err);
+    });
 }
 
+//
+//// All other undefined routes should return 404
+app.route('*').all(function(req, res, next) {
+    return next(Boom.notFound());
+});
+
+//// errorHandlers
+app.use(errorHandler());
 
 
 var server = app.listen(port, function(){
