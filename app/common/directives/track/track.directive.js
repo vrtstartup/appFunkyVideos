@@ -89,57 +89,49 @@ class TrackDirectiveController {
     }
 
     visualize() {
-        WIDTH = canvas.width;
-        HEIGHT = canvas.height;
 
-        analyser.fftSize = 2048;
-        var bufferLength = analyser.frequencyBinCount; // half the FFT value
-        var dataArray = new Uint8Array(bufferLength); // create an array to store the data
+        this.analyser.fftSize = 2048;
+        this.bufferLength = this.analyser.frequencyBinCount; // half the FFT value
+        this.dataArray = new Uint8Array(this.bufferLength); // create an array to store the data
 
-        canvasContext.clearRect(0, 0, WIDTH, HEIGHT);
+        this.track.cCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
         this.draw();
     }
 
     draw(){
 
+        this.drawVisual = requestAnimationFrame(this.draw);
 
-        drawVisual = requestAnimationFrame(draw);
+        this.analyser.getByteTimeDomainData(this.dataArray); // get waveform data and put it into the array created above
 
-        analyser.getByteTimeDomainData(dataArray); // get waveform data and put it into the array created above
-        canvasContext.fillStyle = '#FFFFFF'; // draw wave with canvas
-        canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
+        this.track.cCtx.beginPath();
 
-        canvasContext.lineWidth = 2;
-        canvasContext.strokeStyle = '#3cfd2a';
-
-        canvasContext.beginPath();
-
-        var sliceWidth = WIDTH * 1.0 / bufferLength;
+        var sliceWidth = this.canvasWidth * 1.0 / this.bufferLength;
         var x = 0;
 
-        for(var i = 0; i < bufferLength; i++) {
+        for(var i = 0; i < this.bufferLength; i++) {
 
-            var v = dataArray[i] / 128.0;
-            var y = v * HEIGHT/2;
+            var v = this.dataArray[i] / 128.0;
+            var y = v * this.canvasHeight/4;
 
             if(i === 0) {
-                canvasContext.moveTo(x, y);
+                this.track.cCtx.moveTo(x, y);
             } else {
-                canvasContext.lineTo(x, y);
+                this.track.cCtx.lineTo(x, y);
             }
 
             x += sliceWidth;
         }
 
-        canvasContext.lineTo(canvas.width, canvas.height/2);
-        canvasContext.stroke();
+        this.track.cCtx.lineTo(this.canvasWidth, this.canvasHeight/4);
+        this.track.cCtx.stroke();
 
-        var dataURL = canvas.toDataURL();
+        var dataURL =  this.canvas.toDataURL();
 
         // set canvasImg image src to dataURL
         // so it can be saved as an image
-        document.getElementById('canvasImg').src = dataURL;
+        this.canvas.src = dataURL;
     }
 
 
