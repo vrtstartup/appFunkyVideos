@@ -1,7 +1,7 @@
 import template from './pieChart.directive.html';
 
 class pieChartDirectiveController {
-    constructor($scope, $log, $parse, $window, $element, $document, $timeout) {
+    constructor($scope, $log, $parse, $window, $element, $timeout) {
         this.$log = $log;
         this.$parse = $parse;
         this.$window = $window;
@@ -15,9 +15,6 @@ class pieChartDirectiveController {
                 //TweenMax.to($element, 1, {rotation:360, transformOrigin:"150px 150px"});
 
                 //console.log('value changed', value);
-            } else {
-                //console.log('value changed', value);
-               // TweenMax.to($element, 1, {rotation:0, transformOrigin:"150px 150px"});
             }
         }, true);
     }
@@ -91,4 +88,4 @@ export const pieChartDirective = function() {
 
 };
 
-pieChartDirectiveController.$inject = ['$scope', '$log', '$parse', '$window', '$element', '$document', '$timeout'];
+pieChartDirectiveController.$inject = ['$scope', '$log', '$parse', '$window', '$element', '$timeout'];

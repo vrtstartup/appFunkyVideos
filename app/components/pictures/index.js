@@ -13,7 +13,7 @@ module.config(['$stateProvider', ($stateProvider) => {
     $stateProvider
         .state('pictures', {
             url: '/pictures',
-            title: 'Funky VRT',
+            title: 'VRT Pictures Tool',
             templateUrl: '/components/pictures/pictures.html',
             controller: picturesController,
             controllerAs: 'vm',

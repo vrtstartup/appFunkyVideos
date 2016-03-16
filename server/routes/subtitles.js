@@ -8,19 +8,11 @@ var multiparty = require('connect-multiparty');
 var multipartyMiddleware = multiparty({ uploadDir: 'temp/subtitleVideos/' });
 
 var nodemailer = require('nodemailer');
-var transporter = nodemailer.createTransport('smtps://user40gmail.com:pwd@smtp.gmail.com');
+var transporter = nodemailer.createTransport('smtps://vrtfunkyvideos%40gmail.com:sxB-8kc-6p4-ekF@smtp.gmail.com');
 
 
 //url /api
 router.get('/subtitles', function(req, res) {
-
-    //transporter.sendMail(mailOptions, function(error, info){
-    //    if(error){
-    //        return console.log(error);
-    //    }
-    //    console.log('Message sent: ' + info.response);
-    //});
-
     res.json({ message: 'subtitles get api' }).send();
 });
 
@@ -71,6 +63,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
         ffmpeg(path + videoPath)
             .on('start', function(commandLine) {
+                var result = findRemoveSync('temp', {age: {seconds: 36000}});
                 console.log('FFMPEG is really working hard: ' + commandLine);
             })
             .outputOptions(
@@ -80,15 +73,16 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 console.log('Error: ', stdout);
                 console.log('Error: ', err.message);
                 console.log('Error: ', stderr);
+                res.json({ error: stderr }).send();
             })
             .on('end', function() {
                 console.log('END: ', url);
+                var result = findRemoveSync('temp', {files: videoPath});
                 sendNotificationTo(email, url);
                 res.json({ url: url, name: name, subtitled: true }).send();
             })
             .save(url);
-        // send response after save
-        // res.json({ url: url, name: name, subtitled: true }).send();
+
     } else {
         res.json({ url: url, name: name, subtitled: false }).send();
     }
@@ -107,11 +101,10 @@ function sendNotificationTo(email, url) {
     var fullUrl = 'https://cryptic-everglades-93518.herokuapp.com/' + url;
 
     var mailOptions = {
-        from: '"Fred Foo 👥" <foo@blurdybloop.com>', // sender address
+        from: '"VRT funky videos👥" <vrtfunkyvideos@gmail.com>', // sender address
         to: email, // list of receivers
         subject: 'VRT: Jouw video met subtitles is klaar', // Subject line
-        text: 'Jouw video met subtitles is klaar! Je kan hem: ', // plaintext body
-        html: '<a href='+ fullUrl+'>downloaden</a>' // html body
+        html: '<p>Je kan hem hier <a href='+ fullUrl+'>downloaden</a></p><br/><p>Deze video wordt na 10u verwijderd</p>' // html body
     };
 
     transporter.sendMail(mailOptions, function(error, info){
