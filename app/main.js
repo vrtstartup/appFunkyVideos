@@ -37,6 +37,8 @@ export default angular
     ])
     .directive('app', appComponent)
     .config(routing)
+    .config(interceptors)
+    .run(httpErrorListener)
     .run(registerStateEvents);
 
 //default route
@@ -56,5 +58,12 @@ registerStateEvents.$inject = ['$rootScope'];
 function registerStateEvents($rootScope) {
     $rootScope.$on('$stateChangeSuccess', (event, toState) => {
         $rootScope.pageTitle = `${toState.title}`;
+    });
+}
+
+httpErrorListener.$inject = ['$rootScope','toast'];
+function httpErrorListener($rootScope, toast) {
+    $rootScope.$on('httpError', function(event, data) {
+        toast.showToast('error', data.status + ': ' + data.message);
     });
 }
