@@ -1,6 +1,6 @@
 # Funky Videos App
 
-#### Please, use develop brunch for developing
+#### Please, use develop branch for developing
 
 First install all npm dependencies
 `npm i`
