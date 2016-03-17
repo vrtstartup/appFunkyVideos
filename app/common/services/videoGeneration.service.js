@@ -22,16 +22,18 @@ export default class VideoGenerationService {
         that._upload = function(data) {
             //console.log('isTemplate 2', that.isTemplate);
             let url = '/api/images';
+            let content = 'image/jpeg';
 
             if (that.isTemplate) {
                 url = '/api/templates';
+                content = 'image/png';
             }
 
             that.$http({
                     method: 'POST',
                     url: url,
                     headers: {
-                        'Content-Type': 'image/jpeg'
+                        'Content-Type': content
                     },
                     data: data,
                     transformRequest: []

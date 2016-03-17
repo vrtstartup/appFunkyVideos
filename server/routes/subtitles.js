@@ -28,7 +28,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     //console.log('REQ', req.files.file);
 
     const fName = getExtension(file.name);
-    console.log('REQ', file);
+    //console.log('REQ', file);
 
 
     //if (fName !== 'mp4' || fName !== 'srt') {
@@ -56,8 +56,8 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
         fs.renameSync(path + name, srtPath);
 
-        console.log('URL video', videoPath);
-        console.log('URL srt', srtPath);
+        //console.log('URL video', videoPath);
+        //console.log('URL srt', srtPath);
         // burn subtitles
         url = path + 'gen' + videoPath;
 
