@@ -57,7 +57,7 @@ function interceptors($httpProvider) {
 registerStateEvents.$inject = ['$rootScope'];
 function registerStateEvents($rootScope) {
     $rootScope.$on('$stateChangeSuccess', (event, toState) => {
-        $rootScope.pageTitle = `${toState.title}`;
+        $rootScope.pageTitle = `${toState.title} : Beta`;
     });
 }
 

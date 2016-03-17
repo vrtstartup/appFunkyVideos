@@ -73,7 +73,7 @@ export default class VideoGenerationService {
                 cvs.toBlob(done, contentType);
             }
             else{
-                done(that._dataURItoBlob(cvs.toDataURL(contentType)));
+                done(that._dataURItoBlob(cvs.toDataURL(contentType, 1.0)));
             }
         };
 
