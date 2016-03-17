@@ -20,39 +20,44 @@
                 </md-input-container>
 
             </section>
+
             <section ng-if="f.url || vm.isReadyForProcess">
-            <rzslider rz-slider-model="vm.form.start" id="vm.key" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
-            <form name="templateForm">
-                <md-input-container>
-                    <label>text</label>
-                    <input name="title" ng-model="vm.form.text">
-                </md-input-container>
-            </form>
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-input-container>
-                    <input ng-model="vm.form.start" ng-change="changeSlider()">
-                </md-input-container>
-                <md-button class="md-fab" aria-label="In" ng-click="vm.setIn()">
-                    < </md-button>
-                        <md-button ng-click="vm.addLine(vm.form)" class="md-raised md-primary">Add Line</md-button>
-                        <md-button class="md-fab" aria-label="Out" ng-click="vm.setOut()">
-                            >
-                        </md-button>
-                        <md-input-container>
-                            <input ng-model="vm.form.end">
-                        </md-input-container>
+                <rzslider rz-slider-model="vm.form.start" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
+                <!--<rzslider rz-slider-model="vm.form.start" id="vm.key" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>-->
+
+                <form name="templateForm">
+                    <md-input-container>
+                        <label>text</label>
+                        <input name="title" ng-model="vm.form.text">
+                    </md-input-container>
+                </form>
+
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <md-input-container>
+                        <input ng-model="vm.form.start" ng-change="changeSlider()">
+                    </md-input-container>
+                    <md-button class="md-fab" aria-label="In" ng-click="vm.setIn()"> < </md-button>
+                    <md-button ng-click="vm.addLine(vm.form)" class="md-raised md-primary">Add Line</md-button>
+                    <md-button class="md-fab" aria-label="Out" ng-click="vm.setOut()"> > </md-button>
+                    <md-input-container>
+                        <input ng-model="vm.form.end">
+                    </md-input-container>
+                </section>
+
+                <md-list>
+                    <div ng-repeat="(key, l) in vm.srtObj">
+                        <subtitle-line key="key" in="l.start" out="l.end" text="l.text"></subtitle-line>
+                    </div>
+                </md-list>
             </section>
-            <md-list>
-                <div ng-repeat="(key, l) in vm.srtObj">
-                    <subtitle-line key="key" in="l.start" out="l.end" text="l.text"></subtitle-line>
-                </div>
-            </md-list>
-            </section>
+
             <pre>{{ f | json}}</pre>
+
             <p ng-if="vm.isReadyForProcess">
                 Wij zijn bezig met jouw video te processen. Als het klaar is - sturen wij je een email met een url.
                 Check jouw email binnen een uur, en vergeet niet om in de spam folder te kijken :)
             </p>
+
             <md-button ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised" ng-disabled="!vm.subtitle.email">Generate</md-button>
             <a ng-if='f.subtitled' target="_self" ng-href='/{{f.url}}' download="filename">download</a>
     </div>
