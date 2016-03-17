@@ -30,3 +30,10 @@ To make it work prpoperly, you should install ffmpeg locally
 --with-libass --with-libvo-aacenc --with-libvorbis --with-libvpx --with-opencore-amr
 --with-openjpeg --with-opus --with-rtmpdump --with-schroedinger --with-speex
 --with-theora --with-tools --enable-libass`
+
+
+#### dropbox access
+To upload files to dropbox (templater), following environment variables should be set
+export DB_KEY=***
+export DB_SECRET=***
+export DB_TOKEN=***
