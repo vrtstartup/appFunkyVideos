@@ -33,7 +33,8 @@ export default class TemplaterController {
         }).then((resp) => {
             this.fileUploaded = true;
             this.fileUploading = false;
-            this.form.filename = resp.data.filename;
+            this.form.filenameIn = resp.data.filenameIn;
+            this.form.filenameOut = resp.data.filenameOut;
         }, (resp) => {
             this.toast.showToast('error', resp.status);
         }, (evt) => {
@@ -71,13 +72,15 @@ export default class TemplaterController {
                 'target': 'Export Composition',
                 'template': _template,
                 'title': this.form.title ? this.form.title.toUpperCase() : '',
-                'filename': this.form.filename ? this.form.filename : '',
+                'filenameIn': this.form.filenameIn ? this.form.filenameIn : '',
+                'filenameOut': this.form.filenameOut ? this.form.filenameOut : '',
                 'textOne': this.form.textOne ? this.form.textOne.toUpperCase() : '',
                 'textTwo': this.form.textTwo ? this.form.textTwo.toUpperCase() : '',
                 'textThree': this.form.textThree ? this.form.textThree.toUpperCase() : '',
                 'textFour': this.form.textFour ? this.form.textFour.toUpperCase() : ''
             }
         }).then(() => {
+            console.log(this.form);
             this.toast.showToast('success', 'video is being processed and will soon be available for download');
             this.resetForm();
         }, (response) => {

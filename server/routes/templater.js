@@ -38,7 +38,12 @@ router.post('/templaterVideo', function(req, res, next) {
                     return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
                 }
 
-                res.json({filename: file.originalFilename.replace(/(?:\.([^.]+))?$/, '')}).send();
+                res.json({
+                    filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
+                    filenameIn: file.originalFilename
+                }).send();
+
+
             });
         });
     });
