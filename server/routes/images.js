@@ -7,7 +7,7 @@ var findRemoveSync = require('find-remove');
 
 router.post('/images', function(req, res, next) {
 
-    var files = fs.readdirSync('temp/').length;
+    var files = fs.readdirSync('temp/chart/').length;
     var buff = [];
 
     if (files < 10) {
@@ -17,7 +17,7 @@ router.post('/images', function(req, res, next) {
     }
 
     var fileName = 'img' + files;
-    var path = 'temp/' + fileName + '.jpeg';
+    var path = 'temp/chart/' + fileName + '.jpeg';
 
     // Converting blob to png & writing it to /temp
     req.on('data', function (data) {
@@ -40,10 +40,10 @@ router.get('/images', function(req, res) {
 
     var videoFileName = getDateTime();
 
-    ffmpeg('temp/img%03d.jpeg')
+    ffmpeg('temp/chart/img%03d.jpeg')
         .fps(60)
         .on('end', function() {
-            var result = findRemoveSync('temp', { extensions: '.jpeg'});
+            var result = findRemoveSync('temp/chart', { extensions: '.jpeg'});
             console.log('File has been converted succesfully');
         })
         .on('error', function(err) {

@@ -97,64 +97,67 @@ class TrackDirectiveController {
 
     visualize() {
 
-        this.analyser.minDecibels = -90;
-        this.analyser.maxDecibels = -10;
+        this.analyser.minDecibels           = -90;
+        this.analyser.maxDecibels           = -10;
         this.analyser.smoothingTimeConstant = 0.85;
 
         this.analyser.fftSize = 2048;
-        this.bufferLength = this.analyser.frequencyBinCount; // half the FFT value
+        this.bufferLength     = this.analyser.frequencyBinCount; // half the FFT value
         this.dataArray = new Uint8Array(this.bufferLength); // create an array to store the data
 
         this.track.cCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
         //this.draw();
 
-        this.$interval(() => {
-            this.track.cCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-            this.draw();
+        //this.$interval(() => {
+        //    this.track.cCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+        //    this.draw();
+        //
+        //}, 120);
 
-        }, 120);
+        const that = this;
 
-    }
-
-
-    draw() {
-        console.log('This draw');
-
-        this.analyser.getByteTimeDomainData(this.dataArray); // get waveform data and put it into the array created above
-
-        this.track.cCtx.beginPath();
-
-        console.log('DRAW', this.dataArray);
+        draw();
 
 
-        var sliceWidth = this.canvasWidth * 1.0 / this.bufferLength;
-        var x = 0;
+        function draw() {
+            that.track.cCtx.clearRect(0, 0, that.canvasWidth, that.canvasHeight);
 
-        for(var i = 0; i < this.bufferLength; i++) {
+            console.log('This draw', that);
 
-            var v = this.dataArray[i] / 128.0;
-            var y = v * this.canvasHeight/4;
+            that.analyser.getByteTimeDomainData(that.dataArray); // get waveform data and put it into the array created above
 
-            if(i === 0) {
-                this.track.cCtx.moveTo(x, y);
-            } else {
-                this.track.cCtx.lineTo(x, y);
+            that.track.cCtx.beginPath();
+
+
+            var sliceWidth = that.canvasWidth * 1.0 / that.bufferLength;
+            var x          = 0;
+
+            for (var i = 0; i < that.bufferLength; i++) {
+
+                var v = that.dataArray[i] / 128.0;
+                var y = v * that.canvasHeight / 4;
+
+                if (i === 0) {
+                    that.track.cCtx.moveTo(x, y);
+                } else {
+                    that.track.cCtx.lineTo(x, y);
+                }
+
+                x += sliceWidth;
             }
 
-            x += sliceWidth;
+            that.track.cCtx.lineTo(that.canvasWidth, that.canvasHeight / 4);
+            that.track.cCtx.stroke();
+
+            var dataURL = that.canvas.toDataURL();
+
+            // set canvasImg image src to dataURL
+            // so it can be saved as an image
+            that.canvas.src = dataURL;
+            that.drawVisual = requestAnimationFrame(draw);
+
         }
-
-        this.track.cCtx.lineTo(this.canvasWidth, this.canvasHeight/4);
-        this.track.cCtx.stroke();
-
-        var dataURL =  this.canvas.toDataURL();
-
-        // set canvasImg image src to dataURL
-        // so it can be saved as an image
-        this.canvas.src = dataURL;
-        //this.drawVisual = requestAnimationFrame(this.draw.apply(this));
-
     }
 
 

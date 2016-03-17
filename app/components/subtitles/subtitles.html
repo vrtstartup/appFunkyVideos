@@ -2,15 +2,20 @@
     <div flex-gt-md="50" flex="100" flex-md="80">
             <vrt-videoplayer source="f.url" start="vm.form.start" end="vm.form.end"></vrt-videoplayer>
             <section>
-                <md-input-container>
-                    <label>Jouw email - wij sturen download link naar dit email!</label>
-                    <input required ng-model="vm.subtitle.email" type="text" />
-                    <div ng-messages="subtitle.email.$error">
-                        <div ng-message="required">This is required.</div>
-                    </div>
-                </md-input-container>
+                <form name="mailForm">
+                    <md-input-container>
+                        <label>Jouw email - wij sturen download link naar dit email!</label>
+                        <input required name="email" ng-model="vm.subtitle.email" type="email" ng-pattern="/^.+@.+\..+$/"/>
+                        <div ng-messages="mailForm.email.$error" ng-if="mailForm.$submitted || mailForm.email.$touched">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message='pattern'>
+                                Your email must look like an e-mail address.
+                            </div>
+                        </div>
+                    </md-input-container>
+                </form>
                 <label>Upload Video: only .mp4 is supported</label>
-                <md-input-container>
+                <md-input-container >
                     <input ng-model="vm.subtitle.video" ngf-accept="'video/mp4'" ngf-select="vm.upload($file)" type="file" />
                 </md-input-container>
 

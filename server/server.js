@@ -105,6 +105,11 @@ function createPath() {
         // path was created unless there was error
         if(err) console.log('Error while creating path:', err);
     });
+    mkdirp('temp/chart', function(err) {
+        console.log('Path is created temp/chart');
+        // path was created unless there was error
+        if(err) console.log('Error while creating path:', err);
+    });
 }
 
 //

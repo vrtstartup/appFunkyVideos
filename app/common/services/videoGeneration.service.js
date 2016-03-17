@@ -19,19 +19,22 @@ export default class VideoGenerationService {
             });
         };
 
+
         that._upload = function(data) {
             //console.log('isTemplate 2', that.isTemplate);
             let url = '/api/images';
+            let contentType = 'image/jpeg';
 
             if (that.isTemplate) {
                 url = '/api/templates';
+                contentType = 'image/png';
             }
 
             that.$http({
                     method: 'POST',
                     url: url,
                     headers: {
-                        'Content-Type': 'image/jpeg'
+                        'Content-Type': contentType
                     },
                     data: data,
                     transformRequest: []
@@ -46,24 +49,31 @@ export default class VideoGenerationService {
         };
 
         that._dataURItoBlob = function(dataURI) {
+            let contentType = 'image/jpeg';
+            if (that.isTemplate) {
+                contentType = 'image/png';
+            }
             const binary = atob(dataURI.split(',')[1]);
             const array = [];
             for (var i = 0; i < binary.length; i++) {
                 array.push(binary.charCodeAt(i));
             }
             return new Blob([new Uint8Array(array)], {
-                type: 'image/jpeg'
+                type: contentType
             });
         };
 
         that._canvasToJPG = function(cvs, done) {
-            const quality = 90; // jpeg quality
+            let contentType = 'image/jpeg';
+            if (that.isTemplate) {
+                contentType = 'image/png';
+            }
 
             if (cvs.toBlob) { // some browsers has support for toBlob
-                cvs.toBlob(done, 'image/jpeg', quality / 100);
+                cvs.toBlob(done, contentType);
             }
             else{
-                done(that._dataURItoBlob(cvs.toDataURL('image/jpeg', quality / 100)));
+                done(that._dataURItoBlob(cvs.toDataURL(contentType, 1.0)));
             }
         };
 
