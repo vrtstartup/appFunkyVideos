@@ -36,7 +36,20 @@ export default angular
         common,
     ])
     .directive('app', appComponent)
+    .config(routing)
     .run(registerStateEvents);
+
+//default route
+routing.$inject = ['$urlRouterProvider'];
+function routing( $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+}
+
+//interceptors
+interceptors.$inject = ['$httpProvider'];
+function interceptors($httpProvider) {
+    $httpProvider.interceptors.push('httpErrorInterceptor');
+}
 
 //set page title
 registerStateEvents.$inject = ['$rootScope'];
