@@ -20,6 +20,13 @@ Then follow guidlines for deploy
 `git add .`
 `git commit -m 'make it better'`
 `git push heroku master`
+
+
+#### Running production config
+make sure to set following environment variables NODE_ENV=production and PORT=**
+
+Run `webpack -p --config webpack.production.config.js` to create production /build folder in /app folder
+Run 'npm start' to startup node server
   
     
 

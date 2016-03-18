@@ -40,6 +40,9 @@ node_modules
 # Temporary files
 temp
 
+#build folder
+build
+
 
 ### OSX ###
 .DS_Store
