@@ -37,6 +37,7 @@
     "lodash": "^4.6.1",
     "mkdirp": "^0.5.1",
     "morgan": "^1.6.1",
+    "multiparty": "^4.1.2",
     "ng-file-upload": "^12.0.1",
     "nodemailer": "^2.3.0",
     "nodemon": "^1.9.0",
