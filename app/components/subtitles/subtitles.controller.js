@@ -1,6 +1,6 @@
 import {keys} from 'lodash';
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload) {
+    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout) {
         this.$log = $log;
         this.$sce = $sce;
         this.srt = srt;
@@ -10,22 +10,13 @@ export default class SubtitlesController {
         this.videogular = videogular;
         this.isReadyForProcess = false;
         this.Upload = Upload;
+        this.$timeout = $timeout;
+        this.slider = {};
 
-        this.slider = {
-            options: {
-                id: 'main',
-                ceil: this.videogular.api.totalTime / 1000,
-                step: 0.001,
-                precision: 10,
-                draggableRange: true,
-                noSwitching: true,
-                onChange: this.changeSlider,
-            }
-
-        };
 
         this.$scope.$on('sliderChanged', (message, sliderId, modelValue, highValue) => {
             this.changeSlider(sliderId, modelValue, highValue);
+            console.log(modelValue, highValue);
             this.form.start = modelValue;
             this.form.end = highValue;
         });
@@ -60,36 +51,27 @@ export default class SubtitlesController {
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
         });
 
-        this.Upload.mediaDuration(file).then((durationInSeconds) =>{
-            this.slider.options.ceil = durationInSeconds;
-            this.form.end =  durationInSeconds;
+        this.Upload.mediaDuration(file).then((durationInSeconds) => {
+            this.slider = {
+                min: 0,
+                max: durationInSeconds,
+                options: {
+                    id: 'test',
+                    floor: 0,
+                    ceil: durationInSeconds,
+                    precision: 10,
+                    step: 0.00001,
+                    draggableRange: true
+                }
+            };
+
+            this.$timeout(() => {
+                console.log('setting start and end');
+                this.form.start = 0;
+                this.form.end = durationInSeconds;
+            }, 1000);
         });
     }
-
-
-    srcChanged() {
-
-        this.form = {
-            start: 0.001,
-            end: this.videogular.api.totalTime / 10000,
-            text: 'test text'
-        };
-
-        this.slider = {
-            options: {
-                id: 'main',
-                floor: 0.001,
-                ceil: this.videogular.api.totalTime / 1000,
-                step: 0.001,
-                precision: 10,
-                draggableRange: true,
-                noSwitching: true,
-                onChange: this.changeSlider.bind(this),
-            },
-        };
-        this.changeSlider();
-    }
-
 
     createSRT(srtObj) {
         for(let i = 0; i <  keys(srtObj).length; i++) {
@@ -166,4 +148,4 @@ export default class SubtitlesController {
 
 }
 
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload'];
+SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout'];

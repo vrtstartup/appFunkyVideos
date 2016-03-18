@@ -3,10 +3,11 @@ import home from './home';
 import subtitles from './subtitles';
 import pictures from './pictures';
 import chart from './chart';
-
+import templater from './templater';
+import audio from './audio';
 
 const module = angular.module('app.components', [
-    home, subtitles, pictures, chart,
+    home, subtitles, pictures, chart, templater, audio
 ]);
 
 export default module.name;

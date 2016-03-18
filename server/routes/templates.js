@@ -22,7 +22,7 @@ router.post('/templates', function(req, res, next) {
     }
 
     var fileName = 'img' + files;
-    var path     = 'temp/templates/' + fileName + '.jpeg';
+    var path     = 'temp/templates/' + fileName + '.png';
 
 
     // Converting blob to png & writing it to /temp

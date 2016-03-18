@@ -1,0 +1,12 @@
+<div>
+    <div class="track" ng-class="{loading:loading==true}">
+        <h2>{{vm.trackName}}</h2>
+        <canvas></canvas>
+        <div class="spinner" ng-show="loading"></div>
+    </div>
+    <section class="controls" id="controls">
+        <a id="play" class="button" ng-click="vm.play(vm.sound)">play</a>
+        <a id="pause" class="button">pause</a>
+        <a id="stop" class="button">stop</a>
+    </section>
+</div>
