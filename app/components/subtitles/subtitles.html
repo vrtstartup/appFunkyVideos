@@ -1,27 +1,19 @@
 <md-content layout-padding layout="row" layout-align="center center" ng-init="vm.srcChanged()">
-    <div flex-gt-md="50" flex="100" flex-md="80">
-            <vrt-videoplayer source="f.url" start="vm.form.start" end="vm.form.end"></vrt-videoplayer>
-            <section>
-                <form name="mailForm">
-                    <md-input-container>
-                        <label>Jouw email - wij sturen download link naar dit email!</label>
-                        <input required name="email" ng-model="vm.subtitle.email" type="email" ng-pattern="/^.+@.+\..+$/"/>
-                        <div ng-messages="mailForm.email.$error" ng-if="mailForm.$submitted || mailForm.email.$touched">
-                            <div ng-message="required">This is required.</div>
-                            <div ng-message='pattern'>
-                                Your email must look like an e-mail address.
-                            </div>
-                        </div>
-                    </md-input-container>
-                </form>
-                <label>Upload Video: only .mp4 is supported</label>
-                <md-input-container >
+    <div flex-gt-md="80" flex="100" flex-md="80">
+            <h1>Subtitle tool</h1>
+            <section ng-hide="vm.movieUploaded">
+                <h1>Upload video: (only .mp4 is supported)</h1>
+                <md-input-container>
                     <input ng-model="vm.subtitle.video" ngf-accept="'video/mp4'" ngf-select="vm.upload($file)" type="file" />
                 </md-input-container>
 
+                <p ng-if="vm.progressPercentage && !vm.movieUploaded">{{vm.progressPercentage}} %</p>
             </section>
 
-            <section ng-if="f.url || vm.isReadyForProcess">
+            <section ng-if="vm.movieUploaded">
+
+                <vrt-videoplayer source="vm.uploadedMovieUrl" start="vm.form.start" end="vm.form.end"></vrt-videoplayer>
+
                 <rzslider rz-slider-model="vm.form.start" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
                 <!--<rzslider rz-slider-model="vm.form.start" id="vm.key" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>-->
 
@@ -51,11 +43,26 @@
                 </md-list>
             </section>
 
+            <pre>{{vm.srtObj | json}}</pre>
+
             <pre>{{ f | json}}</pre>
 
+            <form name="mailForm">
+                <md-input-container>
+                    <label>Email - naar dit adres wordt de verwerkte video verstuurd</label>
+                    <input required name="email" ng-model="vm.subtitle.email" type="email" ng-pattern="/^.+@.+\..+$/"/>
+                    <div ng-messages="mailForm.email.$error" ng-if="mailForm.$submitted || mailForm.email.$touched">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message='pattern'>
+                            Your email must look like an e-mail address.
+                        </div>
+                    </div>
+                </md-input-container>
+            </form>
+
             <p ng-if="vm.isReadyForProcess">
-                Wij zijn bezig met jouw video te processen. Als het klaar is - sturen wij je een email met een url.
-                Check jouw email binnen een uur, en vergeet niet om in de spam folder te kijken :)
+                Uw video wordt verwerkt. Zodra deze klaar is ontvangt u een e-mail met download link.
+                Vergeet niet uw spam-folder na te kijken.
             </p>
 
             <md-button ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised" ng-disabled="!vm.subtitle.email">Generate</md-button>

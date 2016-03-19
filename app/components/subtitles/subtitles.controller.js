@@ -6,40 +6,50 @@ export default class SubtitlesController {
         this.srt = srt;
         this.$scope = $scope;
         this.FileSaver = FileSaver;
-        this.srtObj = {};
         this.videogular = videogular;
         this.isReadyForProcess = false;
+        this.movieUploaded = false;
         this.Upload = Upload;
         this.$timeout = $timeout;
+
+        this.uploadedMovieUrl = '';
+        this.progressPercentage = '';
+        this.srtObj = {};
+        this.form = {};
         this.slider = {};
-
-
-        this.$scope.$on('sliderChanged', (message, sliderId, modelValue, highValue) => {
-            this.changeSlider(sliderId, modelValue, highValue);
-            console.log(modelValue, highValue);
-            this.form.start = modelValue;
-            this.form.end = highValue;
-        });
-
-
-        //if (isNaN(this.form.end) || isNaN(this.form.start)) {
-        //    this.form.end = 0;
-        //    this.form.start = 0;
-        //}
-
     }
 
     upload(file, name, email) {
-        this.$scope.f = file;
+        //set duration of video, init slider values
+        this.Upload.mediaDuration(file).then((durationInSeconds) => {
+            durationInSeconds = Math.round(durationInSeconds * 1000) / 1000;
+            this.form.start = 0;
+            this.form.end = durationInSeconds;
 
-        console.log('FILE', file);
+            this.slider = {
+                min: 0,
+                max: durationInSeconds,
+                options: {
+                    id: 'main',
+                    floor: 0,
+                    ceil: durationInSeconds,
+                    precision: 3,
+                    step: 0.001,
+                    draggableRange: true,
+                    keyboardSupport: true
+                }
+            };
+        });
 
+        //upload video, show player and sliders
         this.Upload.upload({
             url: 'api/subtitleVideos',
             data: {file: file, fileName: name, email: email},
             method: 'POST',
-        }).then((resp) => {
-            console.log('RESP', resp.data);
+        })
+        .then((resp) => {
+            this.uploadedMovieUrl = resp.data.url;
+            this.movieUploaded = true;
             file.url = resp.data.url;
             file.nm = resp.data.name;
             file.subtitled = resp.data.subtitled;
@@ -47,29 +57,7 @@ export default class SubtitlesController {
             console.log('Error: ' + resp.error);
             console.log('Error status: ' + resp.status);
         }, (evt) => {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-        });
-
-        this.Upload.mediaDuration(file).then((durationInSeconds) => {
-            this.slider = {
-                min: 0,
-                max: durationInSeconds,
-                options: {
-                    id: 'test',
-                    floor: 0,
-                    ceil: durationInSeconds,
-                    precision: 10,
-                    step: 0.00001,
-                    draggableRange: true
-                }
-            };
-
-            this.$timeout(() => {
-                console.log('setting start and end');
-                this.form.start = 0;
-                this.form.end = durationInSeconds;
-            }, 1000);
+            this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
         });
     }
 
@@ -112,22 +100,18 @@ export default class SubtitlesController {
         return a;
     }
 
-
-    changeSlider(id, start, end) {
-        if(!start) return;
-        this.videogular.api.seekTime(start);
+    logTime(time, duration) {
+        console.log('playhead updating', time);
     }
 
-
     setIn() {
-        this.form.start = this.videogular.api.currentTime / 1000.0;
+        this.form.start = this.form.start - 0.1;
     }
 
 
     setOut() {
-        this.form.end = this.videogular.api.currentTime / 1000.0;
+        this.form.end = this.form.end + 0.1;
     }
-
 
     // hotkeys.add({
     //     combo: 'ctrl+i',
