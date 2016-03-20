@@ -1,4 +1,4 @@
-import {keys, extend} from 'lodash';
+import {keys, extend, find} from 'lodash';
 
 export default class SubtitlesController {
     constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout) {
@@ -19,6 +19,8 @@ export default class SubtitlesController {
         this.form = {};
         this.slider = {};
         this.subtitles = [];
+        this.currentTime = '';
+        this.currentSubtitlePreview = '';
 
         this.$scope.$watchCollection('vm.form', (newValues, oldValues) => {
             if (newValues === oldValues) {
@@ -27,6 +29,14 @@ export default class SubtitlesController {
 
             this.updateSubtitles(newValues);
         }, true);
+
+        this.$scope.$on('currentTime', (event, time) => {
+            let currentSubtitle = find(this.subtitles, (subtitle) => {
+                if(time >= subtitle.start && time <= subtitle.end) return subtitle.text;
+            });
+
+            this.currentSubtitlePreview = currentSubtitle ? currentSubtitle.text || '' : '';
+        });
     }
 
     updateSubtitles(newValues) {
@@ -50,6 +60,15 @@ export default class SubtitlesController {
             start: '',
             end: '',
             text: ''
+        }
+    }
+
+    editSubtitle(subtitle) {
+        this.form = {
+            id: subtitle.id,
+            start: subtitle.start,
+            end: subtitle.end,
+            text: subtitle.text
         }
     }
 

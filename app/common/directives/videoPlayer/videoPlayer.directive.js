@@ -6,7 +6,6 @@ class VideoPlayerDirectiveController {
         this.$scope = $scope;
         this.videogular = videogular;
         this.config = {};
-        this.totalTime = '';
 
         $scope.$watch('source', (value) => {
             if (!value) return;
@@ -76,9 +75,8 @@ class VideoPlayerDirectiveController {
         //});
     }
 
-    setTimes(currentTime, totalTime) {
-        this.totalTime = totalTime;
-        $scope.currentTime = currentTime;
+    setTimes(currentTime) {
+        this.$scope.$emit('currentTime', currentTime);
     }
 
     onPlayerReady(API) {
@@ -99,6 +97,7 @@ export const videoPlayerDirective = function() {
             start: '=',
             end: '=',
             currentTime: '=',
+            updateTime: '&'
         },
         controller: VideoPlayerDirectiveController,
         controllerAs: 'vm',

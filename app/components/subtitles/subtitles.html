@@ -12,10 +12,10 @@
 
             <section ng-if="vm.movieUploaded">
                 <div class="videowrapper">
-                    <vrt-videoplayer source="vm.uploadedMovieUrl" start="vm.form.start" end="vm.form.end" text="vm.form.text"></vrt-videoplayer>
+                    <vrt-videoplayer source="vm.uploadedMovieUrl" start="vm.form.start" end="vm.form.end" update-time="vm.updateTime()"></vrt-videoplayer>
+                    <p id="subtitlePreview">{{vm.currentSubtitlePreview}}</p>
                     <input id="subtitleText" name="title" ng-model="vm.form.text">
                 </div>
-
                 <rzslider rz-slider-model="vm.form.start" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
                 <!--<rzslider rz-slider-model="vm.form.start" id="vm.key" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>-->
 
@@ -30,8 +30,8 @@
                 <button class="md-raised md-primary" ng-click="vm.addSubtitle()">Add new line</button>
 
                 <ul>
-                    <li ng-repeat="line in vm.subtitles">
-                        <p>{{line.start}} - {{line.end}}: {{line.text}}</p>
+                    <li ng-repeat="line in vm.subtitles" ng-click="vm.editSubtitle(line)"">
+                        {{line.start}} - {{line.end}}: {{line.text}}
                     </li>
                 </ul>
 
@@ -53,10 +53,6 @@
                     <!--</div>-->
                 <!--</md-list>-->
             </section>
-
-            <pre>{{vm.srtObj | json}}</pre>
-
-            <pre>{{ f | json}}</pre>
 
             <form name="mailForm">
                 <md-input-container>
