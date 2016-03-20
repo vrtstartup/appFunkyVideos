@@ -55,10 +55,11 @@ export default class SubtitlesController {
     }
 
     addSubtitle() {
+        let lastTitle = this.form.end;
         this.form = {
             id: '',
-            start: '',
-            end: '',
+            start: lastTitle + 0.1,
+            end: lastTitle+2,
             text: ''
         }
     }
