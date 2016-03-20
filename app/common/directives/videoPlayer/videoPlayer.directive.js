@@ -33,7 +33,6 @@ class VideoPlayerDirectiveController {
             let startChanged =  values[0] !== oldValues[0];
             if (startChanged && this.videogular.api) {
                 this.videogular.api.seekTime(values[0]);
-                this.videogular.api.play();
             }
 
             this.config.cuePoints = {
@@ -100,7 +99,6 @@ export const videoPlayerDirective = function() {
             start: '=',
             end: '=',
             currentTime: '=',
-            cueEndReached: '&'
         },
         controller: VideoPlayerDirectiveController,
         controllerAs: 'vm',

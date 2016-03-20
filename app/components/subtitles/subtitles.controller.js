@@ -1,4 +1,5 @@
-import {keys} from 'lodash';
+import {keys, extend} from 'lodash';
+
 export default class SubtitlesController {
     constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout) {
         this.$log = $log;
@@ -17,8 +18,46 @@ export default class SubtitlesController {
         this.srtObj = {};
         this.form = {};
         this.slider = {};
+        this.subtitles = [];
+
+        this.$scope.$watchCollection('vm.form', (newValues, oldValues) => {
+            if (newValues === oldValues) {
+                return;
+            }
+
+            this.updateSubtitles(newValues);
+        }, true);
     }
 
+    updateSubtitles(newValues) {
+        //check if value.id exists, else push object to array with new ID
+        if (!this.form.id) {
+            this.form.id = this.getNewSubtitleId();
+            this.subtitles.push(this.form);
+        }
+
+        //update existing array with object changes
+        this.subtitles.map((subtitle) => {
+            if (subtitle.id === this.form.id) {
+                return extend(subtitle, this.form);
+            }
+        });
+    }
+
+    addSubtitle() {
+        this.form = {
+            id: '',
+            start: '',
+            end: '',
+            text: ''
+        }
+    }
+
+    getNewSubtitleId() {
+        return 1 + this.subtitles.length;
+    }
+
+    //upload file to server, get media duration to init sliders
     upload(file, name, email) {
         //set duration of video, init slider values
         this.Upload.mediaDuration(file).then((durationInSeconds) => {
@@ -61,58 +100,67 @@ export default class SubtitlesController {
         });
     }
 
-    createSRT(srtObj) {
-        for(let i = 0; i <  keys(srtObj).length; i++) {
-            srtObj[i].end = this.checkIfDecimal(srtObj[i].end);
-            srtObj[i].start = this.checkIfDecimal(srtObj[i].start);
-        }
-        return this.srt.stringify(srtObj);
-    }
+    //saveLine() {
+    //    var id = Object.keys(this.subtitles).length++;
+    //    this.subtitles[id] = {
+    //        id: id,
+    //        start: vm.form.start,
+    //        end: vm.form.end,
+    //        text: vm.form.text
+    //    }
+    //}
+
+    //createSRT(srtObj) {
+    //    for(let i = 0; i <  keys(srtObj).length; i++) {
+    //        srtObj[i].end = this.checkIfDecimal(srtObj[i].end);
+    //        srtObj[i].start = this.checkIfDecimal(srtObj[i].start);
+    //    }
+    //    return this.srt.stringify(srtObj);
+    //}
 
 
-    downloadSRTFile(srtObj) {
-        const srtString = this.createSRT(srtObj);
-        const email = this.subtitle.email;
-        const name =  this.$scope.f.nm + '.srt';
-        const data = new Blob([srtString], {
-            type: 'srt',
-        });
+    //downloadSRTFile(srtObj) {
+    //    const srtString = this.createSRT(srtObj);
+    //    const email = this.subtitle.email;
+    //    const name =  this.$scope.f.nm + '.srt';
+    //    const data = new Blob([srtString], {
+    //        type: 'srt',
+    //    });
+    //
+    //    //this.FileSaver.saveAs(data, name);
+    //    this.upload(data, name, email);
+    //    this.isReadyForProcess = true;
+    //}
 
-        //this.FileSaver.saveAs(data, name);
-        this.upload(data, name, email);
-        this.isReadyForProcess = true;
+    //addLine(obj) {
+    //    this.totalTime = this.videogular.api.currentTime / 1000.0;
+    //    var id = Object.keys(this.srtObj).length++;
+    //    this.srtObj[id] = {id: id, start: obj.start, end: obj.end, text: obj.text};
+    //}
 
-    }
-
-    addLine(obj) {
-        this.totalTime = this.videogular.api.currentTime / 1000.0;
-        var id = Object.keys(this.srtObj).length++;
-        this.srtObj[id] = {id: id, start: obj.start, end: obj.end, text: obj.text};
-    }
-
-    checkIfDecimal(a) {
-        if (a%1 === 0) {
-            return a - 0.001;
-        }
-        if (a === 0) {
-            return a + 0.001;
-        }
-        return a;
-    }
-
-    logTime(time, duration) {
-        console.log('playhead updating', time);
-    }
-
-    setIn() {
-        this.form.start = this.form.start - 0.1;
-    }
-
-
-    setOut() {
-        this.form.end = this.form.end + 0.1;
-    }
-
+    //checkIfDecimal(a) {
+    //    if (a%1 === 0) {
+    //        return a - 0.001;
+    //    }
+    //    if (a === 0) {
+    //        return a + 0.001;
+    //    }
+    //    return a;
+    //}
+    //
+    //logTime(time, duration) {
+    //    console.log('playhead updating', time);
+    //}
+    //
+    //setIn() {
+    //    this.form.start = this.form.start - 0.1;
+    //}
+    //
+    //
+    //setOut() {
+    //    this.form.end = this.form.end + 0.1;
+    //}
+    //
     // hotkeys.add({
     //     combo: 'ctrl+i',
     //     description: 'getInTime',
@@ -120,7 +168,7 @@ export default class SubtitlesController {
     //         setIn();
     //     }
     // });
-
+    //
     // hotkeys.add({
     //     combo: 'ctrl+o',
     //     description: 'getOutTime',
@@ -128,8 +176,6 @@ export default class SubtitlesController {
     //         setOut();
     //     }
     // });
-
-
 }
 
 SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout'];

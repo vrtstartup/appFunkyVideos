@@ -11,36 +11,47 @@
             </section>
 
             <section ng-if="vm.movieUploaded">
-
-                <vrt-videoplayer source="vm.uploadedMovieUrl" start="vm.form.start" end="vm.form.end"></vrt-videoplayer>
+                <div class="videowrapper">
+                    <vrt-videoplayer source="vm.uploadedMovieUrl" start="vm.form.start" end="vm.form.end" text="vm.form.text"></vrt-videoplayer>
+                    <input id="subtitleText" name="title" ng-model="vm.form.text">
+                </div>
 
                 <rzslider rz-slider-model="vm.form.start" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
                 <!--<rzslider rz-slider-model="vm.form.start" id="vm.key" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>-->
 
-                <form name="templateForm">
-                    <md-input-container>
-                        <label>text</label>
-                        <input name="title" ng-model="vm.form.text">
-                    </md-input-container>
-                </form>
+                <label for="subtitleText">Subtitle</label>
 
-                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                    <md-input-container>
-                        <input ng-model="vm.form.start" ng-change="changeSlider()">
-                    </md-input-container>
-                    <md-button class="md-fab" aria-label="In" ng-click="vm.setIn()"> < </md-button>
-                    <md-button ng-click="vm.addLine(vm.form)" class="md-raised md-primary">Add Line</md-button>
-                    <md-button class="md-fab" aria-label="Out" ng-click="vm.setOut()"> > </md-button>
-                    <md-input-container>
-                        <input ng-model="vm.form.end">
-                    </md-input-container>
-                </section>
+                <label for="subtitleStart">Start</label>
+                <input id="subtitleStart" name="title" ng-model="vm.form.start">
 
-                <md-list>
-                    <div ng-repeat="(key, l) in vm.srtObj">
-                        <subtitle-line key="key" in="l.start" out="l.end" text="l.text"></subtitle-line>
-                    </div>
-                </md-list>
+                <label for="subtitleEnd">End</label>
+                <input id="subtitleEnd" name="title" ng-model="vm.form.end">
+
+                <button class="md-raised md-primary" ng-click="vm.addSubtitle()">Add new line</button>
+
+                <ul>
+                    <li ng-repeat="line in vm.subtitles">
+                        <p>{{line.start}} - {{line.end}}: {{line.text}}</p>
+                    </li>
+                </ul>
+
+                <!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>-->
+                    <!--<md-input-container>-->
+                        <!--<input ng-model="vm.form.start" ng-change="changeSlider()">-->
+                    <!--</md-input-container>-->
+                    <!--<md-button class="md-fab" aria-label="In" ng-click="vm.setIn()"> < </md-button>-->
+                    <!--<md-button ng-click="vm.addLine(vm.form)" class="md-raised md-primary">Add Line</md-button>-->
+                    <!--<md-button class="md-fab" aria-label="Out" ng-click="vm.setOut()"> > </md-button>-->
+                    <!--<md-input-container>-->
+                        <!--<input ng-model="vm.form.end">-->
+                    <!--</md-input-container>-->
+                <!--</section>-->
+
+                <!--<md-list>-->
+                    <!--<div ng-repeat="(key, l) in vm.srtObj">-->
+                        <!--<subtitle-line key="key" in="l.start" out="l.end" text="l.text"></subtitle-line>-->
+                    <!--</div>-->
+                <!--</md-list>-->
             </section>
 
             <pre>{{vm.srtObj | json}}</pre>

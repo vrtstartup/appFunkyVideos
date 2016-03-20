@@ -3,6 +3,7 @@ import uiRouter from 'angular-ui-router';
 import ngMaterial from 'angular-material';
 
 import subtitlesController from './subtitles.controller.js';
+import './subtitles.scss';
 
 const module = angular.module('app.components.subtitles', [
     uiRouter, ngMaterial,
