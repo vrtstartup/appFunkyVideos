@@ -5,8 +5,6 @@ var Dropbox = require('dropbox');
 var fs = require('fs');
 var multiparty = require('multiparty');
 
-//var multiparty = require('connect-multiparty');
-//var multipartyMiddleware = multiparty({ uploadDir: 'temp/templaterVideos/' });
 
 //url /api
 router.post('/templaterVideo', function(req, res, next) {

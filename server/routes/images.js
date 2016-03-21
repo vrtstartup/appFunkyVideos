@@ -7,7 +7,8 @@ var findRemoveSync = require('find-remove');
 
 router.post('/images', function(req, res, next) {
 
-    var files = fs.readdirSync('temp/chart/').length;
+    var basePath = 'temp/chart/';
+    var files = fs.readdirSync(basePath).length;
     var buff = [];
 
     if (files < 10) {
@@ -16,8 +17,8 @@ router.post('/images', function(req, res, next) {
         files = '0' + files;
     }
 
-    var fileName = 'img' + files;
-    var path = 'temp/chart/' + fileName + '.jpeg';
+    var fileName = 'img' + files + '.jpeg';
+    var path = basePath + fileName;
 
     // Converting blob to png & writing it to /temp
     req.on('data', function (data) {

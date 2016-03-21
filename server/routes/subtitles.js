@@ -27,8 +27,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '').replace('.mov', '').replace('.avi', '').replace('.mkv', '');
     //console.log('REQ', req.files.file);
 
-    const fName = getExtension(file.name);
-    //console.log('REQ', file);
+    //const fName = getExtension(file.name);
 
 
     //if (fName !== 'mp4' || fName !== 'srt') {
@@ -56,14 +55,13 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
         fs.renameSync(path + name, srtPath);
 
-        //console.log('URL video', videoPath);
-        //console.log('URL srt', srtPath);
+
         // burn subtitles
         url = path + 'gen' + videoPath;
 
         ffmpeg(path + videoPath)
             .on('start', function(commandLine) {
-                var result = findRemoveSync('temp', {age: {seconds: 36000}});
+                findRemoveSync('temp', {age: {seconds: 36000}});
                 console.log('FFMPEG is really working hard: ' + commandLine);
             })
             .outputOptions(
@@ -77,7 +75,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
             })
             .on('end', function() {
                 console.log('END: ', url);
-                var result = findRemoveSync('temp', {files: videoPath});
+                findRemoveSync('temp', {files: videoPath});
                 sendNotificationTo(email, url);
                 res.json({ url: url, name: name, subtitled: true }).send();
             })
