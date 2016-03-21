@@ -1,17 +1,20 @@
-<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-    <div flex="15">
-        <p>Kies een kleurenschema</p>
+<md-toolbar class="vrt-toolbar">
+    <div class="md-toolbar-tools">
+        <h3>
+            VRT Pictures tool
+        </h3>
     </div>
+</md-toolbar>
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+    <p>Kies een kleurenschema</p>
 </section>
-<section layout="row" layout-sm="column" layout-align="center" layout-wrap="" >
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap="" >
     <md-button ng-repeat="scheme in vm.schemes" ng-class="scheme.class" class="md-raised" ng-click="vm.getScheme(scheme)">{{scheme.name}}</md-button>
 </section>
 
 <div ng-show="vm.showAvailiableTemplates">
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-        <div flex="10">
            <p>Kies een template</p>
-        </div>
     </section>
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
         <md-button class="md-raised" ng-click="vm.showMurderface()">Quote</md-button>
@@ -20,7 +23,6 @@
     </section>
 </div>
 <!--<section layout="row" layout-sm="column" layout-align="center" layout-wrap="">-->
-
     <!--<div flex="20">-->
         <!--<md-input-container class="md-block" flex-gt-sm="">-->
             <!--<label>Choose color scheme</label>-->
@@ -35,32 +37,32 @@
 
 
 <div ng-class="vm.className">
-<div layout="column" class="md-inline-form" ng-if="vm.isMurderface">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isMurderface">
     <md-content layout-padding="">
         <md-input-container class="md-block">
             <label>Quote</label>
             <input ng-model="quote.question" md-maxlength="130">
         </md-input-container>
-        <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
     </md-content>
     <div layout-gt-sm="row">
-        <div flex="40">
+        <md-content layout-padding="" flex="50">
             <md-input-container class="md-block">
                 <label>Author name</label>
                 <input ng-model="quote.authorName" md-maxlength="100">
             </md-input-container>
-        </div>
-        <div flex="40">
+        </md-content>
+        <md-content layout-padding="" flex="50">
             <md-input-container class="md-block">
                 <label>Author title/partij/locatie</label>
                 <input ng-model="quote.authorTitle" md-maxlength="100">
             </md-input-container>
-        </div>
-        <div flex="20">
-            <md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote">
-                Is it a quote?
-            </md-checkbox>
-        </div>
+        </md-content>
+    </div>
+    <div layout-gt-sm="row">
+        <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
+        <md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote" ng-init="quote.isHiddenSign=true">
+            Is it a quote?
+        </md-checkbox>
     </div>
     <div class="dir-wrap">
         <vrt-template-murderface class="dir-wrap"
@@ -75,7 +77,7 @@
     </section>
 </div>
 
-<div layout="column" class="md-inline-form" ng-if="vm.isWartooth">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isWartooth">
 
     <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm="">
@@ -127,48 +129,40 @@
     </section>
 </div>
 
-<div layout="column" class="md-inline-form" ng-if="vm.isSkwigelf">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isSkwigelf">
 
-    <div layout-gt-sm="row">
-        <div flex>
+    <md-content layout-padding="">
         <md-input-container class="md-block">
             <label>Quote</label>
             <input ng-model="quote.question" md-maxlength="100">
         </md-input-container>
-        </div>
+    </md-content>
 
-    </div>
     <div layout-gt-sm="row">
-        <div flex="50">
+        <md-content layout-padding="" flex="50">
             <md-input-container class="md-block">
                 <label>Author name</label>
                 <input ng-model="quote.authorName" md-maxlength="100">
             </md-input-container>
-        </div>
-        <div flex="50">
+        </md-content>
+        <md-content layout-padding="" flex="50">
             <md-input-container class="md-block">
                 <label>Author title/partij/locatie</label>
                 <input ng-model="quote.authorTitle" md-maxlength="100">
             </md-input-container>
-        </div>
+        </md-content>
     </div>
-    <div layout-gt-sm="row"  layout-align="center">
+    <div layout-gt-sm="row">
 
-        <div flex="20">
-            <md-input-container class="md-block">
-                <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
-            </md-input-container>
-        </div>
+        <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
         <!--<div flex="20">-->
             <!--<md-checkbox ng-model="quote.isMirrored" aria-label="Checkbox flip image">-->
                 <!--Flip image & text?-->
             <!--</md-checkbox>-->
         <!--</div>-->
-        <div flex="20">
-            <md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote">
+            <md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote" ng-init="quote.isHiddenSign=true">
                 Is it a quote?
             </md-checkbox>
-        </div>
     </div>
 
     <div class="dir-wrap">

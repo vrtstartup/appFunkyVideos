@@ -96,7 +96,7 @@ function getExtension(filename) {
 
 function sendNotificationTo(email, url) {
 
-    var fullUrl = 'https://cryptic-everglades-93518.herokuapp.com/' + url;
+    var fullUrl = 'http://nieuwshub.vrt.be/' + url;
 
     var mailOptions = {
         from: '"VRT funky videos👥" <vrtfunkyvideos@gmail.com>', // sender address
