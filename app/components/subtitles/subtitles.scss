@@ -1,13 +1,53 @@
-#subtitleText, #subtitlePreview {
+md-toolbar.vrt-toolbar {
+  background-color: #84c803;
+}
+
+md-toolbar.vrt-sub-toolbar {
+  color: #000;
+  background-color: lightgrey;
+}
+
+.page-container {
+}
+
+.upload-container {
+  padding: 50px;
+}
+
+.video-container {
+  height: calc(100vh - 64px);
+}
+
+.subtitles-container {
+  height: calc(100vh - 64px);
+
+  .subtitle-edit-wrap {
+    height: 30%;
+  }
+
+  .subtitles-wrap {
+    height: calc(70% - 64px);
+  }
+
+  .subtitles-list-wrap {
+    height: calc(100% - 64px);
+    overflow-y: scroll;
+  }
+}
+
+#subtitlePreview {
   position: absolute;
-  width: 550px;
-  border: none;
-  background-color: transparent;
-  color: white;
-  bottom: 10px;
-  margin-left: -275px;
-  left: 50%;
+  bottom: 100px;
+  left: 0;
+  display: block;
+  z-index: 100;
+  width: 100%;
+  padding: 15px 25px;
   text-align: center;
+  color: white;
+  font-weight: 500;
+  font-size: 2em;
+  text-shadow: 2px 2px 0 #000;
 }
 
 .videowrapper {
@@ -17,6 +57,6 @@
 .videowrapper:hover {
   #subtitleText {
     background-color: rgba(255,255,255, 0.3);
-    border: 1px solid white;
+    border-bottom: 1px solid white;
   }
 }
