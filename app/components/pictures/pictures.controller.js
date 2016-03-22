@@ -1,3 +1,4 @@
+//TODO: refactor show functions
 export default class PicturesController {
     constructor($log, $rootScope, $http) {
         this.$log = $log;
@@ -8,6 +9,7 @@ export default class PicturesController {
         this.isMurderface = false;
         this.isWartooth = false;
         this.isSkwigelf = false;
+        this.isExplosion = false;
         this.isReady = false;
         this.className = 'drd';
         this.showAvailiableTemplates = false;
@@ -41,6 +43,7 @@ export default class PicturesController {
         this.isWartooth = false;
         this.isSkwigelf = false;
         this.isReady = false;
+        this.isExplosion = false;
 
     }
 
@@ -49,6 +52,7 @@ export default class PicturesController {
         this.isWartooth = true;
         this.isSkwigelf = false;
         this.isReady = false;
+        this.isExplosion = false;
 
     }
 
@@ -57,8 +61,16 @@ export default class PicturesController {
         this.isWartooth = false;
         this.isSkwigelf = true;
         this.isReady = false;
+        this.isExplosion = false;
     }
 
+    showExplosion() {
+        this.isMurderface = false;
+        this.isWartooth = false;
+        this.isSkwigelf = false;
+        this.isReady = false;
+        this.isExplosion = true;
+    }
 
 }
 

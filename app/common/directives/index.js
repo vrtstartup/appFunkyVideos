@@ -6,6 +6,7 @@ import screenshot from './screenshot';
 import templateMurderface from './templateMurderface';
 import templateWartooth from './templateWartooth';
 import templateSkwigelf from './templateSkwigelf';
+import templateExplosion from './templateExplosion';
 import imagePreview from './imagePreview';
 import subtitleLine from './subtitleLine';
 import videoUploader from './videoUploader';
@@ -17,10 +18,8 @@ import track from './track';
 
 const module = angular.module('app.common.directives', [
     test, pieChart, text, screenshot,
-    templateMurderface, templateWartooth, templateSkwigelf, imagePreview,
-    eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track,
-
-
+    templateMurderface, templateWartooth, templateSkwigelf, templateExplosion,
+    imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track,
 ]);
 
 export default module.name;

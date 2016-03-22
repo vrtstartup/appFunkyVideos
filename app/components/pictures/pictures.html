@@ -21,7 +21,7 @@
                 </md-toolbar>
                 <md-content style="height: 600px;" ng-if="vm.showTypes">
                     <md-subheader class="md-no-sticky">Headline</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="">
+                    <md-list-item class="md-3-line" ng-click="vm.showExplosion()">
                         <img src="./../assets/templates/hub_headline-h1.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Update</md-subheader>
@@ -97,13 +97,15 @@
         <div ng-class="vm.className">
 
             <!--template-->
+            <ng-include src="'components/pictures/picture.explosion.html'"></ng-include>
+            <!--template-->
             <ng-include src="'components/pictures/picture.skwigelf.html'"></ng-include>
             <!--template-->
             <ng-include src="'components/pictures/picture.murderface.html'"></ng-include>
             <!--template-->
             <ng-include src="'components/pictures/picture.wartooth.html'"></ng-include>
 
-            <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth" layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+            <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion" layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
                 <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
                 <a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>
             </section>
