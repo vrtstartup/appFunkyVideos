@@ -35,10 +35,9 @@ export default class PicturesController {
         this.isReady = !this.isReady;
     }
 
-    showMurderface(templateClass) {
+    showMurderface() {
         this.resetAllTemplates();
         this.isMurderface = true;
-        this.templateClass = templateClass;
     }
 
     showWartooth() {
@@ -49,6 +48,11 @@ export default class PicturesController {
     showSkwigelf() {
         this.resetAllTemplates();
         this.isSkwigelf = true;
+    }
+
+    showPickels() {
+        this.resetAllTemplates();
+        this.isPickels = true;
     }
 
     showExplosion(templateClass) {
@@ -63,6 +67,7 @@ export default class PicturesController {
         this.isSkwigelf = false;
         this.isExplosion = false;
         this.isReady = false;
+        this.isPickels = false;
     }
 
 }

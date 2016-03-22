@@ -32,7 +32,7 @@
                         <img src="./../assets/templates/hub_Quote-persoon.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Cijfer</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showMurderface('number')">
+                    <md-list-item class="md-3-line" ng-click="vm.showPickels()">
                         <img src="./../assets/templates/hub_Cijfer.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Update</md-subheader>
@@ -104,8 +104,10 @@
             <ng-include src="'components/pictures/picture.murderface.html'"></ng-include>
             <!--template-->
             <ng-include src="'components/pictures/picture.wartooth.html'"></ng-include>
+            <!--template-->
+            <ng-include src="'components/pictures/picture.pickels.html'"></ng-include>
 
-            <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion" layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+            <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion || vm.isPickels" layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
                 <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
                 <a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>
             </section>
