@@ -1,0 +1,36 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isMurderface">
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Quote</label>
+            <input ng-model="quote.question" md-maxlength="130">
+        </md-input-container>
+    </md-content>
+    <div layout-gt-sm="row">
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <input ng-model="quote.authorName" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Author title/partij/locatie</label>
+                <input ng-model="quote.authorTitle" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+    </div>
+    <div layout-gt-sm="row">
+        <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
+        <md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote"
+                     ng-init="quote.isHiddenSign=true">
+            Is it a quote?
+        </md-checkbox>
+    </div>
+    <div class="dir-wrap">
+        <vrt-template-murderface class="dir-wrap"
+                                 is-hidden-sign="quote.isHiddenSign"
+                                 author-name="quote.authorName" author-title="quote.authorTitle"
+                                 is-ready="vm.isReady" quote="quote.question" image="quote.img">
+        </vrt-template-murderface>
+    </div>
+</div>
