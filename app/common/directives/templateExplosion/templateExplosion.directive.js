@@ -28,6 +28,7 @@ export const templateExplosionDirective = function() {
             quote: '=',
             isReady: '=',
             image: '=',
+            templateClass: '=',
         },
     };
 };

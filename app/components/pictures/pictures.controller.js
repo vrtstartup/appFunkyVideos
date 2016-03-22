@@ -6,13 +6,10 @@ export default class PicturesController {
         this.$http = $http;
         //What do you mean, 'booze ain't food'? I'd rather chop off my ding-dong than admit that!
 
-        this.isMurderface = false;
-        this.isWartooth = false;
-        this.isSkwigelf = false;
-        this.isExplosion = false;
-        this.isReady = false;
         this.className = 'drd';
         this.showAvailiableTemplates = false;
+
+        this.resetAllTemplates();
 
         this.schemes = [
             {
@@ -38,38 +35,34 @@ export default class PicturesController {
         this.isReady = !this.isReady;
     }
 
-    showMurderface() {
+    showMurderface(templateClass) {
+        this.resetAllTemplates();
         this.isMurderface = true;
-        this.isWartooth = false;
-        this.isSkwigelf = false;
-        this.isReady = false;
-        this.isExplosion = false;
-
+        this.templateClass = templateClass;
     }
 
     showWartooth() {
-        this.isMurderface = false;
+        this.resetAllTemplates();
         this.isWartooth = true;
-        this.isSkwigelf = false;
-        this.isReady = false;
-        this.isExplosion = false;
-
     }
 
     showSkwigelf() {
-        this.isMurderface = false;
-        this.isWartooth = false;
+        this.resetAllTemplates();
         this.isSkwigelf = true;
-        this.isReady = false;
-        this.isExplosion = false;
     }
 
-    showExplosion() {
+    showExplosion(templateClass) {
+        this.resetAllTemplates();
+        this.isExplosion = true;
+        this.templateClass = templateClass;
+    }
+
+    resetAllTemplates() {
         this.isMurderface = false;
         this.isWartooth = false;
         this.isSkwigelf = false;
+        this.isExplosion = false;
         this.isReady = false;
-        this.isExplosion = true;
     }
 
 }

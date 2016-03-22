@@ -21,20 +21,38 @@
                 </md-toolbar>
                 <md-content style="height: 600px;" ng-if="vm.showTypes">
                     <md-subheader class="md-no-sticky">Headline</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showExplosion()">
+                    <md-list-item class="md-3-line" ng-click="vm.showExplosion('explosion')">
                         <img src="./../assets/templates/hub_headline-h1.jpg" alt="" width="100%">
+                    </md-list-item>
+                    <md-subheader class="md-no-sticky">Quote</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.showMurderface()">
+                        <img src="./../assets/templates/hub_Quote-situatie.jpg" alt="" width="100%">
+                    </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="vm.showSkwigelf()">
+                        <img src="./../assets/templates/hub_Quote-persoon.jpg" alt="" width="100%">
+                    </md-list-item>
+                    <md-subheader class="md-no-sticky">Cijfer</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.showMurderface('number')">
+                        <img src="./../assets/templates/hub_Cijfer.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Update</md-subheader>
                     <md-list-item class="md-3-line" ng-click="">
                         <img src="./../assets/templates/hub_Update.jpg" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Analyse</md-subheader>
+                    <md-subheader class="md-no-sticky">Breaking</md-subheader>
                     <md-list-item class="md-3-line" ng-click="">
-                        <img src="./../assets/templates/hub_Analyse.jpg" alt="" width="100%">
+                        <img src="./../assets/templates/hub_Breaking-clean.jpg" alt="" width="100%">
+                    </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="">
+                        <img src="./../assets/templates/hub_Breaking-foto.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Live</md-subheader>
                     <md-list-item class="md-3-line" ng-click="">
                         <img src="./../assets/templates/hub_Live.jpg" alt="" width="100%">
+                    </md-list-item>
+                    <md-subheader class="md-no-sticky">Analyse</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="">
+                        <img src="./../assets/templates/hub_Analyse.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Ook dat nog</md-subheader>
                     <md-list-item class="md-3-line" ng-click="">
@@ -50,27 +68,9 @@
                     <md-list-item class="md-3-line" ng-click="">
                         <img src="./../assets/templates/hub_Infografiek-h2.jpg" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Quote</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showMurderface()">
-                        <img src="./../assets/templates/hub_Quote-situatie.jpg" alt="" width="100%">
-                    </md-list-item>
-                    <md-list-item class="md-3-line" ng-click="vm.showSkwigelf()">
-                        <img src="./../assets/templates/hub_Quote-persoon.jpg" alt="" width="100%">
-                    </md-list-item>
-                    <md-subheader class="md-no-sticky">Breaking</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="">
-                        <img src="./../assets/templates/hub_Breaking-clean.jpg" alt="" width="100%">
-                    </md-list-item>
-                    <md-list-item class="md-3-line" ng-click="">
-                        <img src="./../assets/templates/hub_Breaking-foto.jpg" alt="" width="100%">
-                    </md-list-item>
                     <!--<md-list-item class="md-3-line" ng-click="vm.showWartooth()">-->
                         <!--Drieluik-->
                     <!--</md-list-item>-->
-                    <md-subheader class="md-no-sticky">Cijfer</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="">
-                        <img src="./../assets/templates/hub_Cijfer.jpg" alt="" width="100%">
-                    </md-list-item>
                 </md-contentmd-content>
             </md-list>
         </md-content>

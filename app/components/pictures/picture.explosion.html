@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isExplosion">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isExplosion" ng-class="vm.templateClass">
     <md-content layout-padding="">
         <md-input-container class="md-block">
             <label>Quote</label>
@@ -11,9 +11,8 @@
 
     </div>
     <div class="dir-wrap">
-        <vrt-template-explosion class="dir-wrap" is-ready="vm.isReady"
+        <vrt-template-explosion class="dir-wrap" is-ready="vm.isReady" template-class="vm.templateClass"
                                 quote="quote.question" image="quote.img">
-
         </vrt-template-explosion>
     </div>
 </div>
