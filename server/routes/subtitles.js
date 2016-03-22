@@ -95,8 +95,8 @@ function getExtension(filename) {
 }
 
 function sendNotificationTo(email, url) {
-
-    var fullUrl = 'http://nieuwshub.vrt.be/' + url;
+    console.log('sending message to:', email, 'wuth url:', url);
+    var fullUrl = 'http://nieuwshub.vrt.be' + url;
 
     var mailOptions = {
         from: '"VRT funky videos👥" <vrtfunkyvideos@gmail.com>', // sender address
