@@ -1,6 +1,7 @@
 <style type="text/css">
     videogular {
-        margin: 0 auto 50px;
+        width: 95%;
+        margin: 20px auto 50px;
     }
 
     videogular vg-scrub-bar-cue-points .cue-point-timeline .cue-point {
@@ -27,11 +28,10 @@
             <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
             <vg-scrub-bar-cue-points vg-cue-points="vm.config.cuePoints.range"></vg-scrub-bar-cue-points>
         </vg-scrub-bar>
-        <vg-time-display>{{ timeLeft | date:'mm:ss:sss' }}</vg-time-display>
+        <vg-time-display>{{ totalTime | date:'mm:ss:sss' }}</vg-time-display>
         <vg-volume>
             <vg-mute-button></vg-mute-button>
             <vg-volume-bar></vg-volume-bar>
         </vg-volume>
-        <vg-fullscreen-button></vg-fullscreen-button>
     </vg-controls>
 </videogular>

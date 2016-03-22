@@ -8,68 +8,92 @@
 
 <div layout="row" layout-wrap>
     <div flex="100" class="upload-container page-container" ng-hide="vm.movieUploaded">
-        <p>To start editing, please upload a video (.mp4).</p>
+        <p>To start editing, please enter the e-mail address to send the result to, and upload your video.</p>
         <md-input-container>
+            <label>E-mail address</label>
+            <input ng-model="vm.emailRecipient" type="email" required />
+        </md-input-container>
+        <md-input-container ng-show="vm.emailRecipient">
             <input ng-model="vm.subtitle.video" ngf-accept="'video/mp4'" ngf-select="vm.upload($file)" type="file" />
             <p ng-if="vm.progressPercentage && !vm.movieUploaded">{{vm.progressPercentage}} %</p>
         </md-input-container>
     </div>
     <div flex="70" class="video-container page-container" ng-if="vm.movieUploaded">
         <div class="videowrapper">
-            <vrt-videoplayer source="vm.uploadedMovieUrl" start="vm.form.start" end="vm.form.end" update-time="vm.updateTime()"></vrt-videoplayer>
+            <vrt-videoplayer source="vm.file.tempUrl" start="vm.form.start" end="vm.form.end" update-time="vm.updateTime()"></vrt-videoplayer>
             <p id="subtitlePreview">{{vm.currentSubtitlePreview}}</p>
             <!--<input name="title" ng-model="vm.form.text">-->
-            <rzslider rz-slider-model="vm.form.start" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
+        </div>
+
+        <rzslider rz-slider-model="vm.form.start" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
+        <div class="subtitle-editor-wrap">
+            <md-input-container>
+                <label>Subtitle text</label>
+                <input id="subtitleText" name="title" ng-model="vm.form.text" />
+            </md-input-container>
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-input-container>
+                    <label>Start</label>
+                    <input id="subtitleStart" ng-model="vm.form.start" type="number" step="0.001">
+                </md-input-container>
+                <md-input-container>
+                    <label>End</label>
+                    <input id="subtitleEnd" ng-model="vm.form.end" type="number" step="0.001">
+                </md-input-container>
+            </section>
         </div>
     </div>
+
     <div flex="30" class="subtitles-container page-container"  ng-if="vm.movieUploaded">
-        <md-toolbar class="vrt-sub-toolbar">
-            <div class="md-toolbar-tools">
-                <h3>
-                    Edit subtitle
-                </h3>
-            </div>
-        </md-toolbar>
+        <!--<md-toolbar class="vrt-sub-toolbar">-->
+            <!--<div class="md-toolbar-tools">-->
+                <!--<h3>-->
+                    <!--Edit subtitle-->
+                <!--</h3>-->
+            <!--</div>-->
+        <!--</md-toolbar>-->
 
-        <md-content class="subtitle-edit-wrap">
-            <md-input-container>
-                <label for="subtitleText">Subtitle</label>
-                <input id="subtitleText" name="title" ng-model="vm.form.text">
-            </md-input-container>
+        <!--<div class="subtitle-edit-wrap">-->
+            <!--<textarea id="subtitleText" name="title" ng-model="vm.form.text" placeholder="subtitle text"></textarea>-->
 
-            <md-input-container>
-                <label for="subtitleStart">Start:</label>
-                <input id="subtitleStart" name="title" ng-model="vm.form.start">
-            </md-input-container>
-
-            <md-input-container>
-                <label for="subtitleEnd">Start:</label>
-                <input id="subtitleEnd" name="title" ng-model="vm.form.end">
-            </md-input-container>
-        </md-content>
+            <!--<div class="fine-tune-start">-->
+                <!--<label for="subtitleStart"></label>-->
+                <!--<input id="subtitleStart" ng-model="vm.form.start" type="number" step="0.001">-->
+            <!--</div>-->
+            <!--<div class="fine-tune-end">-->
+                <!--<label for="subtitleEnd"></label>-->
+                <!--<input id="subtitleEnd" ng-model="vm.form.end" type="number" step="0.001">-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="subtitles-wrap">
-            <md-toolbar>
+            <md-toolbar class="vrt-sub-toolbar">
                 <div class="md-toolbar-tools">
                     <h3>
                         Subtitles
                     </h3>
                     <span flex></span>
-                    <md-button class="md-raised" aria-label="Add new line" ng-click="vm.addSubtitle()">
-                        Add new line
-                    </md-button>
                 </div>
             </md-toolbar>
 
             <div class="subtitles-list-wrap">
+                <md-button class="md-raised" aria-label="Add line" ng-click="vm.addSubtitle()">
+                    Add line
+                </md-button>
+                <md-button class="md-raised" aria-label="Preview and save subtitles" ng-click="vm.previewSubtitles()">
+                    Preview
+                </md-button>
+                <md-button class="md-raised" aria-label="Preview and save subtitles" ng-click="vm.renderSubtitles()">
+                    Submit
+                </md-button>
                 <md-content>
                     <md-list>
-                        <md-list-item class="md-2-line" ng-repeat="line in vm.subtitles">
+                        <md-list-item class="md-2-line" ng-repeat="line in vm.subtitles | orderBy: 'start'" ng-click="vm.editSubtitle(line)">
                             <div class="md-list-item-text">
                                 <h3>{{line.start}} - {{line.end}}</h3>
                                 <p>{{line.text}}</p>
                             </div>
-                            <md-button class="md-secondary" ng-click="vm.editSubtitle(line)">Edit</md-button>
+                            <md-button class="md-secondary" ng-click="vm.deleteSubtitle(line)">Delete</md-button>
                             <md-divider ng-if="!$last"></md-divider>
                         </md-list-item>
                     </md-list>

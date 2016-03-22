@@ -17,8 +17,8 @@ class VideoPlayerDirectiveController {
                 cuePoints: {
                     range: [{
                         timeLapse: {
-                            start: 10,
-                            end: 50
+                            start: 0.001,
+                            end: 5.001
                         },
                         onComplete: this.onCompleteRangeCuepoint.bind(this)
                     }]
@@ -32,17 +32,23 @@ class VideoPlayerDirectiveController {
             let startChanged =  values[0] !== oldValues[0];
             if (startChanged && this.videogular.api) {
                 this.videogular.api.seekTime(values[0]);
+                this.videogular.api.play();
             }
 
-            this.config.cuePoints = {
-                range: [{
-                    timeLapse: {
-                        start: values[0] || $scope.start,
-                        end: values[1] || $scope.end
-                    },
-                    onComplete: this.onCompleteRangeCuepoint.bind(this)
-                }]
-            };
+            if(values[0] && values[1]) {
+                this.config.cuePoints = {
+                    range: [{
+                        timeLapse: {
+                            start: values[0],
+                            end: values[1]
+                        },
+                        onComplete: this.onCompleteRangeCuepoint.bind(this)
+                    }]
+                };
+            }
+            else {
+                this.config.cuePoints = {};
+            }
         });
 
         //$scope.$watch('start', (value) => {

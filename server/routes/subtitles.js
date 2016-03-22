@@ -97,7 +97,7 @@ function getExtension(filename) {
 }
 
 function sendNotificationTo(email, url) {
-
+    console.log('sending message to:', email, 'wuth url:', url);
     var fullUrl = 'https://cryptic-everglades-93518.herokuapp.com/' + url;
 
     var mailOptions = {
