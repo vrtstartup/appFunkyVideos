@@ -1,17 +1,37 @@
-<videogular vg-cue-points="vm.config.cuePoint " vg-theme="vm.config.theme" vg-player-ready="vm.onPlayerReady($API)" vg-can-play="vm.readyToPlay()">
-    <vg-media vg-src="vm.config.sources" vg-tracks="vm.config.tracks">
-    </vg-media>
+<style type="text/css">
+    videogular {
+        width: 95%;
+        margin: 20px auto 50px;
+    }
+
+    videogular vg-scrub-bar-cue-points .cue-point-timeline .cue-point {
+        background-color: #84c803 !important;
+    }
+
+    videogular vg-controls {
+        bottom: -50px;
+    }
+
+    videogular vg-controls .controls-container {
+        background-color: #000000;
+    }
+</style>
+<videogular vg-cue-points="vm.config.cuePoints"
+            vg-update-time="vm.setTimes($currentTime, $duration)"
+            vg-player-ready="vm.onPlayerReady($API)"
+            vg-can-play="vm.readyToPlay()">
+    <vg-media vg-src="vm.config.sources" vg-tracks="vm.config.tracks"></vg-media>
     <vg-controls>
         <vg-play-pause-button></vg-play-pause-button>
-        <vg-time-display >{{ vm.currentTime | date:'mm:ss' }}</vg-time-display>
-<!--         <vg-scrub-bar>
+        <vg-time-display >{{ currentTime | date:'mm:ss:sss' }}</vg-time-display>
+        <vg-scrub-bar>
             <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-        </vg-scrub-bar> -->
-        <vg-time-display>{{ vm.timeLeft | date:'mm:ss' }}</vg-time-display>
+            <vg-scrub-bar-cue-points vg-cue-points="vm.config.cuePoints.range"></vg-scrub-bar-cue-points>
+        </vg-scrub-bar>
+        <vg-time-display>{{ totalTime | date:'mm:ss:sss' }}</vg-time-display>
         <vg-volume>
             <vg-mute-button></vg-mute-button>
             <vg-volume-bar></vg-volume-bar>
         </vg-volume>
-        <vg-fullscreen-button></vg-fullscreen-button>
     </vg-controls>
 </videogular>

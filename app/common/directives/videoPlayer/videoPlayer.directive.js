@@ -1,97 +1,113 @@
 import template from './videoPlayer.directive.html';
 
 class VideoPlayerDirectiveController {
-
-
-    constructor($scope, $log, $element, $sce, videogular) {
-        this.$log = $log;
+    constructor($scope, $sce, videogular) {
         this.$sce = $sce;
-        this.$element = $element;
         this.$scope = $scope;
         this.videogular = videogular;
+        this.config = {};
 
+        $scope.$watch('source', (value) => {
+            if (!value) return;
 
-        $scope.$watch('vm.source', (value) => {
-            if (value) {
-                var theSource = this.$sce.trustAsResourceUrl(value);
+            let videoSource = this.$sce.trustAsResourceUrl(value);
 
-                this.config = {
-                    sources: [{ src: theSource, type: 'video/mp4' }],
-                    cuePoints: {
-                        timePoint: [{
-                            timeLapse: {
-                                start: 0,
-                                end: 100000
-                            },
-                            onComplete: (currentTime, timeLapse, params) => {
-                                console.log('onComplete');
-                                this.videogular.api.seekTime(timeLapse.start);
-                            },
-                            onUpdate: (currentTime, timeLapse, params) => {
-                                console.log('onUpdate', currentTime, timeLapse);
-                            }
-                        }]
-                    },
+            this.config = {
+                sources: [{ src: videoSource, type: 'video/mp4' }],
+                cuePoints: {
+                    range: [{
+                        timeLapse: {
+                            start: 0.001,
+                            end: 5.001
+                        },
+                        onComplete: this.onCompleteRangeCuepoint.bind(this)
+                    }]
+                }
+            };
+        });
+
+        $scope.$watch('[start, end]', (values, oldValues) => {
+            if (!values) return;
+
+            let startChanged =  values[0] !== oldValues[0];
+            if (startChanged && this.videogular.api) {
+                this.videogular.api.seekTime(values[0]);
+                this.videogular.api.play();
+            }
+
+            if(values[0] && values[1]) {
+                this.config.cuePoints = {
+                    range: [{
+                        timeLapse: {
+                            start: values[0],
+                            end: values[1]
+                        },
+                        onComplete: this.onCompleteRangeCuepoint.bind(this)
+                    }]
                 };
-            } else {
-
             }
-        }, true);
-
-
-        $scope.$watch('vm.start', (value) => {
-            if (!value) return;
-            this.config.cuePoints.timePoint[0].timeLapse.start = value;
-        });
-
-        $scope.$watch('vm.end', (value) => {
-            if (!value) return;
-            this.config.cuePoints.timePoint[0].timeLapse.end = value;
-
-            this.config.cuePoints.timePoint[0].onComplete = (currentTime, timeLapse, params) => {
-                this.videogular.api.seekTime(timeLapse.start);
+            else {
+                this.config.cuePoints = {};
             }
         });
 
-
+        //$scope.$watch('start', (value) => {
+        //    if (!value) return;
+        //    this.videogular.api.seekTime(value);
+        //    this.videogular.api.play();
+        //
+        //    this.config.cuePoints = {
+        //        range: [{
+        //            timeLapse: {
+        //                start: value,
+        //                end: $scope.end
+        //            },
+        //            onComplete: this.onCompleteRangeCuepoint.bind(this)
+        //        }]
+        //    };
+        //});
+        //
+        //$scope.$watch('end', (value) => {
+        //    if (!value) return;
+        //    this.config.cuePoints = {
+        //        range: [{
+        //            timeLapse: {
+        //                start: $scope.start,
+        //                end: value
+        //            },
+        //            onComplete: this.onCompleteRangeCuepoint.bind(this)
+        //        }]
+        //    };
+        //});
     }
 
-
-    onEnter() {
-        console.log('test');
+    setTimes(currentTime) {
+        this.$scope.$emit('currentTime', currentTime);
     }
-
-
-    readyToPlay() {
-        var totalTime = this.videogular.getTotalTime();
-        // var totalTime = this.videoAPI.totalTime / 1000.0;
-        // this.$scope.$emit('videoTotalTimeChanged', totalTime);
-    }
-
-
 
     onPlayerReady(API) {
         this.videogular.onPlayerReady(API);
-        // console.log(this.videoAPI);
-        // this.videoAPI = API;
     }
 
-
+    onCompleteRangeCuepoint(currentTime, timeLapse) {
+        this.videogular.api.seekTime(timeLapse.start);
+    }
 }
 
 export const videoPlayerDirective = function() {
     return {
         restrict: 'AE',
         template: template,
-        scope: {},
-        controller: VideoPlayerDirectiveController,
-        controllerAs: 'vm',
-        bindToController: {
+        scope: {
             source: '=',
             start: '=',
             end: '=',
+            currentTime: '=',
+            updateTime: '&'
         },
+        controller: VideoPlayerDirectiveController,
+        controllerAs: 'vm',
     };
 };
 
-VideoPlayerDirectiveController.$inject = ['$scope', '$log', '$element', '$sce', 'videogular'];
+VideoPlayerDirectiveController.$inject = ['$scope', '$sce', 'videogular'];

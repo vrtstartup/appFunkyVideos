@@ -1,6 +1,3 @@
-// USAGE: <div id="progress" vrt-test is-hidden="vm.isHidden"></div>
-
-
 import template from './subtitleLine.directive.html';
 
 class subtitleLineDirectiveController {
@@ -11,8 +8,6 @@ class subtitleLineDirectiveController {
         this.videogular = videogular;
         const that = this;
         this.slider = {
-
-
             options: {
                 id: this.key,
                 floor: 0,
