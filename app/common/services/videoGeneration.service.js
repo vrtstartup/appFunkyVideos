@@ -9,7 +9,6 @@ export default class VideoGenerationService {
         that.isTemplate = false;
 
         this.takeScreenshot = function(element, isTemplate) {
-            //console.log('isTemplate', isTemplate);
             that.isTemplate = isTemplate;
             const el = element.parent();
             html2canvas(el, {
