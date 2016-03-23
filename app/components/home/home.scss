@@ -1,1 +1,45 @@
 @import "../../common/style/variables";
+
+.home-container {
+  margin: 15px auto;
+}
+
+.filter-container {
+  margin: 15px auto 0;
+}
+
+md-grid-list {
+  md-grid-tile {
+    background-color: $drd-main-color;
+
+    md-grid-tile-header, md-grid-tile-footer {
+      background-color: transparent;
+      justify-content: center;
+    }
+
+    md-grid-tile-footer {
+      height: 75px;
+    }
+
+    img {
+      width: 125px;
+      height: 125px;
+      border-radius: 100%;
+    }
+
+    figure {
+      display: block;
+      padding: 50px 20px;
+      text-align: center;
+      color: white;
+    }
+  }
+
+  md-grid-tile.tool {
+    background-color: $vrt-tool;
+  }
+
+  md-grid-tile.guide {
+    background-color: $vrt-guide;
+  }
+}
