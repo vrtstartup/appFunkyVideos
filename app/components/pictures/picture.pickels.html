@@ -6,12 +6,12 @@
         </md-input-container>
         <md-input-container class="md-block">
             <label>Text</label>
-            <input ng-model="quote.question" md-maxlength="130">
+            <input ng-model="quote.question" md-maxlength="40">
         </md-input-container>
     </md-content>
 
     <div layout-gt-sm="row">
-        <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
+        <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
 
     </div>
     <div class="dir-wrap">

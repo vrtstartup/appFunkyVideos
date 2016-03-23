@@ -23,23 +23,23 @@
     </div>
     <div layout-gt-sm="row">
 
-        <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
+        <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
         <!--<div flex="20">-->
         <!--<md-checkbox ng-model="quote.isMirrored" aria-label="Checkbox flip image">-->
         <!--Flip image & text?-->
         <!--</md-checkbox>-->
         <!--</div>-->
-        <md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote"
-                     ng-init="quote.isHiddenSign=true">
-            Is it a quote?
-        </md-checkbox>
+        <!--<md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote"-->
+                     <!--ng-init="quote.isHiddenSign=true">-->
+            <!--Is it a quote?-->
+        <!--</md-checkbox>-->
     </div>
 
     <div class="dir-wrap">
         <vrt-template-skwigelf class="dir-wrap vrt-txt"
                                is-ready="vm.isReady" quote="quote.question" image="quote.img"
                                author-name="quote.authorName" author-title="quote.authorTitle"
-                               is-mirrored="quote.isMirrored" is-hidden-sign="quote.isHiddenSign">
+                               is-mirrored="quote.isMirrored" is-hidden-sign="true">
         </vrt-template-skwigelf>
     </div>
 </div>

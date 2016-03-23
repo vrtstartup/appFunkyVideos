@@ -1,27 +1,14 @@
 @import "../../style/variables";
 
-.explosion {
-  .logo-bottom {
-    left: 80px;
-    position: absolute;
-    bottom: 35px;
-    box-sizing: content-box;
-    background-color: $drd-main-color;
-    padding: 15px 20px;
-  }
-
-  //.header {
-  //  color: $white;
-  //  margin: 0 auto;
-  //  text-align: left;
-  //  font-size: 70px;
-  //  font-weight: 700;
-  //  line-height: 84px;
-  //  text-transform: uppercase;
-  //  display: inline-block;
-  //  padding: 70px 20px 20px 80px;
-  //}
+.logo-bottom-bg {
+  left: 80px;
+  position: absolute;
+  bottom: 40px;
+  box-sizing: content-box;
+  background-color: $drd-main-color;
+  padding: 15px 20px;
 }
+
 
 .header {
   color: $white;
@@ -33,4 +20,5 @@
   text-transform: uppercase;
   display: inline-block;
   padding: 70px 20px 20px 80px;
+  white-space: pre-wrap;
 }

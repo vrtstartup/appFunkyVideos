@@ -55,15 +55,16 @@ export default class PicturesController {
         this.isPickels = true;
     }
 
-    showDethklok() {
+    showDethklok(templateClass, footerText) {
         this.resetAllTemplates();
         this.isDethklok = true;
+        this.templateClass = templateClass;
+        this.footerText = footerText || templateClass;
     }
 
-    showExplosion(templateClass) {
+    showExplosion() {
         this.resetAllTemplates();
         this.isExplosion = true;
-        this.templateClass = templateClass;
     }
 
     resetAllTemplates() {

@@ -2,17 +2,19 @@
     <md-content layout-padding="">
         <md-input-container class="md-block">
             <label>Quote</label>
-            <input ng-model="quote.question" md-maxlength="130">
+            <textarea ng-model="quote.question" md-maxlength="60" rows="3"></textarea>
         </md-input-container>
     </md-content>
 
-    <div layout-gt-sm="row">
+    <div layout-gt-sm="row" ng-if="vm.templateClass != 'breaking'">
+        <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
+    </div>
+    <div layout-gt-sm="row" ng-if="vm.templateClass === 'breaking'">
         <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
-
     </div>
     <div class="dir-wrap">
         <vrt-template-dethklok class="dir-wrap" is-ready="vm.isReady" template-class="vm.templateClass"
-                                quote="quote.question" image="quote.img">
+                                quote="quote.question" image="quote.img" footer-text="vm.footerText">
         </vrt-template-dethklok>
     </div>
 </div>
