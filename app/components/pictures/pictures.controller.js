@@ -55,6 +55,11 @@ export default class PicturesController {
         this.isPickels = true;
     }
 
+    showDethklok() {
+        this.resetAllTemplates();
+        this.isDethklok = true;
+    }
+
     showExplosion(templateClass) {
         this.resetAllTemplates();
         this.isExplosion = true;
@@ -68,6 +73,7 @@ export default class PicturesController {
         this.isExplosion = false;
         this.isReady = false;
         this.isPickels = false;
+        this.isDethklok = false;
     }
 
 }

@@ -1,0 +1,30 @@
+@import "../../style/variables";
+
+.footer-block {
+  width: 826px;
+  height: 80px;
+  margin-left: 80px;
+  background-color: $drd-main-color;
+  position: relative;
+  padding: 15px 20px;
+
+  .logo-bottom {
+    box-sizing: content-box;
+    float: right;
+    padding-top: 4px;
+  }
+
+  p {
+    display: inline-block;
+    color: $white;
+    font-size: 40px;
+    text-transform: uppercase;
+    margin-top: 0px;
+  }
+
+}
+
+.footer-block-wrap {
+  position: absolute;
+  bottom: 40px;
+}

@@ -10,15 +10,27 @@
     padding: 15px 20px;
   }
 
-  .header {
-    color: $white;
-    margin: 0 auto;
-    text-align: left;
-    font-size: 70px;
-    font-weight: 700;
-    line-height: 84px;
-    text-transform: uppercase;
-    display: inline-block;
-    padding: 70px 20px 20px 80px;
-  }
+  //.header {
+  //  color: $white;
+  //  margin: 0 auto;
+  //  text-align: left;
+  //  font-size: 70px;
+  //  font-weight: 700;
+  //  line-height: 84px;
+  //  text-transform: uppercase;
+  //  display: inline-block;
+  //  padding: 70px 20px 20px 80px;
+  //}
+}
+
+.header {
+  color: $white;
+  margin: 0 auto;
+  text-align: left;
+  font-size: 70px;
+  font-weight: 700;
+  line-height: 84px;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 70px 20px 20px 80px;
 }

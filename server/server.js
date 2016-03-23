@@ -12,6 +12,7 @@ const imagesApi = require('./routes/images');
 const subtitlesApi = require('./routes/subtitles');
 const templatesApi = require('./routes/templates');
 const templaterApi = require('./routes/templater');
+const gridApi = require('./routes/grid');
 
 
 //var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
@@ -36,6 +37,7 @@ app.use('/api', imagesApi);
 app.use('/api', subtitlesApi);
 app.use('/api', templatesApi);
 app.use('/api', templaterApi);
+app.use('/api', gridApi);
 
 
 // START THE SERVER
