@@ -1,7 +1,7 @@
 // TODO: refactoring that=this bullshit
 
 export default class VideoGenerationService {
-    constructor($log, $http, $rootScope) {
+    constructor($log, $http, $rootScope, FileSaver) {
         const that = this;
         that.$http = $http;
         that.$log  = $log;
@@ -14,14 +14,17 @@ export default class VideoGenerationService {
             const el = element.parent();
             html2canvas(el, {
                 onrendered: (canvas) => {
+                    that._canvasToJPG(canvas, that._userUpload.bind(this));
                     that._canvasToJPG(canvas, that._upload.bind(this));
                 },
             });
         };
 
+        that._userUpload = function(data) {
+            FileSaver.saveAs(data, 'template.png');
+        };
 
         that._upload = function(data) {
-            //console.log('isTemplate 2', that.isTemplate);
             let url = '/api/images';
             let contentType = 'image/jpeg';
 
@@ -72,7 +75,7 @@ export default class VideoGenerationService {
             if (cvs.toBlob) { // some browsers has support for toBlob
                 cvs.toBlob(done, contentType);
             }
-            else{
+            else {
                 done(that._dataURItoBlob(cvs.toDataURL(contentType, 1.0)));
             }
         };
@@ -80,4 +83,4 @@ export default class VideoGenerationService {
     }
 }
 
-VideoGenerationService.$inject = ['$log', '$http', '$rootScope'];
+VideoGenerationService.$inject = ['$log', '$http', '$rootScope', 'FileSaver'];
