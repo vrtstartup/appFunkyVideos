@@ -29,7 +29,7 @@ export const templateDethklokDirective = function() {
             isReady: '=',
             image: '=',
             templateClass: '=',
-            numbr: '=',
+            footerText: '=',
         },
     };
 };

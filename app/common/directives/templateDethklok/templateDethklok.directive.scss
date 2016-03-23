@@ -10,15 +10,18 @@
 
   .logo-bottom {
     box-sizing: content-box;
-    float: right;
-    padding-top: 4px;
+    //float: right;
+    right: 5px;
+    position: absolute;
+    bottom: 2px;
+    padding: 15px 20px;
   }
 
   p {
     display: inline-block;
     color: $white;
     font-size: 40px;
-    text-transform: uppercase;
+    //text-transform: uppercase;
     margin-top: 0px;
   }
 
@@ -27,4 +30,22 @@
 .footer-block-wrap {
   position: absolute;
   bottom: 40px;
+}
+
+.update {
+  .footer-block {
+    background-color: $drd-main-color;
+  }
+}
+
+.breaking {
+  .footer-block {
+    background-color: $ak-main-color;
+  }
+}
+
+.nog {
+  .footer-block {
+    background-color: $sea;
+  }
 }
