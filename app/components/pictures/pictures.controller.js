@@ -40,10 +40,10 @@ export default class PicturesController {
         this.isMurderface = true;
     }
 
-    showWartooth() {
-        this.resetAllTemplates();
-        this.isWartooth = true;
-    }
+    //showWartooth() {
+    //    this.resetAllTemplates();
+    //    this.isWartooth = true;
+    //}
 
     showSkwigelf() {
         this.resetAllTemplates();
@@ -59,7 +59,7 @@ export default class PicturesController {
         this.resetAllTemplates();
         this.isDethklok = true;
         this.templateClass = templateClass;
-        this.footerText = footerText || templateClass;
+        this.footerText = footerText;
     }
 
     showExplosion() {

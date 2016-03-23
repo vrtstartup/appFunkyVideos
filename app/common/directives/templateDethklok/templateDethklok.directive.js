@@ -5,7 +5,7 @@ class TemplateDethklokDirectiveController {
     constructor($scope, $element, videoGeneration) {
         this.videoGeneration = videoGeneration;
         this.$element = $element;
-
+        
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
             if (this.isReady){
