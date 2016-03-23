@@ -22,6 +22,8 @@ export default class SubtitlesController {
         this.currentTime = '';
         this.currentSubtitlePreview = '';
 
+
+
         this.$scope.$watchCollection('vm.form', (newValues, oldValues) => {
             if (newValues === oldValues) {
                 return;

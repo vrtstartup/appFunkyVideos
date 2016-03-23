@@ -3,9 +3,16 @@
         <h3>
             VRT Subtitle tool
         </h3>
+        <span flex></span>
+        <md-button class="md-raised" aria-label="Preview and save subtitles" ng-click="vm.previewSubtitles()">
+            Preview
+        </md-button>
+        <md-button class="md-raised" aria-label="Preview and save subtitles" ng-click="vm.renderSubtitles()">
+            Submit
+        </md-button>
+        <feedback></feedback>
     </div>
 </md-toolbar>
-
 <div layout="row" layout-wrap>
     <div flex="100" class="upload-container page-container" ng-hide="vm.movieUploaded">
         <p>To start editing, please enter the e-mail address to send the result to, and upload your video.</p>
@@ -21,21 +28,23 @@
     <div flex="70" class="video-container page-container" ng-if="vm.movieUploaded">
         <div class="videowrapper">
             <vrt-videoplayer source="vm.file.tempUrl" start="vm.form.start" end="vm.form.end" update-time="vm.updateTime()"></vrt-videoplayer>
-            <p id="subtitlePreview">{{vm.currentSubtitlePreview}}</p>
+            <p id="subtitlePreview" class="subtitles-text-line-preserve">{{vm.currentSubtitlePreview}}</p>
             <!--<input name="title" ng-model="vm.form.text">-->
         </div>
-
         <rzslider rz-slider-model="vm.form.start" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
         <div class="subtitle-editor-wrap">
             <md-input-container>
                 <label>Subtitle text</label>
-                <textarea id="subtitleText" name="title" ng-model="vm.form.text"></textarea>
+                <textarea rows="2" id="subtitleText" name="title" ng-model="vm.form.text"></textarea>
             </md-input-container>
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 <md-input-container>
                     <label>Start</label>
                     <input id="subtitleStart" ng-model="vm.form.start" type="number" step="0.001">
                 </md-input-container>
+                <md-button class="md-raised" aria-label="Add line" ng-click="vm.addSubtitle()">
+                    Add line
+                </md-button>
                 <md-input-container>
                     <label>End</label>
                     <input id="subtitleEnd" ng-model="vm.form.end" type="number" step="0.001">
@@ -43,55 +52,33 @@
             </section>
         </div>
     </div>
-
-    <div flex="30" class="subtitles-container page-container"  ng-if="vm.movieUploaded">
+    <div flex="30" class="subtitles-container page-container" ng-if="vm.movieUploaded">
         <!--<md-toolbar class="vrt-sub-toolbar">-->
-            <!--<div class="md-toolbar-tools">-->
-                <!--<h3>-->
-                    <!--Edit subtitle-->
-                <!--</h3>-->
-            <!--</div>-->
-        <!--</md-toolbar>-->
-
-        <!--<div class="subtitle-edit-wrap">-->
-            <!--<textarea id="subtitleText" name="title" ng-model="vm.form.text" placeholder="subtitle text"></textarea>-->
-
-            <!--<div class="fine-tune-start">-->
-                <!--<label for="subtitleStart"></label>-->
-                <!--<input id="subtitleStart" ng-model="vm.form.start" type="number" step="0.001">-->
-            <!--</div>-->
-            <!--<div class="fine-tune-end">-->
-                <!--<label for="subtitleEnd"></label>-->
-                <!--<input id="subtitleEnd" ng-model="vm.form.end" type="number" step="0.001">-->
-            <!--</div>-->
+        <!--<div class="md-toolbar-tools">-->
+        <!--<h3>-->
+        <!--Edit subtitle-->
+        <!--</h3>-->
         <!--</div>-->
-
+        <!--</md-toolbar>-->
+        <!--<div class="subtitle-edit-wrap">-->
+        <!--<textarea id="subtitleText" name="title" ng-model="vm.form.text" placeholder="subtitle text"></textarea>-->
+        <!--<div class="fine-tune-start">-->
+        <!--<label for="subtitleStart"></label>-->
+        <!--<input id="subtitleStart" ng-model="vm.form.start" type="number" step="0.001">-->
+        <!--</div>-->
+        <!--<div class="fine-tune-end">-->
+        <!--<label for="subtitleEnd"></label>-->
+        <!--<input id="subtitleEnd" ng-model="vm.form.end" type="number" step="0.001">-->
+        <!--</div>-->
+        <!--</div>-->
         <div class="subtitles-wrap">
-            <md-toolbar class="vrt-sub-toolbar">
-                <div class="md-toolbar-tools">
-                    <h3>
-                        Subtitles
-                    </h3>
-                    <span flex></span>
-                </div>
-            </md-toolbar>
-
             <div class="subtitles-list-wrap">
-                <md-button class="md-raised" aria-label="Add line" ng-click="vm.addSubtitle()">
-                    Add line
-                </md-button>
-                <md-button class="md-raised" aria-label="Preview and save subtitles" ng-click="vm.previewSubtitles()">
-                    Preview
-                </md-button>
-                <md-button class="md-raised" aria-label="Preview and save subtitles" ng-click="vm.renderSubtitles()">
-                    Submit
-                </md-button>
                 <md-content>
                     <md-list>
                         <md-list-item class="md-2-line" ng-repeat="line in vm.subtitles | orderBy: 'start'" ng-click="vm.editSubtitle(line)">
                             <div class="md-list-item-text">
                                 <h3>{{line.start}} - {{line.end}}</h3>
-                                <p>{{line.text}}</p>
+                                <p class="subtitles-text-line-preserve">{{line.text}}</p>
                             </div>
                             <md-button class="md-secondary" ng-click="vm.deleteSubtitle(line)">Delete</md-button>
                             <md-divider ng-if="!$last"></md-divider>
@@ -102,24 +89,21 @@
         </div>
     </div>
 </div>
-
 <!--<form name="mailForm">-->
-    <!--<md-input-container>-->
-        <!--<label>Email - naar dit adres wordt de verwerkte video verstuurd</label>-->
-        <!--<input required name="email" ng-model="vm.subtitle.email" type="email" ng-pattern="/^.+@.+\..+$/"/>-->
-        <!--<div ng-messages="mailForm.email.$error" ng-if="mailForm.$submitted || mailForm.email.$touched">-->
-            <!--<div ng-message="required">This is required.</div>-->
-            <!--<div ng-message='pattern'>-->
-                <!--Your email must look like an e-mail address.-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</md-input-container>-->
+<!--<md-input-container>-->
+<!--<label>Email - naar dit adres wordt de verwerkte video verstuurd</label>-->
+<!--<input required name="email" ng-model="vm.subtitle.email" type="email" ng-pattern="/^.+@.+\..+$/"/>-->
+<!--<div ng-messages="mailForm.email.$error" ng-if="mailForm.$submitted || mailForm.email.$touched">-->
+<!--<div ng-message="required">This is required.</div>-->
+<!--<div ng-message='pattern'>-->
+<!--Your email must look like an e-mail address.-->
+<!--</div>-->
+<!--</div>-->
+<!--</md-input-container>-->
 <!--</form>-->
-
 <!--<p ng-if="vm.isReadyForProcess">-->
-    <!--Uw video wordt verwerkt. Zodra deze klaar is ontvangt u een e-mail met download link.-->
-    <!--Vergeet niet uw spam-folder na te kijken.-->
+<!--Uw video wordt verwerkt. Zodra deze klaar is ontvangt u een e-mail met download link.-->
+<!--Vergeet niet uw spam-folder na te kijken.-->
 <!--</p>-->
-
 <!--<md-button ng-click="vm.downloadSRTFile(vm.srtObj)" class="md-raised" ng-disabled="!vm.subtitle.email">Generate</md-button>-->
 <!--<a ng-if='f.subtitled' target="_self" ng-href='/{{f.url}}' download="filename">download</a>-->
