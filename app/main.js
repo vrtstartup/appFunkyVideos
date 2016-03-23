@@ -10,6 +10,7 @@ import 'videogular-controls';
 import 'angular-file-upload';
 import imageCropper from 'angular-image-cropper';
 import ngFileUpload from 'ng-file-upload';
+import 'angular-hotkeys';
 
 
 import components from './components';
@@ -31,6 +32,7 @@ export default angular
         'angularFileUpload',
         imageCropper,
         ngFileUpload,
+        'cfp.hotkeys',
         // application
         components,
         common,

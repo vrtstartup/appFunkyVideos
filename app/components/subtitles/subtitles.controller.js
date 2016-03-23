@@ -1,13 +1,14 @@
-import {keys, extend, find, reject} from 'lodash';
+import { keys, extend, find, reject } from 'lodash';
 
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout) {
+    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys) {
         this.$log = $log;
         this.$sce = $sce;
         this.srt = srt;
         this.$scope = $scope;
         this.FileSaver = FileSaver;
         this.videogular = videogular;
+        this.hotkeys = hotkeys;
         this.isReadyForProcess = false;
         this.movieUploaded = false;
         this.Upload = Upload;
@@ -34,11 +35,53 @@ export default class SubtitlesController {
 
         this.$scope.$on('currentTime', (event, time) => {
             let currentSubtitle = find(this.subtitles, (subtitle) => {
-                if(time >= subtitle.start && time <= subtitle.end) return subtitle.text;
+                if (time >= subtitle.start && time <= subtitle.end) return subtitle.text;
             });
 
             this.currentSubtitlePreview = currentSubtitle ? currentSubtitle.text || '' : '';
         });
+
+
+
+
+        // Hotkeys to make editing superfast and smooth. Using angular-hotkeys (http://chieffancypants.github.io/angular-hotkeys/)
+        this.hotkeys.add({
+            combo: 'i',
+            description: 'Get In Time',
+            callback: () => {
+                this.setIn();
+            }
+        });
+
+        this.hotkeys.add({
+            combo: 'o',
+            description: 'Get Out Time',
+            callback: () => {
+                this.setOut();
+            }
+        });
+
+
+        this.hotkeys.add({
+            combo: 'p',
+            description: 'Start new line',
+            callback: () => {
+
+                this.addSubtitle();
+            }
+        });
+
+        this.hotkeys.add({
+            combo: 'k',
+            description: 'Start new line',
+            callback: () => {
+
+                this.videogular.api.seekTime(this.form.start - 3 / 1000);
+            }
+        });
+
+
+
     }
 
     updateSubtitles(newValues) {
@@ -56,12 +99,24 @@ export default class SubtitlesController {
         });
     }
 
+
+    setIn() {
+        this.form.start = this.videogular.api.currentTime / 1000;
+    }
+
+
+    setOut() {
+        this.form.end = this.videogular.api.currentTime / 1000;
+    }
+
+
+
     addSubtitle() {
         let lastTitle = this.form.end;
         this.form = {
             id: '',
             start: lastTitle + 0.1,
-            end: lastTitle+2,
+            end: lastTitle + 2,
             text: ''
         }
     }
@@ -113,7 +168,7 @@ export default class SubtitlesController {
             this.Upload.mediaDuration(file).then((durationInSeconds) => {
                 durationInSeconds = Math.round(durationInSeconds * 1000) / 1000;
                 this.form.start = 0.001;
-                this.form.end = durationInSeconds/10;
+                this.form.end = durationInSeconds / 10;
 
                 this.slider = {
                     min: 0,
@@ -133,23 +188,28 @@ export default class SubtitlesController {
 
         //upload video, show player and sliders, or upload subtitle to finalize
         this.Upload.upload({
-            url: 'api/subtitleVideos',
-            data: {file: file, fileName: name, email: email},
-            method: 'POST',
-        })
-        .then((resp) => {
-            console.log('response', resp);
-            this.movieUploaded = true;
-            this.file.tempUrl = resp.data.url;
-            this.file.fileName = resp.data.name;
-            this.file.subtitled = resp.data.subtitled;
-        }, (resp) => {
-            console.log('Error: ' + resp.error);
-            console.log('Error status: ' + resp.status);
-        }, (evt) => {
-            this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-        });
+                url: 'api/subtitleVideos',
+                data: { file: file, fileName: name, email: email },
+                method: 'POST',
+            })
+            .then((resp) => {
+                console.log('response', resp);
+                this.movieUploaded = true;
+                this.file.tempUrl = resp.data.url;
+                this.file.fileName = resp.data.name;
+                this.file.subtitled = resp.data.subtitled;
+            }, (resp) => {
+                console.log('Error: ' + resp.error);
+                console.log('Error status: ' + resp.status);
+            }, (evt) => {
+                this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            });
     }
+
+
+
+
+
 }
 
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout'];
+SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys'];
