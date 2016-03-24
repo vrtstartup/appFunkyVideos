@@ -15,12 +15,13 @@ import videoPlayer from './videoPlayer';
 import eventBlock from './eventBlock';
 import feedback from './feedback';
 import track from './track';
+import maxlines from './maxlines';
 
 
 const module = angular.module('app.common.directives', [
     pieChart, text, screenshot, templateDethklok,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
-    imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track,
+    imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines,
 ]);
 
 export default module.name;
