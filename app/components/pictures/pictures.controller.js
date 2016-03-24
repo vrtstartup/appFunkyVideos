@@ -23,6 +23,7 @@ export default class PicturesController {
             },
         ];
 
+
     }
 
     getScheme(scheme) {

@@ -7,14 +7,12 @@
         </md-input-container>
     </md-content>
 
+    <div layout-gt-sm="row" ng-show="vm.templateClass == 'breaking'">
+        <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
+    </div>
     <div layout-gt-sm="row" ng-show="vm.templateClass != 'breaking'">
         <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
     </div>
-
-    <div layout-gt-sm="row"  ng-show="vm.templateClass == 'breaking'">
-        <input ng-model="quote.img" type="file" vrt-image-preview="onFileSelect($files)"/>
-    </div>
-
 
     <div class="dir-wrap">
         <vrt-template-dethklok class="dir-wrap" is-ready="vm.isReady" template-class="vm.templateClass"
