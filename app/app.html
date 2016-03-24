@@ -1,5 +1,15 @@
 <!-- Place all UI elements intended to be present across all routes in this file -->
 <div class="app">
+    <md-toolbar class="vrt-toolbar">
+        <div class="md-toolbar-tools">
+            <h3>
+                {{pageTitle}}
+            </h3>
+            <span flex></span>
+
+            <feedback></feedback>
+        </div>
+    </md-toolbar>
     <!-- Main views -->
     <div ui-view></div>
 </div>

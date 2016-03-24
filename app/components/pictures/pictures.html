@@ -2,10 +2,6 @@
 
     <section flex="25">
 
-        <md-toolbar class="md-theme-indigo">
-            <h1 class="md-toolbar-tools">VRT pictures tool</h1>
-        </md-toolbar>
-
         <md-content>
             <md-list>
                 <md-toolbar md-scroll-shrink="">
@@ -13,7 +9,10 @@
                         Merk <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon':vm.showSchemes}">&#xE313;</i>
                     </div>
                 </md-toolbar>
-                <md-list-item ng-if="vm.showSchemes" ng-repeat="scheme in vm.schemes" class="md-3-line" ng-click="vm.getScheme(scheme)">{{scheme.name}}</md-list-item>
+                <md-list-item ng-if="vm.showSchemes" ng-repeat="scheme in vm.schemes" class="md-3-line"
+                              ng-class="{sel: $index == vm.selected}" ng-click="vm.getScheme(scheme, $index)">
+                    <p>{{scheme.name}}</p>
+                </md-list-item>
                 <md-toolbar md-scroll-shrink="">
                     <div class="md-toolbar-tools" ng-init="vm.showTypes = false" ng-click="vm.showTypes = !vm.showTypes">
                         Type <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon':vm.showTypes}">&#xE313;</i>
