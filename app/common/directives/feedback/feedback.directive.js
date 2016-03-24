@@ -1,6 +1,5 @@
 import template from './feedback.directive.html';
-import dialogTemplate from './feedback.dialog.directive.html';
-
+import './feedback.directive.scss';
 
 class FeedbackDirectiveController {
     constructor($scope, $log, $element, $mdSidenav, $http, toast, $window, $location) {
@@ -98,8 +97,7 @@ export const feedbackDirective = function() {
         scope: {},
         controller: FeedbackDirectiveController,
         controllerAs: 'vm',
-        bindToController: {
-        },
+        bindToController: {},
     };
 };
 
