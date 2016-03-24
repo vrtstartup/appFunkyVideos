@@ -47,11 +47,6 @@ export default class PicturesController {
         this.className = scheme;
     }
 
-    //showWartooth() {
-    //    this.resetAllTemplates();
-    //    this.isWartooth = true;
-    //}
-
     showSkwigelf(scheme) {
         this.resetAllTemplates();
         this.isSkwigelf = true;
@@ -80,7 +75,6 @@ export default class PicturesController {
 
     resetAllTemplates() {
         this.isMurderface = false;
-        this.isWartooth = false;
         this.isSkwigelf = false;
         this.isExplosion = false;
         this.isReady = false;
