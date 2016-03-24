@@ -25,10 +25,15 @@ export default class PicturesController {
 
     }
 
-    getScheme(scheme, index) {
-        this.className = scheme.className;
-        this.selected = index;
-        this.showTypes = true;
+    getScheme(scheme) {
+        //this.className = scheme;
+
+        if(scheme === 'ak' ){
+            this.showTempltesAK = !this.showTempltesAK;
+        }
+        if(scheme === 'drd' ){
+            this.showTempltesDRD = !this.showTempltesDRD;
+        }
         console.log('Scheme', this.selected);
     }
 
@@ -36,9 +41,10 @@ export default class PicturesController {
         this.isReady = !this.isReady;
     }
 
-    showMurderface() {
+    showMurderface(scheme) {
         this.resetAllTemplates();
         this.isMurderface = true;
+        this.className = scheme;
     }
 
     //showWartooth() {
@@ -46,26 +52,30 @@ export default class PicturesController {
     //    this.isWartooth = true;
     //}
 
-    showSkwigelf() {
+    showSkwigelf(scheme) {
         this.resetAllTemplates();
         this.isSkwigelf = true;
+        this.className = scheme;
     }
 
-    showPickels() {
+    showPickels(scheme) {
         this.resetAllTemplates();
         this.isPickels = true;
+        this.className = scheme;
     }
 
-    showDethklok(templateClass, footerText) {
+    showDethklok(templateClass, footerText, scheme) {
         this.resetAllTemplates();
         this.isDethklok = true;
         this.templateClass = templateClass;
         this.footerText = footerText;
+        this.className = scheme;
     }
 
-    showExplosion() {
+    showExplosion(scheme) {
         this.resetAllTemplates();
         this.isExplosion = true;
+        this.className = scheme;
     }
 
     resetAllTemplates() {

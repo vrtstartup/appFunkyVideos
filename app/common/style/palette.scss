@@ -69,10 +69,14 @@
     background-color: $ak-main-bg-color;
   }
 
-  .auth-name , .auth-title {
+  .auth-name , .auth-title, .header  {
     font-family: "proxima", "Roboto Condensed", sans-serif;
     color: #fff;
     font-style: normal;
+  }
+
+  .header {
+    line-height: 75px;
   }
   
   .auth-title {
