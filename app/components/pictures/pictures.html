@@ -20,7 +20,7 @@
                 </md-toolbar>
                 <md-content style="height: 600px;" ng-if="vm.showTypes">
                     <md-subheader class="md-no-sticky">Headline</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showExplosion('explosion')">
+                    <md-list-item class="md-3-line" ng-click="vm.showExplosion('explosion')" ng-hide="vm.className == 'ak'">
                         <img src="./../assets/templates/hub_headline-h1.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Quote</md-subheader>
@@ -35,27 +35,27 @@
                         <img src="./../assets/templates/hub_Cijfer.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Update</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'UPDATE')">
+                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'UPDATE')" ng-hide="vm.className == 'ak'">
                         <img src="./../assets/templates/hub_Update.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Breaking</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('breaking', 'BREAKING')">
+                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('breaking', 'BREAKING')" ng-hide="vm.className == 'ak'">
                         <img src="./../assets/templates/hub_Breaking-foto.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Live</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'Volg LIVE')">
+                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'Volg LIVE')" ng-hide="vm.className == 'ak'">
                         <img src="./../assets/templates/hub_Live.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Analyse</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'Analyse')">
+                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'Analyse')" ng-hide="vm.className == 'ak'">
                         <img src="./../assets/templates/hub_Analyse.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Ook dat nog</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('nog', 'Ook dat nog')">
+                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('nog', 'Ook dat nog')" ng-hide="vm.className == 'ak'">
                         <img src="./../assets/templates/hub_Ook-dat-nog-h1.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="md-no-sticky">Infografiek</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'Infografiek')">
+                    <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'Infografiek')" ng-hide="vm.className == 'ak'">
                         <img src="./../assets/templates/hub_Infografiek-h1.jpg" alt="" width="100%">
                     </md-list-item>
                 </md-contentmd-content>

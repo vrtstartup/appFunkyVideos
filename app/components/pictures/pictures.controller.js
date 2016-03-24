@@ -5,9 +5,8 @@ export default class PicturesController {
         this.$rootScope = $rootScope;
         this.$http = $http;
         //What do you mean, 'booze ain't food'? I'd rather chop off my ding-dong than admit that!
-        this.selected = 0;
+        //this.selected;
         this.className = 'drd';
-        this.showAvailiableTemplates = false;
 
         this.resetAllTemplates();
 
@@ -29,10 +28,8 @@ export default class PicturesController {
     getScheme(scheme, index) {
         this.className = scheme.className;
         this.selected = index;
+        this.showTypes = true;
         console.log('Scheme', this.selected);
-
-
-        this.showAvailiableTemplates = true;
     }
 
     getPicture() {
