@@ -4,3 +4,8 @@
 @import "./common/style/videogular";
 
 @import "main";
+
+md-toolbar.vrt-toolbar {
+   background-color: $vrt-supl;
+   color: $white;
+ }
