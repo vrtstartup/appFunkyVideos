@@ -1,1 +1,58 @@
-<p>Hiii! I'm grid controller!</p>
+<md-content layout-gt-sm="row" layout-padding>
+    <div layout-gt-sm="column" flex="1">
+        <md-input-container>
+            <label>Onderwerp</label>
+            <input ng-model="vm.post.url" type="text">
+        </md-input-container>
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Categorie</label>
+                <md-select ng-model="vm.post.category">
+                    <md-option ng-repeat="c in vm.categories" value="{{c.name}}">{{c.descr}}</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Type</label>
+                <md-select ng-model="vm.post.type">
+                    <md-option ng-repeat="t in vm.types" value="{{t.name}}">{{t.descr}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div ng-click="vm.addItem(vm.post)">Add</div>
+        <div class="grid-list">
+            <div ng-repeat="p in vm.posts">
+                <md-input-container>
+                    <label>Onderwerp</label>
+                    <input ng-model="p.url" type="text" ng-change="vm.posts.$save(p)">
+                </md-input-container>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Categorie</label>
+                        <md-select ng-model="p.category" ng-change="vm.posts.$save(p)">
+                            <md-option ng-repeat="c in vm.categories" value="{{c.name}}">{{c.descr}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Type</label>
+                        <md-select ng-model="p.type" ng-change="vm.posts.$save(p)">
+                            <md-option ng-repeat="t in vm.types" value="{{t.name}}">{{t.descr}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="charts" flex="3">
+        <h1>Totaal aantal posts: {{vm.total.day}}</h1>
+        <h1>Inhoud</h1>
+        <div ng-repeat="c in vm.categories" class="bars-category">
+            {{c.descr}}
+            <vrt-grid-bar total-day="vm.total.day" total-bar="c.max" value="c.value"></vrt-grid-bar>
+        </div>
+        <h1>Vorm</h1>
+        <div ng-repeat="t in vm.types" class="bars-type">
+            {{t.descr}}
+            <vrt-grid-bar total-day="vm.total.day" total-bar="t.max" value="t.value"></vrt-grid-bar>
+        </div>
+    </div>
+</md-content>

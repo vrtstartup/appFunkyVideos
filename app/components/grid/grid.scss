@@ -1,0 +1,16 @@
+@import "../../common/style/variables";
+
+.grid-list > div {
+    &:nth-child(2n-1) {
+        background-color: transparentize($vrt-supl, .9);
+    }
+}
+.bars-category {
+    .gridBar-container {background-color: transparentize($vrt-tool, .9);}
+    .gridBar-filled {background-color: $vrt-tool;}
+}
+
+.bars-type {
+    .gridBar-container {background-color: transparentize($vrt-guide, .9);}
+    .gridBar-filled {background-color: $vrt-guide;}
+}

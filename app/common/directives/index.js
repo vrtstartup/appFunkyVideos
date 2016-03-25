@@ -16,12 +16,13 @@ import eventBlock from './eventBlock';
 import feedback from './feedback';
 import track from './track';
 import maxlines from './maxlines';
+import gridBar from './gridBar';
 
 
 const module = angular.module('app.common.directives', [
     pieChart, text, screenshot, templateDethklok,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
-    imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines,
+    imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar
 ]);
 
 export default module.name;
