@@ -1,5 +1,11 @@
 @import "../../common/style/variables";
 
+
+.grid-posts {
+    height: calc(100vh - 64px);
+    overflow: scroll;
+}
+
 .grid-list > div {
     &:nth-child(2n-1) {
         background-color: transparentize($vrt-supl, .9);

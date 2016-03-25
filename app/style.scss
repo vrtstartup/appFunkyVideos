@@ -2,10 +2,27 @@
 @import "./common/style/palette";
 @import "./common/style/slider";
 @import "./common/style/videogular";
-
 @import "main";
-
 md-toolbar.vrt-toolbar {
-   background-color: $vrt-supl;
-   color: $white;
- }
+    background-color: $vrt-supl;
+    color: $white;
+    &--colored {
+        background-color: $vrt-guide;
+    }
+}
+
+.md-button.vrt-button {
+    background-color: $vrt-guide;
+    color: $white;
+    &:not([disabled]):hover {
+        background-color: $vrt-tool;
+    }
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: $vrt-supl;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused label {
+    color: $vrt-supl;
+}

@@ -1,13 +1,13 @@
 <!-- <md-button ng-click="vm.showDialog($event)" class="md-raised md-primary">Feedback</md-button> -->
 <div class="feedback-button">
-    <md-button ng-click="vm.toggleRight()" ng-hide="vm.isOpenRight()" class="md-raised md-primary">
+    <md-button ng-click="vm.toggleRight()" ng-hide="vm.isOpenRight()" class="vrt-button">
         Feedback
     </md-button>
 </div>
 
 
 <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
-    <md-toolbar class="md-theme-light">
+    <md-toolbar class="vrt-toolbar--colored">
         <h1 class="md-toolbar-tools">Feedback</h1>
     </md-toolbar>
     <md-content layout-padding>
@@ -21,10 +21,10 @@
                 <textarea id="feedback" ng-model="vm.feedback.text"></textarea>
             </md-input-container>
         </form>
-        <md-button ng-click="vm.toggleRight()" class="md-primary">
+        <md-button ng-click="vm.toggleRight()" class="vrt-button">
             Sluit
         </md-button>
-        <md-button ng-click="vm.sendToZapier()" class="md-primary">
+        <md-button ng-click="vm.sendToZapier()" class="vrt-button">
             Send
         </md-button>
     </md-content>

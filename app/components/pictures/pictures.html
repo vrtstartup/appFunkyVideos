@@ -1,6 +1,6 @@
 <md-content layout="row">
 
-    <section flex="25">
+    <section flex="25" class="pictures-sidebar">
         <md-content>
             <md-list>
                 <md-toolbar md-scroll-shrink="">
@@ -8,7 +8,7 @@
                         De redactie <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon':vm.showTempltesDRD}">&#xE313;</i>
                     </div>
                 </md-toolbar>
-                <md-content style="height: 600px;" ng-if="vm.showTempltesDRD">
+                <md-content ng-if="vm.showTempltesDRD">
                     <md-subheader class="md-no-sticky">Headline</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showExplosion('drd')">
                     <img src="./../assets/templates/headline_drd.png" alt="" width="100%">
@@ -54,7 +54,7 @@
                         Amerika kiest <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesAK}">&#xE313;</i>
                     </div>
                 </md-toolbar>
-                <md-content style="height: 600px;" ng-if="vm.showTempltesAK">
+                <md-content ng-if="vm.showTempltesAK">
                     <md-subheader class="md-no-sticky">Headline</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showExplosion('ak')">
                     <img src="./../assets/templates/headline_ak.png" alt="" width="100%">
