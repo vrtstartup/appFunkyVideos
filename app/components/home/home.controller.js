@@ -13,7 +13,7 @@ export default class HomeController {
                 'type': 'tool',
                 'category': 'facebook',
                 'image': 'assets/home-pictures.png',
-                'url': 'http://cryptic-everglades-93518.herokuapp.com/#/pictures'
+                'url': '/#/pictures'
             },
             {
                 'title': 'Ondertitels',
@@ -22,7 +22,7 @@ export default class HomeController {
                 'type': 'tool',
                 'category': 'facebook',
                 'image': 'assets/home-subtitler.png',
-                'url': 'http://cryptic-everglades-93518.herokuapp.com/#/subtitles'
+                'url': '/#/subtitles'
             },
             {
                 'title': 'Explainers',
@@ -46,7 +46,7 @@ export default class HomeController {
                 'status': 'Voorlopig werkt slechts 1 template: het taartdiagram.',
                 'type': 'tool',
                 'image': 'assets/home-charts.png',
-                'url': 'http://cryptic-everglades-93518.herokuapp.com/#/chart'
+                'url': '/#/chart'
             },
             {
                 'title': 'Facebook Algemeen',
