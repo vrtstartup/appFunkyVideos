@@ -29,19 +29,17 @@
                 </div>
             </div>
             <div class="grid-list">
-                <div ng-repeat="p in vm.posts" layout-padding layout-gt-xs="row">
+                <div ng-repeat="p in vm.posts | orderBy:'dateAdded':true" class="grid-item" layout-padding layout-gt-xs="row">
+
                     <md-input-container flex="40">
-                        <!-- <label>Onderwerp</label> -->
                         <input ng-model="p.url" type="text" ng-change="vm.posts.$save(p)">
                     </md-input-container>
                     <md-input-container class="md-block" flex="30">
-                        <!-- <label>Categorie</label> -->
                         <md-select ng-model="p.category" class="md-block" ng-change="vm.posts.$save(p)">
                             <md-option ng-repeat="c in vm.categories" value="{{c.name}}">{{c.descr}}</md-option>
                         </md-select>
                     </md-input-container>
                     <md-input-container class="md-block" flex="30">
-                        <!-- <label>Type</label> -->
                         <md-select ng-model="p.type" ng-change="vm.posts.$save(p)">
                             <md-option ng-repeat="t in vm.types" value="{{t.name}}">{{t.descr}}</md-option>
                         </md-select>
@@ -50,27 +48,6 @@
                         <i style="padding-top:8px;" ng-click="vm.deletePost(p)" class="material-icons grid-iconbutton">&#xE14C;</i>
                     </md-input-container>
                 </div>
-                <!--
-            <div ng-repeat="p in vm.posts" layout-padding>
-                <md-input-container>
-                    <label>Onderwerp</label>
-                    <input ng-model="p.url" type="text" ng-change="vm.posts.$save(p)">
-                </md-input-container>
-                <div layout-gt-sm="row">
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Categorie</label>
-                        <md-select ng-model="p.category" ng-change="vm.posts.$save(p)">
-                            <md-option ng-repeat="c in vm.categories" value="{{c.name}}">{{c.descr}}</md-option>
-                        </md-select>
-                    </md-input-container>
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Type</label>
-                        <md-select ng-model="p.type" ng-change="vm.posts.$save(p)">
-                            <md-option ng-repeat="t in vm.types" value="{{t.name}}">{{t.descr}}</md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-            </div> -->
             </div>
         </section>
         <section flex="60" layout-gt-sm="column">
@@ -90,7 +67,7 @@
                 <h1>Vorm</h1>
             </div>
             <div ng-repeat="t in vm.types" class="bars-type" layout-gt-sm="row">
-                <div flex="30" class="bars-category-description">{{t.descr}}</div>
+                <div flex="30" class="bars-category-description"  style="width: 80px; overflow: hidden;">{{t.descr}}</div>
                 <div flex="70" class="bars-category-chart">
                     <vrt-grid-bar total-day="vm.totalDay" total-bar="t.max" value="t.value"></vrt-grid-bar>
                 </div>
