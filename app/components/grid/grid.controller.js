@@ -1,14 +1,9 @@
 export default class GridController {
     constructor($log, $firebaseArray) {
         this.$log = $log;
-        this.$firebaseArray;
+        this.$firebaseArray = $firebaseArray;
         this.post = '';
-        this.total = {
-            category: [0, 0, 0],
-            type: [0, 0, 0],
-            day: 16,
-        };
-
+        this.totalDay = 16;
 
         this.categories = [{
             'name': 'hard',
@@ -64,47 +59,15 @@ export default class GridController {
             'value': 0
         }];
 
+        // Get the date of today
+        this.myDate = new Date();
 
-        var postsRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/grid').child("posts");
-        var query = postsRef.orderByChild("timestamp").limitToLast(30);
-        this.posts = $firebaseArray(query);
+        // Get the posts that are made or planned today
+        this.getPosts(this.rewriteDate(this.myDate));
 
-
-        this.posts.$watch((event) => {
-
-            // Reset the value of the categories
-            for (let i = 0; i < this.categories.length; i++) {
-                this.categories[i].value = 0;
-            }
-
-            // Reset the value of the types
-            for (let i = 0; i < this.types.length; i++) {
-                this.types[i].value = 0;
-            }
-
-            // variable to count the number of posts
-            let totalPosts = 0;
-
-            // Loop through all the posts
-            for (let i = 0; i < this.posts.length; i++) {
-
-                // Count the number of posts
-                totalPosts++;
-
-                // If the number of posts is bigger than the total that is permitted, the permitted total changes in the real total
-                if (totalPosts > this.total.day) {
-                    this.total.day = totalPosts;
-                }
-
-                // Count the different categories
-                this.checkCategory(this.posts[i].category);
-
-                // Count the different types
-                this.checkType(this.posts[i].type);
-            }
-        });
     }
 
+    // Check
     checkCategory(c) {
         for (let i = 0; i < this.categories.length; i++) {
             if (c === this.categories[i].name) {
@@ -122,15 +85,89 @@ export default class GridController {
     }
 
 
-    addItem(post) {
+    getPosts(date) {
+        let postsRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/grid').child("posts");
+        let query = postsRef.orderByChild('addedDate').equalTo(date);
+        this.posts = this.$firebaseArray(query);
+        this.watchFirebase();
+    }
+
+    addPost(post) {
         post.timestamp = Firebase.ServerValue.TIMESTAMP;
+        post.addedDate = this.rewriteDate(this.myDate);
         this.posts.$add(post).then(function(ref) {
             console.log(ref);
         });
-
     }
 
 
+
+    deletePost(post) {
+        console.log(post);
+        this.posts.$remove(post).then(function(ref) {
+            console.log(ref);
+        });
+    }
+
+
+
+    resetTotals() {
+        // Reset the value of the categories
+        for (let i = 0; i < this.categories.length; i++) {
+            this.categories[i].value = 0;
+        }
+
+        // Reset the value of the types
+        for (let i = 0; i < this.types.length; i++) {
+            this.types[i].value = 0;
+        }
+    }
+
+    watchFirebase() {
+        this.posts.$watch((event) => {
+
+            this.resetTotals();
+            // variable to count the number of posts
+            let totalPosts = 0;
+
+            // Loop through all the posts
+            for (let i = 0; i < this.posts.length; i++) {
+
+                // Count the number of posts
+                totalPosts++;
+
+                // If the number of posts is bigger than the total that is permitted, the permitted total changes in the real total
+                if (totalPosts > this.totalDay) {
+                    this.totalDay = totalPosts;
+                }
+
+                // Count the different categories
+                this.checkCategory(this.posts[i].category);
+
+                // Count the different types
+                this.checkType(this.posts[i].type);
+            }
+        });
+    }
+
+
+    rewriteDate(date) {
+        var currentDate = date;
+        var twoDigitMonth = ((currentDate.getMonth() + 1) >= 10) ? (currentDate.getMonth() + 1) : '0' + (currentDate.getMonth() + 1);
+        var twoDigitDate = ((currentDate.getDate()) >= 10) ? (currentDate.getDate()) : '0' + (currentDate.getDate());
+        var createdDateTo = currentDate.getFullYear() + "" + twoDigitMonth + "" + twoDigitDate;
+        return createdDateTo;
+    }
+
+
+
+
+    dateChanged(date) {
+
+        this.resetTotals();
+        // Get posts based on chosen date
+        this.getPosts(this.rewriteDate(date));
+    }
 
 
 
