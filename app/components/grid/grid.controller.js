@@ -188,4 +188,4 @@ export default class GridController {
 
     }
 
-    GridController.$inject = ['$log', '$firebaseArray', '$firebaseObject'];
+    GridController.$inject = ['$log', '$firebaseArray'];
