@@ -70,7 +70,7 @@ export default class GridController {
         this.maxDate = new Date();
 
         // Get the posts that are made or planned today
-        this.getPosts(this.rewriteDate(this.minDate, this.maxDate, this.range));
+        this.getPosts(this.rewriteDate(this.minDate), this.rewriteDate(this.maxDate), this.range);
 
 
     }
@@ -108,7 +108,7 @@ export default class GridController {
 
     addPost(post) {
         post.timestamp = Firebase.ServerValue.TIMESTAMP;
-        post.addedDate = this.rewriteDate(this.myDate);
+        post.addedDate = this.rewriteDate(this.minDate);
         this.posts.$add(post).then(function(ref) {
             console.log(ref);
         });
