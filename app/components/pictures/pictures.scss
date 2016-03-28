@@ -1,63 +1,73 @@
 @import "../../common/style/variables";
-
 //.container-screenshot {
 //  font-family: Roboto, "Helvetica Neue", sans-serif;
 //  background-color: $drd-main-bg-color;
 //}
-
 .dir-wrap {
-  margin: 20px auto;
+    margin: 20px auto;
 }
 
 button.md-button.vrt-drd-btn {
-  color: $white;
-  background-color: $drd-main-color;
+    color: $white;
+    background-color: $drd-main-color;
 }
 
 button.md-button.vrt-ak-btn {
-  color: $white;
-  background-color: $ak-main-color;
+    color: $white;
+    background-color: $ak-main-color;
 }
 
 .block-wrap {
-  max-width: 984px;
-  margin: 0 auto;
+    max-width: 984px;
+    margin: 0 auto;
 }
 
 md-list {
-  padding: 0 0;
-  transition: height 100ms linear;
+    padding: 0 0;
+    transition: height 100ms linear;
 }
 
 .animatedIcon:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .animatedIcon {
-  transition-duration: 0.6s;
-  transition-property: transform;
-  outline: 0;
+    transition-duration: 0.6s;
+    transition-property: transform;
+    outline: 0;
 }
 
 .rotatedIcon {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 md-list-item img {
-  padding: 5px 0;
+    padding: 10px 0;
 }
 
 .sel {
-  background-color: #267ED5;
-  color: $white;
+    background-color: #267ED5;
+    color: $white;
 }
 
-
-
 // Maarten edits :s :)
-
 .pictures-sidebar {
-
     max-height: calc(100vh - 64px);
     overflow: scroll;
+    md-toolbar {
+        background-color: $vrt-tool;
+        &:nth-child(2n) {
+            background-color: transparentize($vrt-tool, .2);
+        }
+    }
+    .md-subheader {
+      color: $white;
+      line-height: 0;
+        background-color: transparentize($vrt-supl, .6);
+    }
+    .md-no-style{
+      background-color: transparentize($vrt-supl, .9);
+      // padding: 0;
+
+    }
 }
