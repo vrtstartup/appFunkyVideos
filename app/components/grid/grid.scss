@@ -26,7 +26,7 @@
         border-bottom-width: 3px;
     }
     .grid-posts {
-        height: calc(100vh - 64px);
+        max-height: calc(100vh - 64px);
         overflow: scroll;
         padding-left: 30px;
     }
@@ -54,6 +54,12 @@
         .gridBar-filled {
             background-color: $vrt-tool;
         }
+        .bars-category-description {
+            text-overflow: ellipsis;
+            width: 20%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
     }
     .bars-type {
         .gridBar-container {
@@ -63,26 +69,4 @@
             background-color: $vrt-guide;
         }
     }
-    // .faq {
-    //     counter-reset: my-badass-counter;
-    // }
-    // .faq dt {
-    //     position: relative;
-    //     font: bold 16px Georgia;
-    //     padding: 4px 0 10px 0;
-    // }
-    // .faq dt:before {
-    //     content: counter(my-badass-counter);
-    //     counter-increment: my-badass-counter;
-    //     position: absolute;
-    //     left: 0;
-    //     top: 0;
-    //     font: bold 50px/1 Sans-Serif;
-    // }
-    // .faq dd {
-    //     margin: 0 0 50px 0;
-    // }
-    // .faq dt, .faq dd {
-    //     padding-left: 50px;
-    // }
 }
