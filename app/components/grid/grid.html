@@ -2,9 +2,16 @@
     <div layout-gt-sm="row">
         <section flex="40" class="grid-posts" layout-padding>
             <div layout="row" layout-align="start center" class="grid-datepicker" layout-padding>
-                <span>Selecteer een datum: </span>
-                <md-datepicker ng-model="vm.myDate" md-placeholder="Enter date" ng-change="vm.dateChanged(vm.myDate)"></md-datepicker>
+                <span>Datum: </span>
+                <md-datepicker ng-model="vm.minDate" md-placeholder="Enter date" ng-change="vm.dateChanged(vm.minDate, vm.maxDate, this.range)"></md-datepicker>
             </div>
+         <!--    <div layout="row" layout-align="start center" class="grid-datepicker" layout-padding>
+                <md-switch ng-model="vm.range" aria-label="Range">
+                    Periode
+                </md-switch>
+
+                <md-datepicker ng-model="vm.maxDate" md-placeholder="Enter date" ng-change="vm.dateChanged(vm.minDate, vm.maxDate)" ng-disabled="!vm.range"></md-datepicker>
+            </div> -->
             <div>
                 <div class="grid-form" layout-padding layout-gt-xs="row">
                     <md-input-container flex="40">
@@ -30,7 +37,6 @@
             </div>
             <div class="grid-list">
                 <div ng-repeat="p in vm.posts | orderBy:'dateAdded':true" class="grid-item" layout-padding layout-gt-xs="row">
-
                     <md-input-container flex="40">
                         <input ng-model="p.url" type="text" ng-change="vm.posts.$save(p)">
                     </md-input-container>
@@ -67,7 +73,7 @@
                 <h1>Vorm</h1>
             </div>
             <div ng-repeat="t in vm.types" class="bars-type" layout-gt-sm="row">
-                <div flex="30" class="bars-category-description"  style="width: 80px; overflow: hidden;">{{t.descr}}</div>
+                <div flex="30" class="bars-category-description" style="width: 80px; overflow: hidden;">{{t.descr}}</div>
                 <div flex="70" class="bars-category-chart">
                     <vrt-grid-bar total-day="vm.totalDay" total-bar="t.max" value="t.value"></vrt-grid-bar>
                 </div>

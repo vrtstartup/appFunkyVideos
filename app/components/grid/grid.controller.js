@@ -59,11 +59,19 @@ export default class GridController {
             'value': 0
         }];
 
+        // The reference to the firebase
+        this.postsRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/grid').child("posts");
+
+        // Start with a single date, instead of a range
+        this.range = false;
+
         // Get the date of today
-        this.myDate = new Date();
+        this.minDate = new Date();
+        this.maxDate = new Date();
 
         // Get the posts that are made or planned today
-        this.getPosts(this.rewriteDate(this.myDate));
+        this.getPosts(this.rewriteDate(this.minDate, this.maxDate, this.range));
+
 
     }
 
@@ -85,9 +93,15 @@ export default class GridController {
     }
 
 
-    getPosts(date) {
-        let postsRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/grid').child("posts");
-        let query = postsRef.orderByChild('addedDate').equalTo(date);
+    getPosts(minDate, maxDate, range) {
+
+        let query = '';
+        if (range) {
+            query = this.postsRef.orderByChild('addedDate').startAt(minDate).endAt(maxDate);
+        } else {
+            console.log(minDate, maxDate);
+            query = this.postsRef.orderByChild('addedDate').equalTo(minDate);
+        }
         this.posts = this.$firebaseArray(query);
         this.watchFirebase();
     }
@@ -162,15 +176,16 @@ export default class GridController {
 
 
 
-    dateChanged(date) {
-
+    dateChanged(minDate, maxDate) {
+        // Set all total to zero, so we can make te sum based on the new search
         this.resetTotals();
-        // Get posts based on chosen date
-        this.getPosts(this.rewriteDate(date));
+        // Get posts based on chosen date or daterange
+        this.getPosts(this.rewriteDate(minDate), this.rewriteDate(maxDate), this.range);
+
+        }
+
+
+
     }
 
-
-
-}
-
-GridController.$inject = ['$log', '$firebaseArray', '$firebaseObject'];
+    GridController.$inject = ['$log', '$firebaseArray', '$firebaseObject'];
