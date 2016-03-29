@@ -60,16 +60,15 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         url = path + 'gen' + videoPath;
 
         ffmpeg(path + videoPath)
-            .inputOptions(
-                '-strict -2'
-            )
+            .outputOptions([
+                '-vf subtitles=' + srtPath,
+                '-strict',
+                '-2'
+            ])
             .on('start', function(commandLine) {
                 findRemoveSync('temp', {age: {seconds: 36000}});
                 console.log('FFMPEG is really working hard: ' + commandLine);
             })
-            .outputOptions(
-                '-vf subtitles=' + srtPath
-            )
             .on('error', function(err, stdout, stderr) {
                 console.log('Error: ', stdout);
                 console.log('Error: ', err.message);
