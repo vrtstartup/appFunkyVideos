@@ -13,8 +13,12 @@ export default class VideoGenerationService {
             const el = element.parent();
             html2canvas(el, {
                 onrendered: (canvas) => {
-                    that._canvasToJPG(canvas, that._userUpload.bind(this));
-                    that._canvasToJPG(canvas, that._upload.bind(this));
+                    if (that.isTemplate) {
+                        that._canvasToJPG(canvas, that._userUpload.bind(this));
+                        that._canvasToJPG(canvas, that._upload.bind(this));
+                    } else {
+                        that._canvasToJPG(canvas, that._upload.bind(this));
+                    }
                 },
             });
         };
