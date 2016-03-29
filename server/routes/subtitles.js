@@ -95,7 +95,7 @@ function getExtension(filename) {
 }
 
 function sendNotificationTo(email, url) {
-    console.log('sending message to:', email, 'wuth url:', url);
+    console.log('sending message to:', email, 'with url:', url);
     var fullUrl = 'http://nieuwshub.vrt.be/' + url;
 
     var mailOptions = {
