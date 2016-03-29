@@ -10,12 +10,12 @@ class mapsSimpleDirectiveController {
         this.$log = $log;
         this.$element = $element;
         this.map = '';
-        this.loadMap();
 
+
+        // Make an image out of it
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
             if (this.isReady) {
-
                 leafletImage(this.map, (err, canvas) => {
                     var img = document.createElement('img');
                     var dimensions = this.map.getSize();
@@ -30,10 +30,20 @@ class mapsSimpleDirectiveController {
                 this.isReady = !this.isReady;
             }
         });
+
+
+
+        $scope.$watch('vm.lat', (value) => {
+            this.map.setView([this.lat, this.lng], this.zoomLevel);
+
+        });
+
+
+this.loadMap();
+
     }
 
     loadMap() {
-
         let map = L.mapbox.map(this.$element[0].children.map, 'mapbox.streets')
             .addControl(L.mapbox.shareControl());
 

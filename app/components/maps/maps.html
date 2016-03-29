@@ -1,4 +1,28 @@
-<vrt-maps-simple class="maps-simple" is-ready="vm.isReady" lat="38.1797826" lng="-81.3252195" zoom-level="15" map-id="'mapbox.streets'" markers="[[38.1797826,-81.3252195], [38.1797826,-81.1253196]]">
+<md-input-container flex="40">
+    <label>lat</label>
+    <input ng-model="vm.lat" type="text">
+</md-input-container>
+
+<md-input-container flex="40">
+    <label>lng</label>
+    <input ng-model="vm.lng" type="text">
+</md-input-container>
+
+<md-input-container flex="40">
+    <label>zoom</label>
+    <input ng-model="vm.zoom" type="text">
+</md-input-container>
+
+<md-input-container flex="40">
+    <label>marker</label>
+    <input ng-model="vm.marker" type="text">
+</md-input-container>
+
+
+
+
+</md-input-container>
+<vrt-maps-simple class="maps-simple" is-ready="vm.isReady" lat="vm.lat" lng="vm.lng" zoom-level="vm.zoom" map-id="'mapbox.streets'" markers="vm.marker">
 </vrt-maps-simple>
 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
     <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
