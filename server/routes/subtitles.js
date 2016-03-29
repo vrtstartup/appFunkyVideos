@@ -65,7 +65,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 console.log('FFMPEG is really working hard: ' + commandLine);
             })
             .outputOptions(
-                '-vf subtitles=' + srtPath + '-strict -2'
+                '-vf subtitles=' + srtPath + ' -strict -2'
             )
             .on('error', function(err, stdout, stderr) {
                 console.log('Error: ', stdout);
