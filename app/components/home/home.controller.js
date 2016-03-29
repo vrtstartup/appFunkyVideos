@@ -96,6 +96,7 @@ export default class HomeController {
 
     filterTiles(_filter) {
         if(_filter === this.currentFilter) {
+            this.currentFilter = '';
             this.filteredTiles = this.tiles;
             return;
         }

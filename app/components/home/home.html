@@ -1,7 +1,7 @@
 <div layout="row" layout-align="center start">
     <div flex="80" class="filter-container">
-        <md-button class="md-button md-raised" ng-click="vm.filterTiles('tool')">Tools</md-button>
-        <md-button class="md-button md-raised" ng-click="vm.filterTiles('guide')">Handleidingen</md-button>
+        <md-button class="md-button md-raised tool" ng-class="{'active' : vm.currentFilter === 'tool'}" ng-click="vm.filterTiles('tool')">Tools</md-button>
+        <md-button class="md-button md-raised guide" ng-class="{'active' : vm.currentFilter === 'guide'}" ng-click="vm.filterTiles('guide')">Handleidingen</md-button>
     </div>
 </div>
 <div layout="col" layout-align="center start" class="home-container">
