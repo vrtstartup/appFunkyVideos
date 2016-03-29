@@ -60,6 +60,9 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         url = path + 'gen' + videoPath;
 
         ffmpeg(path + videoPath)
+            .inputOptions(
+                '-strict -2'
+            )
             .on('start', function(commandLine) {
                 findRemoveSync('temp', {age: {seconds: 36000}});
                 console.log('FFMPEG is really working hard: ' + commandLine);
