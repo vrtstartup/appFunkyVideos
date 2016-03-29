@@ -1,11 +1,22 @@
+import { filter } from 'lodash';
+
 export default class HomeController {
     constructor($log, $http, $scope, $timeout) {
         this.$log = $log;
         this.$http = $http;
         this.$scope = $scope;
         this.$timeout = $timeout;
+        this.currentFilter = '';
 
         this.tiles = [
+            {
+                'title': 'Grid',
+                'sub': 'Overzicht van posted content',
+                'type': 'tool',
+                'category': 'facebook',
+                'image': 'assets/home-grid.png',
+                'url': '/#/grid'
+            },
             {
                 'title': 'Afbeeldingmaker',
                 'sub': 'Maak snel afbeeldingen met voorgemaakte sjablonen',
@@ -23,6 +34,15 @@ export default class HomeController {
                 'category': 'facebook',
                 'image': 'assets/home-subtitler.png',
                 'url': '/#/subtitles'
+            },
+            {
+                'title': 'Maps',
+                'sub': 'Genereer een map met marker',
+                'status': 'In ontwikkeling',
+                'type': 'tool',
+                'category': 'facebook',
+                'image': 'assets/home-maps.png',
+                'url': '/#/maps'
             },
             {
                 'title': 'Explainers',
@@ -73,6 +93,20 @@ export default class HomeController {
 
         this.filteredTiles = this.tiles;
     }
+
+    filterTiles(_filter) {
+        if(_filter === this.currentFilter) {
+            this.filteredTiles = this.tiles;
+            return;
+        }
+
+        this.currentFilter = _filter;
+
+        this.filteredTiles = filter(this.tiles, (tile) => {
+            return tile.type === this.currentFilter;
+        });
+    }
+
 }
 
 HomeController.$inject = ['$log', '$http', '$scope', '$timeout'];

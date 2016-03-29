@@ -1,7 +1,7 @@
 <div layout="row" layout-align="center start">
     <div flex="80" class="filter-container">
-        <md-button class="md-button md-raised" ng-click="vm.filterTiles(tools)">Tools</md-button>
-        <md-button class="md-button md-raised" ng-click="vm.filterTiles(manuals)">Handleidingen</md-button>
+        <md-button class="md-button md-raised" ng-click="vm.filterTiles('tool')">Tools</md-button>
+        <md-button class="md-button md-raised" ng-click="vm.filterTiles('guide')">Handleidingen</md-button>
     </div>
 </div>
 <div layout="col" layout-align="center start" class="home-container">
@@ -28,30 +28,3 @@
         </md-grid-tile>
     </md-grid-list>
 </div>
-
-<!--<md-content>-->
-
-<!--<feedback page="'tester'"></feedback>-->
-    <!--<md-list>-->
-        <!--<md-subheader class="md-no-sticky">Tools</md-subheader>-->
-        <!--<md-list-item class="md-3-line" ng-repeat="t in vm.tools" ng-click="vm.goTo(t.url)">-->
-            <!--<img ng-src="{{t.image}}" class="md-avatar" alt="{{t.title}}" />-->
-            <!--<div class="md-list-item-text" layout="column">-->
-                <!--<h3>{{ t.title }}</h3>-->
-                <!--<p>{{ t.sub }}</p>-->
-                <!--<p>Status: {{ t.status }}</p>-->
-            <!--</div>-->
-
-        <!--</md-list-item>-->
-        <!--<md-divider></md-divider>-->
-        <!--<md-subheader class="md-no-sticky">Handleidingen</md-subheader>-->
-         <!--<md-list-item class="md-3-line" ng-repeat="g in vm.guides" ng-click="vm.goTo(g.url)">-->
-            <!--<img ng-src="{{g.image}}" class="md-avatar" alt="{{g.title}}" />-->
-            <!--<div class="md-list-item-text" layout="column">-->
-                <!--<h3>{{ g.title }}</h3>-->
-                <!--<h4>{{ g.sub }}</h4>-->
-                <!--&lt;!&ndash; <p>Status: {{ t.status }}</p> &ndash;&gt;-->
-            <!--</div>-->
-        <!--</md-list-item>-->
-    <!--</md-list>-->
-<!--</md-content>-->
