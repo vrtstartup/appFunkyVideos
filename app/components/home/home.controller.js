@@ -37,7 +37,8 @@ export default class HomeController {
                 'type': 'tool',
                 'category': 'facebook',
                 'image': 'assets/home-pictures.png',
-                'url': '/#/pictures'
+                'url': '/#/pictures',
+                'docUrl': 'https://app.frontify.com/d/1DSJVfQzMjiF/stijlgids-afbeeldingen#/templates-tool/uitleg-tool'
             },
             {
                 'title': 'Ondertitels',
