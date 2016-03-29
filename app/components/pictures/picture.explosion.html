@@ -7,9 +7,7 @@
     </md-content>
 
     <div layout-gt-sm="row">
-        <md-input-container class="md-block">
-            <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
-        </md-input-container>
+        <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
     </div>
     <div class="dir-wrap">
         <vrt-template-explosion class="dir-wrap" is-ready="vm.isReady" template-class="vm.templateClass"

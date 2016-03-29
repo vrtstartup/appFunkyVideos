@@ -1,20 +1,22 @@
 <div layout="row" layout-wrap>
     <div flex="100" class="upload-container page-container" ng-hide="vm.movieUploaded">
         <p>To start editing, please enter the e-mail address to send the result to, and upload your video.</p>
-        <md-input-container>
+        <md-input-container layout="row">
+            <div flex="25">
             <label>E-mail address</label>
             <input ng-model="vm.emailRecipient" ng-init="vm.emailRecipient= 'kusksu@gmail.com'" type="email" required />
-        </md-input-container>
-        <md-input-container ng-show="vm.emailRecipient">
-            <input ng-model="vm.subtitle.video" ngf-accept="'video/mp4'" ngf-select="vm.upload($file)" type="file" />
-            <p ng-if="vm.progressPercentage && !vm.movieUploaded">{{vm.progressPercentage}} %</p>
+            </div>
+            <div flex="5"></div>
+            <div  flex ng-show="vm.emailRecipient">
+                <input ng-model="vm.subtitle.video" ngf-accept="'video/mp4'" ngf-select="vm.upload($file)" type="file" />
+                <p ng-if="vm.progressPercentage && !vm.movieUploaded">{{vm.progressPercentage}} %</p>
+            </div>
         </md-input-container>
     </div>
     <div flex="70" class="video-container page-container" ng-if="vm.movieUploaded">
         <div class="videowrapper">
             <vrt-videoplayer source="vm.file.tempUrl" start="vm.form.start" end="vm.form.end" update-time="vm.updateTime()"></vrt-videoplayer>
             <p id="subtitlePreview" class="subtitles-text-line-preserve">{{vm.currentSubtitlePreview}}</p>
-            <!--<input name="title" ng-model="vm.form.text">-->
         </div>
 
         <rzslider rz-slider-model="vm.form.start" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
