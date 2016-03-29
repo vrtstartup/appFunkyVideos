@@ -38,7 +38,7 @@ export default class HomeController {
                 'category': 'facebook',
                 'image': 'assets/home-pictures.png',
                 'url': '/#/pictures',
-                'docUrl': 'https://app.frontify.com/d/1DSJVfQzMjiF/stijlgids-afbeeldingen#/templates-tool/uitleg-tool'
+                'docUrl': 'https://app.frontify.com/document/80390#/foto-tools/headline'
             },
             {
                 'title': 'Ondertitels',
@@ -47,7 +47,8 @@ export default class HomeController {
                 'type': 'tool',
                 'category': 'facebook',
                 'image': 'assets/home-subtitler.png',
-                'url': '/#/subtitles'
+                'url': '/#/subtitles',
+                'docUrl': 'https://app.frontify.com/document/80390#/ondertiteling/ondertitels-toevoegen'
             },
             {
                 'title': 'Maps',
@@ -80,7 +81,8 @@ export default class HomeController {
                 'status': 'Voorlopig werkt slechts 1 template: het taartdiagram.',
                 'type': 'tool',
                 'image': 'assets/home-charts.png',
-                'url': '/#/chart'
+                'url': '/#/chart',
+                'docUrl': 'https://app.frontify.com/document/80390#/video-tool/taartgrafiek'
             },
             {
                 'title': 'Facebook Algemeen',
