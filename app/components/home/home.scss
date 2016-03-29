@@ -12,12 +12,20 @@
   background-color: $vrt-tool;
 }
 
+.md-button.md-raised.tool:hover {
+  background-color: lighten($vrt-tool, 10%);
+}
+
 .md-button.guide {
   background-color: $vrt-guide;
 }
 
+.md-button.md-raised.guide:hover {
+  background-color: lighten($vrt-guide, 10%);
+}
+
 .md-button.tool.active, .md-button.guide.active {
-  background-color: rgb(250,250,250);
+  color: #fff;
 }
 
 md-grid-list {

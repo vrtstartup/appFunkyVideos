@@ -8,6 +8,19 @@ export default class HomeController {
         this.$timeout = $timeout;
         this.currentFilter = '';
 
+
+        /*
+            EXAMPLE complete obj:
+            {
+                'title': 'Pagemaker',
+                'sub': 'Maak een mooi, langer verhaal',
+                'status': 'Stuur een mailtje naar maarten.lauwaert@vrt.be indien je deze tool wil uittesten.',
+                'type': 'tool',
+                'image': 'assets/home-pagemaker.png',
+                'url': 'http://vrtstartup.github.io/vrtpagemaker', //URL to actual app - remove if only a guide
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/de-communicatiegids' //URL to app manual or manual
+            },
+         */
         this.tiles = [
             {
                 'title': 'Grid',
@@ -57,8 +70,8 @@ export default class HomeController {
                 'status': 'Stuur een mailtje naar maarten.lauwaert@vrt.be indien je deze tool wil uittesten.',
                 'type': 'tool',
                 'image': 'assets/home-pagemaker.png',
-                'url': 'http://vrtstartup.github.io/vrtpagemaker'
-
+                'url': 'http://vrtstartup.github.io/vrtpagemaker',
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/de-communicatiegids'
             },
             {
                 'title': 'Infografieken',
@@ -73,21 +86,21 @@ export default class HomeController {
                 'sub': 'Hoe werk je met Facebook?',
                 'type': 'guide',
                 'image': 'assets/home-facebook.png',
-                'url': 'https://app.frontify.com/d/1vi0ktgfFCVU/de-communicatiegids'
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/de-communicatiegids'
             },
             {
                 'title': 'Schrijven voor Facebook',
                 'sub': 'Hoe schrijf je best je posts op Facebook?',
                 'type': 'guide',
                 'image': 'assets/home-facebook.png',
-                'url': 'https://app.frontify.com/d/1DSJVfQzMjiF/facebook-tekst-en-stijlgids-style-guide'
+                'docUrl': 'https://app.frontify.com/d/1DSJVfQzMjiF/facebook-tekst-en-stijlgids-style-guide'
             },
             {
                 'title': 'Handleiding pagemaker',
                 'sub': 'Uitgebreide handleiding om met de Pagemaker aan de slag te gaan',
                 'type': 'guide',
                 'image': 'assets/home-pagemakerGuide.png',
-                'url': 'https://app.frontify.com/d/TxcwgYOVtrNH/vrt-pagemaker-handleiding'
+                'docUrl': 'https://app.frontify.com/d/TxcwgYOVtrNH/vrt-pagemaker-handleiding'
             }
         ];
 
