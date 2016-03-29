@@ -24,7 +24,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     var file = req.files.file;
     var url = file.path;
     var email = req.body.email;
-    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '').replace('.mov', '').replace('.avi', '').replace('.mkv', '');
+    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '').replace('.MP4', '').replace('.mov', '').replace('.avi', '').replace('.mkv', '');
     //console.log('REQ', req.files.file);
 
     //const fName = getExtension(file.name);
@@ -67,6 +67,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
             ])
             .on('start', function(commandLine) {
                 findRemoveSync('temp', {age: {seconds: 36000}});
+                res.json({processing: true}).send();
                 console.log('FFMPEG is really going to work hard: ' + commandLine);
             })
             .on('progress', function(progress) {
@@ -80,9 +81,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
             })
             .on('end', function() {
                 console.log('FFMPEG is DONE!', url);
-                findRemoveSync('temp', {files: videoPath});
                 sendNotificationTo(email, url);
-                res.json({ url: url, name: name, subtitled: true }).send();
             })
             .save(url);
 

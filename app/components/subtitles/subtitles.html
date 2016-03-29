@@ -1,17 +1,21 @@
 <div layout="row" layout-wrap>
     <div flex="100" class="upload-container page-container" ng-hide="vm.movieUploaded">
         <p>Vul je e-mail adres in en upload een video om te beginnen. Het resultaat wordt naar dit e-mail adres verzonden.</p>
-        <md-input-container layout="row">
-            <div flex="25">
-            <label>E-mail adres</label>
-            <input ng-model="vm.emailRecipient" ng-init="vm.emailRecipient= 'kusksu@gmail.com'" type="email" required />
+        <div layout="row">
+            <div flex="40">
+                <md-input-container class="full-length">
+                    <label>E-mail adres</label>
+                    <input ng-model="vm.emailRecipient" ng-init="vm.emailRecipient= 'kusksu@gmail.com'" type="email" required />
+                </md-input-container>
             </div>
-            <div flex="5"></div>
             <div  flex ng-show="vm.emailRecipient">
                 <input ng-model="vm.subtitle.video" ngf-accept="'video/mp4'" ngf-select="vm.upload($file)" type="file" />
-                <p ng-if="vm.progressPercentage && !vm.movieUploaded">{{vm.progressPercentage}} %</p>
             </div>
-        </md-input-container>
+            <div flex="40" ng-show="vm.progressPercentage && !vm.movieUploaded">
+                {{vm.progressPercentage}} %
+                <md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>
+            </div>
+        </div>
     </div>
     <div flex="70" class="video-container page-container" ng-if="vm.movieUploaded">
         <div class="videowrapper">
@@ -42,27 +46,6 @@
     </div>
 
     <div flex="30" class="subtitles-container page-container"  ng-if="vm.movieUploaded">
-        <!--<md-toolbar class="vrt-sub-toolbar">-->
-            <!--<div class="md-toolbar-tools">-->
-                <!--<h3>-->
-                    <!--Edit subtitle-->
-                <!--</h3>-->
-            <!--</div>-->
-        <!--</md-toolbar>-->
-
-        <!--<div class="subtitle-edit-wrap">-->
-            <!--<textarea id="subtitleText" name="title" ng-model="vm.form.text" placeholder="subtitle text"></textarea>-->
-
-            <!--<div class="fine-tune-start">-->
-                <!--<label for="subtitleStart"></label>-->
-                <!--<input id="subtitleStart" ng-model="vm.form.start" type="number" step="0.001">-->
-            <!--</div>-->
-            <!--<div class="fine-tune-end">-->
-                <!--<label for="subtitleEnd"></label>-->
-                <!--<input id="subtitleEnd" ng-model="vm.form.end" type="number" step="0.001">-->
-            <!--</div>-->
-        <!--</div>-->
-
         <div class="subtitles-wrap">
             <md-toolbar class="vrt-sub-toolbar">
                 <div class="md-toolbar-tools">
@@ -92,11 +75,14 @@
                     </md-list>
                 </md-content>
                 <md-subheader class="md-no-sticky">
-                    <md-button class="md-raised" aria-label="Preview and save subtitles" ng-click="vm.previewSubtitles()">
+                    <md-button class="md-raised" aria-label="Preview subtitles" ng-click="vm.previewSubtitles()" ng-hide="vm.movieSubmitted">
                         Preview
                     </md-button>
-                    <md-button class="md-raised" aria-label="Preview and save subtitles" ng-click="vm.renderSubtitles()">
+                    <md-button class="md-raised" aria-label="Save subtitles" ng-click="vm.renderSubtitles()" ng-hide="vm.movieSubmitted">
                         Verzenden
+                    </md-button>
+                    <md-button class="md-raised" aria-label="Correct result" ng-click="vm.movieSubmitted = false" ng-show="vm.movieSubmitted">
+                        Correct
                     </md-button>
                 </md-subheader>
             </div>

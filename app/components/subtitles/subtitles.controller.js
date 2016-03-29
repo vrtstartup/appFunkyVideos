@@ -1,7 +1,7 @@
 import { keys, extend, find, reject } from 'lodash';
 
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys) {
+    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys, toast) {
         this.$log = $log;
         this.$sce = $sce;
         this.srt = srt;
@@ -9,12 +9,13 @@ export default class SubtitlesController {
         this.FileSaver = FileSaver;
         this.videogular = videogular;
         this.hotkeys = hotkeys;
-        this.isReadyForProcess = false;
-        this.movieUploaded = false;
         this.Upload = Upload;
         this.$timeout = $timeout;
+        this.toast = toast;
 
         this.file = {};
+        this.movieUploaded = false;
+        this.movieSubmitted = false;
         this.emailRecipient = '';
         this.progressPercentage = '';
         this.form = {};
@@ -85,6 +86,11 @@ export default class SubtitlesController {
     }
 
     updateSubtitles(newValues) {
+        if(!newValues.text) {
+            this.deleteSubtitle(this.form);
+            return;
+        }
+
         //check if value.id exists, else push object to array with new ID
         if (!this.form.id && this.form.text) {
             this.form.id = this.getNewSubtitleId();
@@ -146,6 +152,7 @@ export default class SubtitlesController {
     }
 
     renderSubtitles() {
+        this.movieSubmitted = true;
         let srtString = this.srt.stringify(this.subtitles);
         let srtFile = new Blob([srtString], {
             type: 'srt'
@@ -153,7 +160,6 @@ export default class SubtitlesController {
         let srtFileName = this.file.fileName + '.srt';
 
         this.upload(srtFile, srtFileName, this.emailRecipient);
-        //#TODO show success dialog in success callback or errors in error callback.
     }
 
     //#TODO make 100% unique
@@ -193,11 +199,15 @@ export default class SubtitlesController {
                 method: 'POST',
             })
             .then((resp) => {
-                console.log('response', resp);
+                if(resp.data.processing) {
+                    this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, ' +
+                        'zodra deze klaar is ontvangt u een e-mail met een link om het resultaat te downloaden.');
+                    return;
+                }
+
                 this.movieUploaded = true;
                 this.file.tempUrl = resp.data.url;
                 this.file.fileName = resp.data.name;
-                this.file.subtitled = resp.data.subtitled;
             }, (resp) => {
                 console.log('Error: ' + resp.error);
                 console.log('Error status: ' + resp.status);
@@ -205,11 +215,6 @@ export default class SubtitlesController {
                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             });
     }
-
-
-
-
-
 }
 
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys'];
+SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast'];
