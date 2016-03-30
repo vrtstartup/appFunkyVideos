@@ -25,7 +25,7 @@
 
         <rzslider rz-slider-model="vm.form.start" rz-slider-high="vm.form.end" rz-slider-options="vm.slider.options"></rzslider>
         <div class="subtitle-editor-wrap">
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap >
                 <md-input-container flex="20">
                     <label>Start</label>
                     <input id="subtitleStart" ng-model="vm.form.start" type="number" step="0.001">
@@ -60,17 +60,14 @@
             </md-toolbar>
 
             <div class="subtitles-list-wrap">
-                <!--<md-button class="md-raised" aria-label="Add line" ng-click="vm.addSubtitle()">-->
-                    <!--Add line-->
-                <!--</md-button>-->
 
                 <md-content  style="height: 650px;">
                     <md-list>
-                        <md-list-item class="md-2-line" ng-repeat="line in vm.subtitles | orderBy: 'start'" ng-click="vm.editSubtitle(line)">
+                        <md-list-item class="md-2-line" ng-repeat="line in vm.subtitles | orderBy: 'start'"
+                                      ng-click="vm.editSubtitle(line)" ng-class="{'editingRow' : line.isEditmode}">
                             <div class="md-list-item-text">
                                 <h3>{{line.start}} - {{line.end}}</h3>
                                 <p>{{line.text}}</p>
-                                <pre> {{line.isEditmode}}</pre>
                             </div>
                             <i ng-click="vm.editSubtitle(line)" class="material-icons">&#xE254;</i>
                             <i ng-click="vm.deleteSubtitle(line)" class="material-icons">&#xE92B;</i>

@@ -91,10 +91,14 @@ export default class SubtitlesController {
             return;
         }
 
+        //this.resetEditMode();
+
         //check if value.id exists, else push object to array with new ID
         if (!this.form.id && this.form.text) {
-            this.form.id = this.getNewSubtitleId();
+            this.resetEditMode();
 
+            this.form.id = this.getNewSubtitleId();
+            this.form.isEditmode = true;
             this.subtitles.push(this.form);
         }
 
@@ -130,6 +134,8 @@ export default class SubtitlesController {
     }
 
     editSubtitle(subtitle) {
+        this.resetEditMode();
+
         this.form = {
             id: subtitle.id,
             start: subtitle.start,
@@ -137,6 +143,12 @@ export default class SubtitlesController {
             text: subtitle.text,
             isEditmode: true,
         }
+    }
+
+    resetEditMode() {
+        this.subtitles = angular.forEach(this.subtitles, (sub) => {
+            sub.isEditmode = false;
+        });
     }
 
     previewSubtitles() {
