@@ -30,26 +30,34 @@
 
 md-grid-list {
   md-grid-tile {
+    transition: transform 250ms 200ms;
     background-color: $drd-main-color;
+    overflow: hidden;
 
-    md-grid-tile-header, md-grid-tile-footer {
-      background-color: transparent;
-      justify-content: center;
+    .grid-tile-content {
+      padding: 25px 15px;
     }
 
-    md-grid-tile-footer {
-      height: 75px;
+    .grid-tile-overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transform: translateY(-5%);
+      transition: all 250ms 200ms;
+      padding: 15px;
     }
 
     img {
-      width: 125px;
-      height: 125px;
+      width: 100px;
+      height: 100px;
       border-radius: 100%;
     }
 
     figure {
-      display: block;
-      padding: 50px 20px;
+      padding: 25px 10px;
       text-align: center;
       color: white;
     }
@@ -57,9 +65,26 @@ md-grid-list {
 
   md-grid-tile.tool {
     background-color: $vrt-tool;
+
+    .grid-tile-overlay {
+      background-color: rgba($vrt-tool, 0.9);
+    }
   }
 
   md-grid-tile.guide {
     background-color: $vrt-guide;
+
+    .grid-tile-overlay {
+      background-color: rgba($vrt-guide, 0.9);
+    }
+  }
+
+  md-grid-tile:hover {
+    transform: scale(1.02);
+
+    .grid-tile-overlay {
+      opacity: 1;
+      transform: translateY(0%);
+    }
   }
 }
