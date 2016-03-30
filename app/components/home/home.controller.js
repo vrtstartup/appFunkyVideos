@@ -87,11 +87,11 @@ export default class HomeController {
                 'disabled': true
             },
             {
-                'title': 'Facebook algemeen',
+                'title': 'Facebook handleiding',
                 'sub': 'Hoe werk je met Facebook?',
                 'type': 'guide',
                 'image': 'assets/home-facebook.png',
-                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/de-communicatiegids'
+                'docUrl': 'https://app.frontify.com/document/80390'
             },
             //{
             //    'title': 'Schrijven voor Facebook',
