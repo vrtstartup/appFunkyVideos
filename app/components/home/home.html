@@ -8,11 +8,14 @@
     <md-grid-list flex="85" md-cols-xs="3" md-cols-gt-sm="6" md-cols-gt-md="9" md-cols-lg="12" md-cols-gt-lg="12"
                   md-row-height-gt-md="1:1" md-row-height="2:2"
                   md-gutter="10px" md-gutter-gt-sm="20px">
-        <md-grid-tile ng-repeat="tile in vm.filteredTiles" md-rowspan="3" md-colspan="3" class="{{tile.type}}">
+        <md-grid-tile ng-repeat="tile in vm.filteredTiles" md-rowspan="3" md-colspan="3" class="{{tile.type}}" ng-class="{'disabled': tile.disabled}">
 
             <!--<md-grid-tile-header>-->
                 <!--{{tile.category}}-->
             <!--</md-grid-tile-header>-->
+            <div class="grid-tile-overlay-disabled">
+                <p><i class="material-icons">&#xE869;</i> nog aan bezig</p>
+            </div>
 
             <div class="grid-tile-content" layout="column" layout-align="center center">
                 <img src="{{tile.image}}" />

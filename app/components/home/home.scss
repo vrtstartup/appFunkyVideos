@@ -13,7 +13,7 @@
 }
 
 .md-button.md-raised.tool:hover {
-  background-color: lighten($vrt-tool, 10%);
+  background-color: lighten($vrt-tool, 15%);
 }
 
 .md-button.guide {
@@ -21,7 +21,7 @@
 }
 
 .md-button.md-raised.guide:hover {
-  background-color: lighten($vrt-guide, 10%);
+  background-color: lighten($vrt-guide, 15%);
 }
 
 .md-button.tool.active, .md-button.guide.active {
@@ -50,6 +50,16 @@ md-grid-list {
       padding: 15px;
     }
 
+    .grid-tile-overlay-disabled {
+      display: none;
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
+
     img {
       width: 100px;
       height: 100px;
@@ -67,7 +77,7 @@ md-grid-list {
     background-color: $vrt-tool;
 
     .grid-tile-overlay {
-      background-color: rgba($vrt-tool, 0.9);
+      background-color: rgba(lighten($vrt-tool, 15%), 0.9);
     }
   }
 
@@ -75,7 +85,7 @@ md-grid-list {
     background-color: $vrt-guide;
 
     .grid-tile-overlay {
-      background-color: rgba($vrt-guide, 0.9);
+      background-color: rgba(lighten($vrt-guide, 15%), 0.9);
     }
   }
 
@@ -85,6 +95,20 @@ md-grid-list {
     .grid-tile-overlay {
       opacity: 1;
       transform: translateY(0%);
+    }
+  }
+
+  md-grid-tile.disabled {
+    .grid-tile-overlay-disabled {
+      display: block;
+    }
+  }
+
+  md-grid-tile.disabled:hover {
+    transform: scale(1);
+
+    .grid-tile-overlay {
+      display: none;
     }
   }
 }
