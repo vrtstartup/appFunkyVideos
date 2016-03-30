@@ -39,7 +39,7 @@ export default class HomeController {
                 'category': 'facebook',
                 'image': 'assets/home-pictures.png',
                 'url': '/#/pictures',
-                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/social-templates#/foto-tools/headline'
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/tools-templates#/foto-templates/headline'
             },
             {
                 'title': 'Ondertitels',
@@ -48,7 +48,7 @@ export default class HomeController {
                 'category': 'facebook',
                 'image': 'assets/home-subtitler.png',
                 'url': '/#/subtitles',
-                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/social-templates#/ondertiteling/ondertitels-toevoegen'
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/tools-templates#/ondertitel-tool/ondertitels-toevoegen'
             },
             {
                 'title': 'Infografieken',
@@ -57,7 +57,7 @@ export default class HomeController {
                 'type': 'tool',
                 'image': 'assets/home-charts.png',
                 'url': '/#/chart',
-                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/social-templates#/video-tool/taartgrafiek'
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/tools-templates#/video-templates/taartgrafiek'
             },
             {
                 'title': 'Pagemaker',
@@ -112,13 +112,6 @@ export default class HomeController {
                 'type': 'guide',
                 'image': 'assets/home-facebook.png',
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/tools-templates'
-            },
-            {
-                'title': 'Pagemaker handleiding',
-                'sub': 'Uitgebreide handleiding om met de Pagemaker aan de slag te gaan',
-                'type': 'guide',
-                'image': 'assets/home-pagemakerGuide.png',
-                'docUrl': 'https://app.frontify.com/d/TxcwgYOVtrNH/vrt-pagemaker-handleiding#/de-basis/basis-in-7-regels'
             },
         ];
 
