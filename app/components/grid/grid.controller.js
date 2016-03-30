@@ -3,59 +3,59 @@ export default class GridController {
         this.$log = $log;
         this.$firebaseArray = $firebaseArray;
         this.post = '';
-        this.totalDay = 20;
+        this.totalDay = 30;
 
         this.categories = [{
             'name': 'hard',
             'descr': 'Hard Nieuws',
-            'max': 6,
+            'max': 10,
             'value': 0
         }, {
             'name': 'wetteclife',
             'descr': 'Wetenschap, Tech, Lifestyle',
-            'max': 4,
+            'max': 6,
             'value': 0
         }, {
             'name': 'ookdatnog',
             'descr': 'Ook dat nog',
-            'max': 3,
+            'max': 4,
             'value': 0
         }, {
             'name': 'cultuurmedia',
             'descr': 'Cultuur en Media',
-            'max': 3,
+            'max': 4,
             'value': 0
         }, {
             'name': 'opinie',
             'descr': 'Opinie',
-            'max': 2,
+            'max': 3,
             'value': 0
         }, {
             'name': 'vrtmerk',
             'descr': 'Vrt als merk',
-            'max': 2,
+            'max': 3,
             'value': 0
         }];
 
         this.types = [{
             'name': 'traditioneel',
             'descr': 'Traditioneel',
-            'max': 10,
+            'max': 13,
             'value': 0
         }, {
             'name': 'nativevideo',
             'descr': 'Native video',
-            'max': 5,
+            'max': 6,
             'value': 0
         }, {
             'name': 'socialtemplates',
             'descr': 'Social templates of poll',
-            'max': 3,
+            'max': 7,
             'value': 0
         }, {
             'name': 'shares',
             'descr': 'Shares',
-            'max': 2,
+            'max': 4,
             'value': 0
         }];
 
