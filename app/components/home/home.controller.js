@@ -91,7 +91,7 @@ export default class HomeController {
                 'sub': 'Hoe werk je met Facebook?',
                 'type': 'guide',
                 'image': 'assets/home-facebook.png',
-                'docUrl': 'https://app.frontify.com/document/80390'
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/social-templates'
             },
             //{
             //    'title': 'Schrijven voor Facebook',
