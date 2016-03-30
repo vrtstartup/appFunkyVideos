@@ -26,8 +26,27 @@
                     <p>{{tile.status}}</p>
                 </div>
                 <div layout="row" layout-align="center center">
-                    <md-button class="md-button md-raised" ng-if="tile.url !== undefined" ng-href="{{tile.url}}">Aan de slag</md-button>
-                    <md-button class="md-button md-raised" ng-if="tile.docUrl !== undefined" ng-href="{{tile.docUrl}}" target="_blank">Documentatie</md-button>
+                    <md-button class="md-fab" aria-label="aan de slag"
+                               ng-if="tile.url !== undefined" ng-href="{{tile.url}}">
+                        <md-tooltip>
+                            Aan de slag
+                        </md-tooltip>
+                        <md-icon md-svg-src="assets/ic_format_paint_white_24px.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-fab" aria-label="documentatie"
+                               ng-if="tile.docUrl !== undefined" ng-href="{{tile.docUrl}}" target="_blank">
+                        <md-tooltip>
+                            Documentatie
+                        </md-tooltip>
+                        <md-icon md-svg-src="assets/ic_chrome_reader_mode_white_24px.svg"></md-icon>
+                    </md-button>
+
+                    <!--<md-button class="md-button md-raised" ng-if="tile.url !== undefined" ng-href="{{tile.url}}">-->
+                        <!--<i class="material-icons">&#xE243;</i>-->
+                    <!--</md-button>-->
+                    <!--<md-button class="md-button md-raised" ng-if="tile.docUrl !== undefined" ng-href="{{tile.docUrl}}" target="_blank">-->
+                        <!--<i class="material-icons">&#xE86D;</i>-->
+                    <!--</md-button>-->
                 </div>
             </div>
         </md-grid-tile>
