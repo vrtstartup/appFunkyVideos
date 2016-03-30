@@ -53,7 +53,7 @@ md-list-item img {
 // Maarten edits :s :)
 .pictures-sidebar {
     max-height: calc(100vh - 64px);
-    overflow: scroll;
+    overflow: auto;
     md-toolbar {
         background-color: $vrt-tool;
         &:nth-child(2n) {
@@ -61,12 +61,12 @@ md-list-item img {
         }
     }
     .md-subheader {
-      color: $white;
-      line-height: 0;
+        color: $white;
+        line-height: 0;
         background-color: transparentize($vrt-supl, .6);
     }
     .md-no-style{
-      background-color: transparentize($vrt-supl, .9);
+        background-color: transparentize($vrt-supl, .9);
       // padding: 0;
 
     }

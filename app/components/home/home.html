@@ -1,57 +1,35 @@
 <div layout="row" layout-align="center start">
-    <div flex="80" class="filter-container">
-        <md-button class="md-button md-raised" ng-click="vm.filterTiles(tools)">Tools</md-button>
-        <md-button class="md-button md-raised" ng-click="vm.filterTiles(manuals)">Handleidingen</md-button>
+    <div flex="85" class="filter-container">
+        <md-button class="md-button md-raised tool" ng-class="{'active' : vm.currentFilter === 'tool'}" ng-click="vm.filterTiles('tool')">Tools</md-button>
+        <md-button class="md-button md-raised guide" ng-class="{'active' : vm.currentFilter === 'guide'}" ng-click="vm.filterTiles('guide')">Handleidingen</md-button>
     </div>
 </div>
 <div layout="col" layout-align="center start" class="home-container">
-    <md-grid-list flex="80" md-cols="3" md-cols-xs="3" md-cols-sm="6" md-cols-gt-md="12"
+    <md-grid-list flex="85" md-cols-xs="3" md-cols-gt-sm="6" md-cols-gt-md="9" md-cols-lg="12" md-cols-gt-lg="12"
                   md-row-height-gt-md="1:1" md-row-height="2:2"
                   md-gutter="10px" md-gutter-gt-sm="20px">
-        <md-grid-tile ng-repeat="tile in vm.filteredTiles" md-rowspan="5" md-colspan="3" class="{{tile.type}}">
+        <md-grid-tile ng-repeat="tile in vm.filteredTiles" md-rowspan="3" md-colspan="3" class="{{tile.type}}">
 
             <!--<md-grid-tile-header>-->
                 <!--{{tile.category}}-->
             <!--</md-grid-tile-header>-->
 
-            <img src="{{tile.image}}" />
+            <div class="grid-tile-content" layout="column" layout-align="center center">
+                <img src="{{tile.image}}" />
 
-            <h2>{{tile.title}}</h2>
-            <h4>{{tile.sub}}</h4>
+                <h3>{{tile.title}}</h3>
+                <p>{{tile.sub}}</p>
+            </div>
 
-            <p>{{tile.status}}</p>
-
-            <md-grid-tile-footer>
-                <md-button class="md-button md-raised" ng-href="{{tile.url}}" >Aan de slag</md-button>
-                <md-button class="md-button md-raised" ng-href="" target="_blank">Documentatie</md-button>
-            </md-grid-tile-footer>
+            <div class="grid-tile-overlay" layout="column" layout-align="center center">
+                <div layout="row" layout-align="center center">
+                    <p>{{tile.status}}</p>
+                </div>
+                <div layout="row" layout-align="center center">
+                    <md-button class="md-button md-raised" ng-if="tile.url !== undefined" ng-href="{{tile.url}}">Aan de slag</md-button>
+                    <md-button class="md-button md-raised" ng-if="tile.docUrl !== undefined" ng-href="{{tile.docUrl}}" target="_blank">Documentatie</md-button>
+                </div>
+            </div>
         </md-grid-tile>
     </md-grid-list>
 </div>
-
-<!--<md-content>-->
-
-<!--<feedback page="'tester'"></feedback>-->
-    <!--<md-list>-->
-        <!--<md-subheader class="md-no-sticky">Tools</md-subheader>-->
-        <!--<md-list-item class="md-3-line" ng-repeat="t in vm.tools" ng-click="vm.goTo(t.url)">-->
-            <!--<img ng-src="{{t.image}}" class="md-avatar" alt="{{t.title}}" />-->
-            <!--<div class="md-list-item-text" layout="column">-->
-                <!--<h3>{{ t.title }}</h3>-->
-                <!--<p>{{ t.sub }}</p>-->
-                <!--<p>Status: {{ t.status }}</p>-->
-            <!--</div>-->
-
-        <!--</md-list-item>-->
-        <!--<md-divider></md-divider>-->
-        <!--<md-subheader class="md-no-sticky">Handleidingen</md-subheader>-->
-         <!--<md-list-item class="md-3-line" ng-repeat="g in vm.guides" ng-click="vm.goTo(g.url)">-->
-            <!--<img ng-src="{{g.image}}" class="md-avatar" alt="{{g.title}}" />-->
-            <!--<div class="md-list-item-text" layout="column">-->
-                <!--<h3>{{ g.title }}</h3>-->
-                <!--<h4>{{ g.sub }}</h4>-->
-                <!--&lt;!&ndash; <p>Status: {{ t.status }}</p> &ndash;&gt;-->
-            <!--</div>-->
-        <!--</md-list-item>-->
-    <!--</md-list>-->
-<!--</md-content>-->
