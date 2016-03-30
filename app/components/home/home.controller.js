@@ -69,6 +69,12 @@ export default class HomeController {
                 'docUrl': 'https://app.frontify.com/d/TxcwgYOVtrNH/vrt-pagemaker-handleiding#/de-basis/basis-in-7-regels'
             },
             {
+                'title': 'Dashboard',
+                'sub': 'Evalueer hoe je posts het gedaan hebben',
+                'type': 'tool',
+                'docUrl': 'https://app.klipfolio.com/dashboard'
+            },
+            {
                 'title': 'Maps',
                 'sub': 'Genereer een map met marker',
                 'status': 'In ontwikkeling',
@@ -112,12 +118,6 @@ export default class HomeController {
                 'sub': 'De 7 gouden Facebook regels',
                 'type': 'guide',
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/7-gouden-regels'
-            },
-            {
-                'title': 'Dashboard',
-                'sub': 'Evalueer hoe je posts het gedaan hebben',
-                'type': 'guide',
-                'docUrl': 'https://app.klipfolio.com/dashboard'
             }
         ];
 
