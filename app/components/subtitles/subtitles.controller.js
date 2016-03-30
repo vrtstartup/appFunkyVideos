@@ -42,9 +42,6 @@ export default class SubtitlesController {
             this.currentSubtitlePreview = currentSubtitle ? currentSubtitle.text || '' : '';
         });
 
-
-
-
         // Hotkeys to make editing superfast and smooth. Using angular-hotkeys (http://chieffancypants.github.io/angular-hotkeys/)
         this.hotkeys.add({
             combo: 'i',
@@ -67,7 +64,6 @@ export default class SubtitlesController {
             combo: 'p',
             description: 'Start new line',
             callback: () => {
-
                 this.addSubtitle();
             }
         });
@@ -76,7 +72,6 @@ export default class SubtitlesController {
             combo: 'k',
             description: 'Start new line',
             callback: () => {
-
                 this.videogular.api.seekTime(this.form.start - 3 / 1000);
             }
         });
@@ -91,12 +86,9 @@ export default class SubtitlesController {
             return;
         }
 
-        //this.resetEditMode();
-
         //check if value.id exists, else push object to array with new ID
         if (!this.form.id && this.form.text) {
             this.resetEditMode();
-
             this.form.id = this.getNewSubtitleId();
             this.form.isEditmode = true;
             this.subtitles.push(this.form);
