@@ -72,7 +72,7 @@ export default class HomeController {
                 'title': 'Dashboard',
                 'sub': 'Evalueer hoe je posts het gedaan hebben',
                 'type': 'tool',
-                'docUrl': 'https://app.klipfolio.com/dashboard'
+                'url': 'https://app.klipfolio.com/dashboard'
             },
             {
                 'title': 'Maps',
@@ -93,19 +93,26 @@ export default class HomeController {
                 'disabled': true
             },
             {
-                'title': 'Facebook handleiding',
+                'title': '7 Facebookregels',
+                'sub': 'De 7 gouden Facebook regels',
+                'type': 'guide',
+                'image': 'assets/home-facebook.png',
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/7-gouden-regels'
+            },
+            {
+                'title': 'Communicatiegids Facebook',
                 'sub': 'Hoe werk je met Facebook?',
                 'type': 'guide',
                 'image': 'assets/home-facebook.png',
-                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/social-templates'
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/communicatiegids'
             },
-            //{
-            //    'title': 'Schrijven voor Facebook',
-            //    'sub': 'Hoe schrijf je best je posts op Facebook?',
-            //    'type': 'guide',
-            //    'image': 'assets/home-facebook.png',
-            //    'docUrl': 'https://app.frontify.com/d/1DSJVfQzMjiF/facebook-tekst-en-stijlgids-style-guide'
-            //},
+            {
+                'title': 'Handleiding Tools & Templates',
+                'category': 'facebook',
+                'type': 'guide',
+                'image': 'assets/home-facebook.png',
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/tools-templates'
+            },
             {
                 'title': 'Pagemaker handleiding',
                 'sub': 'Uitgebreide handleiding om met de Pagemaker aan de slag te gaan',
@@ -113,12 +120,6 @@ export default class HomeController {
                 'image': 'assets/home-pagemakerGuide.png',
                 'docUrl': 'https://app.frontify.com/d/TxcwgYOVtrNH/vrt-pagemaker-handleiding#/de-basis/basis-in-7-regels'
             },
-            {
-                'title': '7 Facebookregels',
-                'sub': 'De 7 gouden Facebook regels',
-                'type': 'guide',
-                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/7-gouden-regels'
-            }
         ];
 
         this.filteredTiles = this.tiles;
