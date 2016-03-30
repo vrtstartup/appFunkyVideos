@@ -94,6 +94,7 @@ export default class SubtitlesController {
         //check if value.id exists, else push object to array with new ID
         if (!this.form.id && this.form.text) {
             this.form.id = this.getNewSubtitleId();
+
             this.subtitles.push(this.form);
         }
 
@@ -123,7 +124,8 @@ export default class SubtitlesController {
             id: '',
             start: lastTitle + 0.1,
             end: lastTitle + 2,
-            text: ''
+            text: '',
+            isEditmode: false,
         }
     }
 
@@ -132,7 +134,8 @@ export default class SubtitlesController {
             id: subtitle.id,
             start: subtitle.start,
             end: subtitle.end,
-            text: subtitle.text
+            text: subtitle.text,
+            isEditmode: true,
         }
     }
 
@@ -141,7 +144,8 @@ export default class SubtitlesController {
             id: '',
             start: '',
             end: '',
-            text: ''
+            text: '',
+            isEditmode: false,
         }
     }
 

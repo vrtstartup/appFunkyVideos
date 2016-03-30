@@ -38,8 +38,11 @@
                     <label>Ondertitel text</label>
                     <textarea vrt-maxlines="2" maxlines-prevent-enter="true" id="subtitleText" name="title" ng-model="vm.form.text"></textarea>
                 </md-input-container>
-                <md-button class="md-raised" aria-label="Add line" ng-click="vm.addSubtitle()">
-                    Nieuwe lijn toevoegen
+                <md-button class="md-raised" aria-label="Add line" ng-click="vm.addSubtitle()" ng-if="!vm.form.isEditmode">
+                    Toevoegen
+                </md-button>
+                <md-button class="md-raised" aria-label="Add line" ng-click="vm.addSubtitle()" ng-if="vm.form.isEditmode">
+                    Opslaan
                 </md-button>
             </section>
         </div>
@@ -67,6 +70,7 @@
                             <div class="md-list-item-text">
                                 <h3>{{line.start}} - {{line.end}}</h3>
                                 <p>{{line.text}}</p>
+                                <pre> {{line.isEditmode}}</pre>
                             </div>
                             <i ng-click="vm.editSubtitle(line)" class="material-icons">&#xE254;</i>
                             <i ng-click="vm.deleteSubtitle(line)" class="material-icons">&#xE92B;</i>
