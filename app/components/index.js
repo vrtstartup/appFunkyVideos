@@ -7,9 +7,10 @@ import templater from './templater';
 import audio from './audio';
 import grid from './grid';
 import maps from './maps';
+import questions from './questions';
 
 const module = angular.module('app.components', [
-    home, subtitles, pictures, chart, templater, audio, grid, maps,
+    home, subtitles, pictures, chart, templater, audio, grid, maps, questions,
 ]);
 
 export default module.name;
