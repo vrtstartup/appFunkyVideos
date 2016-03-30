@@ -115,7 +115,7 @@
                 <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion || vm.isPickels || vm.isDethklok"
                          layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
                     <md-button class="md-raised" ng-click="vm.getPicture()" ng-disabled="templateForm.img.$error.required && (vm.templateClass != 'breaking')">Get Picture</md-button>
-                    <a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>
+                    <!--<a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>-->
                 </section>
             </form>
         </div>
