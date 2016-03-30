@@ -216,8 +216,8 @@ export default class SubtitlesController {
             })
             .then((resp) => {
                 if(resp.data.processing) {
-                    this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, ' +
-                        'zodra deze klaar is ontvangt u een e-mail met een link om het resultaat te downloaden.');
+                    this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
+                        'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
                     return;
                 }
 
