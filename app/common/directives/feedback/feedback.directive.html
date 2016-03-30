@@ -1,30 +1,27 @@
 <!-- <md-button ng-click="vm.showDialog($event)" class="md-raised md-primary">Feedback</md-button> -->
 <div class="feedback-button">
-    <md-button ng-click="vm.toggleRight()" ng-hide="vm.isOpenRight()" class="md-raised md-primary">
+    <md-button ng-click="vm.toggleRight()" ng-hide="vm.isOpenRight()" class="vrt-button">
         Feedback
     </md-button>
 </div>
 
 
 <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
-    <md-toolbar class="md-theme-light">
-        <h1 class="md-toolbar-tools">Feedback</h1>
+    <md-toolbar class="vrt-toolbar--colored">
+        <h1 class="md-toolbar-tools">Feedback <span flex></span><i ng-click="vm.toggleRight()" class="material-icons" role="button">&#xE5CD;</i></h1>
     </md-toolbar>
-    <md-content layout-padding>
+    <md-content class="feedback-form">
         <form>
-            <md-input-container>
+            <md-input-container class="full-length">
                 <label for="name">Naam</label>
                 <input type="text" id="name" ng-model="vm.feedback.name" md-autofocus>
             </md-input-container>
-            <md-input-container>
+            <md-input-container class="full-length">
                 <label for="feedback">Feedback</label>
                 <textarea id="feedback" ng-model="vm.feedback.text"></textarea>
             </md-input-container>
         </form>
-        <md-button ng-click="vm.toggleRight()" class="md-primary">
-            Sluit
-        </md-button>
-        <md-button ng-click="vm.sendToZapier()" class="md-primary">
+        <md-button ng-click="vm.sendToZapier()" class="vrt-button">
             Send
         </md-button>
     </md-content>

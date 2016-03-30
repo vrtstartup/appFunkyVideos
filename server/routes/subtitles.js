@@ -24,7 +24,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     var file = req.files.file;
     var url = file.path;
     var email = req.body.email;
-    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '').replace('.mov', '').replace('.avi', '').replace('.mkv', '');
+    var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '').replace('.MP4', '').replace('.mov', '').replace('.avi', '').replace('.mkv', '');
     //console.log('REQ', req.files.file);
 
     //const fName = getExtension(file.name);
@@ -60,13 +60,19 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         url = path + 'gen' + videoPath;
 
         ffmpeg(path + videoPath)
+            .outputOptions([
+                '-vf subtitles=' + srtPath,
+                '-strict',
+                '-2'
+            ])
             .on('start', function(commandLine) {
                 findRemoveSync('temp', {age: {seconds: 36000}});
-                console.log('FFMPEG is really working hard: ' + commandLine);
+                res.json({processing: true}).send();
+                console.log('FFMPEG is really going to work hard: ' + commandLine);
             })
-            .outputOptions(
-                '-vf subtitles=' + srtPath
-            )
+            .on('progress', function(progress) {
+                console.log('FFMPEG is working SUPER hard: ' + progress.percent + '% done');
+            })
             .on('error', function(err, stdout, stderr) {
                 console.log('Error: ', stdout);
                 console.log('Error: ', err.message);
@@ -74,19 +80,14 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 res.json({ error: stderr }).send();
             })
             .on('end', function() {
-                console.log('END: ', url);
-                findRemoveSync('temp', {files: videoPath});
+                console.log('FFMPEG is DONE!', url);
                 sendNotificationTo(email, url);
-                res.json({ url: url, name: name, subtitled: true }).send();
             })
             .save(url);
 
     } else {
         res.json({ url: url, name: name, subtitled: false }).send();
     }
-
-
-
 });
 
 function getExtension(filename) {
@@ -95,7 +96,7 @@ function getExtension(filename) {
 }
 
 function sendNotificationTo(email, url) {
-    console.log('sending message to:', email, 'wuth url:', url);
+    console.log('sending message to:', email, 'with url:', url);
     var fullUrl = 'http://nieuwshub.vrt.be/' + url;
 
     var mailOptions = {

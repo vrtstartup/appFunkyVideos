@@ -1,50 +1,49 @@
 <md-content layout="row">
-
-    <section flex="25">
-        <md-content>
+    <section flex="25" >
+        <md-content class="pictures-sidebar">
             <md-list>
                 <md-toolbar md-scroll-shrink="">
                     <div class="md-toolbar-tools" ng-init="vm.showTempltesDRD = false" ng-click="vm.getScheme('drd')">
                         De redactie <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon':vm.showTempltesDRD}">&#xE313;</i>
                     </div>
                 </md-toolbar>
-                <md-content style="height: 600px;" ng-if="vm.showTempltesDRD">
-                    <md-subheader class="md-no-sticky">Headline</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showExplosion('drd')"">
+                <md-content ng-if="vm.showTempltesDRD">
+                    <md-subheader class="">Headline</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.showExplosion('drd')">
                     <img src="./../assets/templates/headline_drd.png" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Quote</md-subheader>
+                    <md-subheader class="">Quote</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showMurderface('drd')">
                         <img src="./../assets/templates/hub_Quote-situatie.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-list-item class="md-3-line" ng-click="vm.showSkwigelf('drd')">
                         <img src="./../assets/templates/hub_Quote-persoon.jpg" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Cijfer</md-subheader>
+                    <md-subheader class="">Cijfer</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showPickels('drd')">
                         <img src="./../assets/templates/hub_Cijfer.jpg" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Update</md-subheader>
+                    <md-subheader class="">Update</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'UPDATE', 'drd')">
                         <img src="./../assets/templates/hub_Update.jpg" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Breaking</md-subheader>
+                    <md-subheader class="">Breaking</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showDethklok('breaking', 'BREAKING', 'drd')">
                         <img src="./../assets/templates/hub_Breaking-foto.jpg" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Live</md-subheader>
+                    <md-subheader class="">Live</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'Volg LIVE', 'drd')">
                         <img src="./../assets/templates/hub_Live.jpg" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Analyse</md-subheader>
+                    <md-subheader class="">Analyse</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'Analyse', 'drd')">
                         <img src="./../assets/templates/hub_Analyse.jpg" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Ook dat nog</md-subheader>
+                    <md-subheader class="">Ook dat nog</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showDethklok('nog', 'Ook dat nog', 'drd')">
                         <img src="./../assets/templates/hub_Ook-dat-nog-h1.jpg" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Infografiek</md-subheader>
+                    <md-subheader class="">Infografiek</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showDethklok('update', 'Infografiek', 'drd')">
                         <img src="./../assets/templates/hub_Infografiek-h1.jpg" alt="" width="100%">
                     </md-list-item>
@@ -54,19 +53,19 @@
                         Amerika kiest <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesAK}">&#xE313;</i>
                     </div>
                 </md-toolbar>
-                <md-content style="height: 600px;" ng-if="vm.showTempltesAK">
-                    <md-subheader class="md-no-sticky">Headline</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showExplosion('ak')"">
+                <md-content ng-if="vm.showTempltesAK">
+                    <md-subheader class="">Headline</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.showExplosion('ak')">
                     <img src="./../assets/templates/headline_ak.png" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Quote</md-subheader>
+                    <md-subheader class="">Quote</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showMurderface('ak')">
                         <img src="./../assets/templates/quote_ak.png" alt="" width="100%">
                     </md-list-item>
                     <md-list-item class="md-3-line" ng-click="vm.showSkwigelf('ak')">
                         <img src="./../assets/templates/quote_person_ak.png" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="md-no-sticky">Cijfer</md-subheader>
+                    <md-subheader class="">Cijfer</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showPickels('ak')">
                         <img src="./../assets/templates/number_ak.png" alt="" width="100%">
                     </md-list-item>
@@ -116,7 +115,7 @@
                 <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion || vm.isPickels || vm.isDethklok"
                          layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
                     <md-button class="md-raised" ng-click="vm.getPicture()" ng-disabled="templateForm.img.$error.required && (vm.templateClass != 'breaking')">Get Picture</md-button>
-                    <a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>
+                    <!--<a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>-->
                 </section>
             </form>
         </div>

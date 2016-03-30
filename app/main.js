@@ -11,6 +11,8 @@ import 'angular-file-upload';
 import imageCropper from 'angular-image-cropper';
 import ngFileUpload from 'ng-file-upload';
 import 'angular-hotkeys';
+import firebase from 'firebase';
+import angularfire from 'angularfire';
 
 
 import components from './components';
@@ -33,6 +35,7 @@ export default angular
         imageCropper,
         ngFileUpload,
         'cfp.hotkeys',
+        'firebase',
         // application
         components,
         common,

@@ -1,1 +1,83 @@
-<p>Hiii! I'm grid controller!</p>
+<md-content class="grid-container">
+    <div layout-gt-md="row" layout="column" layout-sm="column">
+        <section flex-gt-md="50" flex-md="55" class="grid-posts" layout-padding>
+            <div layout="row" layout-align="start center" class="grid-datepicker" layout-padding>
+                <span>Datum: </span>
+                <md-datepicker ng-model="vm.minDate" md-placeholder="Enter date" ng-change="vm.dateChanged(vm.minDate, vm.maxDate, this.range)"></md-datepicker>
+            </div>
+         <!--    <div layout="row" layout-align="start center" class="grid-datepicker" layout-padding>
+                <md-switch ng-model="vm.range" aria-label="Range">
+                    Periode
+                </md-switch>
+
+                <md-datepicker ng-model="vm.maxDate" md-placeholder="Enter date" ng-change="vm.dateChanged(vm.minDate, vm.maxDate)" ng-disabled="!vm.range"></md-datepicker>
+            </div> -->
+            <div>
+                <div class="grid-form" layout-padding layout-gt-xs="row" layout="column">
+                    <md-input-container flex="40">
+                        <label>Onderwerp</label>
+                        <input ng-model="vm.post.url" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex="30">
+                        <label>Inhoud</label>
+                        <md-select ng-model="vm.post.category">
+                            <md-option ng-repeat="c in vm.categories" value="{{c.name}}">{{c.descr}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex="30">
+                        <label>Vorm</label>
+                        <md-select ng-model="vm.post.type">
+                            <md-option ng-repeat="t in vm.types" value="{{t.name}}">{{t.descr}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <i style="padding-top:8px;" ng-click="vm.addPost(vm.post)" class="material-icons grid-iconbutton">&#xE145;</i>
+                    </md-input-container>
+                </div>
+            </div>
+            <div class="grid-list">
+                <div ng-repeat="p in vm.posts | orderBy:'dateAdded':true" class="grid-item" layout-padding layout="row">
+                    <md-input-container flex="40">
+                        <input ng-model="p.url" type="text" ng-change="vm.posts.$save(p)">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex="30">
+                        <md-select ng-model="p.category" class="md-block" ng-change="vm.posts.$save(p)">
+                            <md-option ng-repeat="c in vm.categories" value="{{c.name}}">{{c.descr}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex="30">
+                        <md-select ng-model="p.type" ng-change="vm.posts.$save(p)">
+                            <md-option ng-repeat="t in vm.types" value="{{t.name}}">{{t.descr}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <i style="padding-top:8px;" ng-click="vm.deletePost(p)" class="material-icons grid-iconbutton">&#xE14C;</i>
+                    </md-input-container>
+                </div>
+            </div>
+        </section>
+        <section flex-gt-md="50" flex-md="45" layout-gt-sm="column">
+            <!-- <h1>Totaal aantal posts: {{vm.total.day}}</h1> -->
+            <div layout="row" >
+                <span flex="20"></span>
+                <h1>Inhoud</h1>
+            </div>
+            <div ng-repeat="c in vm.categories" class="bars-category" layout="row">
+                <div flex="20" class="bars-category-description" layout-padding>{{c.descr}}</div>
+                <div flex="80" class="bars-category-chart">
+                    <vrt-grid-bar total-day="vm.totalDay" total-bar="c.max" value="c.value"></vrt-grid-bar>
+                </div>
+            </div>
+            <div layout="row">
+                <span flex="20"></span>
+                <h1>Vorm</h1>
+            </div>
+            <div ng-repeat="t in vm.types" class="bars-type" layout="row">
+                <div flex="20" class="bars-category-description" layout-padding>{{t.descr}}</div>
+                <div flex="80" class="bars-category-chart">
+                    <vrt-grid-bar total-day="vm.totalDay" total-bar="t.max" value="t.value"></vrt-grid-bar>
+                </div>
+            </div>
+        </section>
+    </div>
+</md-content>

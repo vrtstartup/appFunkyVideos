@@ -2,10 +2,55 @@
 @import "./common/style/palette";
 @import "./common/style/slider";
 @import "./common/style/videogular";
-
 @import "main";
-
 md-toolbar.vrt-toolbar {
-  background-color: $drd-main-color;
-  color: $white;
+    background-color: $vrt-supl;
+    color: $white;
+    &--colored {
+        background-color: $vrt-guide;
+    }
+}
+
+
+
+
+// color tweaks to theme (mostly input) by Maarten
+.md-button.vrt-button {
+    background-color: $vrt-guide;
+    color: $white;
+    &:not([disabled]):hover {
+        background-color: $vrt-tool;
+    }
+}
+
+
+.md-button.vrt-button--dark {
+    background-color: $vrt-tool;
+    color: $white;
+    &:not([disabled]):hover {
+        background-color: $vrt-supl;
+    }
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: $vrt-supl;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused label {
+    color: $vrt-supl;
+}
+
+
+md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not([disabled]):focus .md-select-value {
+ border-bottom-color: $vrt-supl;
+}
+
+
+// position of label doesn't line up with rest, so tried to fix it here (Maarten)
+md-input-container label:not(.md-container-ignore) {
+    bottom: 93%;
+}
+
+.material-icons {
+    cursor: pointer;
 }

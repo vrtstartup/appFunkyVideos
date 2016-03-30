@@ -1,0 +1,69 @@
+@import "../../common/style/variables";
+.grid-container {
+    counter-reset: section;
+    md-input-container {
+        margin-bottom: 0px;
+    }
+    .md-select-value *:first-child {
+        width: 100px;
+        text-overflow: ellipsis;
+    }
+    .grid-iconbutton {
+        color: $vrt-supl;
+        -webkit-transition: color 1s;
+        transition: color 1s;
+        cursor: pointer;
+        &:hover {
+            color: $vrt-tool;
+        }
+    }
+    .grid-form {
+        background-color: transparentize($vrt-guide, .9);
+        border-bottom-style: solid;
+        border-bottom-width: 3px;
+    }
+    .grid-posts {
+        max-height: calc(100vh - 64px);
+        overflow: scroll;
+        padding-left: 30px;
+    }
+    .grid-list > div {
+        &:nth-child(2n) {
+            background-color: transparentize($vrt-tool, .9);
+        }
+    }
+    .grid-item {
+        position: relative;
+        &::before {
+            position: absolute;
+            left: -20px;
+            top: 38%;
+            color: $vrt-supl;
+            font: bold 20px/1 Sans-Serif;
+            counter-increment: section;
+            content: counter(section);
+        }
+    }
+    .bars-category {
+        .gridBar-container {
+            background-color: transparentize($vrt-tool, .9);
+        }
+        .gridBar-filled {
+            background-color: $vrt-tool;
+        }
+        .bars-category-description {
+            text-overflow: ellipsis;
+            width: 20%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+    .bars-type {
+        .gridBar-container {
+            background-color: transparentize($vrt-guide, .9);
+        }
+        .gridBar-filled {
+            background-color: $vrt-guide;
+        }
+    }
+}

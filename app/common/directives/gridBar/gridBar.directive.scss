@@ -1,0 +1,41 @@
+
+
+.bars-category-description {
+    line-height: 2.7;
+  text-align: right;
+
+  padding-right: .5rem;
+
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+    border-right-style: solid;
+    border-right-width: 3px;
+}
+
+
+.bars-category-chart {
+    padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.gridBar-container {
+    height: 3rem;
+    width: calc(100% - 3rem);
+    line-height: 2.7;
+}
+
+.gridBar-filled {
+    height: 100%;
+    position: relative;
+    -webkit-transition: width 2s;
+    transition: width 2s;
+    > div {
+        width: 0;
+        min-width: 3rem;
+        height: 3rem;
+        position: absolute;
+        right: -3rem;
+        text-align: right;
+    }
+}
