@@ -79,16 +79,27 @@
   font-weight: bold;
 }
 
-.md-toast.success, .md-toast.success .md-toast-content {
+.md-toast.success .md-toast-content {
   background-color: $drd-main-color;
 }
 
-.md-toast.error, .md-toast.error .md-toast-content {
+.md-toast.error .md-toast-content {
   background-color: red;
 }
 
-.md-toast.warn, .md-toast.warn .md-toast-content {
+.md-toast.warn .md-toast-content {
   background-color: orange;
 }
 
+md-toast {
+  position: fixed;
+}
+
+md-toast.md-right {
+  right: 10px;
+}
+
+md-toast.md-bottom {
+  bottom: 10px;
+}
 

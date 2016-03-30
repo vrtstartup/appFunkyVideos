@@ -16,12 +16,12 @@ export const maxlinesDirective = function() {
         bindToController: {},
         link: (scope, elem, attrs, ngModel) => {
 
-            var maxLines = 1;
+            let maxLines = 1;
             attrs.$observe('vrtMaxlines', (val) => {
                 maxLines = parseInt(val);
             });
             ngModel.$validators.maxlines = function(modelValue, viewValue) {
-                var numLines = (modelValue || '').split("\n").length;
+                let numLines = (modelValue || '').split("\n").length;
                 return numLines <= maxLines;
             };
             attrs.$observe('maxlinesPreventEnter', function(preventEnter) {

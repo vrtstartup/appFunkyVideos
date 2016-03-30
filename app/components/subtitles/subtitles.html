@@ -5,7 +5,7 @@
             <div flex="40">
                 <md-input-container class="full-length">
                     <label>E-mail adres</label>
-                    <input ng-model="vm.emailRecipient" ng-init="vm.emailRecipient= 'kusksu@gmail.com'" type="email" required />
+                    <input ng-model="vm.emailRecipient" type="email" required />
                 </md-input-container>
             </div>
             <div  flex ng-show="vm.emailRecipient">
@@ -69,7 +69,6 @@
                                 <h3>{{line.start}} - {{line.end}}</h3>
                                 <p>{{line.text}}</p>
                             </div>
-                            
                             <i ng-click="vm.editSubtitle(line)" class="material-icons">&#xE254;</i>
                             <i ng-click="vm.deleteSubtitle(line)" class="material-icons">&#xE92B;</i>
                             <md-divider ng-if="!$last"></md-divider>

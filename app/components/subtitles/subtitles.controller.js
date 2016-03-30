@@ -16,6 +16,7 @@ export default class SubtitlesController {
         this.file = {};
         this.movieUploaded = false;
         this.movieSubmitted = false;
+        this.movieDuration = 0;
         this.emailRecipient = '';
         this.progressPercentage = '';
         this.form = {};
@@ -42,9 +43,6 @@ export default class SubtitlesController {
             this.currentSubtitlePreview = currentSubtitle ? currentSubtitle.text || '' : '';
         });
 
-
-
-
         // Hotkeys to make editing superfast and smooth. Using angular-hotkeys (http://chieffancypants.github.io/angular-hotkeys/)
         this.hotkeys.add({
             combo: 'i',
@@ -67,7 +65,6 @@ export default class SubtitlesController {
             combo: 'p',
             description: 'Start new line',
             callback: () => {
-
                 this.addSubtitle();
             }
         });
@@ -76,7 +73,6 @@ export default class SubtitlesController {
             combo: 'k',
             description: 'Start new line',
             callback: () => {
-
                 this.videogular.api.seekTime(this.form.start - 3 / 1000);
             }
         });
@@ -91,12 +87,9 @@ export default class SubtitlesController {
             return;
         }
 
-        //this.resetEditMode();
-
         //check if value.id exists, else push object to array with new ID
         if (!this.form.id && this.form.text) {
             this.resetEditMode();
-
             this.form.id = this.getNewSubtitleId();
             this.form.isEditmode = true;
             this.subtitles.push(this.form);
@@ -123,11 +116,22 @@ export default class SubtitlesController {
 
 
     addSubtitle() {
-        let lastTitle = this.form.end;
+        let nextTitleStart = this.form.end + 0.1;
+        let nextTitleEnd = nextTitleStart + 2;
+
+        if(nextTitleEnd > this.movieDuration) {
+            nextTitleEnd = this.movieDuration;
+        }
+
+        if(nextTitleStart > this.movieDuration) {
+            this.toast.showToast('warn', 'End of video reached. Can\'t add another subtitle here.');
+            return;
+        }
+
         this.form = {
             id: '',
-            start: lastTitle + 0.1,
-            end: lastTitle + 2,
+            start: nextTitleStart,
+            end: nextTitleEnd,
             text: '',
             isEditmode: false,
         }
@@ -188,17 +192,17 @@ export default class SubtitlesController {
         if (file.type === "video/mp4") {
             //set duration of video, init slider values
             this.Upload.mediaDuration(file).then((durationInSeconds) => {
-                durationInSeconds = Math.round(durationInSeconds * 1000) / 1000;
+                this.movieDuration = Math.round(durationInSeconds * 1000) / 1000;
                 this.form.start = 0.001;
-                this.form.end = durationInSeconds / 10;
+                this.form.end = 2.001;
 
                 this.slider = {
-                    min: 0,
-                    max: durationInSeconds,
+                    min: 0.001,
+                    max: this.movieDuration,
                     options: {
                         id: 'main',
-                        floor: 0,
-                        ceil: durationInSeconds,
+                        floor: 0.001,
+                        ceil: this.movieDuration,
                         precision: 3,
                         step: 0.001,
                         draggableRange: true,
@@ -216,8 +220,8 @@ export default class SubtitlesController {
             })
             .then((resp) => {
                 if(resp.data.processing) {
-                    this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, ' +
-                        'zodra deze klaar is ontvangt u een e-mail met een link om het resultaat te downloaden.');
+                    this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
+                        'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
                     return;
                 }
 
