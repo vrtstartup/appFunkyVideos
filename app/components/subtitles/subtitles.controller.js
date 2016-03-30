@@ -16,6 +16,7 @@ export default class SubtitlesController {
         this.file = {};
         this.movieUploaded = false;
         this.movieSubmitted = false;
+        this.movieDuration = 0;
         this.emailRecipient = '';
         this.progressPercentage = '';
         this.form = {};
@@ -115,11 +116,22 @@ export default class SubtitlesController {
 
 
     addSubtitle() {
-        let lastTitle = this.form.end;
+        let nextTitleStart = this.form.end + 0.1;
+        let nextTitleEnd = nextTitleStart + 2;
+
+        if(nextTitleEnd > this.movieDuration) {
+            nextTitleEnd = this.movieDuration;
+        }
+
+        if(nextTitleStart > this.movieDuration) {
+            this.toast.showToast('warn', 'End of video reached. Can\'t add another subtitle here.');
+            return;
+        }
+
         this.form = {
             id: '',
-            start: lastTitle + 0.1,
-            end: lastTitle + 2,
+            start: nextTitleStart,
+            end: nextTitleEnd,
             text: '',
             isEditmode: false,
         }
@@ -180,17 +192,17 @@ export default class SubtitlesController {
         if (file.type === "video/mp4") {
             //set duration of video, init slider values
             this.Upload.mediaDuration(file).then((durationInSeconds) => {
-                durationInSeconds = Math.round(durationInSeconds * 1000) / 1000;
+                this.movieDuration = Math.round(durationInSeconds * 1000) / 1000;
                 this.form.start = 0.001;
-                this.form.end = durationInSeconds / 10;
+                this.form.end = 2.001;
 
                 this.slider = {
-                    min: 0,
-                    max: durationInSeconds,
+                    min: 0.001,
+                    max: this.movieDuration,
                     options: {
                         id: 'main',
-                        floor: 0,
-                        ceil: durationInSeconds,
+                        floor: 0.001,
+                        ceil: this.movieDuration,
                         precision: 3,
                         step: 0.001,
                         draggableRange: true,
