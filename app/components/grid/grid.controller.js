@@ -3,7 +3,7 @@ export default class GridController {
         this.$log = $log;
         this.$firebaseArray = $firebaseArray;
         this.post = '';
-        this.totalDay = 16;
+        this.totalDay = 20;
 
         this.categories = [{
             'name': 'hard',
@@ -40,16 +40,16 @@ export default class GridController {
         this.types = [{
             'name': 'traditioneel',
             'descr': 'Traditioneel',
-            'max': 8,
+            'max': 10,
             'value': 0
         }, {
             'name': 'nativevideo',
             'descr': 'Native video',
-            'max': 7,
+            'max': 5,
             'value': 0
         }, {
-            'name': 'nativetekst',
-            'descr': 'Native tekst',
+            'name': 'socialtemplates',
+            'descr': 'Social templates of poll',
             'max': 3,
             'value': 0
         }, {
