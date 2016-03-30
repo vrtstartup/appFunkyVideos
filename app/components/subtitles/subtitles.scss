@@ -1,3 +1,5 @@
+@import "../../common/style/variables";
+
 md-toolbar.vrt-sub-toolbar {
   color: #000;
   background-color: lightgrey;
@@ -64,5 +66,10 @@ rzslider {
 
 
 .subtitles-text-line-preserve {
-      white-space: pre-wrap;
+   white-space: pre-wrap;
+}
+
+.editingRow {
+  color: $ook-dat-nog;
+  background-color: rgba(158,158,158,0.2);
 }
