@@ -1,8 +1,8 @@
 <div layout="column" class="md-inline-form block-wrap" ng-if="vm.isExplosion">
     <md-content layout-padding="">
         <md-input-container class="md-block">
-            <label>Quote</label>
-            <input ng-model="quote.question" md-maxlength="60">
+            <label>Text</label>
+            <textarea ng-model="quote.question" md-maxlength="60" rows="3" vrt-maxlines="3" maxlines-prevent-enter="true"></textarea>
         </md-input-container>
     </md-content>
 
