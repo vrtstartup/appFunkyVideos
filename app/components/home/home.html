@@ -19,7 +19,7 @@
             </div>
 
             <div class="grid-tile-content" layout="column" layout-align="center center">
-                <img src="{{tile.image}}" />
+                <img src="{{tile.image}}" ng-if="tile.image !== undefined" />
 
                 <h3>{{tile.title}}</h3>
                 <p>{{tile.sub}}</p>

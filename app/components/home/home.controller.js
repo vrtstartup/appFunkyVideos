@@ -106,6 +106,12 @@ export default class HomeController {
                 'type': 'guide',
                 'image': 'assets/home-pagemakerGuide.png',
                 'docUrl': 'https://app.frontify.com/d/TxcwgYOVtrNH/vrt-pagemaker-handleiding#/de-basis/basis-in-7-regels'
+            },
+            {
+                'title': '7 Facebookregels',
+                'sub': 'De 7 gouden Facebook regels',
+                'type': 'guide',
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/7-gouden-regels'
             }
         ];
 
