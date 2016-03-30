@@ -13,7 +13,7 @@
 }
 
 .md-button.md-raised.tool:hover {
-  background-color: lighten($vrt-tool, 10%);
+  background-color: lighten($vrt-tool, 15%);
 }
 
 .md-button.guide {
@@ -21,7 +21,7 @@
 }
 
 .md-button.md-raised.guide:hover {
-  background-color: lighten($vrt-guide, 10%);
+  background-color: lighten($vrt-guide, 15%);
 }
 
 .md-button.tool.active, .md-button.guide.active {
@@ -30,26 +30,50 @@
 
 md-grid-list {
   md-grid-tile {
+    transition: transform 250ms 200ms;
     background-color: $drd-main-color;
+    overflow: hidden;
 
-    md-grid-tile-header, md-grid-tile-footer {
-      background-color: transparent;
-      justify-content: center;
+    .grid-tile-content {
+      padding: 25px 15px;
     }
 
-    md-grid-tile-footer {
-      height: 75px;
+    .grid-tile-overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transform: translateY(-5%);
+      transition: all 250ms 200ms;
+      padding: 15px;
+    }
+
+    .grid-tile-overlay-disabled {
+      display: none;
+      background-color: rgba(0, 0, 0, 0.7);
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+
+      .material-icons {
+        font-size: 4em;
+        cursor: default;
+        padding: 25px;
+      }
     }
 
     img {
-      width: 125px;
-      height: 125px;
+      width: 100px;
+      height: 100px;
       border-radius: 100%;
     }
 
     figure {
-      display: block;
-      padding: 50px 20px;
+      padding: 25px 10px;
       text-align: center;
       color: white;
     }
@@ -57,9 +81,40 @@ md-grid-list {
 
   md-grid-tile.tool {
     background-color: $vrt-tool;
+
+    .grid-tile-overlay {
+      background-color: rgba(lighten($vrt-tool, 15%), 0.9);
+    }
   }
 
   md-grid-tile.guide {
     background-color: $vrt-guide;
+
+    .grid-tile-overlay {
+      background-color: rgba(lighten($vrt-guide, 15%), 0.9);
+    }
+  }
+
+  md-grid-tile:hover {
+    transform: scale(1.02);
+
+    .grid-tile-overlay {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+
+  md-grid-tile.disabled {
+    .grid-tile-overlay-disabled {
+      display: block;
+    }
+  }
+
+  md-grid-tile.disabled:hover {
+    transform: scale(1);
+
+    .grid-tile-overlay {
+      display: none;
+    }
   }
 }

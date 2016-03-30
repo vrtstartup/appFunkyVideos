@@ -19,13 +19,13 @@
                         <input ng-model="vm.post.url" type="text">
                     </md-input-container>
                     <md-input-container class="md-block" flex="30">
-                        <label>Categorie</label>
+                        <label>Inhoud</label>
                         <md-select ng-model="vm.post.category">
                             <md-option ng-repeat="c in vm.categories" value="{{c.name}}">{{c.descr}}</md-option>
                         </md-select>
                     </md-input-container>
                     <md-input-container flex="30">
-                        <label>Type</label>
+                        <label>Vorm</label>
                         <md-select ng-model="vm.post.type">
                             <md-option ng-repeat="t in vm.types" value="{{t.name}}">{{t.descr}}</md-option>
                         </md-select>

@@ -88,9 +88,6 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     } else {
         res.json({ url: url, name: name, subtitled: false }).send();
     }
-
-
-
 });
 
 function getExtension(filename) {
