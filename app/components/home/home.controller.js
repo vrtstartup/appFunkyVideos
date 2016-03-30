@@ -112,6 +112,12 @@ export default class HomeController {
                 'sub': 'De 7 gouden Facebook regels',
                 'type': 'guide',
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/7-gouden-regels'
+            },
+            {
+                'title': 'Dashboard',
+                'sub': 'Evalueer hoe je posts het gedaan hebben',
+                'type': 'guide',
+                'docUrl': 'https://app.klipfolio.com/dashboard'
             }
         ];
 
