@@ -2,7 +2,6 @@ import template from './mapsSimple.directive.html';
 
 L.mapbox.accessToken = 'pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A';
 
-
 class mapsSimpleDirectiveController {
     constructor($scope, $log, $element) {
         console.log($element);
@@ -31,15 +30,15 @@ class mapsSimpleDirectiveController {
             }
         });
 
-
-
         $scope.$watch('vm.lat', (value) => {
             this.map.setView([this.lat, this.lng], this.zoomLevel);
-
         });
 
+        $scope.$watch('vm.long', (value) => {
+            this.map.setView([this.lat, this.lng], this.zoomLevel);
+        });
 
-this.loadMap();
+        this.loadMap();
 
     }
 
@@ -49,7 +48,7 @@ this.loadMap();
 
         this.map = map;
 
-        if (!!this.markers) {
+        if (!this.markers) {
             this.markers.forEach(function(marker) {
                 L.marker(marker, {
                     icon: L.mapbox.marker.icon({
