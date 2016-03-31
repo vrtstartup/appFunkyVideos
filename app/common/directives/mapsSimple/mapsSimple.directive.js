@@ -10,7 +10,7 @@ class mapsSimpleDirectiveController {
         this.map = '';
         this.videoGeneration = videoGeneration;
         let geocoder = L.mapbox.geocoder('mapbox.places');
-
+        this.number = 0;
 
         // Make an image out of it
         $scope.$watch('vm.isReady', (value) => {
@@ -27,14 +27,12 @@ class mapsSimpleDirectiveController {
 
         $scope.$watch('vm.lat', (value) => {
             if (!value) return;
-            //this.map.setView([this.lat, this.lng], this.zoomLevel);
-            this.loadMap(this.lat, this.lng);
+            this.loadMap();
         });
 
         $scope.$watch('vm.lng', (value) => {
             if (!value) return;
-            //this.map.setView([this.lat, this.lng], this.zoomLevel);
-            this.loadMap(this.lat, this.lng);
+            this.loadMap();
         });
 
         // init map
@@ -44,28 +42,21 @@ class mapsSimpleDirectiveController {
             }))
             .addControl(L.mapbox.shareControl());
 
+        // set view to this place
         geocoder.query('Chester, NJ', this.showMap.bind(this));
 
+        // set marker on click
         this.map.on('click', (e) => {
-            console.log('e.point & e.lngLat', e.latlng.lat, e.latlng.lng);
             this.MarkerLat = e.latlng.lat;
             this.MarkerLng = e.latlng.lng;
+            this.number = this.number + 1;
         });
 
     }
 
-    loadMap(lat, lng) {
+    loadMap() {
 
         this.map.setView([this.lat, this.lng], 13);
-
-        L.marker([lat, lng], {
-            icon: L.mapbox.marker.icon({
-                'marker-size': 'large',
-                'marker-symbol': 'bus',
-                'marker-color': '#fa0'
-            }),
-            draggable: true
-        }).addTo(this.map);
 
         console.log('MARKERS are here: ', this.map._layers);
 
@@ -90,11 +81,10 @@ class mapsSimpleDirectiveController {
     }
 
     setMarker(lat, lng) {
-        console.log('setting marker');
         L.marker([lat, lng], {
             icon: L.mapbox.marker.icon({
                 'marker-size': 'large',
-                'marker-symbol': 'bus',
+                'marker-symbol': this.number,
                 'marker-color': '#fa0'
             }),
             draggable: true
