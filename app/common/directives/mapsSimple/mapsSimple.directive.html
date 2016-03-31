@@ -1,1 +1,2 @@
 <div id="map" ng-click="vm.setMarker(vm.MarkerLat, vm.MarkerLng)"></div>
+<p ng-repeat="marker in vm.markers">{{marker.options.title}} - {{marker._latlng.lat}} - {{marker._latlng.lng}}</p>

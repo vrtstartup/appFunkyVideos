@@ -6,7 +6,7 @@ export default class Controller {
         this.lat = 0;
         this.lng = 0;
         this.zoom = 12;
-        this.marker = 'test';
+        this.place = 'Severodvinsk';
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {

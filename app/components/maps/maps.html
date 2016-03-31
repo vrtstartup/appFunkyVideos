@@ -18,12 +18,12 @@
         </md-input-container>
 
         <md-input-container flex="40">
-            <label>marker</label>
-            <input ng-model="vm.marker" type="text">
+            <label>Place</label>
+            <input ng-model="vm.place" type="text">
         </md-input-container>
 
 
-        <vrt-maps-simple class="maps-simple" is-ready="vm.isReady" lat="vm.lat" lng="vm.lng" zoom-level="vm.zoom" map-id="'mapbox.streets'" markers="vm.marker">
+        <vrt-maps-simple class="maps-simple" is-ready="vm.isReady" lat="vm.lat" lng="vm.lng" zoom-level="vm.zoom" map-id="'mapbox.streets'" place="vm.place">
         </vrt-maps-simple>
 
     </section>

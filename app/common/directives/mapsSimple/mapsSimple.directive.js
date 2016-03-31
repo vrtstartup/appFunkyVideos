@@ -11,6 +11,7 @@ class mapsSimpleDirectiveController {
         this.videoGeneration = videoGeneration;
         let geocoder = L.mapbox.geocoder('mapbox.places');
         this.number = 0;
+        this.markers = [];
 
         // Make an image out of it
         $scope.$watch('vm.isReady', (value) => {
@@ -35,6 +36,12 @@ class mapsSimpleDirectiveController {
             this.loadMap();
         });
 
+        $scope.$watch('vm.place', (value) => {
+            if(!value) return;
+            console.log('vm.place', this.place);
+            geocoder.query(this.place, this.showMap.bind(this));
+        })
+
         // init map
         this.map = L.mapbox.map(this.$element[0].children.map, 'mapbox.streets')
             .addControl(L.mapbox.geocoderControl('mapbox.places', {
@@ -43,13 +50,12 @@ class mapsSimpleDirectiveController {
             .addControl(L.mapbox.shareControl());
 
         // set view to this place
-        geocoder.query('Chester, NJ', this.showMap.bind(this));
+        geocoder.query(this.place, this.showMap.bind(this));
 
         // set marker on click
-        this.map.on('click', (e) => {
+        this.map.on('mousemove', (e) => {
             this.MarkerLat = e.latlng.lat;
             this.MarkerLng = e.latlng.lng;
-            this.number = this.number + 1;
         });
 
     }
@@ -67,28 +73,24 @@ class mapsSimpleDirectiveController {
         // The geocoder can return an area, like a city, or a
         // point, like an address. Here we handle both cases,
         // by fitting the map bounds to an area or zooming to a point.
-
         if (data.lbounds) {
-            console.log('data.lbounds', data.lbounds._northEast.lat);
             this.map.fitBounds(data.lbounds);
-            //this.loadMap(data.lbounds._northEast.lat, data.lbounds._northEast.lng);
         } else if (data.latlng) {
-            console.log('data.latlng', data.latlng);
-
-            //this.map.setView([data.latlng[0], data.latlng[1]], 13);
             this.loadMap(data.latlng[0], data.latlng[1]);
         }
     }
 
     setMarker(lat, lng) {
-        L.marker([lat, lng], {
+        this.number = this.number + 1;
+        this.markers.push(L.marker([lat, lng], {
             icon: L.mapbox.marker.icon({
                 'marker-size': 'large',
                 'marker-symbol': this.number,
                 'marker-color': '#fa0'
             }),
-            draggable: true
-        }).addTo(this.map);
+            draggable: true,
+            title: "this is icon #" + this.number
+        }).addTo(this.map));
     }
 
     //removeMarker(marker) {
@@ -109,7 +111,7 @@ export const mapsSimpleDirective = function() {
             lng: '=',
             mapId: '=',
             zoomLevel: '=',
-            //markers: '=',
+            place: '=',
             isReady: '=',
         },
     };
