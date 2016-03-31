@@ -2,15 +2,19 @@ export default class QuestionsController {
     constructor($log, $firebaseArray) {
         this.$log = $log;
         this.$firebaseArray = $firebaseArray;
-
+        this.activeSession = '';
+        this.sessionInput = '';
+        this.questionInput = '';
+        this.live = false;
         // The reference to the firebase
         this.questionsAppRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/questions');
         this.getSessions();
 
     }
 
-    getQuestions(question) {
-        let query = this.questionsAppRef.child(question + '/questions').orderByChild('addedDate');
+    getSession(session) {
+        this.activeSession = session;
+        let query = this.questionsAppRef.child(session + '/questions').orderByChild('addedDate');
         this.questions = this.$firebaseArray(query);
 
         // this.watchFirebase();
@@ -19,24 +23,20 @@ export default class QuestionsController {
     getSessions() {
         let query = this.questionsAppRef.orderByChild('timestamp');
         this.sessions = this.$firebaseArray(query);
-        // this.watchFirebase();
     }
 
     addQuestion(question) {
         question.timestamp = Firebase.ServerValue.TIMESTAMP;
-        this.questions.$add(question).then(function(ref) {
-
+        this.questions.$add(question).then((ref) => {
+            this.questionInput = '';
         });
     }
-
 
     addSession(session) {
         session.timestamp = Firebase.ServerValue.TIMESTAMP;
         this.sessions.$add(session).then((ref) => {
-            this.getQuestions(ref.key());
-
-
-
+            this.getSession(ref.key());
+            this.sessionInput = '';
         });
     }
 

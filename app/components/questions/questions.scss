@@ -1,1 +1,19 @@
 @import "../../common/style/variables";
+
+.session-list {
+        background-color: transparentize($vrt-supl, .9);
+}
+
+.question-input {
+
+}
+
+.session-list-item {
+
+    &:nth-child(2n-1) {
+        background-color: transparentize($vrt-tool, .9);
+    }
+ &.active {
+        background-color: transparentize($vrt-guide, .5);
+    }
+}
