@@ -1,3 +1,5 @@
+import { reject } from 'lodash';
+
 import template from './mapsSimple.directive.html';
 
 L.mapbox.accessToken = 'pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A';
@@ -69,7 +71,10 @@ class mapsSimpleDirectiveController {
     }
 
     showMap(err, data) {
-       console.log('showMap', this.map);
+        if (err) {
+            console.log('Error is occured:', err);
+            return;
+        }
         // The geocoder can return an area, like a city, or a
         // point, like an address. Here we handle both cases,
         // by fitting the map bounds to an area or zooming to a point.
@@ -93,10 +98,13 @@ class mapsSimpleDirectiveController {
         }).addTo(this.map));
     }
 
-    //removeMarker(marker) {
-    //    console.log('removing',  L.marker);
-    //    this.map.removeLayer(marker);
-    //}
+    removeMarker(mrkr) {
+        this.map.removeLayer(mrkr);
+
+        this.markers = reject(this.markers, (marker) => {
+            return marker._leaflet_id === mrkr._leaflet_id;
+        });
+    }
 }
 
 export const mapsSimpleDirective = function() {
@@ -106,6 +114,7 @@ export const mapsSimpleDirective = function() {
         scope: {},
         controller: mapsSimpleDirectiveController,
         controllerAs: 'vm',
+        replace: true,
         bindToController: {
             lat: '=',
             lng: '=',
