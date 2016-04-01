@@ -5,12 +5,11 @@ import template from './mapsSimple.directive.html';
 L.mapbox.accessToken = 'pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A';
 
 class mapsSimpleDirectiveController {
-    constructor($scope, $log, $element, FileSaver, videoGeneration) {
+    constructor($scope, $log, $element, FileSaver) {
         this.$scope = $scope;
         this.$log = $log;
         this.$element = $element;
         this.map = '';
-        this.videoGeneration = videoGeneration;
         let geocoder = L.mapbox.geocoder('mapbox.places');
         this.number = 0;
         this.markers = [];
@@ -62,6 +61,16 @@ class mapsSimpleDirectiveController {
             this.MarkerLng = e.latlng.lng;
         });
 
+        this.iconOptions = [{
+                iconName: 'pin',
+                iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-1+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
+            },
+            {
+                iconName: 'cafe',
+                iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-cafe+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
+            }
+        ];
+
     }
 
     loadMap() {
@@ -89,23 +98,49 @@ class mapsSimpleDirectiveController {
 
     setMarker(lat, lng) {
         this.number = this.number + 1;
-        this.markers.push(L.marker([lat, lng], {
-            icon: L.mapbox.marker.icon({
-                'marker-size': 'large',
-                'marker-symbol': this.number,
-                'marker-color': '#fa0'
-            }),
-            draggable: true,
-            title: "this is icon #" + this.number
-        }).addTo(this.map));
+        //this.markers.push(L.marker([lat, lng], {
+        //    icon: L.mapbox.marker.icon({
+        //        'marker-size': 'large',
+        //        'marker-symbol': this.number,
+        //        'marker-color': '#fa0'
+        //    }),
+        //    draggable: true,
+        //    title: "this is icon #" + this.number,
+        //    description: 'This marker has a description',
+        //}).addTo(this.map));
+
+
+        var geojsonFeature = {
+            "type": "Feature",
+            "properties": {
+                "name": "Coors Field",
+                "amenity": "Baseball Stadium",
+                "popupContent": "This is where the Rockies play!"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [lat, lng]
+            }
+        };
+        L.geoJson(geojsonFeature).addTo(this.map);
+
+
+        console.log('Marker', lng, lat);
+
     }
 
     removeMarker(mrkr) {
+
         this.map.removeLayer(mrkr);
 
         this.markers = reject(this.markers, (marker) => {
             return marker._leaflet_id === mrkr._leaflet_id;
         });
+    }
+
+    updateIcon(options, icontoupdate){
+        console.log('Options', options);
+        icontoupdate.options.icon.options.iconUrl = options;
     }
 }
 
@@ -128,4 +163,4 @@ export const mapsSimpleDirective = function() {
     };
 };
 
-mapsSimpleDirectiveController.$inject = ['$scope', '$log', '$element', 'FileSaver', 'videoGeneration'];
+mapsSimpleDirectiveController.$inject = ['$scope', '$log', '$element', 'FileSaver'];
