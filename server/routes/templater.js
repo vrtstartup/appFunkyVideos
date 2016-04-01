@@ -1,8 +1,6 @@
 var express = require('express');
-var include = require('include');
 var router = express.Router();
 var Boom = require('boom');
-var Dropbox = require('dropbox');
 var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var multiparty = require('multiparty');
@@ -39,20 +37,24 @@ router.post('/templaterVideo', function(req, res, next) {
 
 router.post('/templaterRender', function(req, res, next) {
     var fileName = req.body.fileName;
+
     console.log('received a render for:', fileName);
+
+    var inFolder = 'temp/templater/in';
+    var outFolder = 'temp/templater/out';
 
     //transfer both files to temp
     function promiseIn() {
         var deferred = Q.defer();
 
-        dbClient.readFile('in/' + fileName, {buffer: true}, function(error, data) {
+        dbClient.readFile(inFolder + fileName, {buffer: true}, function(error, data) {
             if (error) {
                 return next(Boom.badImplementation('unexpected error, couldn\'t open file from dropbox'));
             }
 
             fs.writeFile('temp/templater/in' + fileName, data, function(err) {
                 if (err) deferred.reject(new Error(err));
-                else deferred.resolve(data);
+                else deferred.resolve(fileName);
             });
         });
 
@@ -62,14 +64,14 @@ router.post('/templaterRender', function(req, res, next) {
     function promiseOut() {
         var deferred = Q.defer();
 
-        dbClient.readFile('out/' + fileName, {buffer: true}, function(error, data) {
+        dbClient.readFile(outFolder + fileName, {buffer: true}, function(error, data) {
             if (error) {
                 return next(Boom.badImplementation('unexpected error, couldn\'t open file from dropbox'));
             }
 
             fs.writeFile('temp/templater/out' + fileName, data, function(err) {
                 if (err) deferred.reject(new Error(err));
-                else deferred.resolve(data);
+                else deferred.resolve(fileName);
             });
         });
 
@@ -81,6 +83,14 @@ router.post('/templaterRender', function(req, res, next) {
             //#TODO trigger FFMPEG render
             console.log('File 1:', values[0]);
             console.log('File 2:', values[1]);
+
+            var fileIn = values[0];
+            var fileOut = values[1];
+
+            ffmpeg()
+                .input(inFolder + fileIn)
+                .input(outFolder + fileOut)
+                .input('./assets/vrt-bumper.mp4')
         })
         .catch((err) => {
             console.log('failed to get both files:', err);

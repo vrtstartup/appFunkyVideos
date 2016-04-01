@@ -9,7 +9,8 @@ module.exports = (function dropboxService() {
             var db_token = process.env.DB_TOKEN;
 
             if(!db_key || !db_secret || !db_token) {
-                return next(Boom.badRequest('no dropbox key/secret or token found'));
+                console.log('COULDN\'T FIND DROPBOX KEY / SECRET / TOKEN FOUND');
+                return;
             }
 
             var client = new Dropbox.Client({
@@ -20,6 +21,6 @@ module.exports = (function dropboxService() {
             });
 
             return client;
-        },
+        }
     };
 })();
