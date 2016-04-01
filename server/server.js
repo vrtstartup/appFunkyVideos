@@ -11,7 +11,7 @@ const errorHandler = require('./middleware/errorHandler');
 const imagesApi = require('./routes/images');
 const subtitlesApi = require('./routes/subtitles');
 const templatesApi = require('./routes/templates');
-const templaterApi = require('./routes/templater');
+//const templaterApi = require('./routes/templater');
 const gridApi = require('./routes/grid');
 const mapsApi = require('./routes/maps');
 const questionsApi = require('./routes/questions');
@@ -38,7 +38,7 @@ app.use('/temp', express.static('temp')); //temp is public
 app.use('/api', imagesApi);
 app.use('/api', subtitlesApi);
 app.use('/api', templatesApi);
-app.use('/api', templaterApi);
+//app.use('/api', templaterApi);
 app.use('/api', gridApi);
 app.use('/api', mapsApi);
 app.use('/api', questionsApi);

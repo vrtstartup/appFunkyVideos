@@ -42,7 +42,7 @@ class mapsSimpleDirectiveController {
             if(!value) return;
             console.log('vm.place', this.place);
             geocoder.query(this.place, this.showMap.bind(this));
-        })
+        });
 
         // init map
         this.map = L.mapbox.map(this.$element[0].children.map, 'mapbox.streets')
@@ -53,6 +53,8 @@ class mapsSimpleDirectiveController {
 
         // set view to this place
         geocoder.query(this.place, this.showMap.bind(this));
+        this.map.doubleClickZoom.disable();
+
 
         // set marker on click
         this.map.on('mousemove', (e) => {
