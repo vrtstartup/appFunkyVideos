@@ -1,11 +1,13 @@
 import { reject } from 'lodash';
+import './mapsSimple.directive.scss';
 
 import template from './mapsSimple.directive.html';
 
 L.mapbox.accessToken = 'pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A';
+mapboxgl.accessToken = 'pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A';
 
 class mapsSimpleDirectiveController {
-    constructor($scope, $log, $element, FileSaver) {
+    constructor($scope, $log, $element, FileSaver, videoGeneration) {
         this.$scope = $scope;
         this.$log = $log;
         this.$element = $element;
@@ -13,29 +15,34 @@ class mapsSimpleDirectiveController {
         let geocoder = L.mapbox.geocoder('mapbox.places');
         this.number = 0;
         this.markers = [];
+        this.videoGeneration = videoGeneration;
 
         // Make an image out of it
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
             if (this.isReady) {
-                leafletImage(this.map, (err, canvas) => {
+                //leafletImage(this.map, (err, canvas) => {
                     // get blob and save it directly to user's computer
-                    let data = this.videoGeneration._dataURItoBlob(canvas.toDataURL('image/png', 1.0));
-                    FileSaver.saveAs(data, 'template.png');
-                });
+                    //let data = this.videoGeneration._dataURItoBlob(canvas.toDataURL('image/png', 1.0));
+                let data = this.map.getCanvas().toDataURL('image/png', 1.0);
+                let blob = this.videoGeneration._dataURItoBlob(data);
+
+                console.log('DATA', data);
+                FileSaver.saveAs(blob, 'template.png');
+                //});
                 this.isReady = !this.isReady;
             }
         });
 
-        $scope.$watch('vm.lat', (value) => {
-            if (!value) return;
-            this.loadMap();
-        });
-
-        $scope.$watch('vm.lng', (value) => {
-            if (!value) return;
-            this.loadMap();
-        });
+        //$scope.$watch('vm.lat', (value) => {
+        //    if (!value) return;
+        //    this.loadMap();
+        //});
+        //
+        //$scope.$watch('vm.lng', (value) => {
+        //    if (!value) return;
+        //    this.loadMap();
+        //});
 
         $scope.$watch('vm.place', (value) => {
             if(!value) return;
@@ -44,32 +51,44 @@ class mapsSimpleDirectiveController {
         });
 
         // init map
-        this.map = L.mapbox.map(this.$element[0].children.map, 'mapbox.streets')
-            .addControl(L.mapbox.geocoderControl('mapbox.places', {
-                autocomplete: true
-            }))
-            .addControl(L.mapbox.shareControl());
+        //this.map = L.mapbox.map(this.$element[0].children.map, '')
+        //    .addControl(L.mapbox.geocoderControl('mapbox.places', {
+        //        autocomplete: true
+        //    }))
+        //    .addControl(L.mapbox.shareControl());
+        this.map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/vrtstartup/cilcbtvj2003ubekq19m2azeb', //hosted style id
+            center: [4, 51], // starting position
+            zoom: 6, // starting zoom
+            preserveDrawingBuffer: true,
+        });
 
         // set view to this place
         geocoder.query(this.place, this.showMap.bind(this));
-        this.map.doubleClickZoom.disable();
+        //this.map.doubleClickZoom.disable();
+
+        //var featureLayer = L.mapbox.featureLayer()
+        //    .loadURL('../../../assets/countries.geojson')
+        //    .addTo(this.map);
 
 
         // set marker on click
-        this.map.on('mousemove', (e) => {
-            this.MarkerLat = e.latlng.lat;
-            this.MarkerLng = e.latlng.lng;
-        });
+        //this.map.on('mousemove', (e) => {
+        //    this.MarkerLat = e.latlng.lat;
+        //    this.MarkerLng = e.latlng.lng;
+        //});
 
-        this.iconOptions = [{
-            iconName: 'pin',
-            iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-1+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
-        },
-            {
-                iconName: 'cafe',
-                iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-cafe+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
-            }
-        ];
+        //this.iconOptions = [{
+        //    iconName: 'pin',
+        //    iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-1+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
+        //},
+        //    {
+        //        iconName: 'cafe',
+        //        iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-cafe+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
+        //    }
+        //];
+        //this.popup = new L.Popup({ autoPan: false });
 
     }
 
@@ -109,26 +128,29 @@ class mapsSimpleDirectiveController {
         //    description: 'This marker has a description',
         //}).addTo(this.map));
 
-
-        var geojsonFeature = {
-            "type": "Feature",
-            "properties": {
-                "name": "Coors Field",
-                "amenity": "Baseball Stadium",
-                "popupContent": "This is where the Rockies play!"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [lat, lng]
-            }
-        };
-        L.geoJson(geojsonFeature).addTo(this.map);
-
-        geojsonFeature.features[0].geometry.coordinates.push([lat, lng]);
-
-
-
-        console.log('Marker', lng, lat);
+        //
+        //let geojsonFeature = {
+        //    "type": "Feature",
+        //    "properties": {
+        //        "name": "Coors Field",
+        //        "amenity": "Baseball Stadium",
+        //        "popupContent": "This is where the Rockies play!"
+        //    },
+        //    "geometry": {
+        //        "type": "Point",
+        //        "coordinates": [lat, lng],
+        //        "point-transform":"translate(20,-40)"
+        //    }
+        //};
+        //L.geoJson(geojsonFeature).addTo(this.map);
+        //
+        //
+        //
+        //geojsonFeature.features[0].geometry.coordinates.push([lat, lng]);
+        //
+        //
+        //
+        //console.log('Marker', lng, lat);
 
     }
 
@@ -166,4 +188,4 @@ export const mapsSimpleDirective = function() {
     };
 };
 
-mapsSimpleDirectiveController.$inject = ['$scope', '$log', '$element', 'FileSaver'];
+mapsSimpleDirectiveController.$inject = ['$scope', '$log', '$element', 'FileSaver', 'videoGeneration'];
