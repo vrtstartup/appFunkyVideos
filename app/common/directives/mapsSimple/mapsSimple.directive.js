@@ -66,7 +66,7 @@ class mapsSimpleDirectiveController {
 
         // set view to this place
         geocoder.query(this.place, this.showMap.bind(this));
-        //this.map.doubleClickZoom.disable();
+        this.map.doubleClickZoom.disable();
 
         //var featureLayer = L.mapbox.featureLayer()
         //    .loadURL('../../../assets/countries.geojson')
@@ -74,10 +74,11 @@ class mapsSimpleDirectiveController {
 
 
         // set marker on click
-        //this.map.on('mousemove', (e) => {
-        //    this.MarkerLat = e.latlng.lat;
-        //    this.MarkerLng = e.latlng.lng;
-        //});
+        this.map.on('mousemove', (e) => {
+            this.MarkerLat = JSON.stringify(e.lngLat.lat);
+            this.MarkerLng =  JSON.stringify(e.lngLat.lng);
+            //console.log('Latitude',  JSON.stringify(e.lngLat.lat));
+        });
 
         //this.iconOptions = [{
         //    iconName: 'pin',
@@ -116,6 +117,7 @@ class mapsSimpleDirectiveController {
     }
 
     setMarker(lat, lng) {
+        console.log('Marker');
         this.number = this.number + 1;
         //this.markers.push(L.marker([lat, lng], {
         //    icon: L.mapbox.marker.icon({
@@ -147,10 +149,47 @@ class mapsSimpleDirectiveController {
         //
         //
         //geojsonFeature.features[0].geometry.coordinates.push([lat, lng]);
-        //
-        //
-        //
-        //console.log('Marker', lng, lat);
+
+        this.map.addSource("markers", {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [4, 50]
+                    },
+                    "properties": {
+                        "title": "Mapbox DC",
+                        "marker-symbol": "monument"
+                    }
+                }, {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [lng, lat]
+                    },
+                    "properties": {
+                        "title": "Mapbox SF",
+                        "marker-symbol": "harbor"
+                    }
+                }]
+            }
+        });
+
+        this.map.addLayer({
+            "id": "markers",
+            "type": "symbol",
+            "source": "markers",
+            "layout": {
+                "icon-image": "{marker-symbol}-15",
+                "text-field": "{title}",
+                "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                "text-offset": [0, 0.6],
+                "text-anchor": "top"
+            }
+        });
 
     }
 
