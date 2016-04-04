@@ -5,6 +5,7 @@ var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var multiparty = require('multiparty');
 var Q = require('q');
+var spawn = require('child_process').spawn;
 var dropboxService = require('../services/dropboxService.js');
 
 var dbClient = dropboxService.getDropboxClient();
@@ -40,21 +41,23 @@ router.post('/templaterRender', function(req, res, next) {
 
     console.log('received a render for:', fileName);
 
-    var inFolder = 'temp/templater/in';
-    var outFolder = 'temp/templater/out';
+    var inFile = 'in/' + fileName + '.mp4';
+    var outFile = 'out/' + fileName + '.mov';
+    var templaterFolder = 'temp/templater/';
 
     //transfer both files to temp
+    //#todo: refactor dropbox file transfer to service
     function promiseIn() {
         var deferred = Q.defer();
 
-        dbClient.readFile(inFolder + fileName, {buffer: true}, function(error, data) {
+        dbClient.readFile(inFile, {buffer: true}, function(error, data) {
             if (error) {
                 return next(Boom.badImplementation('unexpected error, couldn\'t open file from dropbox'));
             }
 
-            fs.writeFile('temp/templater/in' + fileName, data, function(err) {
+            fs.writeFile(templaterFolder + 'in' + fileName + '.mp4', data, function(err) {
                 if (err) deferred.reject(new Error(err));
-                else deferred.resolve(fileName);
+                else deferred.resolve(templaterFolder + 'in' + fileName + '.mp4');
             });
         });
 
@@ -64,14 +67,14 @@ router.post('/templaterRender', function(req, res, next) {
     function promiseOut() {
         var deferred = Q.defer();
 
-        dbClient.readFile(outFolder + fileName, {buffer: true}, function(error, data) {
+        dbClient.readFile(outFile, {buffer: true}, function(error, data) {
             if (error) {
                 return next(Boom.badImplementation('unexpected error, couldn\'t open file from dropbox'));
             }
 
-            fs.writeFile('temp/templater/out' + fileName, data, function(err) {
+            fs.writeFile(templaterFolder + 'out' + fileName + '.mov', data, function(err) {
                 if (err) deferred.reject(new Error(err));
-                else deferred.resolve(fileName);
+                else deferred.resolve(templaterFolder + 'out' + fileName + '.mov');
             });
         });
 
@@ -84,13 +87,49 @@ router.post('/templaterRender', function(req, res, next) {
             console.log('File 1:', values[0]);
             console.log('File 2:', values[1]);
 
-            var fileIn = values[0];
-            var fileOut = values[1];
+            var filePathIn = values[0];
+            var filePathOut = values[1];
+            var filePathBumper = 'server/assets/bumper.mov';
+            var outPath = 'temp/templater/' + 'gentemp' + fileName + '.mp4';
 
-            ffmpeg()
-                .input(inFolder + fileIn)
-                .input(outFolder + fileOut)
-                .input('./assets/vrt-bumper.mp4')
+            //#todo set video length
+            var ffmpegCommand = "ffmpeg -i " + filePathIn +
+                " -i " + filePathOut +
+                " -itsoffset 00:00:28.000 -i " + filePathBumper +
+                " -filter_complex 'nullsrc=size=720x480 [base];" +
+                "[0:v] scale=720x480 [bottom];" +
+                "[1:v] scale=720x480 [top];" +
+                "[2:v] scale=720x480 [bumper];" +
+                "[base][bottom] overlay=eof_action=pass [tmp1];" +
+                "[tmp1][top] overlay=eof_action=pass [tmp2];" +
+                "[tmp2][bumper] overlay=eof_action=endall' " + outPath;
+
+            exec(ffmpegCommand, function(err, stdout, stderr) {
+                console.log('err', err);
+                console.log('stdout', stdout);
+                console.log('stderr', stderr);
+            });
+
+            //ffmpeg()
+            //    .input(filePathIn)
+            //    .input(filePathOut)
+            //    .inputOptions('-itsoffset 00:00:28.000')
+            //    .input(filePathBumper)
+            //    .outputOptions('-filter_complex "nullsrc=size=720x480 [base];[0:v] scale=720x480 [bottom];[1:v] scale=720x480 [top];[2:v] scale=720x480 [bumper];[base][bottom] overlay=eof_action=pass [tmp1];[tmp1][top] overlay=eof_action=pass [tmp2];[tmp2][bumper] overlay=eof_action=endall"')
+            //    .output(outPath)
+            //    .run()
+            //    .on('start', function(command) {
+            //       console.log('starting FFMPEG:', command);
+            //    })
+            //    .on('progress', function(progress) {
+            //        console.log('FFMPEG is working SUPERDUPER hard:', progress.percent, ' % done');
+            //    })
+            //    .on('end', function() {
+            //        console.log('Done rendering!');
+            //    })
+            //    .on('error', function(err) {
+            //        console.log('an error happened: ' + err);
+            //    });
         })
         .catch((err) => {
             console.log('failed to get both files:', err);
