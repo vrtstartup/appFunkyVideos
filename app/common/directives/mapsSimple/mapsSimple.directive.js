@@ -62,9 +62,9 @@ class mapsSimpleDirectiveController {
         });
 
         this.iconOptions = [{
-                iconName: 'pin',
-                iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-1+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
-            },
+            iconName: 'pin',
+            iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-1+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
+        },
             {
                 iconName: 'cafe',
                 iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-cafe+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
@@ -123,6 +123,9 @@ class mapsSimpleDirectiveController {
             }
         };
         L.geoJson(geojsonFeature).addTo(this.map);
+
+        geojsonFeature.features[0].geometry.coordinates.push([lat, lng]);
+
 
 
         console.log('Marker', lng, lat);
