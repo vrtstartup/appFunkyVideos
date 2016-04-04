@@ -6,7 +6,7 @@ var ffmpeg = require('fluent-ffmpeg');
 var multiparty = require('multiparty');
 var Q = require('q');
 var exec = require('child_process').exec;
-var spawn = require('child_process').spawn;
+var Metalib = require('fluent-ffmpeg').Metadata;
 var dropboxService = require('../services/dropboxService.js');
 
 var dbClient = dropboxService.getDropboxClient();
@@ -58,7 +58,11 @@ router.post('/templaterRender', function(req, res, next) {
 
             fs.writeFile(templaterFolder + 'in' + fileName + '.mp4', data, function(err) {
                 if (err) deferred.reject(new Error(err));
-                else deferred.resolve(templaterFolder + 'in' + fileName + '.mp4');
+                else {
+                    ffmpeg.ffprobe(templaterFolder + 'in' + fileName + '.mp4', function(err, metadata) {
+                        deferred.resolve({filePath: templaterFolder + 'in' + fileName + '.mp4', bumperDelay: metadata.format.duration - 2});
+                    });
+                }
             });
         });
 
@@ -85,17 +89,17 @@ router.post('/templaterRender', function(req, res, next) {
     Q.all([promiseIn(), promiseOut()])
         .then((values)=> {
             //#TODO trigger FFMPEG render
-            console.log('Saved both files' + values[0] + ', ' + values[1] + '. Starting FFMPEG.');
+            console.log('Saved both files ' + values[0] + ', ' + values[1] + '. Starting FFMPEG.');
 
-            var filePathIn = values[0];
+            var filePathIn = values[0].filePath;
+            var bumperDelay = values[0].bumperDelay;
             var filePathOut = values[1];
             var filePathBumper = 'server/assets/bumper.mov';
             var outPath = 'temp/templater/' + 'gentemp' + fileName + '.mp4';
 
-            //#todo set video length
             var ffmpegCommand = "ffmpeg -i " + filePathIn +
                 " -i " + filePathOut +
-                " -itsoffset 00:00:28.000 -i " + filePathBumper +
+                " -itsoffset " + bumperDelay + " -i " + filePathBumper +
                 " -filter_complex 'nullsrc=size=720x480 [base];" +
                 "[0:v] scale=720x480 [bottom];" +
                 "[1:v] scale=720x480 [top];" +
@@ -113,54 +117,12 @@ router.post('/templaterRender', function(req, res, next) {
                 console.log('stdout: ' + data);
             });
             ffmpegProcess.on('close', function(code) {
+                console.log('program exited with code:', code);
             });
-
-            //var ffmpegArgs = [
-            //    '-i',
-            //    filePathIn,
-            //    '-i',
-            //    filePathOut,
-            //    '-itsoffset',
-            //    '00:00:28.000',
-            //    '-i',
-            //    filePathBumper,
-            //    '-filter_complex',
-            //    'nullsrc=size=720x480 [base];[0:v] scale=720x480 [bottom];[1:v] scale=720x480 [top];[2:v] scale=720x480 [bumper];[base][bottom] overlay=eof_action=pass [tmp1];[tmp1][top] overlay=eof_action=pass [tmp2];[tmp2][bumper] overlay=eof_action=endall',
-            //    outPath
-            //];
-            //
-            //var ffmpegProcess = spawn('ffmpeg', ffmpegArgs);
-            //
-            //ffmpegProcess.on('exit', function(arg1) {
-            //    console.log('ffmpeg process completed successfully');
-            //});
-            //
-            //ffmpegProcess.stderr.on('data', function (data) {
-            //    console.log('grep stderr: ' + data);
-            //});
         })
         .catch((err) => {
             console.log('failed to get both files:', err);
         });
-
-    //#TODO do some render magic, add bumper and save to server
-
-    //var fluent_ffmpeg = require("fluent-ffmpeg");
-    //
-    //var mergedVideo = fluent_ffmpeg();
-    //var videoNames = ['./video1.mp4', './video2.mp4'];
-    //
-    //videoNames.forEach(function(videoName){
-    //    mergedVideo = mergedVideo.addInput(videoName);
-    //});
-    //
-    //mergedVideo.mergeToFile('./mergedVideo.mp4', './tmp/')
-    //    .on('error', function(err) {
-    //        console.log('Error ' + err.message);
-    //    })
-    //    .on('end', function() {
-    //        console.log('Finished!');
-    //    });
 
     //#TODO refactor mail to service
 

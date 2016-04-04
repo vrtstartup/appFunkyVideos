@@ -66,7 +66,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 '-2'
             ])
             .on('start', function(commandLine) {
-                findRemoveSync('temp', {age: {seconds: 36000}});
+                //findRemoveSync('temp', {age: {seconds: 36000}});
                 res.json({processing: true}).send();
                 console.log('FFMPEG is really going to work hard: ' + commandLine);
             })
