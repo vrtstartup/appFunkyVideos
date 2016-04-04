@@ -6,6 +6,7 @@ var ffmpeg = require('fluent-ffmpeg');
 var multiparty = require('multiparty');
 var Q = require('q');
 var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
 var dropboxService = require('../services/dropboxService.js');
 
 var dbClient = dropboxService.getDropboxClient();
@@ -101,34 +102,42 @@ router.post('/templaterRender', function(req, res, next) {
                 "[2:v] scale=720x480 [bumper];" +
                 "[base][bottom] overlay=eof_action=pass [tmp1];" +
                 "[tmp1][top] overlay=eof_action=pass [tmp2];" +
-                "[tmp2][bumper] overlay=eof_action=endall' " + outPath;
+                "[tmp2][bumper] overlay=eof_action=endall' -y " + outPath;
 
-            exec(ffmpegCommand, function(err, stdout, stderr) {
-                console.log('err', err);
-                console.log('stdout', stdout);
-                console.log('stderr', stderr);
+            var ffmpegProcess = exec(ffmpegCommand);
+
+            ffmpegProcess.stdout.on('data', function(data) {
+                console.log('stdout: ' + data);
+            });
+            ffmpegProcess.stderr.on('data', function(data) {
+                console.log('stdout: ' + data);
+            });
+            ffmpegProcess.on('close', function(code) {
             });
 
-            //ffmpeg()
-            //    .input(filePathIn)
-            //    .input(filePathOut)
-            //    .inputOptions('-itsoffset 00:00:28.000')
-            //    .input(filePathBumper)
-            //    .outputOptions('-filter_complex "nullsrc=size=720x480 [base];[0:v] scale=720x480 [bottom];[1:v] scale=720x480 [top];[2:v] scale=720x480 [bumper];[base][bottom] overlay=eof_action=pass [tmp1];[tmp1][top] overlay=eof_action=pass [tmp2];[tmp2][bumper] overlay=eof_action=endall"')
-            //    .output(outPath)
-            //    .run()
-            //    .on('start', function(command) {
-            //       console.log('starting FFMPEG:', command);
-            //    })
-            //    .on('progress', function(progress) {
-            //        console.log('FFMPEG is working SUPERDUPER hard:', progress.percent, ' % done');
-            //    })
-            //    .on('end', function() {
-            //        console.log('Done rendering!');
-            //    })
-            //    .on('error', function(err) {
-            //        console.log('an error happened: ' + err);
-            //    });
+            //var ffmpegArgs = [
+            //    '-i',
+            //    filePathIn,
+            //    '-i',
+            //    filePathOut,
+            //    '-itsoffset',
+            //    '00:00:28.000',
+            //    '-i',
+            //    filePathBumper,
+            //    '-filter_complex',
+            //    'nullsrc=size=720x480 [base];[0:v] scale=720x480 [bottom];[1:v] scale=720x480 [top];[2:v] scale=720x480 [bumper];[base][bottom] overlay=eof_action=pass [tmp1];[tmp1][top] overlay=eof_action=pass [tmp2];[tmp2][bumper] overlay=eof_action=endall',
+            //    outPath
+            //];
+            //
+            //var ffmpegProcess = spawn('ffmpeg', ffmpegArgs);
+            //
+            //ffmpegProcess.on('exit', function(arg1) {
+            //    console.log('ffmpeg process completed successfully');
+            //});
+            //
+            //ffmpegProcess.stderr.on('data', function (data) {
+            //    console.log('grep stderr: ' + data);
+            //});
         })
         .catch((err) => {
             console.log('failed to get both files:', err);
