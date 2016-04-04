@@ -5,7 +5,7 @@ var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var multiparty = require('multiparty');
 var Q = require('q');
-var spawn = require('child_process').spawn;
+var exec = require('child_process').exec;
 var dropboxService = require('../services/dropboxService.js');
 
 var dbClient = dropboxService.getDropboxClient();
@@ -84,8 +84,7 @@ router.post('/templaterRender', function(req, res, next) {
     Q.all([promiseIn(), promiseOut()])
         .then((values)=> {
             //#TODO trigger FFMPEG render
-            console.log('File 1:', values[0]);
-            console.log('File 2:', values[1]);
+            console.log('Saved both files' + values[0] + ', ' + values[1] + '. Starting FFMPEG.');
 
             var filePathIn = values[0];
             var filePathOut = values[1];
