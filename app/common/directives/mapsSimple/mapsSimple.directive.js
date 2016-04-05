@@ -14,7 +14,7 @@ class mapsSimpleDirectiveController {
         this.map = '';
         let geocoder = L.mapbox.geocoder('mapbox.places');
         this.number = 0;
-        this.markers = [];
+        this.id = "markers-" + this.number;
         this.videoGeneration = videoGeneration;
 
         // Make an image out of it
@@ -150,28 +150,19 @@ class mapsSimpleDirectiveController {
         //
         //geojsonFeature.features[0].geometry.coordinates.push([lat, lng]);
 
-        this.map.addSource("markers", {
+        this.id = 'markers'+this.number;
+
+        this.map.addSource(this.id , {
             "type": "geojson",
             "data": {
                 "type": "FeatureCollection",
-                "features": [{
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [4, 50]
-                    },
-                    "properties": {
-                        "title": "Mapbox DC",
-                        "marker-symbol": "monument"
-                    }
-                }, {
+                "features": [ {
                     "type": "Feature",
                     "geometry": {
                         "type": "Point",
                         "coordinates": [lng, lat]
                     },
                     "properties": {
-                        "title": "Mapbox SF",
                         "marker-symbol": "harbor"
                     }
                 }]
@@ -179,14 +170,11 @@ class mapsSimpleDirectiveController {
         });
 
         this.map.addLayer({
-            "id": "markers",
+            "id": this.id,
             "type": "symbol",
-            "source": "markers",
+            "source": this.id,
             "layout": {
                 "icon-image": "{marker-symbol}-15",
-                "text-field": "{title}",
-                "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                "text-offset": [0, 0.6],
                 "text-anchor": "top"
             }
         });
