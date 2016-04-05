@@ -6,9 +6,9 @@ var findRemoveSync = require('find-remove');
 
 var multiparty = require('connect-multiparty');
 var multipartyMiddleware = multiparty({ uploadDir: 'temp/subtitleVideos/' });
-
-var nodemailer = require('nodemailer');
-var transporter = nodemailer.createTransport('smtps://vrtfunkyvideos%40gmail.com:sxB-8kc-6p4-ekF@smtp.gmail.com');
+var emailService = require('../services/emailService.js');
+//var nodemailer = require('nodemailer');
+//var transporter = nodemailer.createTransport('smtps://vrtfunkyvideos%40gmail.com:sxB-8kc-6p4-ekF@smtp.gmail.com');
 
 
 //url /api
@@ -96,22 +96,12 @@ function getExtension(filename) {
 }
 
 function sendNotificationTo(email, url) {
-    console.log('sending message to:', email, 'with url:', url);
     var fullUrl = 'http://nieuwshub.vrt.be/' + url;
+    var subject = 'Uw video met ondertitels is klaar om te downloaden (' + url + ')';
+    var message = "<p>Beste collega,</p><p>Uw video met ondertitels is klaar, u kan hem hier downloaden:<br /> <a href=" + fullUrl +
+                    ">" + fullUrl + "</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>";
 
-    var mailOptions = {
-        from: '"VRT funky videos👥" <vrtfunkyvideos@gmail.com>', // sender address
-        to: email, // list of receivers
-        subject: 'VRT: Jouw video met subtitles is klaar', // Subject line
-        html: '<p>Je kan hem hier <a href='+ fullUrl+'>downloaden</a></p><br/><p>Deze video wordt na 10u verwijderd</p>' // html body
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            return console.log(error);
-        }
-        console.log('Message sent: ' + info.response);
-    });
+    emailService.sendMail(email, subject, message);
 }
 
 
