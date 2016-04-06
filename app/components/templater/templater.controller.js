@@ -27,7 +27,7 @@ export default class TemplaterController {
     upload(file) {
         this.fileUploading = true;
         this.Upload.upload({
-            url: 'api/templaterVideo',
+            url: 'api/templater/upload',
             data: {file: file},
             method: 'POST',
         }).then((resp) => {
@@ -41,6 +41,41 @@ export default class TemplaterController {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
         });
+    }
+
+    submitForm() {
+        let _template;
+        switch (this.template) {
+            case 1:
+                _template = 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\01_templater\\win_ae\\Template_Text_02.aep';
+                break;
+            case 2:
+                _template = 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\01_templater\\win_ae\\Template_Text_03.aep';
+                break;
+            case 3:
+                _template = 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\01_templater\\win_ae\\Template_Text_04.aep';
+                break;
+            default:
+                _template = 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\01_templater\\win_ae\\Template_Text_02.aep';
+        }
+
+        var params = {
+            'render-status': 'ready',
+            'target': 'Export Composition',
+            'template': _template,
+            'title': this.form.title ? this.form.title.toUpperCase() : '',
+            'filenameIn': this.form.filenameIn ? this.form.filenameIn : '',
+            'filenameOut': this.form.filenameOut ? this.form.filenameOut : '',
+            'textOne': this.form.textOne ? this.form.textOne.toUpperCase() : '',
+            'textTwo': this.form.textTwo ? this.form.textTwo.toUpperCase() : '',
+            'textThree': this.form.textThree ? this.form.textThree.toUpperCase() : '',
+            'textFour': this.form.textFour ? this.form.textFour.toUpperCase() : ''
+        };
+
+        this.$http.post('/api/templater/', params)
+            .then((response) => {
+                console.log(response);
+            });
     }
 
     sendToZapier() {

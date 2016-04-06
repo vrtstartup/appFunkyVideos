@@ -22,8 +22,6 @@ export default class PicturesController {
                 class: 'vrt-ak-btn',
             },
         ];
-
-
     }
 
     getScheme(scheme) {

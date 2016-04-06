@@ -38,7 +38,7 @@ app.use('/temp', express.static('temp')); //temp is public
 app.use('/api', imagesApi);
 app.use('/api', subtitlesApi);
 app.use('/api', templatesApi);
-app.use('/api', templaterApi);
+app.use('/api/templater', templaterApi);
 app.use('/api', gridApi);
 app.use('/api', mapsApi);
 app.use('/api', questionsApi);

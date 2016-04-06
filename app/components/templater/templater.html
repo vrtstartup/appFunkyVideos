@@ -44,7 +44,7 @@
                 <input  name="textFour" ng-model="vm.form.textFour" md-maxlength="70">
                 <div class="error" ng-if="templateForm.textFour.$invalid">Too long!</div>
             </md-input-container>
-            <md-button ng-disabled="templateForm.$invalid" ng-click="vm.sendToZapier()" class="md-raised">Send</md-button>
+            <md-button ng-disabled="templateForm.$invalid" ng-click="vm.submitForm()" class="md-raised">Send</md-button>
         </div>
     </form>
 </div>

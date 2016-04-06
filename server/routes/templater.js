@@ -6,14 +6,46 @@ var ffmpeg = require('fluent-ffmpeg');
 var multiparty = require('multiparty');
 var Q = require('q');
 var exec = require('child_process').exec;
-var Metalib = require('fluent-ffmpeg').Metadata;
 var dropboxService = require('../services/dropboxService.js');
 
 var dbClient = dropboxService.getDropboxClient();
 var emailService = require('../services/emailService.js');
 
-//url /api
-router.post('/templaterVideo', function(req, res, next) {
+// api/templater/
+router.post('/', function(req, res, next) {
+    //open json file from dropbox
+    var file = {
+        path: '/json/',
+        name: 'templater.json',
+        data: ''
+    };
+
+    //write filename + email address to DB
+
+
+    //update JSON file on dropbox so AE templater get's triggered
+    dbClient.readFile(file.path + file.name, function(error, data) {
+        if (error) {
+            return next(Boom.badImplementation('unexpected error, couldn\'t read file from dropbox'));
+        }
+
+        file.data = JSON.parse(data);
+        var objToAdd = req.body;
+
+        file.data.push(objToAdd);
+
+        dbClient.writeFile(file.path + file.name, JSON.stringify(file.data), function(error, stat) {
+            if (error) {
+                return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+            }
+
+            res.send();
+        });
+    });
+});
+
+// api/templater/upload
+router.post('/upload', function(req, res, next) {
     //handle file with multer - read file to convert into binary - save file to dropbox
     var form = new multiparty.Form();
 
@@ -36,7 +68,8 @@ router.post('/templaterVideo', function(req, res, next) {
     });
 });
 
-router.post('/templaterRender', function(req, res, next) {
+// api/templater/render
+router.post('/render', function(req, res, next) {
     var fileName = req.body.fileName;
 
     console.log('received a render for:', fileName);
