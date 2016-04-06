@@ -12,11 +12,12 @@ class mapsSimpleDirectiveController {
         this.$log = $log;
         this.$element = $element;
         this.map = '';
-        let geocoder = L.mapbox.geocoder('mapbox.places');
         this.number = 0;
         this.id = "markers-" + this.number;
         this.videoGeneration = videoGeneration;
         this.$http = $http;
+        this.geocoder = new mapboxgl.Geocoder();
+
 
 
         this.$http.get('../../../assets/countries.geojson').success((data) => {
@@ -28,36 +29,19 @@ class mapsSimpleDirectiveController {
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
             if (this.isReady) {
-                //leafletImage(this.map, (err, canvas) => {
-                    // get blob and save it directly to user's computer
-                    //let data = this.videoGeneration._dataURItoBlob(canvas.toDataURL('image/png', 1.0));
+
                 let data = this.map.getCanvas().toDataURL('image/png', 1.0);
                 let blob = this.videoGeneration._dataURItoBlob(data);
 
                 FileSaver.saveAs(blob, 'template.png');
-                //});
                 this.isReady = !this.isReady;
             }
         });
 
-        //this.map.on('style.load', () => {
-        //
-        //    $http.get('../../../assets/countries.geojson').success((data) => {
-        //        console.log('Great success!', data);
-        //        this.result = find(data.features, (o) => {
-        //            return o.properties.ISO_A3 === "RUS";
-        //        });
-        //
-        //        console.log('Great success!', this.result);
-        //    });
-        //}
-
-
-
-            $scope.$watch('vm.place', (value) => {
+        $scope.$watch('vm.place', (value) => {
             if(!value) return;
             console.log('vm.place', this.place);
-            geocoder.query(this.place, this.showMap.bind(this));
+            this.geocoder.query(this.place, this.showMap.bind(this));
         });
 
 
@@ -69,18 +53,10 @@ class mapsSimpleDirectiveController {
             preserveDrawingBuffer: true,
         });
 
-        // set view to this place
-        geocoder.query(this.place, this.showMap.bind(this));
-        this.map.doubleClickZoom.disable();
+        this.map.addControl(this.geocoder);
 
-        //var url = 'https://raw.githubusercontent.com/openlayers/ol3/master/examples/data/geojson/countries.geojson';
-        //var url = '../../../assets/countries.geojson';
-        //
-        //var source = new mapboxgl.GeoJSONSource({
-        //    data: url
-        //});
-        //
-        //source.setData(url);
+        // set view to this place
+        this.map.doubleClickZoom.disable();
 
 
         // set marker on click
@@ -95,8 +71,6 @@ class mapsSimpleDirectiveController {
             this.features = this.map.queryRenderedFeatures(e.point);
             //console.log('Features', this.features[0].properties.name_en);
         });
-
-
     }
 
     getMatches(searchText) {
@@ -156,11 +130,14 @@ class mapsSimpleDirectiveController {
         // The geocoder can return an area, like a city, or a
         // point, like an address. Here we handle both cases,
         // by fitting the map bounds to an area or zooming to a point.
-        if (data.lbounds) {
-            this.map.fitBounds(data.lbounds);
-        } else if (data.latlng) {
-            this.loadMap(data.latlng[0], data.latlng[1]);
-        }
+
+        console.log('Geocoder data', data);
+
+        //if (data.lbounds) {
+        //    this.map.fitBounds(data.lbounds);
+        //} else if (data.latlng) {
+        //    this.loadMap(data.latlng[0], data.latlng[1]);
+        //}
     }
 
     setMarker(lat, lng) {
@@ -182,38 +159,51 @@ class mapsSimpleDirectiveController {
                     },
                     "properties": {
                         "title": "Mapbox SF",
-                        "description": '<div class="marker-title">Make it Mount Pleasant</div><p> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
-                        "marker-symbol": "harbor"
+                        //"description": '<div class="marker-title">Make it Mount Pleasant</div><p> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+                        //"marker-symbol": "harbor"
                     }
                 }]
             }
         });
 
         this.map.addLayer({
-            "id": this.id,
+            "id": "cluster-" + this.id,
+            "type": "circle",
+            "source": this.id,
+            "paint": {
+                "circle-color": '#FFE83E',
+                "circle-radius": 8
+            }
+        });
+
+        this.map.addLayer({
+            "id": "cluster-count",
             "type": "symbol",
             "source": this.id,
             "layout": {
-                "icon-image": "{marker-symbol}-15",
-                "icon-allow-overlap": true
+                "text-font": [
+                    "DIN Offc Pro Medium",
+                    "Arial Unicode MS Bold"
+                ],
+                "text-size": 12,
             }
         });
 
     }
 
-    removeMarker(mrkr) {
-
-        this.map.removeLayer(mrkr);
-
-        this.markers = reject(this.markers, (marker) => {
-            return marker._leaflet_id === mrkr._leaflet_id;
-        });
-    }
-
-    updateIcon(options, icontoupdate){
-        console.log('Options', options);
-        icontoupdate.options.icon.options.iconUrl = options;
-    }
+    //removeMarker(mrkr) {
+    //
+    //    this.map.removeLayer(mrkr);
+    //
+    //    this.markers = reject(this.markers, (marker) => {
+    //        return marker._leaflet_id === mrkr._leaflet_id;
+    //    });
+    //}
+    //
+    //updateIcon(options, icontoupdate){
+    //    console.log('Options', options);
+    //    icontoupdate.options.icon.options.iconUrl = options;
+    //}
 }
 
 export const mapsSimpleDirective = function() {
