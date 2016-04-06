@@ -1,27 +1,16 @@
 <div>
     <md-content>
-        <md-list flex>
-            <md-list-item class="md-3-line" ng-repeat="marker in vm.markers">
-                <div class="md-list-item-text" layout="column">
-                    <h3>{{marker.options.title}}</h3>
-                    <p>{{marker._latlng.lat}} - {{marker._latlng.lng}}</p>
-                </div>
-                <span flex></span>
-                <div class="md-list-item-text" layout="column">
-                    <md-input-container class="md-block">
-                        <md-select ng-model="iconOptions" ng-change="vm.updateIcon(iconOptions, marker)">
-                              <md-option  selected="selected" ng-repeat="opt in vm.iconOptions" ng-value="opt.iconUrl"><img width="20px" ng-src="{{opt.iconUrl}}"/>{{opt.iconName}}</md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-                <span flex></span>
-                <div class="md-list-item-text" layout="column">
-                    <p ng-click="vm.removeMarker(marker)"><i class="material-icons">&#xE92B;</i></p>
-                </div>
-                <md-divider></md-divider>
-            </md-list-item>
-        </md-list>
+        <md-autocomplete md-input-name="autocomplete" md-selected-item="selectedItem" md-selected-item-change="vm.colourCountry(selectedItem)"
+                         md-search-text="searchText" md-items="item in vm.getMatches(searchText)" md-item-text="item.properties.ADMIN">
+            <md-item-template>
+                <span md-highlight-text="searchText">{{item.properties.ADMIN}}</span>
+            </md-item-template>
+        </md-autocomplete>
     </md-content>
 
-    <div id="map" ng-click="vm.setMarker(vm.MarkerLat, vm.MarkerLng)" ></div>
+
+    <div id="map" ng-dblclick="vm.setMarker(vm.MarkerLat, vm.MarkerLng)">
+        <pre id='features'>features: {{vm.features | json}}</pre>
+    </div>
+
 </div>

@@ -1,4 +1,4 @@
-import { reject } from 'lodash';
+import { reject, find, filter, startsWith } from 'lodash';
 import './mapsSimple.directive.scss';
 
 import template from './mapsSimple.directive.html';
@@ -7,7 +7,7 @@ L.mapbox.accessToken = 'pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc
 mapboxgl.accessToken = 'pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A';
 
 class mapsSimpleDirectiveController {
-    constructor($scope, $log, $element, FileSaver, videoGeneration) {
+    constructor($scope, $log, $element, FileSaver, videoGeneration, $http) {
         this.$scope = $scope;
         this.$log = $log;
         this.$element = $element;
@@ -16,6 +16,13 @@ class mapsSimpleDirectiveController {
         this.number = 0;
         this.id = "markers-" + this.number;
         this.videoGeneration = videoGeneration;
+        this.$http = $http;
+
+
+        this.$http.get('../../../assets/countries.geojson').success((data) => {
+            console.log('Great success!', data);
+            this.data  = data.features;
+        });
 
         // Make an image out of it
         $scope.$watch('vm.isReady', (value) => {
@@ -27,35 +34,33 @@ class mapsSimpleDirectiveController {
                 let data = this.map.getCanvas().toDataURL('image/png', 1.0);
                 let blob = this.videoGeneration._dataURItoBlob(data);
 
-                console.log('DATA', data);
                 FileSaver.saveAs(blob, 'template.png');
                 //});
                 this.isReady = !this.isReady;
             }
         });
 
-        //$scope.$watch('vm.lat', (value) => {
-        //    if (!value) return;
-        //    this.loadMap();
-        //});
+        //this.map.on('style.load', () => {
         //
-        //$scope.$watch('vm.lng', (value) => {
-        //    if (!value) return;
-        //    this.loadMap();
-        //});
+        //    $http.get('../../../assets/countries.geojson').success((data) => {
+        //        console.log('Great success!', data);
+        //        this.result = find(data.features, (o) => {
+        //            return o.properties.ISO_A3 === "RUS";
+        //        });
+        //
+        //        console.log('Great success!', this.result);
+        //    });
+        //}
 
-        $scope.$watch('vm.place', (value) => {
+
+
+            $scope.$watch('vm.place', (value) => {
             if(!value) return;
             console.log('vm.place', this.place);
             geocoder.query(this.place, this.showMap.bind(this));
         });
 
-        // init map
-        //this.map = L.mapbox.map(this.$element[0].children.map, '')
-        //    .addControl(L.mapbox.geocoderControl('mapbox.places', {
-        //        autocomplete: true
-        //    }))
-        //    .addControl(L.mapbox.shareControl());
+
         this.map = new mapboxgl.Map({
             container: 'map', // container id
             style: 'mapbox://styles/vrtstartup/cilcbtvj2003ubekq19m2azeb', //hosted style id
@@ -68,29 +73,71 @@ class mapsSimpleDirectiveController {
         geocoder.query(this.place, this.showMap.bind(this));
         this.map.doubleClickZoom.disable();
 
-        //var featureLayer = L.mapbox.featureLayer()
-        //    .loadURL('../../../assets/countries.geojson')
-        //    .addTo(this.map);
+        //var url = 'https://raw.githubusercontent.com/openlayers/ol3/master/examples/data/geojson/countries.geojson';
+        //var url = '../../../assets/countries.geojson';
+        //
+        //var source = new mapboxgl.GeoJSONSource({
+        //    data: url
+        //});
+        //
+        //source.setData(url);
 
 
         // set marker on click
         this.map.on('mousemove', (e) => {
             this.MarkerLat = JSON.stringify(e.lngLat.lat);
             this.MarkerLng =  JSON.stringify(e.lngLat.lng);
-            //console.log('Latitude',  JSON.stringify(e.lngLat.lat));
+
+            //var features = this.map.queryRenderedFeatures(e.point, { layers: ['markers1'] });
+            //this.map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+            // get data of the country
+            this.features = this.map.queryRenderedFeatures(e.point);
+            //console.log('Features', this.features[0].properties.name_en);
         });
 
-        //this.iconOptions = [{
-        //    iconName: 'pin',
-        //    iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-1+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
-        //},
-        //    {
-        //        iconName: 'cafe',
-        //        iconUrl: "http://a.tiles.mapbox.com/v4/marker/pin-l-cafe+fa0@2x.png?access_token=pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A",
-        //    }
-        //];
-        //this.popup = new L.Popup({ autoPan: false });
 
+    }
+
+    getMatches(searchText) {
+        //console.log('getMatches(searchText)', searchText);
+        this.filteredResult = filter(this.data, (o) => {
+            return startsWith(o.properties.ADMIN, searchText);;
+        });
+        //console.log('I find this:', this.filteredResult);
+        return this.filteredResult;
+    }
+
+    colourCountry(selected) {
+        console.log('Selected country', selected);
+        let newObj = {
+            'type': 'geojson',
+            'data': selected
+        };
+
+        let id = selected.properties.ISO_A3;
+
+        JSON.stringify(newObj);
+
+        this.map.addSource(id, newObj);
+
+        //console.log('Great success!', this.result);
+
+        this.map.addLayer({
+            "id": id,
+            "type": "line",
+            "source": id,
+            "source-layer": "contour",
+            "layout": {
+                "line-join": "round",
+                "line-cap": "round"
+            },
+            "paint": {
+                "line-color": "#ff69b4",
+                "line-width": 1
+            }
+
+        });
     }
 
     loadMap() {
@@ -117,40 +164,11 @@ class mapsSimpleDirectiveController {
     }
 
     setMarker(lat, lng) {
-        console.log('Marker');
         this.number = this.number + 1;
-        //this.markers.push(L.marker([lat, lng], {
-        //    icon: L.mapbox.marker.icon({
-        //        'marker-size': 'large',
-        //        'marker-symbol': this.number,
-        //        'marker-color': '#fa0'
-        //    }),
-        //    draggable: true,
-        //    title: "this is icon #" + this.number,
-        //    description: 'This marker has a description',
-        //}).addTo(this.map));
-
-        //
-        //let geojsonFeature = {
-        //    "type": "Feature",
-        //    "properties": {
-        //        "name": "Coors Field",
-        //        "amenity": "Baseball Stadium",
-        //        "popupContent": "This is where the Rockies play!"
-        //    },
-        //    "geometry": {
-        //        "type": "Point",
-        //        "coordinates": [lat, lng],
-        //        "point-transform":"translate(20,-40)"
-        //    }
-        //};
-        //L.geoJson(geojsonFeature).addTo(this.map);
-        //
-        //
-        //
-        //geojsonFeature.features[0].geometry.coordinates.push([lat, lng]);
 
         this.id = 'markers'+this.number;
+        console.log('Marker', this.id);
+
 
         this.map.addSource(this.id , {
             "type": "geojson",
@@ -163,6 +181,8 @@ class mapsSimpleDirectiveController {
                         "coordinates": [lng, lat]
                     },
                     "properties": {
+                        "title": "Mapbox SF",
+                        "description": '<div class="marker-title">Make it Mount Pleasant</div><p> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
                         "marker-symbol": "harbor"
                     }
                 }]
@@ -175,7 +195,7 @@ class mapsSimpleDirectiveController {
             "source": this.id,
             "layout": {
                 "icon-image": "{marker-symbol}-15",
-                "text-anchor": "top"
+                "icon-allow-overlap": true
             }
         });
 
@@ -215,4 +235,4 @@ export const mapsSimpleDirective = function() {
     };
 };
 
-mapsSimpleDirectiveController.$inject = ['$scope', '$log', '$element', 'FileSaver', 'videoGeneration'];
+mapsSimpleDirectiveController.$inject = ['$scope', '$log', '$element', 'FileSaver', 'videoGeneration', '$http'];
