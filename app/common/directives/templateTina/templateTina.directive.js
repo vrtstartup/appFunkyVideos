@@ -63,9 +63,13 @@ class TemplateTinaDirectiveController {
 
             canvasContext.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
 
-            //return canvas[0].toDataURL();
+            var url = canvas[0].toDataURL('image/png');
 
-            this.Newimage = canvas[0].toDataURL();
+            var blob = this.videoGeneration._canvasToBlob(url);
+
+            console.log('BLOB', blob);
+
+            //this.Newimage = blob;
 
         });
     }

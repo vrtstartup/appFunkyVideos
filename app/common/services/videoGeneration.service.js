@@ -69,7 +69,7 @@ export default class VideoGenerationService {
             });
         };
 
-        that._canvasToJPG = function(cvs, done) {
+            that._canvasToJPG = function(cvs, done) {
             let contentType = 'image/jpeg';
             if (that.isTemplate) {
                 contentType = 'image/png';
