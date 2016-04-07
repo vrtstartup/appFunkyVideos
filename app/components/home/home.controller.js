@@ -113,6 +113,19 @@ export default class HomeController {
                 'image': 'assets/home-facebook.png',
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/tools-templates'
             },
+            {
+                'title': '10 Gebruikersinzichten',
+                'category': 'facebook',
+                'type': 'guide',
+                'image': 'assets/home-facebook.png',
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/inzichten'
+            },
+            {
+                'title': '3 subdoelgroepen VRT Nieuws',
+                'category': 'facebook',
+                'type': 'guide',
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/inzichten'
+            }
         ];
 
         this.filteredTiles = this.tiles;
