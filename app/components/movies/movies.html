@@ -15,33 +15,31 @@
     <div layout="row" layout-wrap ng-if="vm.emailValid">
         <section flex="70">
             <h2>Clips</h2>
+
+            <p>
+                - upload form to upload clip
+                - choose clip type
+                - load in corresponding template/form
+            </p>
+
+
+
             <md-input-container>
                 <label>Movie clip type</label>
                 <md-select ng-model="vm.currentClip.type">
-                    <md-option ng-repeat="type in vm.movieTypes" value="{{type.name}}">
+                    <md-option ng-repeat="type in vm.movieTypes" value="{{type.templateLocalPath}}">
                         {{type.name}}
                     </md-option>
                 </md-select>
             </md-input-container>
 
-            <div>
-                <p>preview</p>
-                {{vm.currentClip.title}}
-                {{vm.currentClip.text}}
+            <div class="clip-preview-container">
+                <ng-include src="vm.currentClip.type"></ng-include>
+                <hr />
+                <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
+                    Clip toevoegen
+                </md-button>
             </div>
-
-            <md-input-container>
-                <label>title</label>
-                <input ng-model="vm.currentClip.title">
-            </md-input-container>
-            <md-input-container>
-                <label>text</label>
-                <input ng-model="vm.currentClip.text">
-            </md-input-container>
-
-            <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
-                Clip toevoegen
-            </md-button>
         </section>
 
         <section flex="30">
@@ -54,15 +52,12 @@
                 </div>
             </md-toolbar>
 
-            <md-content  style="height: 350px;">
+            <md-content  style="height: 450px;">
                 <md-list>
                     <md-list-item class="md-2-line" ng-repeat="clip in vm.movieClips | orderBy: 'start'"
                                   ng-click="" ng-class="{'editingRow' : line.isEditmode}">
                         <div class="md-list-item-text">
                             <pre>{{clip | json}}</pre>
-                            <h2>{{clip.type}}</h2>
-                            <p>{{clip.title}}</p>
-                            <p>{{clip.text}}</p>
                         </div>
                         <i ng-click="" class="material-icons">&#xE254;</i>
                         <i ng-click="vm.deleteClip(clip)" class="material-icons">&#xE92B;</i>
