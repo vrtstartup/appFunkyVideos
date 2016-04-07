@@ -1,0 +1,10 @@
+<section class='wrap container-screenshot'>
+    <div class='image' style="background-image: url('{{vm.image}}')">
+        <div ng-class="vm.image ? 'overlay' : 'no-overlay'">
+            <img class='logo logo-drd' src="./assets/deredactie.svg">
+            <div class="long-quote-wrap">
+                <p class='header-bob' ng-init="vm.quote = 'Yo, Im bob'"> {{vm.quote}} </p>
+            </div>
+        </div>
+    </div>
+</section>

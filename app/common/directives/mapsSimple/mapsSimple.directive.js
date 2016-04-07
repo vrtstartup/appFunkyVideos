@@ -7,7 +7,7 @@ L.mapbox.accessToken = 'pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc
 mapboxgl.accessToken = 'pk.eyJ1IjoidnJ0c3RhcnR1cCIsImEiOiJjaWV2MzY0NzcwMDg2dHBrc2M4cTV0eWYzIn0.jEUwUMy1fZtFEHgVQZ2P8A';
 
 class mapsSimpleDirectiveController {
-    constructor($scope, $log, $element, FileSaver, videoGeneration, $http) {
+    constructor($scope, $log, $element, FileSaver, videoGeneration, $http, $document) {
         this.$scope = $scope;
         this.$log = $log;
         this.$element = $element;
@@ -16,6 +16,7 @@ class mapsSimpleDirectiveController {
         this.id = "markers-" + this.number;
         this.videoGeneration = videoGeneration;
         this.$http = $http;
+        this.$document = $document;
         this.geocoder = new mapboxgl.Geocoder();
 
 
@@ -28,12 +29,20 @@ class mapsSimpleDirectiveController {
         // Make an image out of it
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
+            //if (this.isReady) {
+            //
+            //    let data = this.map.getCanvas().toDataURL('image/png', 1.0);
+            //    let blob = this.videoGeneration._dataURItoBlob(data);
+            //
+            //    FileSaver.saveAs(blob, 'template.png');
+            //    this.isReady = !this.isReady;
+            //}
             if (this.isReady) {
+                let target = angular.element(this.$document[0].querySelector('#map'));
+                console.log('Element', target);
 
-                let data = this.map.getCanvas().toDataURL('image/png', 1.0);
-                let blob = this.videoGeneration._dataURItoBlob(data);
+                this.videoGeneration.takeScreenshot(target, true);
 
-                FileSaver.saveAs(blob, 'template.png');
                 this.isReady = !this.isReady;
             }
         });
@@ -225,4 +234,4 @@ export const mapsSimpleDirective = function() {
     };
 };
 
-mapsSimpleDirectiveController.$inject = ['$scope', '$log', '$element', 'FileSaver', 'videoGeneration', '$http'];
+mapsSimpleDirectiveController.$inject = ['$scope', '$log', '$element', 'FileSaver', 'videoGeneration', '$http', '$document'];

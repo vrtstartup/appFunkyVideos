@@ -72,6 +72,12 @@ export default class PicturesController {
         this.className = scheme;
     }
 
+    showBob(scheme) {
+        this.resetAllTemplates();
+        this.isBob = true;
+        this.className = scheme;
+    }
+
     resetAllTemplates() {
         this.isMurderface = false;
         this.isSkwigelf = false;
@@ -79,6 +85,7 @@ export default class PicturesController {
         this.isReady = false;
         this.isPickels = false;
         this.isDethklok = false;
+        this.isBob = false;
     }
 
 }

@@ -15,7 +15,7 @@ export default class VideoGenerationService {
                 onrendered: (canvas) => {
                     if (that.isTemplate) {
                         that._canvasToJPG(canvas, that._userUpload.bind(this));
-                        that._canvasToJPG(canvas, that._upload.bind(this));
+                        //that._canvasToJPG(canvas, that._upload.bind(this));
                     } else {
                         that._canvasToJPG(canvas, that._upload.bind(this));
                     }

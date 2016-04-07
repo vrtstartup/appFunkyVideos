@@ -1,0 +1,12 @@
+@import "../../style/variables";
+
+.header-bob {
+  color: $white;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 65px;
+  font-weight: 700;
+  line-height: 84px;
+  display: inline-block;
+  white-space: pre-wrap;
+}
