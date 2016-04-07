@@ -12,6 +12,7 @@ const imagesApi = require('./routes/images');
 const subtitlesApi = require('./routes/subtitles');
 const templatesApi = require('./routes/templates');
 const templaterApi = require('./routes/templater');
+const movieApi = require('./routes/movies');
 const gridApi = require('./routes/grid');
 const mapsApi = require('./routes/maps');
 const questionsApi = require('./routes/questions');
@@ -38,6 +39,7 @@ app.use('/temp', express.static('temp')); //temp is public
 app.use('/api', imagesApi);
 app.use('/api', subtitlesApi);
 app.use('/api', templatesApi);
+app.use('/api/movie', movieApi);
 app.use('/api/templater', templaterApi);
 app.use('/api', gridApi);
 app.use('/api', mapsApi);
@@ -91,6 +93,13 @@ function createPath() {
         // path was created unless there was error
         if(err)
         console.log('Error while creating path:', err);
+
+    });
+    mkdirp('temp/movies', function(err) {
+        console.log('Path is created temp/videos');
+        // path was created unless there was error
+        if(err)
+            console.log('Error while creating path:', err);
 
     });
     mkdirp('temp/templates', function(err) {

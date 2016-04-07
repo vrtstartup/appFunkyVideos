@@ -125,6 +125,12 @@ export default class HomeController {
                 'category': 'facebook',
                 'type': 'guide',
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/inzichten'
+            },
+            {
+                'title': 'Tips & Tricks Twitter',
+                'category': 'twitter',
+                'type': 'guide',
+                'docUrl': 'https://app.frontify.com/d/9kNTzmw2XVAO/vrt-nieuws-op-twitter'
             }
         ];
 

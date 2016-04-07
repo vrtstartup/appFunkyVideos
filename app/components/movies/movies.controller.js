@@ -1,6 +1,8 @@
 //TODO: refactor show functions
-export default class PicturesController {
-    constructor($rootScope, $http) {
+export default class MoviesController {
+    constructor($rootScope, $http, $document, Upload) {
+        this.$document = $document;
+        this.Upload = Upload;
 
         this.currentClip = {};
 
@@ -63,6 +65,22 @@ export default class PicturesController {
         }
     }
 
+    selectFile() {
+        angular.element(this.$document[0].querySelector('#clipFile'))[0].click();
+    }
+
+    uploadFile(file) {
+        console.log(file);
+        this.Upload.upload({
+            url: 'api/movie/movie-clip',
+            data: {file: file},
+            method: 'POST'
+        })
+        .then((resp) => {
+            console.log(resp);
+        })
+    }
+
     addClip() {
         this.movieClips.push(this.currentClip);
         this.initNewClip(this.movie.id);
@@ -93,4 +111,4 @@ export default class PicturesController {
     }
 }
 
-PicturesController.$inject = ['$rootScope', '$http'];
+MoviesController.$inject = ['$rootScope', '$http', '$document', 'Upload'];
