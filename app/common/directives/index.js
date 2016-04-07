@@ -3,6 +3,7 @@ import pieChart from './pieChart';
 import text from './text';
 import screenshot from './screenshot';
 import templateBob from './templateBob';
+import templateTina from './templateTina';
 import templateDethklok from './templateDethklok';
 import templateMurderface from './templateMurderface';
 import templateWartooth from './templateWartooth';
@@ -22,7 +23,7 @@ import mapsSimple from './mapsSimple';
 
 
 const module = angular.module('app.common.directives', [
-    pieChart, text, screenshot, templateDethklok, templateBob,
+    pieChart, text, screenshot, templateDethklok, templateBob, templateTina,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple
 ]);

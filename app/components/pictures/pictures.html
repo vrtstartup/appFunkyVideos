@@ -77,6 +77,17 @@
                         <img src="./../assets/templates/number_ak.png" alt="" width="100%">
                     </md-list-item>
                 </md-content>
+                <md-toolbar md-scroll-shrink="">
+                    <div class="md-toolbar-tools" ng-init="vm.showTempltesR1 = false" ng-click="vm.getScheme('r1')">
+                        Radio 1 <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesR1}">&#xE313;</i>
+                    </div>
+                </md-toolbar>
+                <md-content ng-if="vm.showTempltesR1">
+                    <md-subheader class="">Quote</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.showTina('r1')">
+                        <img src="./../assets/templates/quote_r1.png" alt="" width="100%">
+                    </md-list-item>
+                </md-content>
             </md-list>
         </md-content>
 
@@ -117,12 +128,15 @@
                 <!--template-->
                 <ng-include src="'components/pictures/picture.bob.html'"></ng-include>
 
+                <ng-include src="'components/pictures/picture.tina.html'"></ng-include>
+
+
 
                 <div ng-messages="templateForm.img.$error.required" >
                     <div ng-message="required">Image is required.</div>
                 </div>
 
-                <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion || vm.isPickels || vm.isDethklok || vm.isBob"
+                <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion || vm.isPickels || vm.isDethklok || vm.isBob || vm.isTina"
                          layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
                     <md-button class="md-raised" ng-click="vm.getPicture()" ng-disabled="templateForm.img.$error.required && (vm.templateClass != 'breaking')">Get Picture</md-button>
                     <!--<a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>-->

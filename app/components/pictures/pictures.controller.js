@@ -4,24 +4,23 @@ export default class PicturesController {
         this.$log = $log;
         this.$rootScope = $rootScope;
         this.$http = $http;
-        //What do you mean, 'booze ain't food'? I'd rather chop off my ding-dong than admit that!
-        //this.selected;
+
         this.className = 'drd';
 
         this.resetAllTemplates();
 
-        this.schemes = [
-            {
-                name: 'de redactie',
-                className: 'drd',
-                class: 'vrt-drd-btn',
-            },
-            {
-                name: 'amerika kiest',
-                className: 'ak',
-                class: 'vrt-ak-btn',
-            },
-        ];
+        //this.schemes = [
+        //    {
+        //        name: 'de redactie',
+        //        className: 'drd',
+        //        class: 'vrt-drd-btn',
+        //    },
+        //    {
+        //        name: 'amerika kiest',
+        //        className: 'ak',
+        //        class: 'vrt-ak-btn',
+        //    },
+        //];
     }
 
     getScheme(scheme) {
@@ -32,6 +31,9 @@ export default class PicturesController {
         }
         if(scheme === 'drd' ){
             this.showTempltesDRD = !this.showTempltesDRD;
+        }
+        if(scheme === 'r1'){
+            this.showTempltesR1 = !this.showTempltesR1;
         }
         console.log('Scheme', this.selected);
     }
@@ -78,6 +80,12 @@ export default class PicturesController {
         this.className = scheme;
     }
 
+    showTina(scheme) {
+        this.resetAllTemplates();
+        this.isTina = true;
+        this.className = scheme;
+    }
+
     resetAllTemplates() {
         this.isMurderface = false;
         this.isSkwigelf = false;
@@ -86,6 +94,7 @@ export default class PicturesController {
         this.isPickels = false;
         this.isDethklok = false;
         this.isBob = false;
+        this.isTina = false;
     }
 
 }

@@ -36,6 +36,21 @@
 }
 
 @font-face {
+  font-family: 'Calibre-Black';
+  src: url('./fonts/Calibre-Black.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'Calibre-Medium';
+  src: url('./fonts/Calibre-Medium.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'Calibre-Semibold';
+  src: url('./fonts/Calibre-Semibold.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
   font-family: 'icomoon';
   src:    url('./fonts/icomoon.eot');
   src:    url('./fonts/icomoon.eot#iefix') format('embedded-opentype'),

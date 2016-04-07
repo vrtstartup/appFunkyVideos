@@ -23,7 +23,7 @@
     height: 44px;
   }
 
-  .logo-ak {
+  .logo-ak, .logo-r1 {
     display: none;
   }
 
@@ -39,7 +39,7 @@
     display: block;
     //top: 25px;
   }
-  .logo-drd {
+  .logo-drd, .logo-r1 {
     display: none;
   }
   .logo-ak {
@@ -97,6 +97,70 @@
     background-color: $ak-main-color;
     font-family: "proxima", "Roboto Condensed", sans-serif;
     height: 125px;
+  }
+
+}
+
+.r1 {
+
+  .wrap {
+    background-color: $r1-main-color;
+  }
+
+  .overlay {
+    background: rgba($r1-main-color, 0.6);
+    height: 100%;
+    overflow: hidden;
+    z-index: 2;
+  }
+
+
+  .logo {
+    left: 47%;
+    top: 30px;
+  }
+
+  .logo-r1 {
+    display: block;
+    height: 64px;
+  }
+  .logo-drd, .logo-ak {
+    display: none;
+  }
+
+  .quote, .sign {
+    font-family: "Calibre-Black", sans-serif;
+    font-style: normal;
+    letter-spacing: 2px;
+    color: $r1-light-color;
+    font-size: 70px;
+  }
+
+  .author {
+    line-height: 1em;
+  }
+
+  .skwg-author {
+    text-align: center;
+    left: 0;
+  }
+  .auth-name {
+    font-family: "Calibre-Semibold", sans-serif;
+    color: $r1-light-color;
+    background-color: $r1-accent-color;
+    display: inline-block;
+    padding: 12px 8px 2px 8px;
+    margin: 0;
+    font-size: 30px;
+  }
+
+  .auth-title {
+    font-family: "Calibre-Medium", sans-serif;
+    padding: 6px 8px 0px 10px;
+    color: rgba($r1-light-color, 0.8);
+    margin: 4px 0 0 0;
+    font-style: normal;
+    font-size: 23px;
   }
 
 }
