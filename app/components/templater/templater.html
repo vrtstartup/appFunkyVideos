@@ -1,7 +1,7 @@
 <feedback></feedback>
 
 
-<div layout="column" layout-align="center center" class="temp_form">
+<div ng-if="!vm.fileUploaded" layout="column" layout-align="center center" class="temp_form">
     <h1>Video Templater</h1>
     <label>Upload Video</label>
     <md-input-container>
@@ -10,7 +10,7 @@
     <p ng-if="vm.fileUploading">Your video is uploading, please wait...</p>
 </div>
 
-<div ng-if="vm.fileUploaded" layout="column" layout-align="center center" class="temp_form">
+<div ng-if="vm.fileUploaded && !vm.templaterProcessing" layout="column" layout-align="center center" class="temp_form">
     <form name="templateForm">
         <div layout="column" layout-align="center center" class="temp_form">
             <md-select placeholder="Choose template" ng-model="vm.template" ng-change="vm.form.template = vm.template">
@@ -47,4 +47,12 @@
             <md-button ng-disabled="templateForm.$invalid" ng-click="vm.submitForm()" class="md-raised">Send</md-button>
         </div>
     </form>
+</div>
+
+<div layout="column" layout="center center" ng-show="vm.templaterProcessing">
+    <p>
+        Uw opdracht werd succesvol naar onze server verzonden,
+        zodra deze klaar is met het renderen van uw video ontvangt u
+        een e-mail met een link om de afgewerkte video te downloaden.
+    </p>
 </div>

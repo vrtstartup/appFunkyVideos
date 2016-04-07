@@ -13,35 +13,34 @@ var emailService = require('../services/emailService.js');
 
 // api/templater/
 router.post('/', function(req, res, next) {
+    //update firebase with request body
+
     //open json file from dropbox
-    var file = {
-        path: '/json/',
-        name: 'templater.json',
-        data: ''
-    };
+    //var file = {
+    //    path: '/json/',
+    //    name: 'templater.json',
+    //    data: ''
+    //};
 
-    //write filename + email address to DB
-
-
-    //update JSON file on dropbox so AE templater get's triggered
-    dbClient.readFile(file.path + file.name, function(error, data) {
-        if (error) {
-            return next(Boom.badImplementation('unexpected error, couldn\'t read file from dropbox'));
-        }
-
-        file.data = JSON.parse(data);
-        var objToAdd = req.body;
-
-        file.data.push(objToAdd);
-
-        dbClient.writeFile(file.path + file.name, JSON.stringify(file.data), function(error, stat) {
-            if (error) {
-                return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-            }
-
-            res.send();
-        });
-    });
+    ////update JSON file on dropbox so AE templater get's triggered
+    //dbClient.readFile(file.path + file.name, function(error, data) {
+    //    if (error) {
+    //        return next(Boom.badImplementation('unexpected error, couldn\'t read file from dropbox'));
+    //    }
+    //
+    //    file.data = JSON.parse(data);
+    //    var objToAdd = req.body;
+    //
+    //    file.data.push(objToAdd);
+    //
+    //    dbClient.writeFile(file.path + file.name, JSON.stringify(file.data), function(error, stat) {
+    //        if (error) {
+    //            return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+    //        }
+    //
+    //        res.send();
+    //    });
+    //});
 });
 
 // api/templater/upload
