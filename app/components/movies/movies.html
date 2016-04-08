@@ -22,9 +22,12 @@
                 - load in corresponding template/form
             </p>
 
-            <input id="clipFile" ng-model="vm.currentClip.video" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />
-            <md-button class="md-raised" ng-click="vm.selectFile()">upload clip</md-button>
-
+            <div class="upload-form">
+                <input id="clipFile" ng-model="vm.currentClip.video" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />
+                <md-button class="md-raised" ng-click="vm.selectFile()">upload clip</md-button>
+                {{vm.progressPercentage}} %
+                <md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>
+            </div>
 
             <div class="clip-preview-container" ng-show="vm.currentClip.uploaded">
                 <md-input-container>

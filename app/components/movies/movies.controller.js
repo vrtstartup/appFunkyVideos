@@ -9,6 +9,7 @@ export default class MoviesController {
         this.movie = {};
         this.movieClips = [];
         this.emailValid = true;
+        this.progressPercentage = 0;
 
         this.movieTypes = [
             {
@@ -70,15 +71,19 @@ export default class MoviesController {
     }
 
     uploadFile(file) {
-        console.log(file);
         this.Upload.upload({
             url: 'api/movie/movie-clip',
-            data: {file: file},
+            data: {'movieId': this.movie.id, 'clipId': this.currentClip.id, file: file},
             method: 'POST'
         })
         .then((resp) => {
             console.log(resp);
-        })
+        }, (resp) => {
+            console.log('Error: ' + resp.error);
+            console.log('Error status: ' + resp.status);
+        }, (evt) => {
+            this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+        });
     }
 
     addClip() {
