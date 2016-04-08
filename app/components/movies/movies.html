@@ -16,13 +16,8 @@
         <section flex="70">
             <h2>Clips</h2>
 
-            <p>
-                - upload form to upload clip
-                - choose clip type
-                - load in corresponding template/form
-            </p>
-
-            <div class="upload-form">
+            <p>Upload een filmpje (.mp4) om verder te gaan.</p>
+            <div class="upload-form" ng-hide="vm.currentClip.uploaded">
                 <input id="clipFile" ng-model="vm.currentClip.video" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />
                 <md-button class="md-raised" ng-click="vm.selectFile()">upload clip</md-button>
                 {{vm.progressPercentage}} %
@@ -30,16 +25,17 @@
             </div>
 
             <div class="clip-preview-container" ng-show="vm.currentClip.uploaded">
+                <pre>{{vm.currentClip | json}}</pre>
                 <md-input-container>
                     <label>Movie clip type</label>
-                    <md-select ng-model="vm.currentClip.type">
-                        <md-option ng-repeat="type in vm.movieTypes" value="{{type.templateLocalPath}}">
+                    <md-select ng-model="templatePath">
+                        <md-option ng-repeat="type in vm.movieTypes" value="{{type}}">
                             {{type.name}}
                         </md-option>
                     </md-select>
                 </md-input-container>
 
-                <ng-include src="vm.currentClip.type"></ng-include>
+                <ng-include src="templatePath.templateLocalPath"></ng-include>
                 <hr />
                 <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
                     Clip toevoegen

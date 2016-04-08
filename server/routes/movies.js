@@ -14,14 +14,11 @@ router.post('/movie-clip', function(req, res, next) {
     form.parse(req);
 
     var fileStream = '';
-    var firstPart = true;
+    var fileStreamOpened = false;
     var fileName = '';
     var folderName = '';
     var uploadPath = 'temp/movies/';
-
-    form.on('error', function(err) {
-        console.log('Error parsing form: ' + err.stack);
-    });
+    var fullPath = '';
 
     form.on('part', function(part) {
         part.on('data', function(data) {
@@ -30,9 +27,14 @@ router.post('/movie-clip', function(req, res, next) {
                 if (part.name === "clipId") fileName = data.toString();
             }
             else {
-                if(firstPart) {
-                    firstPart = false;
-                    var fullPath = uploadPath + folderName + '/' + fileName + '.mp4';
+                if (!fileStreamOpened) {
+                    fileStreamOpened = true;
+                    fullPath = uploadPath + folderName + '/' + fileName + '.mp4';
+
+                    if (!fs.existsSync(uploadPath + folderName)){
+                        fs.mkdirSync(uploadPath + folderName);
+                    }
+
                     fileStream = fs.createWriteStream(fullPath, {'flags': 'a'});
                 }
 
@@ -41,14 +43,20 @@ router.post('/movie-clip', function(req, res, next) {
         });
 
         part.on('error', function(err) {
-            console.log(err);
+            console.log('part error', err);
+            return next(Boom.badImplementation('file upload failed!'));
         });
 
         part.resume();
     });
 
+    form.on('error', function(err) {
+        console.log('upload error', err);
+        return next(Boom.badImplementation('file upload failed!'));
+    });
+
     form.on('close', function() {
-        console.log('file saved');
+        res.json({filePath: fullPath, fileName: fileName + '.mp4'}).send();
     });
 });
 

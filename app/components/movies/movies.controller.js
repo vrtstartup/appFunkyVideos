@@ -1,14 +1,17 @@
 //TODO: refactor show functions
 export default class MoviesController {
-    constructor($rootScope, $http, $document, Upload) {
+    constructor($rootScope, $http, $document, Upload, $firebaseArray, $firebaseObject) {
         this.$document = $document;
         this.Upload = Upload;
-
-        this.currentClip = {};
+        this.$firebaseArray = $firebaseArray;
+        this.$firebaseObject = $firebaseObject;
+        this.firebaseMovies = this.$firebaseArray(new Firebase('vrtnieuwshub.firebaseio.com/apps/movies/movies'));
+        this.firebaseMovieClips = this.$firebaseArray(new Firebase('vrtnieuwshub.firebaseio.com/apps/movies/movieclips'));
 
         this.movie = {};
         this.movieClips = [];
-        this.emailValid = true;
+        this.currentClip = {};
+        this.emailValid = false;
         this.progressPercentage = 0;
 
         this.movieTypes = [
@@ -43,19 +46,22 @@ export default class MoviesController {
                 'templateLocalPath': '/components/movies/movie.bulletlist.html'
             },
         ];
-
-        this.initMovie();
     }
 
     initMovie() {
         this.emailValid = true;
 
-        //#todo get movie ID, and assign it to clip
-        this.movie.id = 123;
-        this.initNewClip(this.movie.id);
+        //#todo save email adres to firebase, use movieID returned by firebase to identify movie
+        this.firebaseMovies.$add({'email': this.movie.email})
+            .then((ref) => {
+                this.movie = this.$firebaseObject(ref);
+                this.initNewClip(ref.key());
+            });
     }
 
     initNewClip(movieId) {
+        this.progressPercentage = 0;
+
         this.currentClip = {
             'id': this.generateClipId(),
             'movieId': movieId,
@@ -63,6 +69,7 @@ export default class MoviesController {
             'render-status': 'ready',
             'aep': 'filepath',
             'last': '',
+            'uploaded': false
         }
     }
 
@@ -71,6 +78,12 @@ export default class MoviesController {
     }
 
     uploadFile(file) {
+        this.Upload.mediaDuration(file)
+            .then((durationInSeconds) => {
+                this.currentClip.start = this.movieClips[this.movieClips.length-1] ? this.movieClips[this.movieClips.length -1].end || 0 : 0;
+                this.currentClip.end = this.currentClip.start + durationInSeconds;
+            });
+
         this.Upload.upload({
             url: 'api/movie/movie-clip',
             data: {'movieId': this.movie.id, 'clipId': this.currentClip.id, file: file},
@@ -78,6 +91,8 @@ export default class MoviesController {
         })
         .then((resp) => {
             console.log(resp);
+            this.currentClip.path = resp.data.filePath;
+            this.currentClip.uploaded = true;
         }, (resp) => {
             console.log('Error: ' + resp.error);
             console.log('Error status: ' + resp.status);
@@ -102,18 +117,21 @@ export default class MoviesController {
     }
 
     renderMovie() {
-        console.log('movie', this.movie);
-        console.log('movieClips', this.movieClips);
-        //set 'last' to true for last clip in movieClips
-        //show confirm dialog
-        //get options and set them
+        var counter = 1;
+        angular.forEach(this.movieClips, (clip) => {
+            if (this.movieClips.length >= counter) {
+                clip.last = true;
+            }
 
-        //send all clips to firebase
-        //https://vrtnieuwshub.firebaseio.com/apps/movies/movieclips
+            this.firebaseMovieClips.$add(clip);
+            counter++;
+        });
 
-        //send movie to firebase
-        //https://vrtnieuwshub.firebaseio.com/apps/movies/movies
+        this.movie.$save()
+            .then(() => {
+                console.log('saved');
+            });
     }
 }
 
-MoviesController.$inject = ['$rootScope', '$http', '$document', 'Upload'];
+MoviesController.$inject = ['$rootScope', '$http', '$document', 'Upload', '$firebaseArray', '$firebaseObject'];
