@@ -34,18 +34,27 @@
 }
 
 .update {
+  .header{
+    text-transform: none;
+  }
   .footer-block {
     background-color: $drd-main-color;
   }
 }
 
 .breaking {
+  .header{
+    text-transform: uppercase;
+  }
   .footer-block {
     background-color: $ak-main-color;
   }
 }
 
 .nog {
+  .header{
+    text-transform: none;
+  }
   .footer-block {
     background-color: $ook-dat-nog;
   }
