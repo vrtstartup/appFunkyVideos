@@ -13,20 +13,20 @@
             <!--<md-grid-tile-header>-->
                 <!--{{tile.category}}-->
             <!--</md-grid-tile-header>-->
-            <div class="grid-tile-overlay-disabled">
+            <div class="grid-tile-overlay-disabled" layout="column" layout-align="start center">
                 <i class="material-icons">&#xE869;</i>
                 <h1>nog aan bezig</h1>
+                <!-- <div></div> -->
             </div>
 
-            <div class="grid-tile-content" layout="column" layout-align="center center">
+            <div class="grid-tile-content" layout="column" layout-align="start center">
                 <img src="{{tile.image}}" ng-if="tile.image !== undefined" />
-
                 <h3>{{tile.title}}</h3>
                 <p>{{tile.sub}}</p>
             </div>
 
             <div class="grid-tile-overlay" layout="column" layout-align="center center">
-                <div layout="row" layout-align="center center">
+                <div layout="row" layout-align="center center" ng-if="tile.status !== undefined">
                     <p>{{tile.status}}</p>
                 </div>
                 <div layout="row" layout-align="center center">

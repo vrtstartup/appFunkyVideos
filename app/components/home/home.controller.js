@@ -124,12 +124,14 @@ export default class HomeController {
                 'title': '3 subdoelgroepen VRT Nieuws',
                 'category': 'facebook',
                 'type': 'guide',
+                'image': 'assets/home-userinsights.png',
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/inzichten'
             },
             {
                 'title': 'Tips & Tricks Twitter',
                 'category': 'twitter',
                 'type': 'guide',
+                'image': 'assets/home-twitter.png',
                 'docUrl': 'https://app.frontify.com/d/9kNTzmw2XVAO/vrt-nieuws-op-twitter'
             }
         ];
