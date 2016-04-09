@@ -13,7 +13,7 @@ module.config(['$stateProvider', ($stateProvider) => {
     $stateProvider
         .state('subtitles', {
             url: '/subtitles',
-            title: 'VRT Subtitiles Tool',
+            title: 'VRT Subtitles Tool',
             templateUrl: '/components/subtitles/subtitles.html',
             controller: subtitlesController,
             controllerAs: 'vm',
