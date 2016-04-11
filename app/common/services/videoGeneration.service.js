@@ -7,6 +7,7 @@ export default class VideoGenerationService {
         that.$log  = $log;
         that.$rootScope = $rootScope;
         that.isTemplate = false;
+        that.toGrayscale = false;
 
         this.takeScreenshot = function(element, isTemplate) {
             that.isTemplate = isTemplate;
@@ -28,6 +29,8 @@ export default class VideoGenerationService {
         };
 
         that._upload = function(data) {
+
+
             let url = '/api/images';
             let contentType = 'image/jpeg';
 
@@ -35,6 +38,7 @@ export default class VideoGenerationService {
                 url = '/api/templates';
                 contentType = 'image/png';
             }
+
 
             that.$http({
                     method: 'POST',

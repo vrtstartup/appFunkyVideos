@@ -1,30 +1,35 @@
 //TODO: refactor show functions
 export default class PicturesController {
-    constructor($log, $rootScope, $http) {
+    constructor($log, $scope, $http, Upload) {
         this.$log = $log;
-        this.$rootScope = $rootScope;
+        this.$scope = $scope;
         this.$http = $http;
+        this.Upload = Upload;
 
         this.className = 'drd';
+        this.grayscale = '';
 
         this.resetAllTemplates();
 
-        //this.schemes = [
-        //    {
-        //        name: 'de redactie',
-        //        className: 'drd',
-        //        class: 'vrt-drd-btn',
-        //    },
-        //    {
-        //        name: 'amerika kiest',
-        //        className: 'ak',
-        //        class: 'vrt-ak-btn',
-        //    },
-        //];
+
+    }
+
+    upload(file) {
+        this.Upload.upload({
+            url: '/api/convertimage',
+            data: {file: file}
+        }).then((resp) => {
+            this.grayscale = 'http://localhost:3000/'+ resp.data.url;
+            console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data.url);
+        }, function (resp) {
+            console.log('Error status: ' + resp.status);
+        }, function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
     }
 
     getScheme(scheme) {
-        //this.className = scheme;
 
         if(scheme === 'ak' ){
             this.showTempltesAK = !this.showTempltesAK;
@@ -99,4 +104,4 @@ export default class PicturesController {
 
 }
 
-PicturesController.$inject = ['$log', '$rootScope', '$http'];
+PicturesController.$inject = ['$log', '$scope', '$http', 'Upload'];
