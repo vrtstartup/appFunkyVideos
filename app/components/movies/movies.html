@@ -1,87 +1,74 @@
-<div>
-    <!--<div flex class="email-form" ng-hide="vm.emailValid">-->
-        <!--<p>Geef een e-mail adres in om te beginnen. Het eindresultaat wordt naar dit e-mail adres verzonden.</p>-->
+<div layout="row" layout-wrap>
+    <section flex="70">
+        <h2>Clips</h2>
 
-        <!--<md-input-container class="email-input">-->
-            <!--<label>E-mail adres</label>-->
-            <!--<input ng-model="vm.movie.email" type="email" required />-->
-        <!--</md-input-container>-->
+        <div class="clip-preview-container" ng-show="vm.currentClip.uploaded">
+            <md-input-container>
+                <md-select ng-model="vm.templatePath">
+                    <md-option ng-repeat="type in vm.movieTypes" ng-value="type">
+                        {{type.name}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
 
-        <!--<md-button class="md-raised" aria-label="Bevestig e-mail adres" ng-click="vm.initMovie()" ng-disabled="!vm.movie.email">-->
-            <!--Bevestig-->
-        <!--</md-button>-->
-    <!--</div>-->
-
-    <div layout="row" layout-wrap>
-        <section flex="70">
-            <h2>Clips</h2>
-
-            <!--<p>Upload een filmpje (.mp4) om verder te gaan.</p>-->
-            <!--<div class="upload-form" ng-hide="vm.currentClip.uploaded">-->
-                <!--<input id="clipFile" ng-model="vm.currentClip.video" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />-->
-                <!--<md-button class="md-raised" ng-click="vm.selectFile()">upload clip</md-button>-->
-                <!--{{vm.progressPercentage}} %-->
-                <!--<md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>-->
-            <!--</div>-->
-
-            <div class="clip-preview-container" ng-show="vm.currentClip.uploaded">
-                <pre>{{vm.currentClip | json}}</pre>
-                <md-input-container>
-                    <label>Movie clip type</label>
-                    <md-select ng-model="templatePath">
-                        <md-option ng-repeat="type in vm.movieTypes" value="{{type}}">
-                            {{type.name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-
-                <ng-include src="templatePath.templateLocalPath"></ng-include>
-                <hr />
-                <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
-                    Clip toevoegen
-                </md-button>
-            </div>
-        </section>
-
-        <section flex="30">
-            <md-toolbar class="vrt-sub-toolbar">
-                <div class="md-toolbar-tools">
-                    <h3>
-                        Movie overzicht
-                    </h3>
-                    <span flex></span>
-                </div>
-            </md-toolbar>
-
-            <md-content  style="height: 450px;">
-                <md-list>
-                    <md-list-item class="md-2-line" ng-repeat="clip in vm.movieClips | orderBy: 'start'"
-                                  ng-click="" ng-class="{'editingRow' : line.isEditmode}">
-                        <div class="md-list-item-text">
-                            <pre>{{clip | json}}</pre>
-                        </div>
-                        <i ng-click="" class="material-icons">&#xE254;</i>
-                        <i ng-click="vm.deleteClip(clip)" class="material-icons">&#xE92B;</i>
-                        <md-divider ng-if="!$last"></md-divider>
-                    </md-list-item>
-                </md-list>
-            </md-content>
-
-            <h2>Movie opties</h2>
-            <div flex="50">
-                <md-checkbox ng-model="vm.movie.logo" aria-label="Checkbox 1">
-                    Add logo
-                </md-checkbox>
-            </div>
-            <div flex="50">
-                <md-checkbox ng-model="vm.movie.bumper" aria-label="Checkbox 1">
-                    Add bumper
-                </md-checkbox>
-            </div>
-
-            <md-button class="md-raised" aria-label="Movie verzenden" ng-click="vm.renderMovie()">
-                Movie verzenden
+            <ng-include src="vm.templatePath.templateLocalPath"></ng-include>
+            <hr />
+            <span flex></span>
+            <md-button class="md-raised" aria-label="Clip opslaan" ng-disabled="vm.currentClip.saved" ng-click="vm.saveClip()">
+                Opslaan
             </md-button>
-        </section>
-    </div>
+            <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
+                Nieuw fragment toevoegen
+            </md-button>
+        </div>
+    </section>
+
+    <section flex="30">
+        <md-toolbar class="vrt-sub-toolbar">
+            <div class="md-toolbar-tools">
+                <h3>
+                    Movie overzicht
+                </h3>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+
+        <md-content  style="height: 450px;">
+            <md-list>
+                <md-list-item class="md-2-line" ng-repeat="clip in vm.movieClips | orderBy: 'start'"
+                              ng-click="" ng-class="{'editingRow' : line.isEditmode}">
+                    <div class="md-list-item-text">
+                        {{clip | json}}
+                    </div>
+                    <i ng-click="" class="material-icons">&#xE254;</i>
+                    <i ng-click="vm.deleteClip(clip)" class="material-icons">&#xE92B;</i>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-list-item>
+            </md-list>
+        </md-content>
+
+        <md-toolbar class="vrt-sub-toolbar">
+            <div class="md-toolbar-tools">
+                <h3>
+                    Movie options
+                </h3>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+
+        <div flex="50">
+            <md-checkbox ng-model="vm.movie.logo" aria-label="Checkbox logo">
+                Add logo
+            </md-checkbox>
+        </div>
+        <div flex="50">
+            <md-checkbox ng-model="vm.movie.bumper" aria-label="Checkbox bumper">
+                Add bumper
+            </md-checkbox>
+        </div>
+
+        <md-button class="md-raised" aria-label="Movie verzenden" ng-click="vm.renderMovie()">
+            Opslaan en movie verzenden
+        </md-button>
+    </section>
 </div>
