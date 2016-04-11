@@ -1,17 +1,13 @@
 //TODO: refactor show functions
 export default class PicturesController {
-    constructor($log, $scope, $http, Upload) {
-        this.$log = $log;
-        this.$scope = $scope;
-        this.$http = $http;
+    constructor(Upload) {
+
         this.Upload = Upload;
 
         this.className = 'drd';
         this.grayscale = '';
 
         this.resetAllTemplates();
-
-
     }
 
     upload(file) {
@@ -104,4 +100,4 @@ export default class PicturesController {
 
 }
 
-PicturesController.$inject = ['$log', '$scope', '$http', 'Upload'];
+PicturesController.$inject = ['Upload'];

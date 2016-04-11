@@ -15,13 +15,6 @@ class TemplateTinaDirectiveController {
             }
         });
 
-        $scope.$watch('vm.image', (value) => {
-            if (!value) return;
-
-            console.log('vm.image', this.image);
-        });
-
-
     }
 }
 
