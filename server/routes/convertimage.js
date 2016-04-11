@@ -11,9 +11,13 @@ router.post('/convertimage', multipartyMiddleware, function(req, res, next) {
     var file = req.files.file;
 
     Jimp.read(file.path, (err, lenna) => {
-        if (err) throw err;
+        if (err) {
+            console.log('ERROR', err);
+            throw err;
+        }
         lenna.greyscale()                 // set greyscale
             .write(file.path, () => {
+                console.log('DONE', file.path);
                 res.json({url: file.path}).send();
             }); // save
 
