@@ -2,6 +2,7 @@
 export default class MoviesController {
     constructor($scope, $rootScope, $http, $document, Upload, $firebaseArray, $firebaseObject, $mdDialog, toastService) {
         this.$scope = $scope;
+        this.$http = $http;
         this.$document = $document;
         this.Upload = Upload;
         this.$mdDialog = $mdDialog;
@@ -147,7 +148,7 @@ export default class MoviesController {
         if(this.currentClip.saved) {
             return;
         }
-        console.log(this.movie);
+
         this.currentClip.output = this.movie.$id + '/' + this.currentClip.id
         this.currentClip.aep = this.templatePath.templaterPath;
         this.currentClip.saved = true;
@@ -165,7 +166,6 @@ export default class MoviesController {
     }
 
     renderMovie() {
-        console.log(this.movieClips);
         var counter = 1;
         angular.forEach(this.movieClips, (clip) => {
             if (this.movieClips.length >= counter) {
@@ -181,13 +181,14 @@ export default class MoviesController {
                 console.log('saved');
             });
 
-        //this.$http.post('/api/movies/', params)
-        //    .then((response) => {
-        //        if (response.status === 200) {
-        //            this.templaterProcessing = true;
-        //            this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
-        //        }
-        //    });
+        var params = {
+            movieClips: this.movieClips
+        };
+
+        this.$http.post('api/movies/update-movie-json', params)
+            .then((response) => {
+                this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
+            });
     }
 }
 

@@ -60,6 +60,24 @@ router.post('/movie-clip', function(req, res, next) {
     });
 });
 
+router.post('/update-movie-json', function(req, res, next) {
+    var movieClips = req.body.movieClips;
+    var jsonFile = 'server/assets/json/templater.json';
+
+    //append clips to json file on server
+    var obj = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
+
+    movieClips.forEach(function(clip) {
+        obj.push(clip);
+    });
+
+    console.log(obj);
+
+    fs.writeFileSync(jsonFile, JSON.stringify(obj));
+
+    res.send();
+});
+
 router.post('/render-movie', function(req, res, next) {
    //stitch together movie by folder ID, put result in download folder, delete all temp files
 });
