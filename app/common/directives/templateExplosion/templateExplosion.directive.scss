@@ -1,22 +1,56 @@
 @import "../../style/variables";
 
-.logo-bottom-bg {
-  right: 50px;
-  position: absolute;
-  bottom: 35px;
-  box-sizing: content-box;
+//.logo-bottom-bg {
+//  right: 50px;
+//  position: absolute;
+//  bottom: 35px;
+//  box-sizing: content-box;
+//}
+//
+//
+//.header {
+//  color: $white;
+//  margin: 0 auto;
+//  text-align: left;
+//  font-size: 65px;
+//  font-weight: 700;
+//  line-height: 84px;
+//  text-transform: uppercase;
+//  display: inline-block;
+//  padding: 70px 80px 20px 80px;
+//  white-space: pre-wrap;
+//}
+
+.r1-wrap {
+  width: 720px;
+  margin: 0 auto;
 }
 
+.r1-header, .r1-text {
+  display: block;
+  text-align: center;
+}
 
-.header {
-  color: $white;
-  margin: 0 auto;
-  text-align: left;
-  font-size: 65px;
-  font-weight: 700;
-  line-height: 84px;
+.r1-line {
+  background-color: $r1-accent-color;
+  height: 15px;
+}
+
+.r1-header {
+  background-color: rgba($r1-main-color, 0.8);
+  font-family: "Calibre-Black", sans-serif;
+  font-style: normal;
   text-transform: uppercase;
-  display: inline-block;
-  padding: 70px 80px 20px 80px;
-  white-space: pre-wrap;
+  color: $white;
+  font-size: 60px;
+  padding: 20px 26px 0px 26px;
+}
+
+.r1-text {
+  font-family: "Calibre-Semibold", sans-serif;
+  background-color: $r1-light-color;
+  font-size: 44px;
+  line-height: 38px;
+  color: $r1-main-color;
+  padding: 20px 26px 10px 26px;
 }

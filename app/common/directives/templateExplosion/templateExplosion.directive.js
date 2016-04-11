@@ -26,6 +26,7 @@ export const templateExplosionDirective = function() {
         controllerAs: 'vm',
         bindToController: {
             quote: '=',
+            headline: '=',
             isReady: '=',
             image: '=',
             templateClass: '=',
