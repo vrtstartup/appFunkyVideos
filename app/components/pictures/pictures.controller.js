@@ -15,7 +15,7 @@ export default class PicturesController {
             url: '/api/convertimage',
             data: {file: file}
         }).then((resp) => {
-            this.grayscale = 'http://localhost:3000/'+ resp.data.url;
+            this.grayscale = resp.data.url;
             console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data.url);
         }, function (resp) {
             console.log('Error status: ' + resp.status);
