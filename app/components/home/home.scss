@@ -28,6 +28,14 @@
   color: #fff;
 }
 
+.md-button.learnings {
+  background-color: $vrt-learnings;
+}
+
+.md-button.md-raised.learnings:hover {
+  background-color: lighten($vrt-learnings, 15%);
+}
+
 md-grid-list {
   md-grid-tile {
     transition: transform 250ms 200ms;
@@ -94,6 +102,14 @@ md-grid-list {
 
     .grid-tile-overlay {
       background-color: rgba(lighten($vrt-guide, 15%), 0.9);
+    }
+  }
+
+  md-grid-tile.learnings {
+    background-color: $vrt-learnings;
+
+    .grid-tile-overlay {
+      background-color: rgba(lighten($vrt-learnings, 15%), 0.9);
     }
   }
 

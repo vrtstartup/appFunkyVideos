@@ -1,0 +1,69 @@
+<md-dialog aria-label="VRT Movie Tool (a.k.a. The Stitcher)">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>VRT Movie Tool (a.k.a. The Stitcher)</h2>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content style="max-width:800px;max-height:810px; ">
+            <md-tabs md-border-bottom md-selected="vm.tabIndex">
+                <md-tab label="E-mail" ng-hide="vm.emailValid" ng-disabled="'true'">
+                    <md-content class="md-padding">
+                        <p>Geef een e-mail adres in om te beginnen. Het eindresultaat wordt naar dit e-mail adres verzonden.</p>
+
+                        <md-input-container class="">
+                            <label>E-mail adres</label>
+                            <input ng-model="vm.movie.email" type="email" required />
+                        </md-input-container>
+
+                        <div layout="row">
+                            <span flex></span>
+                            <md-button class="md-raised" aria-label="Bevestig e-mail adres" ng-click="vm.initMovie()" ng-disabled="!vm.movie.email">
+                                Volgende
+                            </md-button>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Upload" ng-disabled="'true'">
+                    <md-content class="md-padding">
+                        <p>Upload een film fragment (.mp4) om verder te gaan.</p>
+                        <div class="upload-form" ng-hide="vm.currentClip.uploaded">
+                            <input id="clipFile" ng-model="vm.currentClip.video" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />
+                            <md-button class="md-raised" ng-click="vm.selectFile()">upload clip</md-button>
+                            <div  ng-if="vm.progressPercentage > 0">
+                                <p>Bezig met uploaden: {{vm.progressPercentage}} % compleet.</p>
+                                <md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Layout" ng-disabled="'true'">
+                    <md-content class="md-padding">
+                        <p>Kies een layout voor de tekst die over het filmfragment komt.</p>
+                        <md-input-container>
+                            <md-select ng-model="templatePath">
+                                <md-option ng-repeat="type in vm.movieTypes" value="{{type}}">
+                                    {{type.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-button class="md-raised" aria-label="Bevestig layout" ng-click="vm.startEditing()">
+                            Bevestig
+                        </md-button>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <!--<md-dialog-actions layout="row">-->
+            <!--<span flex></span>-->
+            <!--<md-button ng-click="answer('not useful')" >-->
+                <!--Not Useful-->
+            <!--</md-button>-->
+            <!--<md-button ng-click="answer('useful')" style="margin-right:20px;" >-->
+                <!--Useful-->
+            <!--</md-button>-->
+        <!--</md-dialog-actions>-->
+    </form>
+</md-dialog>

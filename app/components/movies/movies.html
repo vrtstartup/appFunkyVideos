@@ -1,28 +1,28 @@
 <div>
-    <div flex class="email-form" ng-hide="vm.emailValid">
-        <p>Geef een e-mail adres in om te beginnen. Het eindresultaat wordt naar dit e-mail adres verzonden.</p>
+    <!--<div flex class="email-form" ng-hide="vm.emailValid">-->
+        <!--<p>Geef een e-mail adres in om te beginnen. Het eindresultaat wordt naar dit e-mail adres verzonden.</p>-->
 
-        <md-input-container class="email-input">
-            <label>E-mail adres</label>
-            <input ng-model="vm.movie.email" type="email" required />
-        </md-input-container>
+        <!--<md-input-container class="email-input">-->
+            <!--<label>E-mail adres</label>-->
+            <!--<input ng-model="vm.movie.email" type="email" required />-->
+        <!--</md-input-container>-->
 
-        <md-button class="md-raised" aria-label="Bevestig e-mail adres" ng-click="vm.initMovie()" ng-disabled="!vm.movie.email">
-            Bevestig
-        </md-button>
-    </div>
+        <!--<md-button class="md-raised" aria-label="Bevestig e-mail adres" ng-click="vm.initMovie()" ng-disabled="!vm.movie.email">-->
+            <!--Bevestig-->
+        <!--</md-button>-->
+    <!--</div>-->
 
-    <div layout="row" layout-wrap ng-if="vm.emailValid">
+    <div layout="row" layout-wrap>
         <section flex="70">
             <h2>Clips</h2>
 
-            <p>Upload een filmpje (.mp4) om verder te gaan.</p>
-            <div class="upload-form" ng-hide="vm.currentClip.uploaded">
-                <input id="clipFile" ng-model="vm.currentClip.video" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />
-                <md-button class="md-raised" ng-click="vm.selectFile()">upload clip</md-button>
-                {{vm.progressPercentage}} %
-                <md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>
-            </div>
+            <!--<p>Upload een filmpje (.mp4) om verder te gaan.</p>-->
+            <!--<div class="upload-form" ng-hide="vm.currentClip.uploaded">-->
+                <!--<input id="clipFile" ng-model="vm.currentClip.video" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />-->
+                <!--<md-button class="md-raised" ng-click="vm.selectFile()">upload clip</md-button>-->
+                <!--{{vm.progressPercentage}} %-->
+                <!--<md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>-->
+            <!--</div>-->
 
             <div class="clip-preview-container" ng-show="vm.currentClip.uploaded">
                 <pre>{{vm.currentClip | json}}</pre>

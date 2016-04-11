@@ -1,8 +1,10 @@
 //TODO: refactor show functions
 export default class MoviesController {
-    constructor($rootScope, $http, $document, Upload, $firebaseArray, $firebaseObject) {
+    constructor($scope, $rootScope, $http, $document, Upload, $firebaseArray, $firebaseObject, $mdDialog) {
+        this.$scope = $scope;
         this.$document = $document;
         this.Upload = Upload;
+        this.$mdDialog = $mdDialog;
         this.$firebaseArray = $firebaseArray;
         this.$firebaseObject = $firebaseObject;
         this.firebaseMovies = this.$firebaseArray(new Firebase('vrtnieuwshub.firebaseio.com/apps/movies/movies'));
@@ -13,6 +15,7 @@ export default class MoviesController {
         this.currentClip = {};
         this.emailValid = false;
         this.progressPercentage = 0;
+        this.tabIndex = 0;
 
         this.movieTypes = [
             {
@@ -44,8 +47,26 @@ export default class MoviesController {
                 'name': 'bullet-list',
                 'templateName': 'template_02_bullet_list',
                 'templateLocalPath': '/components/movies/movie.bulletlist.html'
-            },
+            }
         ];
+
+        this.showDialog();
+    }
+
+    showDialog() {
+        this.$mdDialog.show({
+            templateUrl: '/components/movies/movie.tabs.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: false,
+            escapeToClose: false,
+            scope: this.$scope,
+            preserveScope: true
+        })
+        .then(function(answer) {
+            $scope.status = 'You said the information was "' + answer + '".';
+        }, function() {
+            $scope.status = 'You cancelled the dialog.';
+        });
     }
 
     initMovie() {
@@ -57,6 +78,8 @@ export default class MoviesController {
                 this.movie = this.$firebaseObject(ref);
                 this.initNewClip(ref.key());
             });
+
+        this.tabIndex++;
     }
 
     initNewClip(movieId) {
@@ -70,7 +93,7 @@ export default class MoviesController {
             'aep': 'filepath',
             'last': '',
             'uploaded': false
-        }
+        };
     }
 
     selectFile() {
@@ -90,9 +113,9 @@ export default class MoviesController {
             method: 'POST'
         })
         .then((resp) => {
-            console.log(resp);
             this.currentClip.path = resp.data.filePath;
             this.currentClip.uploaded = true;
+            this.tabIndex++;
         }, (resp) => {
             console.log('Error: ' + resp.error);
             console.log('Error status: ' + resp.status);
@@ -134,4 +157,4 @@ export default class MoviesController {
     }
 }
 
-MoviesController.$inject = ['$rootScope', '$http', '$document', 'Upload', '$firebaseArray', '$firebaseObject'];
+MoviesController.$inject = ['$scope', '$rootScope', '$http', '$document', 'Upload', '$firebaseArray', '$firebaseObject', '$mdDialog'];
