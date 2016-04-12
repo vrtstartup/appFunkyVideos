@@ -20,12 +20,14 @@ import track from './track';
 import maxlines from './maxlines';
 import gridBar from './gridBar';
 import mapsSimple from './mapsSimple';
+import userLogin from './userLogin';
 
 
 const module = angular.module('app.common.directives', [
     pieChart, text, screenshot, templateDethklok, templateBob, templateTina,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
-    imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple
+    imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
+    userLogin
 ]);
 
 export default module.name;

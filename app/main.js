@@ -48,25 +48,29 @@ export default angular
 
 //default route
 routing.$inject = ['$urlRouterProvider'];
-function routing( $urlRouterProvider) {
+
+function routing($urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 }
 
 //interceptors
 interceptors.$inject = ['$httpProvider'];
+
 function interceptors($httpProvider) {
     $httpProvider.interceptors.push('httpErrorInterceptor');
 }
 
 //set page title
-registerStateEvents.$inject = ['$rootScope'];
-function registerStateEvents($rootScope) {
+registerStateEvents.$inject = ['$rootScope', '$state'];
+
+function registerStateEvents($rootScope, $state) {
     $rootScope.$on('$stateChangeSuccess', (event, toState) => {
         $rootScope.pageTitle = `${toState.title} : Beta`;
     });
 }
 
-httpErrorListener.$inject = ['$rootScope','toast'];
+httpErrorListener.$inject = ['$rootScope', 'toast'];
+
 function httpErrorListener($rootScope, toast) {
     $rootScope.$on('httpError', function(event, data) {
         toast.showToast('error', data.status + ': ' + data.message);

@@ -1,0 +1,38 @@
+<md-dialog aria-label="Login">
+    <form>
+        <md-toolbar class="vrt-toolbar">
+            <div class="md-toolbar-tools">
+                <h2>Account</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.closePopup()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width:800px;max-height:810px; ">
+            <md-content class="md-padding" ng-if="vm.userId == ''">
+                <md-input-container class="full-length">
+                    <label for="email">Email adres</label>
+                    <input type="text" id="email" ng-model="vm.userForm.email" md-autofocus>
+                </md-input-container>
+                <md-input-container class="full-length">
+                    <label for="password">Paswoord</label>
+                    <input id="password" ng-model="vm.userForm.password"></input>
+                </md-input-container>
+                {{vm.error}}
+            </md-content>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.logInOrRegister(vm.userForm)" class="vrt-button" ng-if="vm.userId == ''">
+                Log in
+            </md-button>
+            <md-button ng-click="vm.logOut()" class="vrt-button" ng-if="vm.userId != ''">
+                Log Out
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="vm.closePopup()">
+                Sluit
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
