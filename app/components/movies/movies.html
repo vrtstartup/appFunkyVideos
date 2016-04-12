@@ -1,26 +1,40 @@
 <div layout="row" layout-wrap>
     <section flex="70">
-        <h2>Clips</h2>
+            <div class="clip-preview-container" ng-show="vm.currentClip.uploaded">
+                <h2>Clips</h2>
 
-        <div class="clip-preview-container" ng-show="vm.currentClip.uploaded">
-            <md-input-container>
-                <md-select ng-model="vm.templatePath">
-                    <md-option ng-repeat="type in vm.movieTypes" ng-value="type">
-                        {{type.name}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
+                <md-input-container>
+                    <label>Layout:</label>
+                    <md-select ng-model="vm.templatePath">
+                        <md-option ng-repeat="type in vm.movieTypes" ng-value="type">
+                            {{type.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
 
-            <ng-include src="vm.templatePath.templateLocalPath"></ng-include>
-            <hr />
-            <span flex></span>
-            <md-button class="md-raised" aria-label="Clip opslaan" ng-disabled="vm.currentClip.saved" ng-click="vm.saveClip()">
-                Opslaan
-            </md-button>
-            <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
-                Nieuw fragment toevoegen
-            </md-button>
-        </div>
+                <ul layout="row" layout-align="space-between center" class="layout-thumbs">
+                    <li ng-repeat="type in vm.movieTypes" ng-click="vm.changeLayout(type)" ng-class="{'selected' : vm.templatePath.name === type.name}">
+                        <p>{{type.name}}:</p>
+                        <img src="{{type.thumb}}" />
+                    </li>
+                </ul>
+
+                <hr />
+
+                <ng-include src="vm.templatePath.templateLocalPath"></ng-include>
+
+                <hr />
+
+                <div>
+                    <span flex></span>
+                    <md-button class="md-raised" aria-label="Clip opslaan" ng-disabled="vm.currentClip.saved" ng-click="vm.saveClip()">
+                        Opslaan
+                    </md-button>
+                    <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
+                        Nieuw fragment toevoegen
+                    </md-button>
+                </div>
+            </div>
     </section>
 
     <section flex="30">
