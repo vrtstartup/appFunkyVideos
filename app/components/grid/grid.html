@@ -16,17 +16,17 @@
                 <div class="grid-form" layout-padding layout-gt-xs="row" layout="column">
                     <md-input-container flex="40">
                         <label>Onderwerp</label>
-                        <input ng-model="vm.post.url" type="text">
+                        <input ng-model="vm.post.url" type="text" aria-label="subject">
                     </md-input-container>
                     <md-input-container class="md-block" flex="30">
                         <label>Inhoud</label>
-                        <md-select ng-model="vm.post.category">
+                        <md-select ng-model="vm.post.category"  aria-label="category option">
                             <md-option ng-repeat="c in vm.categories" value="{{c.name}}">{{c.descr}}</md-option>
                         </md-select>
                     </md-input-container>
                     <md-input-container flex="30">
                         <label>Vorm</label>
-                        <md-select ng-model="vm.post.type">
+                        <md-select ng-model="vm.post.type" aria-label="type option">
                             <md-option ng-repeat="t in vm.types" value="{{t.name}}">{{t.descr}}</md-option>
                         </md-select>
                     </md-input-container>
@@ -38,15 +38,15 @@
             <div class="grid-list">
                 <div ng-repeat="p in vm.posts | orderBy:'dateAdded':true" class="grid-item" layout-padding layout="row">
                     <md-input-container flex="40">
-                        <input ng-model="p.url" type="text" ng-change="vm.posts.$save(p)">
+                        <input ng-model="p.url" type="text" ng-change="vm.posts.$save(p)" aria-label="subject">
                     </md-input-container>
                     <md-input-container class="md-block" flex="30">
-                        <md-select ng-model="p.category" class="md-block" ng-change="vm.posts.$save(p)">
+                        <md-select ng-model="p.category" class="md-block" ng-change="vm.posts.$save(p)" aria-label="category option">
                             <md-option ng-repeat="c in vm.categories" value="{{c.name}}">{{c.descr}}</md-option>
                         </md-select>
                     </md-input-container>
                     <md-input-container class="md-block" flex="30">
-                        <md-select ng-model="p.type" ng-change="vm.posts.$save(p)">
+                        <md-select ng-model="p.type" ng-change="vm.posts.$save(p)" aria-label="type option">
                             <md-option ng-repeat="t in vm.types" value="{{t.name}}">{{t.descr}}</md-option>
                         </md-select>
                     </md-input-container>

@@ -99,7 +99,6 @@ export default class GridController {
         if (range) {
             query = this.postsRef.orderByChild('addedDate').startAt(minDate).endAt(maxDate);
         } else {
-            console.log(minDate, maxDate);
             query = this.postsRef.orderByChild('addedDate').equalTo(minDate);
         }
         this.posts = this.$firebaseArray(query);
