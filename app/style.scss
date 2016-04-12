@@ -11,9 +11,6 @@ md-toolbar.vrt-toolbar {
     }
 }
 
-
-
-
 // color tweaks to theme (mostly input) by Maarten
 .md-button.vrt-button {
     background-color: $vrt-guide;
@@ -22,7 +19,6 @@ md-toolbar.vrt-toolbar {
         background-color: $vrt-tool;
     }
 }
-
 
 .md-button.vrt-button--dark {
     background-color: $vrt-tool;
@@ -40,11 +36,9 @@ md-input-container:not(.md-input-invalid).md-input-focused label {
     color: $vrt-supl;
 }
 
-
 md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not([disabled]):focus .md-select-value {
  border-bottom-color: $vrt-supl;
 }
-
 
 // position of label doesn't line up with rest, so tried to fix it here (Maarten)
 md-input-container label:not(.md-container-ignore) {
