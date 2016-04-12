@@ -1,7 +1,7 @@
 import { keys, extend, find, reject } from 'lodash';
 
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys, toast) {
+    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys, toast, firebaseAuth) {
         this.$log = $log;
         this.$sce = $sce;
         this.srt = srt;
@@ -25,6 +25,12 @@ export default class SubtitlesController {
         this.currentTime = '';
         this.currentSubtitlePreview = '';
 
+        this.firebaseAuth = firebaseAuth;
+        this.firebaseAuth.$onAuth((authData) => {
+            if (authData) {
+                this.emailRecipient = authData.password.email;
+            }
+        });
 
 
         this.$scope.$watchCollection('vm.form', (newValues, oldValues) => {
@@ -82,7 +88,7 @@ export default class SubtitlesController {
     }
 
     updateSubtitles(newValues) {
-        if(!newValues.text) {
+        if (!newValues.text) {
             this.deleteSubtitle(this.form);
             return;
         }
@@ -119,11 +125,11 @@ export default class SubtitlesController {
         let nextTitleStart = this.form.end + 0.1;
         let nextTitleEnd = nextTitleStart + 2;
 
-        if(nextTitleEnd > this.movieDuration) {
+        if (nextTitleEnd > this.movieDuration) {
             nextTitleEnd = this.movieDuration;
         }
 
-        if(nextTitleStart > this.movieDuration) {
+        if (nextTitleStart > this.movieDuration) {
             this.toast.showToast('warn', 'End of video reached. Can\'t add another subtitle here.');
             return;
         }
@@ -219,7 +225,7 @@ export default class SubtitlesController {
                 method: 'POST',
             })
             .then((resp) => {
-                if(resp.data.processing) {
+                if (resp.data.processing) {
                     this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
                         'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
                     return;
@@ -237,4 +243,4 @@ export default class SubtitlesController {
     }
 }
 
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast'];
+SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast', 'firebaseAuth'];

@@ -1,10 +1,11 @@
 //TODO: refactor show functions
 export default class MoviesController {
-    constructor($scope, $rootScope, $http, $document, Upload, $firebaseArray, $firebaseObject, $mdDialog, toastService) {
+    constructor($scope, $rootScope, $http, $document, Upload, $firebaseArray, $firebaseObject, $mdDialog, toast, firebaseAuth) {
         this.$scope = $scope;
         this.$http = $http;
         this.$document = $document;
         this.Upload = Upload;
+        this.toast = toast;
         this.$mdDialog = $mdDialog;
         this.$firebaseArray = $firebaseArray;
         this.$firebaseObject = $firebaseObject;
@@ -19,50 +20,51 @@ export default class MoviesController {
         this.tabIndex = 0;
         this.templatePath = '';
 
-        this.movieTypes = [
-            {
-                'name': 'title',
-                'templateName': 'template_02_title',
-                'templateLocalPath': '/components/movies/movie.title.html',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_title.aep',
-                'thumb': '/assets/movies-title.png'
-            },
-            {
-                'name': 'text-left',
-                'templateName': 'template_02_text_left',
-                'templateLocalPath': '/components/movies/movie.textleft.html',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_left.aep',
-                'thumb': '/assets/movies-title.png'
-            },
-            {
-                'name': 'text-right',
-                'templateName': 'template_02_text_right',
-                'templateLocalPath': '/components/movies/movie.textright.html',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_right.aep',
-                'thumb': '/assets/movies-title.png'
-            },
-            {
-                'name': 'quote',
-                'templateName': 'template_02_quote',
-                'templateLocalPath': '/components/movies/movie.quote.html',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_quote.aep',
-                'thumb': '/assets/movies-title.png'
-            },
-            {
-                'name': 'number',
-                'templateName': 'template_02_number',
-                'templateLocalPath': '/components/movies/movie.number.html',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_number.aep',
-                'thumb': '/assets/movies-title.png'
-            },
-            {
-                'name': 'bullet-list',
-                'templateName': 'template_02_bullet_list',
-                'templateLocalPath': '/components/movies/movie.bulletlist.html',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_bullet_list.aep',
-                'thumb': '/assets/movies-title.png'
+        this.firebaseAuth = firebaseAuth;
+        this.firebaseAuth.$onAuth((authData) => {
+            if (authData) {
+                this.movie.email = authData.password.email;
             }
-        ];
+        });
+
+
+        this.movieTypes = [{
+            'name': 'title',
+            'templateName': 'template_02_title',
+            'templateLocalPath': '/components/movies/movie.title.html',
+            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_title.aep',
+            'thumb': '/assets/movies-title.png'
+        }, {
+            'name': 'text-left',
+            'templateName': 'template_02_text_left',
+            'templateLocalPath': '/components/movies/movie.textleft.html',
+            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_left.aep',
+            'thumb': '/assets/movies-title.png'
+        }, {
+            'name': 'text-right',
+            'templateName': 'template_02_text_right',
+            'templateLocalPath': '/components/movies/movie.textright.html',
+            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_right.aep',
+            'thumb': '/assets/movies-title.png'
+        }, {
+            'name': 'quote',
+            'templateName': 'template_02_quote',
+            'templateLocalPath': '/components/movies/movie.quote.html',
+            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_quote.aep',
+            'thumb': '/assets/movies-title.png'
+        }, {
+            'name': 'number',
+            'templateName': 'template_02_number',
+            'templateLocalPath': '/components/movies/movie.number.html',
+            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_number.aep',
+            'thumb': '/assets/movies-title.png'
+        }, {
+            'name': 'bullet-list',
+            'templateName': 'template_02_bullet_list',
+            'templateLocalPath': '/components/movies/movie.bulletlist.html',
+            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_bullet_list.aep',
+            'thumb': '/assets/movies-title.png'
+        }];
 
         this.showDialog();
 
@@ -113,7 +115,7 @@ export default class MoviesController {
         this.emailValid = true;
 
         //#todo save email adres to firebase, use movieID returned by firebase to identify movie
-        this.firebaseMovies.$add({'email': this.movie.email})
+        this.firebaseMovies.$add({ 'email': this.movie.email })
             .then((ref) => {
                 this.movie = this.$firebaseObject(ref);
                 this.initNewClip(ref.key());
@@ -144,29 +146,29 @@ export default class MoviesController {
     uploadFile(file) {
         this.Upload.mediaDuration(file)
             .then((durationInSeconds) => {
-                this.currentClip.start = this.movieClips[this.movieClips.length-1] ? this.movieClips[this.movieClips.length -1].end || 0 : 0;
+                this.currentClip.start = this.movieClips[this.movieClips.length - 1] ? this.movieClips[this.movieClips.length - 1].end || 0 : 0;
                 this.currentClip.end = this.currentClip.start + durationInSeconds;
             });
 
         this.Upload.upload({
-            url: 'api/movie/movie-clip',
-            data: {'movieId': this.movie.$id, 'clipId': this.currentClip.id, file: file},
-            method: 'POST'
-        })
-        .then((resp) => {
-            this.currentClip.path = resp.data.filePath;
-            this.currentClip.uploaded = true;
-            this.tabIndex++;
-        }, (resp) => {
-            console.log('Error: ' + resp.error);
-            console.log('Error status: ' + resp.status);
-        }, (evt) => {
-            this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-        });
+                url: 'api/movie/movie-clip',
+                data: { 'movieId': this.movie.$id, 'clipId': this.currentClip.id, file: file },
+                method: 'POST'
+            })
+            .then((resp) => {
+                this.currentClip.path = resp.data.filePath;
+                this.currentClip.uploaded = true;
+                this.tabIndex++;
+            }, (resp) => {
+                console.log('Error: ' + resp.error);
+                console.log('Error status: ' + resp.status);
+            }, (evt) => {
+                this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            });
     }
 
     addClip() {
-        if(!this.currentClip.saved) {
+        if (!this.currentClip.saved) {
             this.saveClip();
         }
 
@@ -175,7 +177,7 @@ export default class MoviesController {
     }
 
     saveClip() {
-        if(this.currentClip.saved) {
+        if (this.currentClip.saved) {
             return;
         }
 
@@ -223,4 +225,4 @@ export default class MoviesController {
     }
 }
 
-MoviesController.$inject = ['$scope', '$rootScope', '$http', '$document', 'Upload', '$firebaseArray', '$firebaseObject', '$mdDialog'];
+MoviesController.$inject = ['$scope', '$rootScope', '$http', '$document', 'Upload', '$firebaseArray', '$firebaseObject', '$mdDialog', 'toast', 'firebaseAuth'];
