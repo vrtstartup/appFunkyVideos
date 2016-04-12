@@ -17,7 +17,7 @@ router.post('/convertimage', multipartyMiddleware, function(req, res, next) {
             console.log('ERROR', err);
             throw err;
         }
-        lenna.greyscale()                 // set greyscale
+        lenna.gaussian(2)                 // set greyscale
             .write(file.path, () => {
                 var path = 'http://'+req.headers.host+'/'+file.path;
                 console.log('DONE',  path);

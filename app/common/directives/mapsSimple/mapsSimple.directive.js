@@ -18,34 +18,42 @@ class mapsSimpleDirectiveController {
         this.$http = $http;
         this.$document = $document;
         this.geocoder = new mapboxgl.Geocoder();
-
+        this.blob = '';
 
 
         this.$http.get('../../../assets/countries.geojson').success((data) => {
-            console.log('Great success!', data);
             this.data  = data.features;
         });
 
         // Make an image out of it
         $scope.$watch('vm.isReady', (value) => {
             if (!value) return;
-            //if (this.isReady) {
-            //
-            //    let data = this.map.getCanvas().toDataURL('image/png', 1.0);
-            //    let blob = this.videoGeneration._dataURItoBlob(data);
-            //
-            //    FileSaver.saveAs(blob, 'template.png');
-            //    this.isReady = !this.isReady;
-            //}
             if (this.isReady) {
-                let target = angular.element(this.$document[0].querySelector('#map'));
-                console.log('Element', target);
 
+                let data = this.map.getCanvas().toDataURL('image/png', 1.0);
+                let blob = this.videoGeneration._dataURItoBlob(data);
+
+                this.blob = data;
+
+                //FileSaver.saveAs(blob, 'template.png');
+
+                let target = angular.element(this.$document[0].querySelector('#map-img'));
+
+                console.log('Target', target);
                 this.videoGeneration.takeScreenshot(target, true);
 
                 this.isReady = !this.isReady;
             }
+            //if (this.isReady) {
+            //    let target = angular.element(this.$document[0].querySelector('#map'));
+            //    console.log('Element', target);
+            //
+            //    this.videoGeneration.takeScreenshot(target, true);
+            //
+            //    this.isReady = !this.isReady;
+            //}
         });
+
 
         $scope.$watch('vm.place', (value) => {
             if(!value) return;
@@ -73,26 +81,19 @@ class mapsSimpleDirectiveController {
             this.MarkerLat = JSON.stringify(e.lngLat.lat);
             this.MarkerLng =  JSON.stringify(e.lngLat.lng);
 
-            //var features = this.map.queryRenderedFeatures(e.point, { layers: ['markers1'] });
-            //this.map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-
             // get data of the country
             this.features = this.map.queryRenderedFeatures(e.point);
-            //console.log('Features', this.features[0].properties.name_en);
         });
     }
 
     getMatches(searchText) {
-        //console.log('getMatches(searchText)', searchText);
         this.filteredResult = filter(this.data, (o) => {
             return startsWith(o.properties.ADMIN, searchText);;
         });
-        //console.log('I find this:', this.filteredResult);
         return this.filteredResult;
     }
 
     colourCountry(selected) {
-        console.log('Selected country', selected);
         let newObj = {
             'type': 'geojson',
             'data': selected
@@ -104,8 +105,6 @@ class mapsSimpleDirectiveController {
 
         this.map.addSource(id, newObj);
 
-        //console.log('Great success!', this.result);
-
         this.map.addLayer({
             "id": id,
             "type": "line",
@@ -116,37 +115,20 @@ class mapsSimpleDirectiveController {
                 "line-cap": "round"
             },
             "paint": {
-                "line-color": "#ff69b4",
+                "line-color": "#FFE83E",
                 "line-width": 1
             }
 
         });
     }
 
-    loadMap() {
 
-        this.map.setView([this.lat, this.lng], 13);
+    addLabel(title) {
+        console.log('AddLabel', title);
+        let el = angular.element('<div class="map-label">'+title+'</div>');
+        let target = angular.element(this.$document[0].querySelector('#map-img'));
 
-        console.log('MARKERS are here: ', this.map._layers);
-
-    }
-
-    showMap(err, data) {
-        if (err) {
-            console.log('Error is occured:', err);
-            return;
-        }
-        // The geocoder can return an area, like a city, or a
-        // point, like an address. Here we handle both cases,
-        // by fitting the map bounds to an area or zooming to a point.
-
-        console.log('Geocoder data', data);
-
-        //if (data.lbounds) {
-        //    this.map.fitBounds(data.lbounds);
-        //} else if (data.latlng) {
-        //    this.loadMap(data.latlng[0], data.latlng[1]);
-        //}
+        target.append(el);
     }
 
     setMarker(lat, lng) {
@@ -200,19 +182,6 @@ class mapsSimpleDirectiveController {
 
     }
 
-    //removeMarker(mrkr) {
-    //
-    //    this.map.removeLayer(mrkr);
-    //
-    //    this.markers = reject(this.markers, (marker) => {
-    //        return marker._leaflet_id === mrkr._leaflet_id;
-    //    });
-    //}
-    //
-    //updateIcon(options, icontoupdate){
-    //    console.log('Options', options);
-    //    icontoupdate.options.icon.options.iconUrl = options;
-    //}
 }
 
 export const mapsSimpleDirective = function() {
