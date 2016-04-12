@@ -167,8 +167,28 @@
 }
 
 .canvas {
+
+  .logo-drd, .logo-r1, .logo-ak {
+    display: none;
+  }
+
+  .logo-afspr, .logo-canvas {
+    display: block;
+    height: 44px;
+  }
+
   .wrap {
     background-color: rebeccapurple;
   }
 
+  .quote {
+    font-family: 'textanarrow-heavy', sans-serif;
+    font-size: 77px;
+    line-height: 1em;
+    font-style: normal;
+  }
+
+  .overlay {
+    background: rgba($afspr-dark, 0.5);
+  }
 }

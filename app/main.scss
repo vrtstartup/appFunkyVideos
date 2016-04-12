@@ -51,6 +51,18 @@
 }
 
 @font-face {
+  font-family: 'textanarrow-book';
+  src:    url('./fonts/textanarrow-book.ttf') format('ttf'),
+          url('./fonts/textanarrow-book.woff') format('woff'); /* Pretty Modern Browsers */
+}
+@font-face {
+  font-family: 'textanarrow-heavy';
+  src:    url('./fonts/textanarrow-heavy.ttf') format('ttf'),
+  url('./fonts/textanarrow-heavy.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+
+@font-face {
   font-family: 'icomoon';
   src:    url('./fonts/icomoon.eot');
   src:    url('./fonts/icomoon.eot#iefix') format('embedded-opentype'),

@@ -61,4 +61,40 @@
   color: $white;
   background-color: $afspr-footer;
   width: 100%;
+  height: 94px;
+  position: relative;
+}
+
+.cnvs-line {
+  height: 2px;
+  width: 200px;
+  background-color: $white;
+}
+
+.cnvs-auth-wrap {
+  margin: 0 auto;
+}
+
+.cnvs-auth {
+  font-size: 28px;
+  font-family: 'textanarrow-heavy', sans-serif;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.cnvs-title {
+  font-size: 24px;
+  font-family: 'textanarrow-book', sans-serif;
+  margin: 0;
+}
+
+.logo-afspr {
+    left: 25px;
+    top: 25px;
+}
+
+.logo-canvas {
+  right: 25px;
+  top: 25px;
+  left: unset;
 }
