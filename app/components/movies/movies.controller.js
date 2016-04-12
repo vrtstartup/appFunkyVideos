@@ -1,7 +1,8 @@
 //TODO: refactor show functions
 export default class MoviesController {
-    constructor($scope, $rootScope, $http, $document, Upload, $firebaseArray, $firebaseObject, $mdDialog) {
+    constructor($scope, $rootScope, $http, $document, Upload, $firebaseArray, $firebaseObject, $mdDialog, toastService) {
         this.$scope = $scope;
+        this.$http = $http;
         this.$document = $document;
         this.Upload = Upload;
         this.$mdDialog = $mdDialog;
@@ -16,41 +17,79 @@ export default class MoviesController {
         this.emailValid = false;
         this.progressPercentage = 0;
         this.tabIndex = 0;
+        this.templatePath = '';
 
         this.movieTypes = [
             {
                 'name': 'title',
                 'templateName': 'template_02_title',
-                'templateLocalPath': '/components/movies/movie.title.html'
+                'templateLocalPath': '/components/movies/movie.title.html',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_title.aep',
+                'thumb': '/assets/movies-title.png'
             },
             {
                 'name': 'text-left',
                 'templateName': 'template_02_text_left',
-                'templateLocalPath': '/components/movies/movie.textleft.html'
+                'templateLocalPath': '/components/movies/movie.textleft.html',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_left.aep',
+                'thumb': '/assets/movies-title.png'
             },
             {
                 'name': 'text-right',
                 'templateName': 'template_02_text_right',
-                'templateLocalPath': '/components/movies/movie.textright.html'
+                'templateLocalPath': '/components/movies/movie.textright.html',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_right.aep',
+                'thumb': '/assets/movies-title.png'
             },
             {
                 'name': 'quote',
                 'templateName': 'template_02_quote',
-                'templateLocalPath': '/components/movies/movie.quote.html'
+                'templateLocalPath': '/components/movies/movie.quote.html',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_quote.aep',
+                'thumb': '/assets/movies-title.png'
             },
             {
                 'name': 'number',
                 'templateName': 'template_02_number',
-                'templateLocalPath': '/components/movies/movie.number.html'
+                'templateLocalPath': '/components/movies/movie.number.html',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_number.aep',
+                'thumb': '/assets/movies-title.png'
             },
             {
                 'name': 'bullet-list',
                 'templateName': 'template_02_bullet_list',
-                'templateLocalPath': '/components/movies/movie.bulletlist.html'
+                'templateLocalPath': '/components/movies/movie.bulletlist.html',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_bullet_list.aep',
+                'thumb': '/assets/movies-title.png'
             }
         ];
 
         this.showDialog();
+
+        //watch layout type, delete old property if type changes in edit mode
+        this.$scope.$watch('vm.templatePath', (newVal, oldVal) => {
+            if (newVal === oldVal) {
+                return;
+            }
+
+            if (oldVal.name) {
+                var property = oldVal.name.replace('-', '');
+            }
+
+            if (this.currentClip[property]) {
+                delete this.currentClip[property];
+            }
+        });
+    }
+
+    changeLayout(type) {
+        var property = type.name.replace('-', '');
+
+        if (this.currentClip[property]) {
+            delete this.currentClip[property];
+        }
+
+        this.templatePath = type;
     }
 
     showDialog() {
@@ -61,12 +100,13 @@ export default class MoviesController {
             escapeToClose: false,
             scope: this.$scope,
             preserveScope: true
-        })
-        .then(function(answer) {
-            $scope.status = 'You said the information was "' + answer + '".';
-        }, function() {
-            $scope.status = 'You cancelled the dialog.';
         });
+    }
+
+    resetDialog() {
+        this.$mdDialog.hide();
+        //reset tabindex to upload form, if reset is called we assume e-mail is valid so skip index 0.
+        this.tabIndex = 1;
     }
 
     initMovie() {
@@ -92,7 +132,8 @@ export default class MoviesController {
             'render-status': 'ready',
             'aep': 'filepath',
             'last': '',
-            'uploaded': false
+            'uploaded': false,
+            'saved': false
         };
     }
 
@@ -109,7 +150,7 @@ export default class MoviesController {
 
         this.Upload.upload({
             url: 'api/movie/movie-clip',
-            data: {'movieId': this.movie.id, 'clipId': this.currentClip.id, file: file},
+            data: {'movieId': this.movie.$id, 'clipId': this.currentClip.id, file: file},
             method: 'POST'
         })
         .then((resp) => {
@@ -125,8 +166,24 @@ export default class MoviesController {
     }
 
     addClip() {
+        if(!this.currentClip.saved) {
+            this.saveClip();
+        }
+
+        this.showDialog();
+        this.initNewClip(this.movie.$id);
+    }
+
+    saveClip() {
+        if(this.currentClip.saved) {
+            return;
+        }
+
+        this.currentClip.output = this.movie.$id + '/' + this.currentClip.id
+        this.currentClip.aep = this.templatePath.templaterPath;
+        this.currentClip.type = this.templatePath.name;
+        this.currentClip.saved = true;
         this.movieClips.push(this.currentClip);
-        this.initNewClip(this.movie.id);
     }
 
     deleteClip(clip) {
@@ -153,6 +210,15 @@ export default class MoviesController {
         this.movie.$save()
             .then(() => {
                 console.log('saved');
+            });
+
+        var params = {
+            movieClips: this.movieClips
+        };
+
+        this.$http.post('api/movies/update-movie-json', params)
+            .then((response) => {
+                this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
             });
     }
 }

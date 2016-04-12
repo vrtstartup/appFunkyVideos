@@ -134,6 +134,7 @@
     letter-spacing: 2px;
     color: $r1-light-color;
     font-size: 70px;
+    line-height: 60px;
   }
 
   .author {
@@ -163,4 +164,31 @@
     font-size: 23px;
   }
 
+}
+
+.canvas {
+
+  .logo-drd, .logo-r1, .logo-ak {
+    display: none;
+  }
+
+  .logo-afspr, .logo-canvas {
+    display: block;
+    height: 44px;
+  }
+
+  .wrap {
+    background-color: rebeccapurple;
+  }
+
+  .quote {
+    font-family: 'textanarrow-heavy', sans-serif;
+    font-size: 77px;
+    line-height: 1em;
+    font-style: normal;
+  }
+
+  .overlay {
+    background: rgba($afspr-dark, 0.5);
+  }
 }

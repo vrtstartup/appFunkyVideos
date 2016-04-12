@@ -6,11 +6,21 @@
                 <span md-highlight-text="searchText">{{item.properties.ADMIN}}</span>
             </md-item-template>
         </md-autocomplete>
+        <md-input-container>
+            <label>Title</label>
+            <input ng-model="vm.map.title" ng-init="vm.map.title = 'Brussels'">
+            <md-button class="md-raised md-primary" ng-click="vm.addLabel(vm.map.title)">+ Add</md-button>
+        </md-input-container>
     </md-content>
 
 
     <div id="map" ng-dblclick="vm.setMarker(vm.MarkerLat, vm.MarkerLng)">
-        <!--<pre id='features'>features: {{vm.features | json}}</pre>-->
+        <!--<pre id='features'>features: {{vm.features | json}}</pre> -->
     </div>
+    <div id="map-img">
+        <img ng-if="vm.blob" ng-src="{{vm.blob}}" class="map-scr">
+    </div>
+
+    <!--<img ng-src="{{vm.blob}}" class="map-scr">-->
 
 </div>

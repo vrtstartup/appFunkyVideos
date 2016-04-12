@@ -114,20 +114,6 @@ export default class HomeController {
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/tools-templates'
             },
             {
-                'title': '10 Gebruikersinzichten',
-                'category': 'facebook',
-                'type': 'guide',
-                'image': 'assets/home-facebook.png',
-                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/inzichten'
-            },
-            {
-                'title': '3 subdoelgroepen VRT Nieuws',
-                'category': 'facebook',
-                'type': 'guide',
-                'image': 'assets/home-userinsights.png',
-                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/inzichten'
-            },
-            {
                 'title': 'Tips & Tricks Twitter',
                 'category': 'twitter',
                 'type': 'guide',
@@ -135,10 +121,18 @@ export default class HomeController {
                 'docUrl': 'https://app.frontify.com/d/9kNTzmw2XVAO/vrt-nieuws-op-twitter'
             },
             {
-                'title': 'Learnings test',
+                'title': '10 Gebruikersinzichten',
                 'category': 'facebook',
                 'type': 'learnings',
-                'docUrl': ''
+                'image': 'assets/home-facebook.png',
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/inzichten'
+            },
+            {
+                'title': '3 subdoelgroepen VRT Nieuws',
+                'category': 'facebook',
+                'type': 'learnings',
+                'image': 'assets/home-userinsights.png',
+                'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/inzichten'
             }
         ];
 

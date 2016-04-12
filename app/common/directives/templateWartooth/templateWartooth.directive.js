@@ -25,14 +25,12 @@ export const templateWartoothDirective = function() {
         controller: TemplateWartoothDirectiveController,
         controllerAs: 'vm',
         bindToController: {
+            quote: '=',
             isReady: '=',
-            textOne: '=',
-            imgOne: '=',
-            imgTwo: '=',
-            textTwo: '=',
-            textThree: '=',
-            imgThree: '=',
-            footerText: '=',
+            image: '=',
+            authorName: '=',
+            authorTitle: '=',
+            isHiddenSign: '=',
         },
     };
 };

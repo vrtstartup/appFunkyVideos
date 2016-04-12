@@ -15,7 +15,7 @@ export default class PicturesController {
             url: '/api/convertimage',
             data: {file: file}
         }).then((resp) => {
-            this.grayscale = 'http://localhost:3000/'+ resp.data.url;
+            this.grayscale = resp.data.url;
             console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data.url);
         }, function (resp) {
             console.log('Error status: ' + resp.status);
@@ -35,6 +35,9 @@ export default class PicturesController {
         }
         if(scheme === 'r1'){
             this.showTempltesR1 = !this.showTempltesR1;
+        }
+        if(scheme === 'canvas'){
+            this.showTempltesCanvas = !this.showTempltesCanvas;
         }
         console.log('Scheme', this.selected);
     }
@@ -87,6 +90,13 @@ export default class PicturesController {
         this.className = scheme;
     }
 
+    showWartooth(scheme) {
+        this.resetAllTemplates();
+        this.isWartooth = true;
+        this.className = scheme;
+    }
+
+
     resetAllTemplates() {
         this.isMurderface = false;
         this.isSkwigelf = false;
@@ -96,6 +106,7 @@ export default class PicturesController {
         this.isDethklok = false;
         this.isBob = false;
         this.isTina = false;
+        this.isWartooth = false;
     }
 
 }

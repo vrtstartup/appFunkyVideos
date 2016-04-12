@@ -1,4 +1,4 @@
-<md-dialog aria-label="VRT Movie Tool (a.k.a. The Stitcher)">
+<md-dialog aria-label="VRT Movie Tool (a.k.a. The Stitcher)" flex="50">
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -7,7 +7,7 @@
             </div>
         </md-toolbar>
 
-        <md-dialog-content style="max-width:800px;max-height:810px; ">
+        <md-dialog-content>
             <md-tabs md-border-bottom md-selected="vm.tabIndex">
                 <md-tab label="E-mail" ng-hide="vm.emailValid" ng-disabled="'true'">
                     <md-content class="md-padding">
@@ -30,7 +30,7 @@
                     <md-content class="md-padding">
                         <p>Upload een film fragment (.mp4) om verder te gaan.</p>
                         <div class="upload-form" ng-hide="vm.currentClip.uploaded">
-                            <input id="clipFile" ng-model="vm.currentClip.video" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />
+                            <input id="clipFile" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />
                             <md-button class="md-raised" ng-click="vm.selectFile()">upload clip</md-button>
                             <div  ng-if="vm.progressPercentage > 0">
                                 <p>Bezig met uploaden: {{vm.progressPercentage}} % compleet.</p>
@@ -42,14 +42,15 @@
                 <md-tab label="Layout" ng-disabled="'true'">
                     <md-content class="md-padding">
                         <p>Kies een layout voor de tekst die over het filmfragment komt.</p>
-                        <md-input-container>
-                            <md-select ng-model="templatePath">
-                                <md-option ng-repeat="type in vm.movieTypes" value="{{type}}">
-                                    {{type.name}}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                        <md-button class="md-raised" aria-label="Bevestig layout" ng-click="vm.startEditing()">
+
+                        <ul layout="row" layout-align="space-between center" class="layout-thumbs">
+                            <li ng-repeat="type in vm.movieTypes" ng-click="vm.changeLayout(type)">
+                                <img src="{{type.thumb}}" />
+                                <p>{{type.name}}</p>
+                            </li>
+                        </ul>
+
+                        <md-button class="md-raised" aria-label="Bevestig layout" ng-click="vm.resetDialog()">
                             Bevestig
                         </md-button>
                     </md-content>

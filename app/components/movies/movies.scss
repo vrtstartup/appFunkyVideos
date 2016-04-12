@@ -1,3 +1,5 @@
+@import "../../common/style/variables";
+
 .email-form {
   text-align: center;
 }
@@ -8,13 +10,36 @@
   margin: 0 auto;
 }
 
-//md-dialog {
-//  md-dialog-content {
-//    width: 750px;
-//    height: 300px;
-//  }
-//
-//  md-tabs {
-//    height: 400px;
-//  }
-//}
+md-dialog {
+  md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
+    min-height: 300px;
+  }
+}
+
+.clip-preview-container {
+  padding: 25px 50px;
+}
+
+.layout-thumbs {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 10px;
+    outline: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  img {
+    max-width: 100px;
+    height: auto;
+  }
+}
+
+.layout-thumbs li.selected {
+  background-color: $drd-main-color;
+}

@@ -1,14 +1,22 @@
-<div class='wth-wrap'>
-    <div class='wth-content-wrap'>
 
-        <vrt-event-block image="vm.imgOne" text="vm.textOne"></vrt-event-block>
-        <vrt-event-block image="vm.imgTwo" text="vm.textTwo"></vrt-event-block>
-        <vrt-event-block image="vm.imgThree" text="vm.textThree"></vrt-event-block>
+<section class='wrap container-screenshot'>
+    <div class='image' style="background-image: url('{{vm.image}}')">
+        <div ng-class="vm.image ? 'overlay' : 'no-overlay'">
 
+            <div class="long-quote-wrap"  layout="column" layout-align="center center">
+                <div layout-align="center center"  layout="row" class="cnvs-wrap-quote">
+                    <div class='quote'><span class="sign" ng-show="vm.isHiddenSign">“</span> {{vm.quote}} <span class="sign" ng-show="vm.isHiddenSign">”</span></div>
+                </div>
+                <div class="cnvs-footer" layout="row" layout-align="end center">
+                    <img class='logo logo-afspr' src="./assets/logo_deafspraak.svg">
+                    <div  class='cnvs-auth-wrap'layout="column" layout-align="center center">
+                        <p class="cnvs-auth">{{vm.authorName}}</p>
+                        <div class="cnvs-line"></div>
+                        <p class="cnvs-title">{{vm.authorTitle}}</p>
+                    </div>
+                    <img class='logo logo-canvas' src="./assets/logo_canvas.svg">
+                </div>
+            </div>
+        </div>
     </div>
-    <div class='wth-footer' ng-if="vm.footerText">
-        <div class='wth-footer-text'>{{vm.footerText}}</div>
-        <img class="wth-logo logo-ak" src="./assets/logoak.svg">
-        <img class='wth-logo logo-drd' src="./assets/deredactie.svg">
-    </div>
-</div>
+</section>
