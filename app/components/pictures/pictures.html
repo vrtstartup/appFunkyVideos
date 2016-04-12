@@ -75,10 +75,10 @@
                     </md-list-item>
                 </md-content>
                 <md-toolbar md-scroll-shrink="">
-                <div class="md-toolbar-tools" ng-init="vm.showTempltesR1 = false" ng-click="vm.getScheme('r1')">
-                    Radio 1 <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesR1}">&#xE313;</i>
-                </div>
-            </md-toolbar>
+                    <div class="md-toolbar-tools" ng-init="vm.showTempltesR1 = false" ng-click="vm.getScheme('r1')">
+                        Radio 1 <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesR1}">&#xE313;</i>
+                    </div>
+                 </md-toolbar>
                 <md-content ng-if="vm.showTempltesR1">
                     <md-subheader class="">Headline</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showExplosion('r1')">
@@ -89,6 +89,17 @@
                         <img src="./../assets/templates/quote_r1.png" alt="" width="100%">
                     </md-list-item>
                 </md-content>
+                <!--<md-toolbar md-scroll-shrink="">-->
+                    <!--<div class="md-toolbar-tools" ng-init="vm.showTempltesCanvas = false" ng-click="vm.getScheme('canvas')">-->
+                        <!--Canvas <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesCanvas}">&#xE313;</i>-->
+                    <!--</div>-->
+                <!--</md-toolbar>-->
+                <!--<md-content ng-if="vm.showTempltesCanvas">-->
+                    <!--<md-subheader class="">De afspraak</md-subheader>-->
+                    <!--<md-list-item class="md-3-line" ng-click="vm.showWartooth('canvas')">-->
+                        <!--<img src="./../assets/templates/quote_canvas.png" alt="" width="100%">-->
+                    <!--</md-list-item>-->
+                <!--</md-content>-->
             </md-list>
         </md-content>
 
@@ -140,7 +151,6 @@
                 <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion || vm.isPickels || vm.isDethklok || vm.isBob || vm.isTina"
                          layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
                     <md-button class="md-raised" ng-click="vm.getPicture()" ng-disabled="templateForm.img.$error.required && (vm.templateClass != 'breaking')">Get Picture</md-button>
-                    <!--<a ng-href="{{vm.$rootScope.template_url}}" target="_blank" download="filename">Download</a>-->
                 </section>
             </form>
         </div>
