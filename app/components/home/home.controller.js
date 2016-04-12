@@ -134,12 +134,13 @@ export default class HomeController {
                 'image': 'assets/home-twitter.png',
                 'docUrl': 'https://app.frontify.com/d/9kNTzmw2XVAO/vrt-nieuws-op-twitter'
             },
-            //{
-            //    'title': 'Learnings test',
-            //    'category': 'facebook',
-            //    'type': 'learnings',
-            //    'docUrl': ''
-            //}
+            {
+                'title': 'Learnings',
+                'category': 'facebook',
+                'type': 'learnings',
+                'docUrl': '',
+                'disabled': true
+            }
         ];
 
         this.filteredTiles = this.tiles;
