@@ -24,42 +24,42 @@ export default class MoviesController {
                 'name': 'title',
                 'templateName': 'template_02_title',
                 'templateLocalPath': '/components/movies/movie.title.html',
-                'templaterPath': '/Users/bresciapc/Dropbox (Vrt Startup)/Vrt Startup Team Folder/NieuwsHub/Lab/Isacco_Material/02_Video/Video Templating 2.0/AE/template_02_title.aep',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_title.aep',
                 'thumb': '/assets/movies-title.png'
             },
             {
                 'name': 'text-left',
                 'templateName': 'template_02_text_left',
                 'templateLocalPath': '/components/movies/movie.textleft.html',
-                'templaterPath': '/Users/bresciapc/Dropbox (Vrt Startup)/Vrt Startup Team Folder/NieuwsHub/Lab/Isacco_Material/02_Video/Video Templating 2.0/AE/template_02_text_left.aep',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_left.aep',
                 'thumb': '/assets/movies-title.png'
             },
             {
                 'name': 'text-right',
                 'templateName': 'template_02_text_right',
                 'templateLocalPath': '/components/movies/movie.textright.html',
-                'templaterPath': '/Users/bresciapc/Dropbox (Vrt Startup)/Vrt Startup Team Folder/NieuwsHub/Lab/Isacco_Material/02_Video/Video Templating 2.0/AE/template_02_text_right.aep',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_right.aep',
                 'thumb': '/assets/movies-title.png'
             },
             {
                 'name': 'quote',
                 'templateName': 'template_02_quote',
                 'templateLocalPath': '/components/movies/movie.quote.html',
-                'templaterPath': '/Users/bresciapc/Dropbox (Vrt Startup)/Vrt Startup Team Folder/NieuwsHub/Lab/Isacco_Material/02_Video/Video Templating 2.0/AE/template_02_quote.aep',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_quote.aep',
                 'thumb': '/assets/movies-title.png'
             },
             {
                 'name': 'number',
                 'templateName': 'template_02_number',
                 'templateLocalPath': '/components/movies/movie.number.html',
-                'templaterPath': '/Users/bresciapc/Dropbox (Vrt Startup)/Vrt Startup Team Folder/NieuwsHub/Lab/Isacco_Material/02_Video/Video Templating 2.0/AE/template_02_number.aep',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_number.aep',
                 'thumb': '/assets/movies-title.png'
             },
             {
                 'name': 'bullet-list',
                 'templateName': 'template_02_bullet_list',
                 'templateLocalPath': '/components/movies/movie.bulletlist.html',
-                'templaterPath': '/Users/bresciapc/Dropbox (Vrt Startup)/Vrt Startup Team Folder/NieuwsHub/Lab/Isacco_Material/02_Video/Video Templating 2.0/AE/template_02_bullet_list.aep',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_bullet_list.aep',
                 'thumb': '/assets/movies-title.png'
             }
         ];
@@ -181,6 +181,7 @@ export default class MoviesController {
 
         this.currentClip.output = this.movie.$id + '/' + this.currentClip.id
         this.currentClip.aep = this.templatePath.templaterPath;
+        this.currentClip.type = this.templatePath.name;
         this.currentClip.saved = true;
         this.movieClips.push(this.currentClip);
     }

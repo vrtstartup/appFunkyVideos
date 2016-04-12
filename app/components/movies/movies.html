@@ -52,7 +52,7 @@
                 <md-list-item class="md-2-line" ng-repeat="clip in vm.movieClips | orderBy: 'start'"
                               ng-click="" ng-class="{'editingRow' : line.isEditmode}">
                     <div class="md-list-item-text">
-                        {{clip | json}}
+                        {{clip.title}}
                     </div>
                     <i ng-click="" class="material-icons">&#xE254;</i>
                     <i ng-click="vm.deleteClip(clip)" class="material-icons">&#xE92B;</i>
