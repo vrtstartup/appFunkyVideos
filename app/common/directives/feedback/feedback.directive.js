@@ -2,7 +2,7 @@ import template from './feedback.directive.html';
 import './feedback.directive.scss';
 
 class FeedbackDirectiveController {
-    constructor($scope, $log, $element, $mdSidenav, $http, toast, $window, $location) {
+    constructor($scope, $log, $element, $mdSidenav, $http, toast, $window, $location, firebaseAuth) {
         this.$log = $log;
         this.$element = $element;
         this.$scope = $scope;
@@ -11,7 +11,17 @@ class FeedbackDirectiveController {
         this.toast = toast;
         this.$window = $window;
         this.$location = $location;
+        this.feedback = {};
+        this.firebaseAuth = firebaseAuth;
+
         this.toggleRight = this.buildToggler('right');
+
+        this.firebaseAuth.$onAuth((authData) => {
+            if (authData) {
+                this.feedback.name = authData.password.email;
+            }
+        });
+
         this.isOpenRight = function() {
             return this.$mdSidenav('right').isOpen();
         };
@@ -57,7 +67,6 @@ class FeedbackDirectiveController {
             return;
         }
 
-
         this.$http({
             method: 'GET',
             url: 'https://zapier.com/hooks/catch/2lf12p/',
@@ -86,8 +95,6 @@ class FeedbackDirectiveController {
             text: '',
         };
     }
-
-
 }
 
 export const feedbackDirective = function() {
@@ -101,4 +108,4 @@ export const feedbackDirective = function() {
     };
 };
 
-FeedbackDirectiveController.$inject = ['$scope', '$log', '$element', '$mdSidenav', '$http', 'toast', '$window', '$location'];
+FeedbackDirectiveController.$inject = ['$scope', '$log', '$element', '$mdSidenav', '$http', 'toast', '$window', '$location', 'firebaseAuth'];
