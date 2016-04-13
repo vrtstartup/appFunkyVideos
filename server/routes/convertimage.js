@@ -28,8 +28,7 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
 
     if (type === 'noise') {
         gm(file.path)
-            .contrast(2)
-            //.gamma(2.3, 1.3, 0)
+            .contrast(1)
             .noise("laplacian")
             .write(file.path, (err) => {
                     if (err) return console.dir(arguments);
@@ -45,8 +44,6 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
 
 //url /api
 router.get('/convertimage', function(req, res) {
-
-
     res.json({ message: 'get convertimage' }).send();
 });
 
