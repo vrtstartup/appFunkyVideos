@@ -16,11 +16,14 @@ router.post('/movie-clip', function(req, res, next) {
     var fileStream = '';
     var fileStreamOpened = false;
     var fileName = '';
+    var fileExt = '';
     var folderName = '';
-    var uploadPath = 'temp/movies/';
+    var uploadPath = 'temp/movies/in/';
     var fullPath = '';
 
     form.on('part', function(part) {
+        console.log(part);
+        //get file extension
         part.on('data', function(data) {
             if (!part.filename) {
                 if (part.name === "movieId") folderName = data.toString();
@@ -29,11 +32,12 @@ router.post('/movie-clip', function(req, res, next) {
             else {
                 if (!fileStreamOpened) {
                     fileStreamOpened = true;
-                    fullPath = uploadPath + folderName + '/' + fileName + '.jpg';
+                    fileExt = part.filename.slice((str.lastIndexOf(".") - 1 >>> 0) + 2);
+                    fullPath = uploadPath + fileName + fileExt;
 
-                    if (!fs.existsSync(uploadPath + folderName)){
-                        fs.mkdirSync(uploadPath + folderName);
-                    }
+                    //if (!fs.existsSync(uploadPath + folderName)){
+                    //    fs.mkdirSync(uploadPath + folderName);
+                    //}
 
                     fileStream = fs.createWriteStream(fullPath, {'flags': 'a'});
                 }
@@ -56,7 +60,7 @@ router.post('/movie-clip', function(req, res, next) {
     });
 
     form.on('close', function() {
-        res.json({filePath: fullPath, fileName: fileName + 'jpg'}).send();
+        res.json({filePath: fullPath, fileName: fileName + fileExt}).send();
     });
 });
 

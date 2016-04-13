@@ -123,8 +123,6 @@ export default class MoviesController {
             'movieId': movieId,
             'bot': 'render',
             'render-status': 'ready',
-            'aep': 'filepath',
-            'last': '',
             'uploaded': false,
             'saved': false
         };
@@ -142,20 +140,20 @@ export default class MoviesController {
             });
 
         this.Upload.upload({
-                url: 'api/movie/movie-clip',
-                data: { 'movieId': this.movie.$id, 'clipId': this.currentClip.id, file: file },
-                method: 'POST'
-            })
-            .then((resp) => {
-                this.currentClip.path = resp.data.filePath;
-                this.currentClip.uploaded = true;
-                this.tabIndex++;
-            }, (resp) => {
-                console.log('Error: ' + resp.error);
-                console.log('Error status: ' + resp.status);
-            }, (evt) => {
-                this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            });
+            url: 'api/movie/movie-clip',
+            data: {'movieId': this.movie.$id, 'clipId': this.currentClip.id, file: file},
+            method: 'POST'
+        })
+        .then((resp) => {
+            this.currentClip.img01 = resp.data.filePath;
+            this.currentClip.uploaded = true;
+            this.tabIndex++;
+        }, (resp) => {
+            console.log('Error: ' + resp.error);
+            console.log('Error status: ' + resp.status);
+        }, (evt) => {
+            this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+        });
     }
 
     addClip() {
@@ -172,10 +170,13 @@ export default class MoviesController {
             return;
         }
 
-        this.currentClip.output = this.movie.$id + '/' + this.currentClip.id
-        this.currentClip.aep = this.templatePath.templaterPath;
+        //this.currentClip.output = this.movie.$id + '/' + this.currentClip.id
+        //this.currentClip.aep = this.templatePath.templaterPath;
         this.currentClip.type = this.templatePath.name;
         this.currentClip.saved = true;
+
+        console.log('saving', this.currentClip);
+
         this.movieClips.push(this.currentClip);
     }
 
