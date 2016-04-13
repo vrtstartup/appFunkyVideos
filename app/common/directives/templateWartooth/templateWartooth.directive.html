@@ -5,14 +5,14 @@
 
             <div class="long-quote-wrap"  layout="column" layout-align="center center">
                 <div layout-align="center center"  layout="row" class="cnvs-wrap-quote">
-                    <div class='quote'><span class="sign" ng-show="vm.isHiddenSign">“</span> {{vm.quote}} <span class="sign" ng-show="vm.isHiddenSign">”</span></div>
+                    <div class='quote'><span class="sign" ng-if="vm.quote">“</span> {{vm.quote}} <span class="sign" ng-if="vm.quote">”</span></div>
                 </div>
                 <div class="cnvs-footer" layout="row" layout-align="end center">
                     <img class='logo logo-afspr' src="./assets/logo_deafspraak.svg">
                     <div  class='cnvs-auth-wrap'layout="column" layout-align="center center">
-                        <p class="cnvs-auth">{{vm.authorName}}</p>
-                        <div class="cnvs-line"></div>
-                        <p class="cnvs-title">{{vm.authorTitle}}</p>
+                        <p class="cnvs-auth" ng-if="vm.authorName">{{vm.authorName}}</p>
+                        <div class="cnvs-line" ng-if="vm.authorName && vm.authorTitle"></div>
+                        <p class="cnvs-title" ng-if="vm.authorTitle" >{{vm.authorTitle}}</p>
                     </div>
                     <img class='logo logo-canvas' src="./assets/logo_canvas.svg">
                 </div>
