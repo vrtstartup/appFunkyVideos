@@ -55,10 +55,23 @@
   src:    url('./fonts/textanarrow-book.ttf') format('ttf'),
           url('./fonts/textanarrow-book.woff') format('woff'); /* Pretty Modern Browsers */
 }
+
 @font-face {
   font-family: 'textanarrow-heavy';
   src:    url('./fonts/textanarrow-heavy.ttf') format('ttf'),
   url('./fonts/textanarrow-heavy.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'BodoniBold';
+  src:    url('./fonts/BodoniBold.ttf') format('ttf'),
+  url('./fonts/BodoniBold.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'NarzissTextRegular';
+  src:    url('./fonts/NarzissTextRegular.ttf') format('ttf'),
+  url('./fonts/NarzissTextRegular.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
 
