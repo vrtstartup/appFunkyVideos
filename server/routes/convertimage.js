@@ -28,7 +28,9 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
 
     if (type === 'noise') {
         gm(file.path)
-            .noise('+noise','poisson')
+            .contrast(2)
+            //.gamma(2.3, 1.3, 0)
+            .noise("laplacian")
             .write(file.path, (err) => {
                     if (err) return console.dir(arguments);
                     var path = 'http://'+req.headers.host+'/'+file.path;

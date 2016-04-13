@@ -5,7 +5,7 @@ export default class PicturesController {
         this.Upload = Upload;
 
         this.className = 'drd';
-        this.grayscale = '';
+        this.image = '';
 
         this.resetAllTemplates();
     }
@@ -15,7 +15,7 @@ export default class PicturesController {
             url: '/api/convertimage/' + type,
             data: {file: file}
         }).then((resp) => {
-            this.grayscale = resp.data.url;
+            this.image = resp.data.url;
             console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data.url);
         }, function (resp) {
             console.log('Error status: ' + resp.status);
