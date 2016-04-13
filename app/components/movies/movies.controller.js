@@ -145,7 +145,7 @@ export default class MoviesController {
             method: 'POST'
         })
         .then((resp) => {
-            this.currentClip.img01 = resp.data.filePath;
+            this.currentClip.img01 = resp.data.fileName;
             this.currentClip.uploaded = true;
             this.tabIndex++;
         }, (resp) => {
@@ -168,6 +168,11 @@ export default class MoviesController {
     saveClip() {
         if (this.currentClip.saved) {
             return;
+        }
+
+        if (this.movieClips.length) {
+            this.movieClips[this.movieClips.length - 1].img02 = this.currentClip.img01;
+            console.log('setting img02 of previous clip', this.movieClips);
         }
 
         //this.currentClip.output = this.movie.$id + '/' + this.currentClip.id
@@ -210,7 +215,7 @@ export default class MoviesController {
             movieClips: this.movieClips
         };
 
-        this.$http.post('api/movies/update-movie-json', params)
+        this.$http.post('api/movie/update-movie-json', params)
             .then((response) => {
                 this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
             });

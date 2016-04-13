@@ -22,8 +22,6 @@ router.post('/movie-clip', function(req, res, next) {
     var fullPath = '';
 
     form.on('part', function(part) {
-        console.log(part);
-        //get file extension
         part.on('data', function(data) {
             if (!part.filename) {
                 if (part.name === "movieId") folderName = data.toString();
@@ -32,9 +30,10 @@ router.post('/movie-clip', function(req, res, next) {
             else {
                 if (!fileStreamOpened) {
                     fileStreamOpened = true;
-                    fileExt = part.filename.slice((str.lastIndexOf(".") - 1 >>> 0) + 2);
+                    fileExt = getExtension(part.filename);
                     fullPath = uploadPath + fileName + fileExt;
 
+                    //check if dir exists else create it
                     //if (!fs.existsSync(uploadPath + folderName)){
                     //    fs.mkdirSync(uploadPath + folderName);
                     //}
@@ -85,5 +84,10 @@ router.post('/update-movie-json', function(req, res, next) {
 router.post('/render-movie', function(req, res, next) {
    //stitch together movie by folder ID, put result in download folder, delete all temp files
 });
+
+function getExtension(filename) {
+    var parts = filename.split('.');
+    return '.' + parts[parts.length - 1];
+}
 
 module.exports = router;
