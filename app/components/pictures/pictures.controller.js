@@ -10,9 +10,9 @@ export default class PicturesController {
         this.resetAllTemplates();
     }
 
-    upload(file) {
+    upload(file, type) {
         this.Upload.upload({
-            url: '/api/convertimage',
+            url: '/api/convertimage/' + type,
             data: {file: file}
         }).then((resp) => {
             this.grayscale = resp.data.url;

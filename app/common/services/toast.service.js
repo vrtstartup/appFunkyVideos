@@ -6,7 +6,7 @@ export default class toastService {
     showToast(type, text) {
         this.$mdToast.show({
             template: '<md-toast class="md-toast ' + type +'">' + text + '</md-toast>',
-            hideDelay: 99999999,
+            hideDelay: 7000,
             position: 'bottom right'
         });
     }
