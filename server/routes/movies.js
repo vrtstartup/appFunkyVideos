@@ -29,7 +29,7 @@ router.post('/movie-clip', function(req, res, next) {
             else {
                 if (!fileStreamOpened) {
                     fileStreamOpened = true;
-                    fullPath = uploadPath + folderName + '/' + fileName + '.mp4';
+                    fullPath = uploadPath + folderName + '/' + fileName + '.jpg';
 
                     if (!fs.existsSync(uploadPath + folderName)){
                         fs.mkdirSync(uploadPath + folderName);
@@ -56,7 +56,7 @@ router.post('/movie-clip', function(req, res, next) {
     });
 
     form.on('close', function() {
-        res.json({filePath: fullPath, fileName: fileName + '.mp4'}).send();
+        res.json({filePath: fullPath, fileName: fileName + 'jpg'}).send();
     });
 });
 

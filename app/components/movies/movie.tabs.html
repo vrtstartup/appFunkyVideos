@@ -28,10 +28,11 @@
                 </md-tab>
                 <md-tab label="Upload" ng-disabled="'true'">
                     <md-content class="md-padding">
-                        <p>Upload een film fragment (.mp4) om verder te gaan.</p>
+                        <p>Upload een afbeelding om verder te gaan.</p>
                         <div class="upload-form" ng-hide="vm.currentClip.uploaded">
-                            <input id="clipFile" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />
-                            <md-button class="md-raised" ng-click="vm.selectFile()">upload clip</md-button>
+                            <input id="clipFile" type="file" name="img" required ngf-select="vm.uploadFile($file)" class="ng-hide" />
+                            <!--<input id="clipFile" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />-->
+                            <md-button class="md-raised" ng-click="vm.selectFile()">upload afbeelding</md-button>
                             <div  ng-if="vm.progressPercentage > 0">
                                 <p>Bezig met uploaden: {{vm.progressPercentage}} % compleet.</p>
                                 <md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>
@@ -44,13 +45,13 @@
                         <p>Kies een layout voor de tekst die over het filmfragment komt.</p>
 
                         <ul layout="row" layout-align="space-between center" class="layout-thumbs">
-                            <li ng-repeat="type in vm.movieTypes" ng-click="vm.changeLayout(type)">
+                            <li ng-repeat="type in vm.movieTypes" ng-click="vm.changeLayout(type)" ng-class="{'selected' : vm.templatePath.name === type.name}">
+                                <p>{{type.name}}:</p>
                                 <img src="{{type.thumb}}" />
-                                <p>{{type.name}}</p>
                             </li>
                         </ul>
 
-                        <md-button class="md-raised" aria-label="Bevestig layout" ng-click="vm.resetDialog()">
+                        <md-button class="md-raised" aria-label="Bevestig layout" ng-click="vm.resetDialog()" ng-disabled="vm.templatePath.name === undefined">
                             Bevestig
                         </md-button>
                     </md-content>

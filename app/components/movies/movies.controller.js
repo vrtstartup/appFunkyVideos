@@ -27,61 +27,52 @@ export default class MoviesController {
             }
         });
 
-
-        this.movieTypes = [{
-            'name': 'title',
-            'templateName': 'template_02_title',
-            'templateLocalPath': '/components/movies/movie.title.html',
-            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_title.aep',
-            'thumb': '/assets/movies-title.png'
-        }, {
-            'name': 'text-left',
-            'templateName': 'template_02_text_left',
-            'templateLocalPath': '/components/movies/movie.textleft.html',
-            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_left.aep',
-            'thumb': '/assets/movies-title.png'
-        }, {
-            'name': 'text-right',
-            'templateName': 'template_02_text_right',
-            'templateLocalPath': '/components/movies/movie.textright.html',
-            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_right.aep',
-            'thumb': '/assets/movies-title.png'
-        }, {
-            'name': 'quote',
-            'templateName': 'template_02_quote',
-            'templateLocalPath': '/components/movies/movie.quote.html',
-            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_quote.aep',
-            'thumb': '/assets/movies-title.png'
-        }, {
-            'name': 'number',
-            'templateName': 'template_02_number',
-            'templateLocalPath': '/components/movies/movie.number.html',
-            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_number.aep',
-            'thumb': '/assets/movies-title.png'
-        }, {
-            'name': 'bullet-list',
-            'templateName': 'template_02_bullet_list',
-            'templateLocalPath': '/components/movies/movie.bulletlist.html',
-            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_bullet_list.aep',
-            'thumb': '/assets/movies-title.png'
-        }];
+        this.movieTypes = [
+            {
+                'name': 'tekst',
+                'templateName': 'template_02_tekst',
+                'templateLocalPath': '/components/movies/movie.tekst.html',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_title.aep',
+                'thumb': '/assets/movies-title.png'
+            }
+            //{
+            //    'name': 'text-left',
+            //    'templateName': 'template_02_text_left',
+            //    'templateLocalPath': '/components/movies/movie.textleft.html',
+            //    'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_left.aep',
+            //    'thumb': '/assets/movies-title.png'
+            //},
+            //{
+            //    'name': 'text-right',
+            //    'templateName': 'template_02_text_right',
+            //    'templateLocalPath': '/components/movies/movie.textright.html',
+            //    'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_text_right.aep',
+            //    'thumb': '/assets/movies-title.png'
+            //},
+            //{
+            //    'name': 'quote',
+            //    'templateName': 'template_02_quote',
+            //    'templateLocalPath': '/components/movies/movie.quote.html',
+            //    'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_quote.aep',
+            //    'thumb': '/assets/movies-title.png'
+            //},
+            //{
+            //    'name': 'number',
+            //    'templateName': 'template_02_number',
+            //    'templateLocalPath': '/components/movies/movie.number.html',
+            //    'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_number.aep',
+            //    'thumb': '/assets/movies-title.png'
+            //},
+            //{
+            //    'name': 'bullet-list',
+            //    'templateName': 'template_02_bullet_list',
+            //    'templateLocalPath': '/components/movies/movie.bulletlist.html',
+            //    'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_bullet_list.aep',
+            //    'thumb': '/assets/movies-title.png'
+            //}
+        ];
 
         this.showDialog();
-
-        //watch layout type, delete old property if type changes in edit mode
-        this.$scope.$watch('vm.templatePath', (newVal, oldVal) => {
-            if (newVal === oldVal) {
-                return;
-            }
-
-            if (oldVal.name) {
-                var property = oldVal.name.replace('-', '');
-            }
-
-            if (this.currentClip[property]) {
-                delete this.currentClip[property];
-            }
-        });
     }
 
     changeLayout(type) {
