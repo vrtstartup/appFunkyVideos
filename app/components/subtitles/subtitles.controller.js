@@ -25,9 +25,6 @@ export default class SubtitlesController {
         this.currentTime = '';
         this.currentSubtitlePreview = '';
 
-        this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
-            'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
-
         this.firebaseAuth = firebaseAuth;
         this.firebaseAuth.$onAuth((authData) => {
             if (authData) {
