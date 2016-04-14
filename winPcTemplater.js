@@ -14,6 +14,8 @@ var id = '';
 var movieId = '';
 var last = false;
 
+logger.info('running post-script, got following params', process.argv);
+
 if (process.argv[2]) {
     id = process.argv[2];
     logger.info('id', id);
