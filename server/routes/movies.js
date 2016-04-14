@@ -18,7 +18,7 @@ router.post('/movie-clip', function(req, res, next) {
     var fileName = '';
     var fileExt = '';
     var folderName = '';
-    var uploadPath = 'temp/movies/in/';
+    var uploadPath = 'temp/movies/';
     var fullPath = '';
 
     form.on('part', function(part) {
