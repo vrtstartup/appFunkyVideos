@@ -112,17 +112,16 @@ router.post('/update-movie-json', function(req, res, next) {
 });
 
 router.post('/delete-movie-json', function(req, res, next) {
-    file = fs.readFileSync(jsonFile, 'utf8');
+    var clipId = req.body.clipId || 0;
 
-    console.log('body', req.body);
-    console.log('data', req.data);
+    file = fs.readFileSync(jsonFile, 'utf8');
 
     if (file.length > 0) {
 
         file = JSON.parse(file);
 
         lodash.reject(file, function (clip) {
-            return clip.id === req.data.clipId;
+            return clip.id === clipId;
         });
 
         fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
@@ -132,7 +131,7 @@ router.post('/delete-movie-json', function(req, res, next) {
 
             fs.chmod(jsonFile, 511);
 
-            console.log('updated templater.json');
+            console.log('deleted following id from templater', clipId);
             res.send();
         });
     }
