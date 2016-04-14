@@ -34,8 +34,8 @@ router.post('/movie-clip', function(req, res, next) {
                     fullPath = uploadPath + fileName + fileExt;
 
                     //check if dir exists else create it
-                    //if (!fs.existsSync(uploadPath + folderName)){
-                    //    fs.mkdirSync(uploadPath + folderName);
+                    //if (!fs.existsSync(uploadPath)) {
+                    //    fs.mkdirSync(uploadPath);
                     //}
 
                     fileStream = fs.createWriteStream(fullPath, {'flags': 'a'});
