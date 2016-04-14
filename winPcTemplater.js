@@ -26,8 +26,8 @@ if (process.argv[3]) {
     logger.info('id', movieId);
 }
 
-if (process.argv[9]) {
-    last = process.argv[9];
+if (process.argv[4]) {
+    last = process.argv[4];
     logger.info('id', last);
 }
 
