@@ -65,20 +65,41 @@ router.post('/movie-clip', function(req, res, next) {
 
 router.post('/update-movie-json', function(req, res, next) {
     var movieClips = req.body.movieClips;
-    var jsonFile = 'server/assets/json/templater.json';
+    var jsonFile = 'data/json/templater.json';
 
-    //append clips to json file on server
-    var obj = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
+    fs.access('data/json', fs.F_OK, function(err) {
+        if(err) {
+            console.log('creating json directory');
+            fs.mkdirSync('data/json');
+        }
 
-    movieClips.forEach(function(clip) {
-        obj.push(clip);
+        console.log('dir exists');
+
+        //append clips to json file on server
+        var file = [];
+
+        fs.access(jsonFile, fs.F_OK, function(err) {
+            if (!err) {
+                //if file exists, append contents to file
+                file = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
+            }
+
+            movieClips.forEach(function(clip) {
+                file.push(clip);
+            });
+
+            fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
+                if(err) {
+                    console.log('failed to write file');
+                }
+
+                fs.chmod(jsonFile, 511);
+
+                console.log('updated templater.json');
+                res.send();
+            });
+        });
     });
-
-    console.log(obj);
-
-    fs.writeFileSync(jsonFile, JSON.stringify(obj));
-
-    res.send();
 });
 
 router.post('/render-movie', function(req, res, next) {

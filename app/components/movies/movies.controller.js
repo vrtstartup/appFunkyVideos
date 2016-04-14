@@ -133,11 +133,11 @@ export default class MoviesController {
     }
 
     uploadFile(file) {
-        this.Upload.mediaDuration(file)
-            .then((durationInSeconds) => {
-                this.currentClip.start = this.movieClips[this.movieClips.length - 1] ? this.movieClips[this.movieClips.length - 1].end || 0 : 0;
-                this.currentClip.end = this.currentClip.start + durationInSeconds;
-            });
+        //this.Upload.mediaDuration(file)
+        //    .then((durationInSeconds) => {
+        //        this.currentClip.start = this.movieClips[this.movieClips.length - 1] ? this.movieClips[this.movieClips.length - 1].end || 0 : 0;
+        //        this.currentClip.end = this.currentClip.start + durationInSeconds;
+        //    });
 
         this.Upload.upload({
             url: 'api/movie/movie-clip',
@@ -145,9 +145,10 @@ export default class MoviesController {
             method: 'POST'
         })
         .then((resp) => {
-            this.currentClip.img01 = resp.data.fileName;
+            this.currentClip.img01 = window.location.origin + '/' + resp.data.filePath;
             this.currentClip.uploaded = true;
             this.tabIndex++;
+            console.log('image uploaded', this.currentClip);
         }, (resp) => {
             console.log('Error: ' + resp.error);
             console.log('Error status: ' + resp.status);
