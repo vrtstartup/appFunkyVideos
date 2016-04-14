@@ -120,7 +120,7 @@ router.post('/delete-movie-json', function(req, res, next) {
 
         file = JSON.parse(file);
 
-        lodash.reject(file, function (clip) {
+        file = lodash.reject(file, function (clip) {
             return clip.id === clipId;
         });
 
