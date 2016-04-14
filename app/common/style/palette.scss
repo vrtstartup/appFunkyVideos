@@ -166,9 +166,9 @@
 
 }
 
-.canvas {
+.deafsprak {
 
-  .logo-drd, .logo-r1, .logo-ak {
+  .logo-terzake{
     display: none;
   }
 
@@ -190,5 +190,47 @@
 
   .overlay {
     background: rgba(236, 138, 0, 0.3);
+  }
+}
+
+.terzake {
+  .logo-afspr, .logo-canvas {
+    display: none;
+  }
+
+  .overlay {
+    background: rgba(0, 0, 0, 0.38);
+  }
+
+  .wrap {
+    background-color: teal;
+  }
+
+  .logo-terzake {
+    display: block;
+    height: 44px;
+    left: 25px;
+    top: 25px;
+  }
+
+  .cnvs-footer {
+    background-color: unset;
+  }
+
+  .cnvs-line {
+    display: none;
+  }
+
+  .quote {
+    font-family: 'NarzissTextRegular', serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 77px;
+    line-height: 1em;
+  }
+
+  .cnvs-title, .cnvs-auth{
+    font-family: 'BodoniBold', serif;
+    font-weight: normal;
   }
 }
