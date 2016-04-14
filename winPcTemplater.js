@@ -1,24 +1,14 @@
-//var Firebase = require('firebase');
-//
-//var firebaseRef = new Firebase("https://vrtnieuwshub.firebaseio.com");
-//
-//firebaseRef.on("value", function(snapshot) {
-//    console.log(snapshot.val());
-//}, function (errorObject) {
-//    console.log("The read failed: " + errorObject.code);
-//});
-
 var querystring = require('querystring');
 var http = require('http');
+var lodash = require('lodash');
+var fs = require('fs');
 var winston = require('winston');
 var logger = new(winston.Logger)({
     transports: [
         new(winston.transports.Console)(),
-        new(winston.transports.File)({filename: '/var/log/logF.log'})
+        new(winston.transports.File)({filename: 'logWinPcTemplaterScript.log'})
     ]
 });
-var lodash = require('lodash');
-var fs = require('fs');
 
 var id = '';
 var movieId = '';
@@ -62,6 +52,7 @@ if (file.length > 0) {
     });
 }
 
+//if this was the last fragment, send POST request to server
 if (last) {
     var data = querystring.stringify({
         movieId: movieId,
