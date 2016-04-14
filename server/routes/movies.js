@@ -3,6 +3,7 @@ var router = express.Router();
 var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var multiparty = require('multiparty');
+var lodash = require('lodash');
 
 var dropboxService = require('../services/dropboxService.js');
 var dbClient = dropboxService.getDropboxClient();
@@ -107,6 +108,33 @@ router.post('/update-movie-json', function(req, res, next) {
             });
         });
     });
+});
+
+router.post('/delete-movie-json', function(req, res, next) {
+    file = fs.readFileSync(jsonFile, 'utf8');
+
+    console.log('body', req.body);
+    console.log('data', req.data);
+
+    if (file.length > 0) {
+
+        file = JSON.parse(file);
+
+        lodash.reject(file, function (clip) {
+            return clip.id === req.data.clipId;
+        });
+
+        fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
+            if (err) {
+                console.log('failed to write file');
+            }
+
+            fs.chmod(jsonFile, 511);
+
+            console.log('updated templater.json');
+            res.send();
+        });
+    }
 });
 
 router.post('/render-movie', function(req, res, next) {

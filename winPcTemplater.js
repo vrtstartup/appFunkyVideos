@@ -30,27 +30,54 @@ if (process.argv[9]) {
 }
 
 //delete rendered clip from JSON
-var jsonFile = 'http://nieuwshub-dev.vrt.be/json/templater.json';
-file = fs.readFileSync(jsonFile, 'utf8');
+//var get = http.get('http://nieuwshub-dev.vrt.be/json/templater.json', function(file) {
+//    file = fs.readFileSync(jsonFile, 'utf8');
+//
+//    if (file.length > 0) {
+//
+//        file = JSON.parse(file);
+//
+//        lodash.reject(file, function(clip) {
+//            return clip.id === id;
+//        });
+//
+//        fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
+//            if(err) {
+//                console.log('failed to write file');
+//            }
+//
+//            fs.chmod(jsonFile, 511);
+//
+//            console.log('updated templater.json');
+//            res.send();
+//        });
+//    }
+//});
 
-if (file.length > 0) {
-    file = JSON.parse(file);
+var data = querystring.stringify({
+    clipId: id,
+});
 
-    lodash.reject(file, function(clip) {
-        return clip.id === id;
+var options = {
+    host: 'nieuwshub-dev.vrt.be',
+    port: '80',
+    path: '/api/movie/delete-movie-json',
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(data)
+    }
+};
+
+var req = http.request(options, function(res) {
+    res.setEncoding('utf8');
+    res.on('data', function (chunk) {
+        console.log("body: " + chunk);
     });
+});
 
-    fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
-        if(err) {
-            console.log('failed to write file');
-        }
-
-        fs.chmod(jsonFile, 511);
-
-        console.log('updated templater.json');
-        res.send();
-    });
-}
+req.write(data);
+req.end();
 
 //if this was the last fragment, send POST request to server
 if (last) {
