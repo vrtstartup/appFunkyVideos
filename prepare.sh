@@ -9,3 +9,6 @@ node_modules/webpack/bin/webpack.js -p --config webpack.production.config.js
 
 mkdir temp
 chmod 777 temp
+
+[ -d "data" ] || mkdir data
+chmod 777 data
