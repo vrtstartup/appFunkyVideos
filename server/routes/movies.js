@@ -81,7 +81,14 @@ router.post('/update-movie-json', function(req, res, next) {
         fs.access(jsonFile, fs.F_OK, function(err) {
             if (!err) {
                 //if file exists, append contents to file
-                file = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
+                file = fs.readFileSync(jsonFile, 'utf8');
+
+                if (file.length > 0) {
+                    file = JSON.parse(file);
+                }
+                else {
+                    file = [];
+                }
             }
 
             movieClips.forEach(function(clip) {
