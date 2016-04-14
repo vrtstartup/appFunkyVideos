@@ -199,7 +199,7 @@ export default class MoviesController {
     renderMovie() {
         var counter = 1;
         angular.forEach(this.movieClips, (clip) => {
-            if (this.movieClips.length >= counter) {
+            if (counter >= this.movieClips.length) {
                 clip.last = true;
             }
 
