@@ -8,6 +8,8 @@ var lodash = require('lodash');
 var dropboxService = require('../services/dropboxService.js');
 var dbClient = dropboxService.getDropboxClient();
 
+var jsonFile = 'data/json/templater.json';
+
 //url /api/movie
 
 router.post('/movie-clip', function(req, res, next) {
@@ -66,7 +68,6 @@ router.post('/movie-clip', function(req, res, next) {
 
 router.post('/update-movie-json', function(req, res, next) {
     var movieClips = req.body.movieClips;
-    var jsonFile = 'data/json/templater.json';
 
     fs.access('data/json', fs.F_OK, function(err) {
         if(err) {
