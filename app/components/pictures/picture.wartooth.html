@@ -24,9 +24,6 @@
         <!-- if deafspraak do noise-->
         <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise')"/>
 
-        <!-- if terzake just display-->
-        <input ng-if="vm.className === 'terzake' " ng-model="vm.image" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
-
     </div>
 
     <div class="dir-wrap">

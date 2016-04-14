@@ -194,7 +194,7 @@
 }
 
 .terzake {
-  .logo-afspr, .logo-canvas {
+  .logo-afspr, .logo-canvas, .logo-drd, .logo-ak, .logo-r1 {
     display: none;
   }
 
@@ -213,24 +213,42 @@
     top: 25px;
   }
 
-  .cnvs-footer {
-    background-color: unset;
-  }
-
-  .cnvs-line {
-    display: none;
-  }
+  //.cnvs-footer {
+  //  background-color: unset;
+  //}
+  //
+  //.cnvs-line {
+  //  display: none;
+  //}
 
   .quote {
     font-family: 'NarzissTextRegular', serif;
     font-style: normal;
     font-weight: bold;
-    font-size: 77px;
-    line-height: 1em;
+    font-size: 70px;
+    line-height: 1.1em;
   }
 
-  .cnvs-title, .cnvs-auth{
+  .auth-name {
     font-family: 'BodoniBold', serif;
-    font-weight: normal;
+    font-size: 31px;
+    line-height: 1em;
+    margin: 0;
+  }
+
+  .author {
+    text-align: center;
+  }
+
+  .skwg-author {
+    left: unset;
+  }
+
+  .auth-title {
+    font-family: 'BodoniBook', serif;
+    font-size: 28px;
+    font-style: normal;
+    line-height: 1em;
+    margin: 0;
   }
 }

@@ -69,6 +69,12 @@
 }
 
 @font-face {
+  font-family: 'BodoniBook';
+  src:    url('./fonts/BodoniBook.ttf') format('ttf'),
+  url('./fonts/BodoniBook.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
   font-family: 'NarzissTextRegular';
   src:    url('./fonts/NarzissTextRegular.ttf') format('ttf'),
   url('./fonts/NarzissTextRegular.woff') format('woff'); /* Pretty Modern Browsers */
