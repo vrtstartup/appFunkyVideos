@@ -55,12 +55,36 @@
   src:    url('./fonts/textanarrow-book.ttf') format('ttf'),
           url('./fonts/textanarrow-book.woff') format('woff'); /* Pretty Modern Browsers */
 }
+
 @font-face {
   font-family: 'textanarrow-heavy';
   src:    url('./fonts/textanarrow-heavy.ttf') format('ttf'),
   url('./fonts/textanarrow-heavy.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
+//@font-face {
+//  font-family: 'BodoniBold';
+//  src:    url('./fonts/BodoniBold.ttf') format('ttf'),
+//  url('./fonts/BodoniBold.woff') format('woff'); /* Pretty Modern Browsers */
+//}
+//
+//@font-face {
+//  font-family: 'BodoniBook';
+//  src:    url('./fonts/BodoniBook.ttf') format('ttf'),
+//  url('./fonts/BodoniBook.woff') format('woff'); /* Pretty Modern Browsers */
+//}
+
+@font-face {
+  font-family: 'NarzissTextRegular';
+  src:    url('./fonts/NarzissTextRegular.ttf') format('ttf'),
+  url('./fonts/NarzissTextRegular.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'NarzissTextBold';
+  src:    url('./fonts/NarzissTextBold.ttf') format('ttf'),
+  url('./fonts/NarzissTextBold.woff') format('woff'); /* Pretty Modern Browsers */
+}
 
 @font-face {
   font-family: 'icomoon';
@@ -91,42 +115,9 @@
   box-sizing: border-box;
 }
 
-//.vrt-txt {
-//  font-family: "dinbold", "Roboto Condensed", sans-serif;
-//}
-
 .imgCropper-controls {
   position: absolute;
   top: -26px;
 }
 
-//md toast
-.md-toast-content {
-  color: white;
-  font-weight: bold;
-}
-
-.md-toast.success .md-toast-content {
-  background-color: $drd-main-color;
-}
-
-.md-toast.error .md-toast-content {
-  background-color: red;
-}
-
-.md-toast.warn .md-toast-content {
-  background-color: orange;
-}
-
-md-toast {
-  position: fixed;
-}
-
-md-toast.md-right {
-  right: 10px;
-}
-
-md-toast.md-bottom {
-  bottom: 10px;
-}
 

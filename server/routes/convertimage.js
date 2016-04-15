@@ -1,37 +1,49 @@
 var express = require('express');
 var router = express.Router();
-var Jimp = require("jimp");
 var fs = require('fs');
+var gm = require('gm').subClass({imageMagick: true});
 var multiparty = require('connect-multiparty');
 var multipartyMiddleware = multiparty({ uploadDir: 'temp/templates/' });
 
 
-router.post('/convertimage', multipartyMiddleware, function(req, res, next) {
+router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next) {
 
     var file = req.files.file;
+    var type = req.params.type;
 
     console.log('Req', req.headers.host+'/'+file.path);
+    console.log("type is set to " + req.params.type);
 
-    Jimp.read(file.path, (err, lenna) => {
-        if (err) {
-            console.log('ERROR', err);
-            throw err;
-        }
-        lenna.gaussian(2)                 // set greyscale
-            .write(file.path, () => {
-                var path = 'http://'+req.headers.host+'/'+file.path;
-                console.log('DONE',  path);
-                res.json({url: path}).send();
-            }); // save
+    if (type === 'grayscale') {
+        gm(file.path)
+            .type('grayscale')
+            .write(file.path, (err) => {
+                    if (err) return console.dir(arguments);
+                    var path = 'http://'+req.headers.host+'/'+file.path;
+                    console.log('DONE',  path);
+                    res.json({url: path}).send();
+                }
+            );
+    }
 
-    });
+    if (type === 'noise') {
+        gm(file.path)
+            .contrast(1)
+            .noise("laplacian")
+            .write(file.path, (err) => {
+                    if (err) return console.dir(arguments);
+                    var path = 'http://'+req.headers.host+'/'+file.path;
+                    console.log('DONE',  path);
+                    res.json({url: path}).send();
+                }
+            );
+    }
+
 
 });
 
 //url /api
 router.get('/convertimage', function(req, res) {
-
-
     res.json({ message: 'get convertimage' }).send();
 });
 

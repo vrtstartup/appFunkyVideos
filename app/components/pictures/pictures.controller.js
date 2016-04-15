@@ -5,17 +5,17 @@ export default class PicturesController {
         this.Upload = Upload;
 
         this.className = 'drd';
-        this.grayscale = '';
+        this.image = '';
 
         this.resetAllTemplates();
     }
 
-    upload(file) {
+    upload(file, type) {
         this.Upload.upload({
-            url: '/api/convertimage',
+            url: '/api/convertimage/' + type,
             data: {file: file}
         }).then((resp) => {
-            this.grayscale = resp.data.url;
+            this.image = resp.data.url;
             console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data.url);
         }, function (resp) {
             console.log('Error status: ' + resp.status);
@@ -96,6 +96,12 @@ export default class PicturesController {
         this.className = scheme;
     }
 
+    showLinda(scheme) {
+        this.resetAllTemplates();
+        this.isLinda = true;
+        this.className = scheme;
+    }
+
 
     resetAllTemplates() {
         this.isMurderface = false;
@@ -107,6 +113,7 @@ export default class PicturesController {
         this.isBob = false;
         this.isTina = false;
         this.isWartooth = false;
+        this.isLinda = false;
     }
 
 }

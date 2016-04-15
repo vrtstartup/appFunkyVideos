@@ -96,17 +96,23 @@
                 </md-toolbar>
                 <md-content ng-if="vm.showTempltesCanvas">
                     <md-subheader class="">De afspraak</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.showWartooth('canvas')">
+                    <md-list-item class="md-3-line" ng-click="vm.showWartooth('deafsprak')">
                         <img src="./../assets/templates/quote_canvas.png" alt="" width="100%">
+                    </md-list-item>
+                    <md-subheader class="">Terzake Quote</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.showTina('terzake')">
+                        <img src="./../assets/templates/quote_terzake.png" alt="" width="100%">
+                    </md-list-item>
+                    <md-subheader class="">Announcement</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.showLinda('terzake')">
+                        <img src="./../assets/templates/announcement.png" alt="" width="100%">
                     </md-list-item>
                 </md-content>
             </md-list>
         </md-content>
-
     </section>
 
     <section flex="85">
-
 
         <!--<section layout="row" layout-sm="column" layout-align="center" layout-wrap="">-->
         <!--<div flex="20">-->
@@ -120,7 +126,6 @@
         <!--</md-input-container>-->
         <!--</div>-->
         <!--</section>-->
-
 
         <div ng-class="vm.className">
             <form name="templateForm">
@@ -142,13 +147,16 @@
 
                 <ng-include src="'components/pictures/picture.tina.html'"></ng-include>
 
+                <ng-include src="'components/pictures/picture.linda.html'"></ng-include>
+
 
 
                 <div ng-messages="templateForm.img.$error.required" >
                     <div ng-message="required">Image is required.</div>
                 </div>
 
-                <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion || vm.isPickels || vm.isDethklok || vm.isBob || vm.isTina"
+                <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion
+                                || vm.isPickels || vm.isDethklok || vm.isBob || vm.isTina || vm.isLinda"
                          layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
                     <md-button class="md-raised" ng-click="vm.getPicture()" ng-disabled="templateForm.img.$error.required && (vm.templateClass != 'breaking')">Get Picture</md-button>
                 </section>

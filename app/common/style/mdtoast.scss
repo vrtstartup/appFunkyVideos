@@ -1,0 +1,35 @@
+@import "./variables";
+
+
+//md toast
+.md-toast-content {
+  color: white;
+  font-weight: bold;
+}
+
+md-toast.success .md-toast-content {
+  background-color: $drd-main-color;
+  padding: 10px;
+  max-height: 208px;
+  height: inherit;
+}
+
+md-toast.error .md-toast-content {
+  background-color: red;
+}
+
+md-toast.warn .md-toast-content {
+  background-color: orange;
+}
+
+md-toast {
+  position: fixed;
+}
+
+md-toast.md-right {
+  right: 10px;
+}
+
+md-toast.md-bottom {
+  bottom: 10px;
+}

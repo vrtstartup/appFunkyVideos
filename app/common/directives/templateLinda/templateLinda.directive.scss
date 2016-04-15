@@ -1,0 +1,28 @@
+.wrap-announce {
+  text-align: right;
+  margin: 25px 25px 25px 300px;
+  color: #fff;
+}
+
+.announce-block {
+  //display: inline-block;
+  .auth-title {
+    font-family: 'NarzissTextBold', serif;
+    font-size: 45px;
+    text-transform: uppercase;
+  }
+
+  .auth-name {
+    font-family: 'din-med', serif;
+    font-size: 30px;
+    text-transform: none;
+  }
+
+  .line-separator {
+    margin: 10px 0 15px 0;
+    width: auto;
+    height: 1px;
+    background-color: #fff;
+    //min-width: 600px;
+  }
+}

@@ -3,9 +3,12 @@ var router = express.Router();
 var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var multiparty = require('multiparty');
+var lodash = require('lodash');
 
 var dropboxService = require('../services/dropboxService.js');
 var dbClient = dropboxService.getDropboxClient();
+
+var jsonFile = 'data/json/templater.json';
 
 //url /api/movie
 
@@ -16,6 +19,7 @@ router.post('/movie-clip', function(req, res, next) {
     var fileStream = '';
     var fileStreamOpened = false;
     var fileName = '';
+    var fileExt = '';
     var folderName = '';
     var uploadPath = 'temp/movies/';
     var fullPath = '';
@@ -29,11 +33,13 @@ router.post('/movie-clip', function(req, res, next) {
             else {
                 if (!fileStreamOpened) {
                     fileStreamOpened = true;
-                    fullPath = uploadPath + folderName + '/' + fileName + '.mp4';
+                    fileExt = getExtension(part.filename);
+                    fullPath = uploadPath + fileName + fileExt;
 
-                    if (!fs.existsSync(uploadPath + folderName)){
-                        fs.mkdirSync(uploadPath + folderName);
-                    }
+                    //check if dir exists else create it
+                    //if (!fs.existsSync(uploadPath)) {
+                    //    fs.mkdirSync(uploadPath);
+                    //}
 
                     fileStream = fs.createWriteStream(fullPath, {'flags': 'a'});
                 }
@@ -56,30 +62,122 @@ router.post('/movie-clip', function(req, res, next) {
     });
 
     form.on('close', function() {
-        res.json({filePath: fullPath, fileName: fileName + '.mp4'}).send();
+        res.json({filePath: fullPath, fileName: fileName + fileExt}).send();
     });
 });
 
 router.post('/update-movie-json', function(req, res, next) {
     var movieClips = req.body.movieClips;
-    var jsonFile = 'server/assets/json/templater.json';
 
-    //append clips to json file on server
-    var obj = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
+    //update local JS
+    //fs.access('data/json', fs.F_OK, function(err) {
+    //    if(err) {
+    //        console.log('creating json directory');
+    //        fs.mkdirSync('data/json');
+    //    }
+    //
+    //    console.log('dir exists');
+    //
+    //    //append clips to json file on server
+    //    var file = [];
+    //
+    //    fs.access(jsonFile, fs.F_OK, function(err) {
+    //        if (!err) {
+    //            //if file exists, append contents to file
+    //            file = fs.readFileSync(jsonFile, 'utf8');
+    //
+    //            if (file.length > 0) {
+    //                file = JSON.parse(file);
+    //            }
+    //            else {
+    //                file = [];
+    //            }
+    //        }
+    //
+    //        movieClips.forEach(function(clip) {
+    //            file.push(clip);
+    //        });
+    //
+    //        fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
+    //            if(err) {
+    //                console.log('failed to write file');
+    //            }
+    //
+    //            fs.chmod(jsonFile, 511);
+    //
+    //            console.log('updated templater.json');
+    //            res.send();
+    //        });
+    //    });
+    //});
 
-    movieClips.forEach(function(clip) {
-        obj.push(clip);
+    //update dropbox json
+    var file = {
+        path: '/json/',
+        name: 'templater.json',
+        data: ''
+    };
+
+    //update JSON file on dropbox so AE templater get's triggered
+    dbClient.readFile(file.path + file.name, function(error, data) {
+        if (error) {
+            return next(Boom.badImplementation('unexpected error, couldn\'t read file from dropbox'));
+        }
+
+        file.data = data ? JSON.parse(data) : [];
+
+        movieClips.forEach(function(clip) {
+            file.data.push(clip);
+        });
+
+        dbClient.writeFile(file.path + file.name, JSON.stringify(file.data), function(error, stat) {
+            if (error) {
+                return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+            }
+
+            res.send();
+        });
     });
-
-    console.log(obj);
-
-    fs.writeFileSync(jsonFile, JSON.stringify(obj));
-
-    res.send();
 });
+
+//router.post('/delete-movie-json', function(req, res, next) {
+//    var clipId = req.body.clipId || 0;
+//
+//    file = fs.readFileSync(jsonFile, 'utf8');
+//
+//    if (file.length > 0) {
+//
+//        file = JSON.parse(file);
+//
+//        file = lodash.reject(file, function (clip) {
+//            return clip.id === clipId;
+//        });
+//
+//        fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
+//            if (err) {
+//                console.log('failed to write file');
+//            }
+//
+//            fs.chmod(jsonFile, 511);
+//
+//            console.log('deleted following id from templater', clipId);
+//            res.send();
+//        });
+//    }
+//    //check if last clip in movie, if so, start render
+//});
 
 router.post('/render-movie', function(req, res, next) {
-   //stitch together movie by folder ID, put result in download folder, delete all temp files
+    var movieId = req.body.movieId || 0;
+
+    //stitch together movie by folder ID, put result in download folder, delete all temp files
+    console.log('rendering movie with id:', movieId);
+    res.json({data: 'rendering movie!'}).send();
 });
+
+function getExtension(filename) {
+    var parts = filename.split('.');
+    return '.' + parts[parts.length - 1];
+}
 
 module.exports = router;

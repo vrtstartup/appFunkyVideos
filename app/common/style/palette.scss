@@ -166,9 +166,9 @@
 
 }
 
-.canvas {
+.deafsprak {
 
-  .logo-drd, .logo-r1, .logo-ak {
+  .logo-terzake{
     display: none;
   }
 
@@ -189,6 +189,59 @@
   }
 
   .overlay {
-    background: rgba($afspr-dark, 0.5);
+    background: rgba(236, 138, 0, 0.3);
+  }
+}
+
+.terzake {
+  .logo-afspr, .logo-canvas, .logo-drd, .logo-ak, .logo-r1 {
+    display: none;
+  }
+
+  .overlay {
+    background: rgba(0, 0, 0, 0.38);
+  }
+
+  .wrap {
+    background-color: teal;
+  }
+
+  .logo-terzake {
+    display: block;
+    height: 44px;
+    left: 25px;
+    top: 25px;
+  }
+
+  .quote {
+    font-family: 'NarzissTextBold', serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 60px;
+    line-height: 1em;
+  }
+
+  .author {
+    text-align: center;
+  }
+
+  .skwg-author {
+    left: unset;
+  }
+
+  .auth-name {
+    font-family: 'dinbold', sans-serif;
+    font-size: 31px;
+    line-height: 1em;
+    margin: 0;
+    //letter-spacing: 0.1em;
+  }
+
+  .auth-title {
+    font-family: 'NarzissTextRegular', serif;
+    font-size: 28px;
+    font-style: normal;
+    line-height: 1.1em;
+    margin: 0;
   }
 }

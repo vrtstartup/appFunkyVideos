@@ -21,18 +21,16 @@
         </md-content>
     </div>
     <div layout-gt-sm="row">
-        <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
-        <!--<md-checkbox ng-model="quote.isHiddenSign" aria-label="Checkbox hide quote"-->
-        <!--ng-init="quote.isHiddenSign=true">-->
-        <!--Is it a quote?-->
-        <!--</md-checkbox>-->
+        <!-- if deafspraak do noise-->
+        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise')"/>
+
     </div>
 
     <div class="dir-wrap">
         <vrt-template-wartooth class="dir-wrap"
                                is-hidden-sign="true"
                                author-name="quote.authorName" author-title="quote.authorTitle"
-                               is-ready="vm.isReady" quote="quote.question" image="quote.img">
+                               is-ready="vm.isReady" quote="quote.question" image="vm.image">
         </vrt-template-wartooth>
     </div>
 

@@ -17,7 +17,7 @@ const gridApi = require('./routes/grid');
 const mapsApi = require('./routes/maps');
 const questionsApi = require('./routes/questions');
 const convertImageApi = require('./routes/convertimage');
-
+const environmentVarsApi = require('./routes/environment');
 
 
 //var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('app')); // all in app folder is publicly accessible
 app.use('/temp', express.static('temp')); //temp is public
-app.use('/json', express.static('server/assets/json')); //public json file for templater
+app.use('/json', express.static('data/json')); //public json file for templater
 // ROUTES FOR OUR API
 // =============================================================================
 //var router = express.Router(); // get an instance of the express Router
@@ -47,7 +47,8 @@ app.use('/api/templater', templaterApi);
 app.use('/api', gridApi);
 app.use('/api', mapsApi);
 app.use('/api', questionsApi);
-app.use('/api', convertImageApi);
+app.use('/api', environmentVarsApi);
+
 
 
 
