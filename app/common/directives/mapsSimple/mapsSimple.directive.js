@@ -59,7 +59,7 @@ class mapsSimpleDirectiveController {
             preserveDrawingBuffer: true,
         });
 
-        this.map.addControl(this.geocoder);
+        //this.map.addControl(this.geocoder);
 
         // set view to this place
         this.map.doubleClickZoom.disable();
@@ -69,6 +69,24 @@ class mapsSimpleDirectiveController {
             this.MarkerLng = JSON.stringify(e.lngLat.lng);
             // get data of the country
             this.features = this.map.queryRenderedFeatures(e.point);
+        });
+
+        this.instantiateGeocoder();
+
+    }
+
+    instantiateGeocoder() {
+        console.log('instantiateGeocoder');
+        var geocoder = new mapboxgl.Geocoder();
+
+        this.map.addControl(geocoder);
+
+        geocoder.on('result', (ev) => {
+
+            let lng = ev.result.geometry.coordinates[0];
+            let lat = ev.result.geometry.coordinates[1];
+
+            this.setMarker(lat, lng);
         });
     }
 
