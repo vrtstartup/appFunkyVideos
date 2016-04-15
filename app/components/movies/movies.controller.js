@@ -178,6 +178,7 @@ export default class MoviesController {
 
         //this.currentClip.output = this.movie.$id + '/' + this.currentClip.id
         //this.currentClip.aep = this.templatePath.templaterPath;
+        this.currentClip.last = false;
         this.currentClip.type = this.templatePath.name;
         this.currentClip.saved = true;
 
@@ -202,7 +203,6 @@ export default class MoviesController {
             if (counter >= this.movieClips.length) {
                 clip.last = true;
             }
-
             this.firebaseMovieClips.$add(clip);
             counter++;
         });

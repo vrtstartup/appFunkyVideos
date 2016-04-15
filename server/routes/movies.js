@@ -135,6 +135,7 @@ router.post('/delete-movie-json', function(req, res, next) {
             res.send();
         });
     }
+    //check if last clip in movie, if so, start render
 });
 
 router.post('/render-movie', function(req, res, next) {
