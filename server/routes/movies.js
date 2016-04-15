@@ -139,8 +139,10 @@ router.post('/delete-movie-json', function(req, res, next) {
 });
 
 router.post('/render-movie', function(req, res, next) {
+    var movieId = req.body.movieId || 0;
+
     //stitch together movie by folder ID, put result in download folder, delete all temp files
-    console.log('rendering movie!');
+    console.log('rendering movie with id:', movieId);
     res.json({data: 'rendering movie!'}).send();
 });
 
