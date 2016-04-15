@@ -4,6 +4,9 @@ var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var multiparty = require('multiparty');
 var lodash = require('lodash');
+var Firebase = require('firebase');
+var movies = new Firebase("vrtnieuwshub.firebaseio.com/apps/movies/movies");
+var movieClips = new Firebase("https://vrtnieuwshub.firebaseio.com/apps/movies/movieclips")
 
 var dropboxService = require('../services/dropboxService.js');
 var dbClient = dropboxService.getDropboxClient();
@@ -168,9 +171,8 @@ router.post('/update-movie-json', function(req, res, next) {
 //});
 
 router.post('/clean-movie-json', function(req, res, next) {
-    var data = 'this is a test';
     var path = '/json/templater.json';
-    dbClient.writeFile(path, JSON.stringify(data), function(error, stat) {
+    dbClient.writeFile(path, '[]', function(error, stat) {
         if (error) {
             return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
         }
@@ -186,6 +188,8 @@ router.post('/render-movie', function(req, res, next) {
 
     //stitch together movie by folder ID, put result in download folder, delete all temp files
     console.log('rendering movie with id:', movieId);
+
+
     res.json({data: 'rendering movie!'}).send();
 });
 
