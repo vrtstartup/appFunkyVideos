@@ -4,14 +4,17 @@ var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var multiparty = require('multiparty');
 var lodash = require('lodash');
+var Q = require('q');
+var exec = require('child_process').exec;
 var Firebase = require('firebase');
 var movies = new Firebase("vrtnieuwshub.firebaseio.com/apps/movies/movies");
-var movieClips = new Firebase("https://vrtnieuwshub.firebaseio.com/apps/movies/movieclips")
+var movieClips = new Firebase("https://vrtnieuwshub.firebaseio.com/apps/movies/movieclips");
 
 var dropboxService = require('../services/dropboxService.js');
 var dbClient = dropboxService.getDropboxClient();
 
 var jsonFile = 'data/json/templater.json';
+var renderFolder = 'temp/movies/in';
 
 //url /api/movie
 
@@ -188,13 +191,102 @@ router.post('/render-movie', function(req, res, next) {
 
     var ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/movies').child("movieclips");
     ref.orderByChild('movieId').equalTo(movieId).on("value", function(snapshot) {
-        console.log(snapshot.val());
+        var clipFilenames = [];
+        snapshot.forEach(function(child) {
+            var childData = child.val();
+            clipFileNames.push(childData.output);
+        });
 
-        //get out paths from snapshot.val(), save them in array, open these files from DB and stitch them together
+        res.json({data: 'rendering your movie!'}).send();
 
-        res.json({data: 'rendering movie!'}).send();
+        stitchClips(childFilenames)
+            .then(function(result) {
+                //#todo send mail and have a part
+            });
     });
 });
+
+// to stitch all the clips, you first need to transfer them from Dropbox to our server so FFMPEG can work with them
+// ISACCO first needs to fix a preset so the files uploaded to dropbox aren't HUGE.
+// all files on the windows PC are in D:\imagetest for this project
+// once they're transferred, you can start stitching them
+// all this code needs to be variable to multiple files of course
+// see templater.js - certain parts can be reused or can be used as inspiration :-)
+// have fun
+
+function stitchClips(clipFileNames) {
+    var deferred = Q.defer();
+
+    var promises = [];
+
+    //filename is without file extension, you'll probably need to add this
+    clipFileNames.forEach(function(filename) {
+        //for each clip for this movieId, transfer all the clips from dropbox to local disk
+        //this is an array of promises, when every promises is resolved (so when all files are transfered), the code inside Q.all will run
+        promises.push(transferFileToDisk(filename));
+    });
+
+    Q.all(promises)
+        .then(function(results) {
+            console.log('transferred', results.length, 'files');
+            return renderMovie(results); //return the resolved promise of this function to the next then
+        })
+        .then(function() {
+            deferred.resolve('transferred all files and stitched them'); //resolving this will trigger the THEN of stitchClips, thus send the e-mail
+        })
+        .catch(function(err) {
+           console.log('Somewhere along the way, it went wrong', err);
+        });
+
+    return deferred.promise;
+}
+
+function transferFileToDisk(filename) {
+    //#todo test if file transfer works and puts it in the correct folder /temp/movies/in, and uses the correct extensions
+    var deferred = Q.defer();
+
+    dbClient.readFile('out/' + filename, {buffer: true}, function(error, data) {
+        if (error) {
+            return next(Boom.badImplementation('unexpected error, couldn\'t open file from dropbox'));
+        }
+
+        fs.writeFile(renderFolder + filename + '.mp4', data, function(err) {
+            if (err) deferred.reject(new Error(err));
+            else {
+                deferred.resolve({filePath: renderFolder + 'in' + fileName + '.mp4'});
+            }
+        });
+    });
+
+    return deferred.promise;
+};
+
+function renderMovie(localFilePaths) {
+    //#todo stitch together files with ffmpeg
+    var deferred = Q.defer();
+
+    //#todo fix FFMPEG line with variable inputs
+    var ffmpegCommand = "ffmpeg ..."
+
+    console.log('running:', ffmpegCommand);
+
+    var ffmpegProcess = exec(ffmpegCommand);
+
+    ffmpegProcess.stdout.on('data', function(data) {
+        console.log('stdout: ' + data);
+    });
+    ffmpegProcess.stderr.on('data', function(data) {
+        console.log('stderr: ' + data);
+    });
+    ffmpegProcess.on('close', function(code) {
+        if(code !== 0) {
+            console.log('program exited error code:', code);
+            return;
+        }
+
+        deferred.resolve('finished rendering movie');
+    });
+}
 
 function getExtension(filename) {
     var parts = filename.split('.');
