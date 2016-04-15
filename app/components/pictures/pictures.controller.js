@@ -96,6 +96,12 @@ export default class PicturesController {
         this.className = scheme;
     }
 
+    showLinda(scheme) {
+        this.resetAllTemplates();
+        this.isLinda = true;
+        this.className = scheme;
+    }
+
 
     resetAllTemplates() {
         this.isMurderface = false;
@@ -107,6 +113,7 @@ export default class PicturesController {
         this.isBob = false;
         this.isTina = false;
         this.isWartooth = false;
+        this.isLinda = false;
     }
 
 }

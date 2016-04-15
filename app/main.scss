@@ -62,17 +62,17 @@
   url('./fonts/textanarrow-heavy.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
-@font-face {
-  font-family: 'BodoniBold';
-  src:    url('./fonts/BodoniBold.ttf') format('ttf'),
-  url('./fonts/BodoniBold.woff') format('woff'); /* Pretty Modern Browsers */
-}
-
-@font-face {
-  font-family: 'BodoniBook';
-  src:    url('./fonts/BodoniBook.ttf') format('ttf'),
-  url('./fonts/BodoniBook.woff') format('woff'); /* Pretty Modern Browsers */
-}
+//@font-face {
+//  font-family: 'BodoniBold';
+//  src:    url('./fonts/BodoniBold.ttf') format('ttf'),
+//  url('./fonts/BodoniBold.woff') format('woff'); /* Pretty Modern Browsers */
+//}
+//
+//@font-face {
+//  font-family: 'BodoniBook';
+//  src:    url('./fonts/BodoniBook.ttf') format('ttf'),
+//  url('./fonts/BodoniBook.woff') format('woff'); /* Pretty Modern Browsers */
+//}
 
 @font-face {
   font-family: 'NarzissTextRegular';
@@ -80,6 +80,11 @@
   url('./fonts/NarzissTextRegular.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
+@font-face {
+  font-family: 'NarzissTextBold';
+  src:    url('./fonts/NarzissTextBold.ttf') format('ttf'),
+  url('./fonts/NarzissTextBold.woff') format('woff'); /* Pretty Modern Browsers */
+}
 
 @font-face {
   font-family: 'icomoon';
