@@ -14,7 +14,7 @@ export default class Controller {
     }
 
     addLabel(title) {
-        let el = angular.element('<div class="map-label" vrt-draggable draggable="true">'+title+'</div>');
+        let el = angular.element('<div class="map-label-main-city-hgl" vrt-draggable draggable="true">'+title+'</div>');
         let target = this.$document[0].querySelector('#map-img');
 
         angular.element(target).append(this.$compile(el)(this.$scope));

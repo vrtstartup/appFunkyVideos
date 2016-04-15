@@ -4,24 +4,24 @@
             <img class='logo logo-terzake' src="./assets/logo_terzake.svg">
             <div class="wrap-announce">
                 <div class="announce-block">
-                    <p class='auth-title' ng-init="vm.titleOne='Panama in de kamer'">{{vm.titleOne}}</p>
-                    <p class='auth-name' ng-init="vm.authorNameOne='Johan van Overtveldt'">{{vm.authorNameOne}}</p>
-                    <div class='line-separator' ng-if="vm.titleOne && vm.authorNameOne"></div>
+                    <p class='auth-title'>{{vm.titleOne}}</p>
+                    <p class='auth-name'>{{vm.authorNameOne}}</p>
+                    <div class='line-separator' ng-if="vm.titleOne || vm.authorNameOne" ng-style="{'width': vm.width + 'px'}"></div>
                 </div>
                 <div class="announce-block">
                     <p class='auth-title'>{{vm.titleTwo}}</p>
                     <p class='auth-name' >{{vm.authorNameTwo}}</p>
-                    <div class='line-separator' ng-if="vm.titleTwo && vm.authorNameTwo"></div>
+                    <div class='line-separator' ng-if="vm.titleTwo || vm.authorNameTwo" ng-style="{'width': vm.width + 'px'}"></div>
                 </div>
                 <div class="announce-block">
                     <p class='auth-title'>{{vm.titleThree}}</p>
                     <p class='auth-name' >{{vm.authorNameThree}}</p>
-                    <div class='line-separator' ng-if="vm.authorNameThree && vm.titleThree"></div>
+                    <div class='line-separator' ng-if="vm.authorNameThree || vm.titleThree" ng-style="{'width': vm.width + 'px'}"></div>
                 </div>
                 <div class="announce-block">
                     <p class='auth-title'>{{vm.titleFour}}</p>
                     <p class='auth-name' >{{vm.authorNameFour}}</p>
-                    <div class='line-separator' ng-if="vm.titleFour && vm.authorNameFour"></div>
+                    <div class='line-separator' ng-if="vm.titleFour || vm.authorNameFour" ng-style="{'width': vm.width + 'px'}"></div>
                 </div>
             </div>
         </div>

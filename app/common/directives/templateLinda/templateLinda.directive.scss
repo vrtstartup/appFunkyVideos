@@ -1,15 +1,15 @@
 .wrap-announce {
   text-align: right;
-  margin: 25px 25px 25px 300px;
+  margin: 25px;
   color: #fff;
 }
 
 .announce-block {
-  //display: inline-block;
   .auth-title {
     font-family: 'NarzissTextBold', serif;
     font-size: 45px;
     text-transform: uppercase;
+    display: inline-block;
   }
 
   .auth-name {
@@ -20,9 +20,9 @@
 
   .line-separator {
     margin: 10px 0 15px 0;
-    width: auto;
     height: 1px;
     background-color: #fff;
-    //min-width: 600px;
+    margin-left: auto;
+    margin-right: 0;
   }
 }
