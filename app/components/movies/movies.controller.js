@@ -178,7 +178,7 @@ export default class MoviesController {
 
         //this.currentClip.output = this.movie.$id + '/' + this.currentClip.id
         //this.currentClip.aep = this.templatePath.templaterPath;
-        this.currentClip.out = this.currentClip.id;
+        this.currentClip.output = this.currentClip.id;
         this.currentClip.last = false;
         this.currentClip.type = this.templatePath.name;
         this.currentClip.saved = true;
