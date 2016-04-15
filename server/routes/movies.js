@@ -176,9 +176,7 @@ router.post('/clean-movie-json', function(req, res, next) {
         if (error) {
             return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
         }
-
-        console.log(stat);
-
+        console.log('succesfully cleared json file');
         res.send();
     });
 });
@@ -186,11 +184,16 @@ router.post('/clean-movie-json', function(req, res, next) {
 router.post('/render-movie', function(req, res, next) {
     var movieId = req.body.movieId || 0;
 
-    //stitch together movie by folder ID, put result in download folder, delete all temp files
     console.log('rendering movie with id:', movieId);
 
+    var ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/movies').child("movieclips");
+    ref.orderByChild('movieId').equalTo(movieId).on("value", function(snapshot) {
+        console.log(snapshot.val());
 
-    res.json({data: 'rendering movie!'}).send();
+        //get out paths from snapshot.val(), save them in array, open these files from DB and stitch them together
+
+        res.json({data: 'rendering movie!'}).send();
+    });
 });
 
 function getExtension(filename) {

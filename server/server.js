@@ -48,8 +48,7 @@ app.use('/api', gridApi);
 app.use('/api', mapsApi);
 app.use('/api', questionsApi);
 app.use('/api', environmentVarsApi);
-
-
+app.use('/api', convertImageApi);
 
 
 // START THE SERVER
