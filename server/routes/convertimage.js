@@ -18,7 +18,7 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
         gm(file.path)
             .type('grayscale')
             .write(file.path, (err) => {
-                    if (err) return console.dir(arguments);
+                    if (err) return console.dir('Error is occured', err, arguments);
                     var path = 'http://'+req.headers.host+'/'+file.path;
                     console.log('DONE',  path);
                     res.json({url: path}).send();
@@ -31,7 +31,7 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
             .contrast(1)
             .noise("laplacian")
             .write(file.path, (err) => {
-                    if (err) return console.dir(arguments);
+                    if (err) return console.dir('Error is occured', err, arguments);
                     var path = 'http://'+req.headers.host+'/'+file.path;
                     console.log('DONE',  path);
                     res.json({url: path}).send();
