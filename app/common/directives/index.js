@@ -21,13 +21,14 @@ import maxlines from './maxlines';
 import gridBar from './gridBar';
 import mapsSimple from './mapsSimple';
 import userLogin from './userLogin';
+import draggable from './draggable';
 
 
 const module = angular.module('app.common.directives', [
     pieChart, text, screenshot, templateDethklok, templateBob, templateTina,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
-    userLogin
+    userLogin, draggable
 ]);
 
 export default module.name;

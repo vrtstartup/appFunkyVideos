@@ -17,7 +17,7 @@ const gridApi = require('./routes/grid');
 const mapsApi = require('./routes/maps');
 const questionsApi = require('./routes/questions');
 const convertImageApi = require('./routes/convertimage');
-
+const environmentVarsApi = require('./routes/environment');
 
 
 //var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
@@ -47,7 +47,8 @@ app.use('/api/templater', templaterApi);
 app.use('/api', gridApi);
 app.use('/api', mapsApi);
 app.use('/api', questionsApi);
-app.use('/api', convertImageApi);
+app.use('/api', environmentVarsApi);
+
 
 
 

@@ -1,23 +1,32 @@
 <md-content>
 
     <section  layout="row" layout-align="center center" layout-wrap="">
+        <md-content>
+            <!--<md-autocomplete md-input-name="autocomplete" md-selected-item="selectedItem" md-selected-item-change="vm.colourCountry(selectedItem)"-->
+                             <!--md-search-text="searchText" md-items="item in vm.getMatches(searchText)" md-item-text="item.properties.ADMIN">-->
+                <!--<md-item-template>-->
+                    <!--<span md-highlight-text="searchText">{{item.properties.ADMIN}}</span>-->
+                <!--</md-item-template>-->
+            <!--</md-autocomplete>-->
+            <md-input-container>
+                <label>Title</label>
+                <input ng-model="vm.map.title" ng-init="vm.map.title = 'Brussels'">
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="vm.addLabel(vm.map.title)">+ Add</md-button>
+
+        </md-content>
 
 
-        <md-input-container flex="40">
-            <label>zoom</label>
-            <input ng-model="vm.zoom" type="text">
-        </md-input-container>
-
-        <md-input-container flex="40">
-            <label>Place</label>
-            <input ng-model="vm.place" type="text">
-        </md-input-container>
 
 
-        <vrt-maps-simple class="maps-simple" is-ready="vm.isReady" zoom-level="vm.zoom" map-id="'mapbox.streets'" place="vm.place">
+    </section>
+    <section  layout="row" layout-align="center center" layout-wrap="">
+
+        <vrt-maps-simple class="maps-simple" is-ready="vm.isReady" map-id="'mapbox.streets'">
         </vrt-maps-simple>
 
     </section>
+
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
         <md-button class="md-raised" ng-click="vm.getPicture()">Get Picture</md-button>
     </section>
