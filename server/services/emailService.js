@@ -2,6 +2,7 @@ var nodemailer = require('nodemailer');
 var emailpwd = process.env.MAIL_PWD;
 var transporter = nodemailer.createTransport('smtps://vrtfunkyvideos%40gmail.com:'+emailpwd+'@smtp.gmail.com');
 
+
 module.exports = (function() {
     return {
         sendMail: function(toAddress, subject, message) {
