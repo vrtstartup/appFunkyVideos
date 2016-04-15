@@ -11,4 +11,5 @@ mkdir temp
 chmod 777 temp
 
 [ -d "data" ] || mkdir data
+
 chmod 777 data
