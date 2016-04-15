@@ -60,7 +60,7 @@ req.write(data);
 req.end();
 
 //if this was the last fragment, send POST request to server
-if (last) {
+if (last === "true") {
     logger.info('this is the last file, sending request to render');
 
     var data = querystring.stringify({

@@ -167,6 +167,20 @@ router.post('/update-movie-json', function(req, res, next) {
 //    //check if last clip in movie, if so, start render
 //});
 
+router.post('/clean-movie-json', function(req, res, next) {
+    var data = 'this is a test';
+    var path = '/json/templater.json';
+    dbClient.writeFile(path, JSON.stringify(data), function(error, stat) {
+        if (error) {
+            return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+        }
+
+        console.log(stat);
+
+        res.send();
+    });
+});
+
 router.post('/render-movie', function(req, res, next) {
     var movieId = req.body.movieId || 0;
 
