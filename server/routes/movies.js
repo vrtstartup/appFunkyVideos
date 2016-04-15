@@ -69,74 +69,103 @@ router.post('/movie-clip', function(req, res, next) {
 router.post('/update-movie-json', function(req, res, next) {
     var movieClips = req.body.movieClips;
 
-    fs.access('data/json', fs.F_OK, function(err) {
-        if(err) {
-            console.log('creating json directory');
-            fs.mkdirSync('data/json');
+    //update local JS
+    //fs.access('data/json', fs.F_OK, function(err) {
+    //    if(err) {
+    //        console.log('creating json directory');
+    //        fs.mkdirSync('data/json');
+    //    }
+    //
+    //    console.log('dir exists');
+    //
+    //    //append clips to json file on server
+    //    var file = [];
+    //
+    //    fs.access(jsonFile, fs.F_OK, function(err) {
+    //        if (!err) {
+    //            //if file exists, append contents to file
+    //            file = fs.readFileSync(jsonFile, 'utf8');
+    //
+    //            if (file.length > 0) {
+    //                file = JSON.parse(file);
+    //            }
+    //            else {
+    //                file = [];
+    //            }
+    //        }
+    //
+    //        movieClips.forEach(function(clip) {
+    //            file.push(clip);
+    //        });
+    //
+    //        fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
+    //            if(err) {
+    //                console.log('failed to write file');
+    //            }
+    //
+    //            fs.chmod(jsonFile, 511);
+    //
+    //            console.log('updated templater.json');
+    //            res.send();
+    //        });
+    //    });
+    //});
+
+    //update dropbox json
+    var file = {
+        path: '/json/',
+        name: 'templater.json',
+        data: ''
+    };
+
+    //update JSON file on dropbox so AE templater get's triggered
+    dbClient.readFile(file.path + file.name, function(error, data) {
+        if (error) {
+            return next(Boom.badImplementation('unexpected error, couldn\'t read file from dropbox'));
         }
 
-        console.log('dir exists');
+        file.data = data ? JSON.parse(data) : [];
 
-        //append clips to json file on server
-        var file = [];
+        movieClips.forEach(function(clip) {
+            file.data.push(clip);
+        });
 
-        fs.access(jsonFile, fs.F_OK, function(err) {
-            if (!err) {
-                //if file exists, append contents to file
-                file = fs.readFileSync(jsonFile, 'utf8');
-
-                if (file.length > 0) {
-                    file = JSON.parse(file);
-                }
-                else {
-                    file = [];
-                }
+        dbClient.writeFile(file.path + file.name, JSON.stringify(file.data), function(error, stat) {
+            if (error) {
+                return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
             }
 
-            movieClips.forEach(function(clip) {
-                file.push(clip);
-            });
-
-            fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
-                if(err) {
-                    console.log('failed to write file');
-                }
-
-                fs.chmod(jsonFile, 511);
-
-                console.log('updated templater.json');
-                res.send();
-            });
+            res.send();
         });
     });
 });
 
-router.post('/delete-movie-json', function(req, res, next) {
-    var clipId = req.body.clipId || 0;
-
-    file = fs.readFileSync(jsonFile, 'utf8');
-
-    if (file.length > 0) {
-
-        file = JSON.parse(file);
-
-        file = lodash.reject(file, function (clip) {
-            return clip.id === clipId;
-        });
-
-        fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
-            if (err) {
-                console.log('failed to write file');
-            }
-
-            fs.chmod(jsonFile, 511);
-
-            console.log('deleted following id from templater', clipId);
-            res.send();
-        });
-    }
-    //check if last clip in movie, if so, start render
-});
+//router.post('/delete-movie-json', function(req, res, next) {
+//    var clipId = req.body.clipId || 0;
+//
+//    file = fs.readFileSync(jsonFile, 'utf8');
+//
+//    if (file.length > 0) {
+//
+//        file = JSON.parse(file);
+//
+//        file = lodash.reject(file, function (clip) {
+//            return clip.id === clipId;
+//        });
+//
+//        fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
+//            if (err) {
+//                console.log('failed to write file');
+//            }
+//
+//            fs.chmod(jsonFile, 511);
+//
+//            console.log('deleted following id from templater', clipId);
+//            res.send();
+//        });
+//    }
+//    //check if last clip in movie, if so, start render
+//});
 
 router.post('/render-movie', function(req, res, next) {
     var movieId = req.body.movieId || 0;
