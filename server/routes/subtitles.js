@@ -91,7 +91,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
 
 
-        var ffmpegCommand = 'ffmpeg -i ' + path + videoPath +' -y -vf subtitles=' + srtPath + ':force_style="FontSize=24" ' + url;
+        var ffmpegCommand = 'ffmpeg -i ' + path + videoPath +' -y -vf subtitles=' + srtPath + ':force_style="FontSize=24" -strict -2' + url;
         var ffmpegProcess = exec(ffmpegCommand);
 
         ffmpegProcess.stdout.on('data', function(data) {
