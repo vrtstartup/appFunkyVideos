@@ -14,6 +14,7 @@ var id = '';
 var movieId = '';
 var last = false;
 
+logger.info('-------------------------------------------------------');
 logger.info('running post-script, got following params', process.argv);
 
 if (process.argv[2]) {
@@ -23,41 +24,18 @@ if (process.argv[2]) {
 
 if (process.argv[3]) {
     movieId = process.argv[3];
-    logger.info('id', movieId);
+    logger.info('movie', movieId);
 }
 
 if (process.argv[4]) {
     last = process.argv[4];
-    logger.info('id', last);
+    logger.info('last', last);
 }
-
-//delete rendered clip from JSON
-//var get = http.get('http://nieuwshub-dev.vrt.be/json/templater.json', function(file) {
-//    file = fs.readFileSync(jsonFile, 'utf8');
-//
-//    if (file.length > 0) {
-//
-//        file = JSON.parse(file);
-//
-//        lodash.reject(file, function(clip) {
-//            return clip.id === id;
-//        });
-//
-//        fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
-//            if(err) {
-//                console.log('failed to write file');
-//            }
-//
-//            fs.chmod(jsonFile, 511);
-//
-//            console.log('updated templater.json');
-//            res.send();
-//        });
-//    }
-//});
 
 var data = querystring.stringify({
     clipId: id,
+    movieId: movieId,
+    last: last
 });
 
 var options = {
@@ -83,6 +61,8 @@ req.end();
 
 //if this was the last fragment, send POST request to server
 if (last) {
+    logger.info('this is the last file, sending request to render');
+
     var data = querystring.stringify({
         movieId: movieId,
     });
