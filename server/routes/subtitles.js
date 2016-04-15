@@ -3,6 +3,7 @@ var router = express.Router();
 var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var findRemoveSync = require('find-remove');
+var exec = require('child_process').exec;
 
 var multiparty = require('connect-multiparty');
 var multipartyMiddleware = multiparty({ uploadDir: 'temp/subtitleVideos/' });
@@ -59,31 +60,58 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         // burn subtitles
         url = path + 'gen' + videoPath;
 
-        ffmpeg(path + videoPath)
-            .outputOptions([
-                '-vf subtitles=' + srtPath,
-                '-strict',
-                '-2'
-            ])
-            .on('start', function(commandLine) {
-                //findRemoveSync('temp', {age: {seconds: 36000}});
-                res.json({processing: true}).send();
-                console.log('FFMPEG is really going to work hard: ' + commandLine);
-            })
-            .on('progress', function(progress) {
-                console.log('FFMPEG is working SUPER hard: ' + progress.percent + '% done');
-            })
-            .on('error', function(err, stdout, stderr) {
-                console.log('Error: ', stdout);
-                console.log('Error: ', err.message);
-                console.log('Error: ', stderr);
-                res.json({ error: stderr }).send();
-            })
-            .on('end', function() {
-                console.log('FFMPEG is DONE!', url);
-                sendNotificationTo(email, url);
-            })
-            .save(url);
+        // ffmpeg(path + videoPath)
+        //     .outputOptions([
+        //         '-vf subtitles=' + srtPath + ':force_style="FontSize=40"',
+        //         '-strict',
+        //         '-2'
+        //     ])
+        //     .on('start', function(commandLine) {
+        //         //findRemoveSync('temp', {age: {seconds: 36000}});
+        //         res.json({ processing: true }).send();
+        //         console.log('FFMPEG is really going to work hard: ' + commandLine);
+        //     })
+        //     .on('progress', function(progress) {
+        //         console.log('FFMPEG is working SUPER hard: ' + progress.percent + '% done');
+        //     })
+        //     .on('error', function(err, stdout, stderr) {
+        //         console.log('Error: ', stdout);
+        //         console.log('Error: ', err.message);
+        //         console.log('Error: ', stderr);
+        //         res.json({ error: stderr }).send();
+        //     })
+        //     .on('end', function() {
+        //         console.log('FFMPEG is DONE!', url);
+        //         sendNotificationTo(email, url);
+        //     })
+        //     .save(url);
+
+
+
+
+
+
+        var ffmpegCommand = 'ffmpeg -i ' + path + videoPath +' -y -vf subtitles=' + srtPath + ':force_style="FontSize=24" ' + url;
+        var ffmpegProcess = exec(ffmpegCommand);
+
+        ffmpegProcess.stdout.on('data', function(data) {
+
+            console.log('stdout: ' + data);
+        });
+        ffmpegProcess.stderr.on('data', function(data) {
+            console.log('stderr: ' + data);
+        });
+        ffmpegProcess.on('close', function(code) {
+            if (code !== 0) {
+                console.log('program exited error code:', code);
+                return;
+            }
+            sendNotification(email, url);
+        });
+
+
+
+
 
     } else {
         res.json({ url: url, name: name, subtitled: false }).send();
@@ -95,11 +123,11 @@ function getExtension(filename) {
     return parts[parts.length - 1];
 }
 
-function sendNotificationTo(email, url) {
+function sendNotification(email, url) {
     var fullUrl = 'http://nieuwshub.vrt.be/' + url;
     var subject = 'Uw video met ondertitels is klaar om te downloaden (' + url + ')';
     var message = "<p>Beste collega,</p><p>Uw video met ondertitels is klaar, u kan hem hier downloaden:<br /> <a href=" + fullUrl +
-                    ">" + fullUrl + "</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>";
+        ">" + fullUrl + "</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>";
 
     emailService.sendMail(email, subject, message);
 }
