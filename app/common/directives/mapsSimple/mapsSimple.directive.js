@@ -96,7 +96,7 @@ class mapsSimpleDirectiveController {
 
         let map = angular.element( document.querySelector( '#map' ) );
         let searchBar = angular.element( document.querySelector( '#searchbar' ) );
-        searchBar.remove();
+        searchBar.addClass('invisible');
         map.remove();
 
         let target = angular.element(this.$document[0].querySelector('#map-img'));
@@ -114,7 +114,7 @@ class mapsSimpleDirectiveController {
         return this.filteredResult;
     }
 
-    colourCountry(selected) {
+    colorCountry(selected) {
         let newObj = {
             'type': 'geojson',
             'data': selected
@@ -128,16 +128,17 @@ class mapsSimpleDirectiveController {
 
         this.map.addLayer({
             "id": id,
-            "type": "line",
+            "type": "fill",
             "source": id,
             "source-layer": "contour",
-            "layout": {
-                "line-join": "round",
-                "line-cap": "round"
-            },
+            //"layout": {
+            //    "line-join": "round",
+            //    "line-cap": "round"
+            //},
             "paint": {
-                "line-color": "#FFE83E",
-                "line-width": 1
+                //"line-color": "#FFE83E",
+                //"line-width": 1
+                'fill-color': '#fff',
             }
 
         });

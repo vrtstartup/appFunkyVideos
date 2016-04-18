@@ -28,6 +28,19 @@
 
 .map-img{
   height: 512px;
+  //position: relative;
+}
+
+.test {
+  position: absolute;
+  width: 240px;
+  top: 16%;
+  left: 36%;
+  z-index: 2222;
+}
+
+.invisible {
+  display: none;
 }
 
 [draggable] {
