@@ -53,7 +53,7 @@ class mapsSimpleDirectiveController {
 
         this.map = new mapboxgl.Map({
             container: 'map', // container id
-            style: 'mapbox://styles/vrtstartup/cilcbtvj2003ubekq19m2azeb', //hosted style id
+            style: 'mapbox://styles/vrtstartup/cimqdw4q400ttd2npni07vcwu', //hosted style id
             center: [4, 51], // starting position
             zoom: 6, // starting zoom
             preserveDrawingBuffer: true,
