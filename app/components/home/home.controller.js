@@ -24,8 +24,8 @@ export default class HomeController {
          */
         this.tiles = [
             {
-                'title': 'Grid',
-                'sub': 'Overzicht van posted content',
+                'title': 'Social Grid',
+                'sub': 'Maak een dagoverzicht van de Facebookmix',
                 'type': 'tool',
                 'category': 'facebook',
                 'image': 'assets/home-grid.png',
@@ -33,7 +33,7 @@ export default class HomeController {
             },
             {
                 'title': 'Afbeeldingmaker',
-                'sub': 'Maak snel afbeeldingen met voorgemaakte sjablonen',
+                'sub': 'Maak social templates in enkele klikken',
                 'status': 'Klaar om te gebruiken, maar verwacht je aan een foutje hier en daar.',
                 'type': 'tool',
                 'category': 'facebook',
@@ -43,7 +43,7 @@ export default class HomeController {
             },
             {
                 'title': 'Ondertitels',
-                'sub': 'Voeg ondertitels toe aan een filmpje',
+                'sub': 'Voeg subtitles toe aan filmpjes',
                 'type': 'tool',
                 'category': 'facebook',
                 'image': 'assets/home-subtitler.png',
@@ -51,7 +51,7 @@ export default class HomeController {
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/tools-templates#/ondertitel-tool/ondertitels-toevoegen'
             },
             {
-                'title': 'Infografieken',
+                'title': 'Infotainment',
                 'sub': 'Maak bewegende infografieken',
                 'status': 'Voorlopig werkt slechts 1 template: het taartdiagram.',
                 'type': 'tool',
@@ -60,8 +60,8 @@ export default class HomeController {
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/tools-templates#/video-templates/taartgrafiek'
             },
             {
-                'title': 'Pagemaker',
-                'sub': 'Maak een mooi, langer verhaal',
+                'title': 'Lang verhaal',
+                'sub': 'Creëer long copy met Pagemaker',
                 'status': 'Stuur een mailtje naar maarten.lauwaert@vrt.be indien je deze tool wil uittesten.',
                 'type': 'tool',
                 'image': 'assets/home-pagemaker.png',
@@ -69,14 +69,14 @@ export default class HomeController {
                 'docUrl': 'https://app.frontify.com/d/TxcwgYOVtrNH/vrt-pagemaker-handleiding#/de-basis/basis-in-7-regels'
             },
             {
-                'title': 'Dashboard',
-                'sub': 'Evalueer hoe je posts het gedaan hebben',
+                'title': 'Social Dashboard',
+                'sub': 'Evalueer bereik en interactie van Facebookposts',
                 'type': 'tool',
                 'url': 'https://app.klipfolio.com/dashboard'
             },
             {
-                'title': 'Maps',
-                'sub': 'Genereer een map met marker',
+                'title': 'Kaarten',
+                'sub': 'Genereer maps met Marker',
                 'status': 'In ontwikkeling',
                 'type': 'tool',
                 'category': 'facebook',
@@ -86,35 +86,37 @@ export default class HomeController {
             },
             {
                 'title': 'Video met tekst',
-                'sub': 'Voeg korte tekstje toe met uitleg aan een filmpje',
+                'sub': 'Voeg extra uitleg toe aan filmpjes',
                 'type': 'tool',
                 'image': 'assets/home-templater.png',
                 'url': 'https://vrtnieuwshub.firebaseapp.com/#/',
                 'disabled': true
             },
             {
-                'title': '7 Facebookregels',
-                'sub': 'De 7 gouden Facebook regels',
+                'title': '7 Gouden Regels',
+                'sub': 'VRT Nieuws op Facebook',
                 'type': 'guide',
                 'image': 'assets/home-facebook.png',
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/7-gouden-regels'
             },
             {
-                'title': 'Communicatiegids Facebook',
-                'sub': 'Hoe werk je met Facebook?',
+                'title': 'Communicatiegids',
+                'sub': 'Taal- & beeldgebruik op Facebook',
                 'type': 'guide',
                 'image': 'assets/home-facebook.png',
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/communicatiegids'
             },
             {
-                'title': 'Handleiding Tools & Templates',
+                'title': 'Tools & Templates gids',
+                'sub': 'Handleiding met stappenplannen',
                 'category': 'facebook',
                 'type': 'guide',
                 'image': 'assets/home-facebook.png',
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/tools-templates'
             },
             {
-                'title': 'Tips & Tricks Twitter',
+                'title': 'Tips & Tricks',
+                'sub': 'VRT Nieuws op Twitter',
                 'category': 'twitter',
                 'type': 'guide',
                 'image': 'assets/home-twitter.png',
@@ -122,13 +124,15 @@ export default class HomeController {
             },
             {
                 'title': '10 Gebruikersinzichten',
+                'sub': 'Inzichten gebruikersonderzoek VRT Nieuws',
                 'category': 'facebook',
                 'type': 'learnings',
                 'image': 'assets/home-facebook.png',
                 'docUrl': 'https://app.frontify.com/d/1vi0ktgfFCVU/inzichten'
             },
             {
-                'title': '3 subdoelgroepen VRT Nieuws',
+                'title': '3 Subdoelgroepen',
+                'sub': 'Ontdek de VRT Nieuws persona',
                 'category': 'facebook',
                 'type': 'learnings',
                 'image': 'assets/home-userinsights.png',
