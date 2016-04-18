@@ -1,4 +1,4 @@
-import { reject, find, filter, startsWith } from 'lodash';
+import { reject, find, filter, startsWith, hasIn } from 'lodash';
 import './mapsSimple.directive.scss';
 
 import template from './mapsSimple.directive.html';
@@ -115,33 +115,34 @@ class mapsSimpleDirectiveController {
     }
 
     colorCountry(selected) {
+
+        if(!selected) return;
+
         let newObj = {
             'type': 'geojson',
             'data': selected
         };
 
         let id = selected.properties.ISO_A3;
-
         JSON.stringify(newObj);
 
-        this.map.addSource(id, newObj);
+        if ( !hasIn(this.map.style._layers, id)) {
 
-        this.map.addLayer({
-            "id": id,
-            "type": "fill",
-            "source": id,
-            "source-layer": "contour",
-            //"layout": {
-            //    "line-join": "round",
-            //    "line-cap": "round"
-            //},
-            "paint": {
-                //"line-color": "#FFE83E",
-                //"line-width": 1
-                'fill-color': '#fff',
-            }
+            this.map.addSource(id, newObj);
 
-        });
+            this.map.addLayer({
+                "id": id,
+                "type": "fill",
+                "source": id,
+                "source-layer": "contour",
+                "paint": {
+                    'fill-color': '#fff',
+                },
+            });
+        } else {
+            this.map.removeLayer(id);
+        }
+
     }
 
     setMarker(lat, lng) {
