@@ -1,12 +1,12 @@
 <div>
-    <!--<md-content>-->
-        <!--<md-autocomplete md-input-name="autocomplete" md-selected-item="selectedItem" md-selected-item-change="vm.colourCountry(selectedItem)"-->
-                         <!--md-search-text="searchText" md-items="item in vm.getMatches(searchText)" md-item-text="item.properties.ADMIN">-->
-            <!--<md-item-template>-->
-                <!--<span md-highlight-text="searchText">{{item.properties.ADMIN}}</span>-->
-            <!--</md-item-template>-->
-        <!--</md-autocomplete>-->
-    <!--</md-content>-->
+    <md-content id="searchbar">
+        <md-autocomplete md-input-name="autocomplete" md-selected-item="selectedItem" md-selected-item-change="vm.colourCountry(selectedItem)"
+                         md-search-text="searchText" md-items="item in vm.getMatches(searchText)" md-item-text="item.properties.ADMIN">
+            <md-item-template>
+                <span md-highlight-text="searchText">{{item.properties.ADMIN}}</span>
+            </md-item-template>
+        </md-autocomplete>
+    </md-content>
 
     <div id="map"></div>
     <div id="map-img">

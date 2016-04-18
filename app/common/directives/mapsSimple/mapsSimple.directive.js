@@ -95,9 +95,12 @@ class mapsSimpleDirectiveController {
         this.blob = data;
 
         let map = angular.element( document.querySelector( '#map' ) );
+        let searchBar = angular.element( document.querySelector( '#searchbar' ) );
+        searchBar.remove();
         map.remove();
 
         let target = angular.element(this.$document[0].querySelector('#map-img'));
+        target.addClass('map-img');
 
         var deferred = this.$q.defer();
         deferred.resolve(target);
