@@ -9,10 +9,23 @@
                 <!--</md-item-template>-->
             <!--</md-autocomplete>-->
             <md-input-container>
-                <label>Title</label>
+                <label>Highlited City</label>
                 <input ng-model="vm.map.title" ng-init="vm.map.title = 'Brussels'">
             </md-input-container>
-            <md-button class="md-raised md-primary" ng-click="vm.addLabel(vm.map.title)">+ Add</md-button>
+            <md-button class="md-raised md-primary" ng-click="vm.addLabel(vm.map.title, 'main-city-hgl')">+ Add</md-button>
+
+            <md-input-container>
+                <label>City</label>
+                <input ng-model="vm.map.titleCity" ng-init="vm.map.titleCity = 'Paris'">
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="vm.addLabel(vm.map.titleCity, 'main-city')">+ Add</md-button>
+
+            <md-input-container>
+                <label>Country</label>
+                <input ng-model="vm.map.country" ng-init="vm.map.country = 'Belgium'">
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="vm.addLabel(vm.map.country, 'country')">+ Add</md-button>
+
         </md-content>
 
     </section>

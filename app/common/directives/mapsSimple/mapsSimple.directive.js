@@ -15,7 +15,7 @@ class mapsSimpleDirectiveController {
         this.videoGeneration = videoGeneration;
         this.$http = $http;
         this.$document = $document;
-        this.geocoder = new mapboxgl.Geocoder();
+        //this.geocoder = new mapboxgl.Geocoder();
         this.blob = '';
 
         this.$http.get('../../../assets/countries.geojson').success((data) => {
@@ -76,7 +76,6 @@ class mapsSimpleDirectiveController {
     }
 
     instantiateGeocoder() {
-        console.log('instantiateGeocoder');
         var geocoder = new mapboxgl.Geocoder();
 
         this.map.addControl(geocoder);
@@ -145,7 +144,7 @@ class mapsSimpleDirectiveController {
         this.number = this.number + 1;
 
         this.id = 'markers'+this.number;
-        console.log('Marker', this.id);
+        console.log('Marker', lat, lng);
 
 
         this.map.addSource(this.id, {
@@ -158,24 +157,18 @@ class mapsSimpleDirectiveController {
                         "type": "Point",
                         "coordinates": [lng, lat]
                     },
-                    "properties": {
-                        "marker-symbol": "icon"
-                    }
                 }]
             }
         });
 
         this.map.addLayer({
             "id": "cluster-" + this.id,
-            "type": "symbol",
+            "type": "circle",
             "source": this.id,
-            "layout": {
-                "icon-image": "{marker-symbol}",
-                "text-field": "{title}",
-                "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                "text-offset": [0, 0.6],
-                "text-anchor": "top"
-            }
+            "paint": {
+                "circle-color": '#FEFD3A',
+                "circle-radius": 3
+            },
         });
     }
 
