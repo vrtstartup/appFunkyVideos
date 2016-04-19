@@ -33,6 +33,7 @@
                 <p class="inset" ng-if="!vm.userExists && !vm.authenticated && vm.userChecked && vm.correctDomain && !vm.accountVerified">Je bent nog niet geregistreerd. Wil je een account aanmaken?</p>
                 <p class="inset" ng-if="!vm.userExists && !vm.authenticated && vm.userChecked && !vm.correctDomain">Dit is geen vrt.be adres, hiermee kan je geen account aanmaken.</p>
                 <p class="inset" ng-if="vm.authenticated">Je bent ingelogd met het email adres {{vm.userForm.email}}</p>
+                <p class="inset forgotLink" ng-if="vm.userExists && vm.accountVerified && !vm.authenticated" ng-click="vm.forgotPassword(vm.userForm)">Ben je jouw paswoord vergeten? Klik hier!</p>
             </md-content>
 
   <!--           <br>checked: {{vm.userChecked}}

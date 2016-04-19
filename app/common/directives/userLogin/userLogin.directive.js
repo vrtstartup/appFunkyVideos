@@ -69,6 +69,51 @@ class UserLoginDirectiveController {
         });
     }
 
+    forgotPassword(user) {
+        console.log(user);
+
+        let ref = new Firebase('https://vrtnieuwshub.firebaseio.com/users/');
+        let query = ref.orderByChild('email').equalTo(user.email).on('value', (snapshot) => {
+            if (snapshot.val() !== null) {
+                let data = snapshot.val();
+                let key = Object.keys(data)[0];
+                this.userId = Object.keys(data)[0];
+
+
+
+                this.firebaseAuth.$resetPassword({
+                    email: user.email
+                }).then(() => {
+                    console.log("Password reset email sent successfully!");
+
+                    let ref = new Firebase('https://vrtnieuwshub.firebaseio.com/users/' + this.userId);
+                    let obj = this.$firebaseObject(ref);
+                    obj.email = user.email;
+                    obj.verificationStatus = 'lostPassword';
+                    obj.$save().then((ref) => {
+
+                    }, function(error) {
+                        console.log("Error:", error);
+                    });
+
+
+                    // this.closePopup();
+                }).catch(function(error) {
+                    console.error("Error: ", error);
+                });
+
+
+
+            } else {
+
+            }
+        });
+
+
+
+
+    }
+
     logOut() {
         this.firebaseAuth.$unauth();
         this.userForm = {};
@@ -174,7 +219,7 @@ class UserLoginDirectiveController {
         obj.$loaded()
             .then((data) => {
                 this.userForm.email = data.email;
-                if (data.verificationStatus === 'pending') {
+                if (data.verificationStatus === 'pending' || data.verificationStatus === 'lostPassword') {
                     this.accountVerified = false;
                     this.openLoginPopup(this.userForm);
                 } else {
