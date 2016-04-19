@@ -29,6 +29,8 @@ class VideoPlayerDirectiveController {
         $scope.$watch('[start, end]', (values, oldValues) => {
             if (!values) return;
 
+            console.log('values', values);
+
             let startChanged =  values[0] !== oldValues[0];
             if (startChanged && this.videogular.api) {
                 this.videogular.api.seekTime(values[0]);

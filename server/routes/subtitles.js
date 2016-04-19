@@ -25,7 +25,6 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     var url = file.path;
     var email = req.body.email;
     var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '').replace('.MP4', '').replace('.mov', '').replace('.avi', '').replace('.mkv', '');
-    //console.log('REQ', req.files.file);
 
     const ext = getExtension(file.name);
 
@@ -59,9 +58,8 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
     } else if(ext === 'mov') {
         // convert .mov into .mp4
-
         var ffmpegCommandConversion = 'ffmpeg -i ' + url + ' -vcodec copy -acodec copy ' + path + name + '.mp4';
-        var ffmpegProcess = exec(ffmpegCommandConversion);
+        ffmpegProcess = exec(ffmpegCommandConversion);
 
         ffmpegProcess.stdout.on('data', function(data) {
             console.log('stdout: ' + data);
