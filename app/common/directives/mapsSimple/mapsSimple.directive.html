@@ -1,6 +1,7 @@
 <div>
     <md-content id="searchbar" class="searchbar">
-        <md-autocomplete placeholder="select a country" md-input-name="autocomplete" md-selected-item="selectedItem" md-selected-item-change="vm.colorCountry(selectedItem)"
+        <md-autocomplete placeholder="highlite a country" md-input-name="autocomplete" md-selected-item="selectedItem"
+                         md-selected-item-change="vm.colorCountry(selectedItem)"
                          md-search-text="searchText" md-items="item in vm.getMatches(searchText)" md-item-text="item.properties.ADMIN">
             <md-item-template>
                 <span md-highlight-text="searchText">{{item.properties.ADMIN}}</span>

@@ -115,7 +115,6 @@ class mapsSimpleDirectiveController {
     }
 
     colorCountry(selected) {
-
         if(!selected) return;
 
         let newObj = {

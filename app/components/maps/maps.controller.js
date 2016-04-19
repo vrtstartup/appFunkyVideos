@@ -14,19 +14,24 @@ export default class Controller {
     }
 
     addLabel(title, type) {
-        let el = angular.element('<div class="map-label-'+type+'" vrt-draggable draggable="true">'+title+'</div>');
+        let el = angular.element('<div class="map-label-'+type+ ' map-label-'+type+'-lft" vrt-draggable draggable="true" data="'+type+'" ng-dblclick="vm.togglePoint($event)">'+title+'</div>');
         let target = this.$document[0].querySelector('#map-img');
 
         angular.element(target).append(this.$compile(el)(this.$scope));
-        this.addPoint(type);
+        this.resetInput();
     }
 
-    addPoint(type) {
-        console.log('point');
-        let el = angular.element('<div class="map-point-'+type+'" vrt-draggable draggable="true"></div>');
-        let target = this.$document[0].querySelector('#map-img');
 
-        angular.element(target).append(this.$compile(el)(this.$scope));
+    togglePoint(obj) {
+        let className = obj.target.attributes.data.value;
+
+        var el = angular.element(obj.target);
+        el.toggleClass('map-label-' + className + '-rght');
+        el.toggleClass('map-label-' + className +'-lft');
+    }
+
+    resetInput() {
+        this.map = {};
     }
 }
 

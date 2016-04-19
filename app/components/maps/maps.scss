@@ -21,12 +21,23 @@ vrt-maps-simple {
   z-index: 2222;
 }
 
-.map-point-main-city-hgl {
+.map-label-main-city-hgl-rght:after {
   width: 20px;
   height: 20px;
   background-color: $drd-main-color;
-  top: 72%;
-  left: 38%;
+  top: 19px;
+  left: -30px;
+  content: '';
+  position: absolute;
+}
+
+.map-label-main-city-hgl-lft:before {
+  width: 20px;
+  height: 20px;
+  background-color: $drd-main-color;
+  top: 19px;
+  right: -30px;
+  content: '';
   position: absolute;
 }
 
@@ -46,13 +57,25 @@ vrt-maps-simple {
   z-index: 2222;
 }
 
-.map-point-main-city {
+.map-label-main-city-rght:after {
   width: 14px;
   height: 14px;
   background-color: $white;
   border: 3px solid $map-bg-light;
-  top: 72%;
-  left: 38%;
+  top: 11px;
+  right: -25px;
+  content: '';
+  position: absolute;
+}
+
+.map-label-main-city-lft:before {
+  width: 14px;
+  height: 14px;
+  background-color: $white;
+  border: 3px solid $map-bg-light;
+  top: 11px;
+  left: -25px;
+  content: '';
   position: absolute;
 }
 
