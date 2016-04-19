@@ -10,8 +10,8 @@ class DraggableDirectiveController {
 
         this.startX = 0;
         this.startY = 0;
-        this.x = 680;
-        this.y = 450;
+        this.x = 380;
+        this.y = 150;
 
         this.$element.css({
             //position: 'relative',
