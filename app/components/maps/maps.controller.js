@@ -12,7 +12,7 @@ export default class Controller {
     }
 
     addLabel(title, type) {
-        let el = angular.element('<div class="map-label-'+type+ ' map-label-'+type+'-lft" vrt-draggable draggable="true" data="'+type+'" ng-dblclick="vm.togglePoint($event)">'+title+'</div>');
+        let el = angular.element('<div class="map-label-'+type+ ' map-label-'+type+'-lft" vrt-draggable data="'+type+'" ng-dblclick="vm.togglePoint($event)">'+title+'</div>');
         let target = this.$document[0].querySelector('#map-img');
 
         angular.element(target).append(this.$compile(el)(this.$scope));
