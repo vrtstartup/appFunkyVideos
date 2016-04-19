@@ -10,12 +10,9 @@ class mapsSimpleDirectiveController {
         this.$element = $element;
         this.$q = $q;
         this.map = '';
-        this.number = 0;
-        this.id = "markers-" + this.number;
         this.videoGeneration = videoGeneration;
         this.$http = $http;
         this.$document = $document;
-        //this.geocoder = new mapboxgl.Geocoder();
         this.blob = '';
 
         this.$http.get('../../../assets/countries.geojson').success((data) => {
@@ -82,10 +79,14 @@ class mapsSimpleDirectiveController {
 
         geocoder.on('result', (ev) => {
 
+            console.log(ev.result.place_name);
+
+            let name = ev.result.place_name;
+
             let lng = ev.result.geometry.coordinates[0];
             let lat = ev.result.geometry.coordinates[1];
 
-            this.setMarker(lat, lng);
+            this.setMarker(lat, lng, name);
         });
     }
 
@@ -109,7 +110,7 @@ class mapsSimpleDirectiveController {
 
     getMatches(searchText) {
         this.filteredResult = filter(this.data, (o) => {
-            return startsWith(o.properties.ADMIN, searchText);;
+            return startsWith(o.properties.ADMIN, searchText);
         });
         return this.filteredResult;
     }
@@ -144,36 +145,38 @@ class mapsSimpleDirectiveController {
 
     }
 
-    setMarker(lat, lng) {
-        this.number = this.number + 1;
+    setMarker(lat, lng, name) {
 
-        this.id = 'markers'+this.number;
-        console.log('Marker', lat, lng);
+        let id = name;
 
 
-        this.map.addSource(this.id, {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": [{
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [lng, lat]
-                    },
-                }]
-            }
-        });
+        if ( !hasIn(this.map.style._layers, id)) {
+            this.map.addSource(id, {
+                "type": "geojson",
+                "data": {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [lng, lat]
+                        },
+                    }]
+                }
+            });
 
-        this.map.addLayer({
-            "id": "cluster-" + this.id,
-            "type": "circle",
-            "source": this.id,
-            "paint": {
-                "circle-color": '#FEFD3A',
-                "circle-radius": 3
-            },
-        });
+            this.map.addLayer({
+                "id": id,
+                "type": "circle",
+                "source": id,
+                "paint": {
+                    "circle-color": '#FEFD3A',
+                    "circle-radius": 3
+                },
+            });
+        } else {
+            this.map.removeLayer(id);
+        }
     }
 
 }

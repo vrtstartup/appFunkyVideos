@@ -5,8 +5,6 @@ export default class Controller {
         this.$document = $document;
         this.$compile = $compile;
 
-        this.place = 'Belgium';
-
     }
 
     getPicture() {
