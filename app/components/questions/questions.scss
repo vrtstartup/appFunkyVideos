@@ -8,6 +8,21 @@
 
 }
 
+.questions {
+
+    &:nth-child(2n) {
+        background-color: transparentize($vrt-supl, .9);
+
+    }
+}
+
+.question-output {
+    font-size: 2rem;
+    h1 {
+        font-size: 3rem;
+    }
+}
+
 .session-list-item {
 
     &:nth-child(2n-1) {
