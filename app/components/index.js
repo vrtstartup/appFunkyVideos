@@ -9,9 +9,11 @@ import grid from './grid';
 import maps from './maps';
 import movies from './movies';
 import questions from './questions';
+import download from './download';
+
 
 const module = angular.module('app.components', [
-    home, subtitles, pictures, chart, templater, audio, grid, maps, movies, questions,
+    home, subtitles, pictures, chart, templater, audio, grid, maps, movies, questions, download,
 ]);
 
 export default module.name;

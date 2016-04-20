@@ -33,9 +33,10 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
         fs.renameSync(path + name, srtPath);
-
+        var filename = 'gen' + videoPath;
         // burn subtitles
-        url = path + 'gen' + videoPath;
+        url = path + filename;
+
 
 
         var ffmpegCommand = 'ffmpeg -i ' + path + videoPath +' -y -vf subtitles=' + srtPath + ':force_style="FontSize=24" -strict -2 ' + url;
@@ -53,7 +54,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 console.log('program exited error code:', code);
                 return;
             }
-            sendNotification(email, url);
+            sendNotification(email, filename);
         });
 
     } else if(ext === 'mov') {
@@ -85,7 +86,8 @@ function getExtension(filename) {
 }
 
 function sendNotification(email, url) {
-    var fullUrl = 'http://nieuwshub.vrt.be/' + url;
+
+    var fullUrl = 'http://nieuwshub.vrt.be/download/' + url;
     var subject = 'Uw video met ondertitels is klaar om te downloaden (' + url + ')';
     var message = "<p>Beste collega,</p><p>Uw video met ondertitels is klaar, u kan hem hier downloaden:<br /> <a href=" + fullUrl +
         ">" + fullUrl + "</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>";
