@@ -62,17 +62,17 @@
   url('./fonts/textanarrow-heavy.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
-//@font-face {
-//  font-family: 'BodoniBold';
-//  src:    url('./fonts/BodoniBold.ttf') format('ttf'),
-//  url('./fonts/BodoniBold.woff') format('woff'); /* Pretty Modern Browsers */
-//}
-//
-//@font-face {
-//  font-family: 'BodoniBook';
-//  src:    url('./fonts/BodoniBook.ttf') format('ttf'),
-//  url('./fonts/BodoniBook.woff') format('woff'); /* Pretty Modern Browsers */
-//}
+@font-face {
+  font-family: 'textanarrow-black';
+  src:    url('./fonts/textanarrow-black.ttf') format('ttf'),
+  url('./fonts/textanarrow-black.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'textanarrow-light-italic';
+  src:    url('./fonts/textanarrow-light-italic.ttf') format('ttf'),
+  url('./fonts/textanarrow-light-italic.woff') format('woff'); /* Pretty Modern Browsers */
+}
 
 @font-face {
   font-family: 'NarzissTextRegular';
