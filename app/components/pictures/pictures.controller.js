@@ -10,11 +10,14 @@ export default class PicturesController {
         this.resetAllTemplates();
     }
 
-    upload(file, type) {
+    upload(file, type, numb) {
         this.Upload.upload({
             url: '/api/convertimage/' + type,
             data: {file: file}
         }).then((resp) => {
+            if(numb) {
+                this.quote[numb] = resp.data.url;
+            }
             this.image = resp.data.url;
             console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data.url);
         }, function (resp) {
@@ -102,6 +105,12 @@ export default class PicturesController {
         this.className = scheme;
     }
 
+    showGin(scheme) {
+        this.resetAllTemplates();
+        this.isGin = true;
+        this.className = scheme;
+    }
+
 
     resetAllTemplates() {
         this.isMurderface = false;
@@ -114,6 +123,7 @@ export default class PicturesController {
         this.isTina = false;
         this.isWartooth = false;
         this.isLinda = false;
+        this.isGin = false;
     }
 
 }

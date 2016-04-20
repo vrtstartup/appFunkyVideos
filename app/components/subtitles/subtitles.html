@@ -9,7 +9,7 @@
                 </md-input-container>
             </div>
             <div  flex ng-show="vm.emailRecipient">
-                <input ng-model="vm.subtitle.video" ngf-accept="'video/mp4'" ngf-select="vm.upload($file)" type="file" />
+                <input ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'" ngf-select="vm.upload($file)" type="file" />
             </div>
             <div flex="40" ng-show="vm.progressPercentage && !vm.movieUploaded">
                 {{vm.progressPercentage}} %

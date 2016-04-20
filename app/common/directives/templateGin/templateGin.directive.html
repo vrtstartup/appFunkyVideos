@@ -1,0 +1,13 @@
+<section class='wrap container-screenshot'>
+    <img class='logo logo-afspr big-centred' src="./assets/logo_deafspraak.svg">
+
+    <vrt-event-block ng-if="vm.imageOne || vm.titleOne || vm.authorNameOne"
+                     text="vm.titleOne" name="vm.authorNameOne" image="vm.imageOne"></vrt-event-block>
+    <vrt-event-block ng-if="vm.imageTwo || vm.titleTwo || vm.authorNameTwo"
+                     text="vm.titleTwo" name="vm.authorNameTwo" image="vm.imageTwo"></vrt-event-block>
+    <vrt-event-block ng-if="vm.imageThree || vm.titleThree || vm.authorNameThree"
+                     text="vm.titleThree" name="vm.authorNameThree" image="vm.imageThree"></vrt-event-block>
+    <vrt-event-block ng-if="vm.imageFour || vm.titleFour || vm.authorNameFour"
+                     text="vm.titleFour" name="vm.authorNameFour" image="vm.imageFour"></vrt-event-block>
+
+</section>

@@ -1,0 +1,46 @@
+.deafsprak .big-centred {
+  height: 70px;
+  left: 37%;
+  top: 23px;
+}
+
+.wth-picture {
+  width: 246px;
+  height: 246px;
+}
+
+.wth-text {
+  padding-top: 14px;
+}
+
+vrt-event-block{
+  display: flex;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  padding-top: 100px;
+
+  .cnvs-line{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    width: 150px;
+  }
+}
+
+.afspr-name {
+  font-size: 28px;
+  font-family: 'textanarrow-black', sans-serif;
+  text-transform: uppercase;
+  margin: 0 auto;
+  white-space: pre-wrap;
+  line-height: 1em;
+}
+
+.afspr-title {
+  font-size: 30px;
+  font-family: 'textanarrow-light-italic', sans-serif;
+  margin: 0;
+
+}
