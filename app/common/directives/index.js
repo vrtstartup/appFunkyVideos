@@ -5,6 +5,7 @@ import screenshot from './screenshot';
 import templateBob from './templateBob';
 import templateTina from './templateTina';
 import templateLinda from './templateLinda';
+import templateGin from './templateGin';
 import templateDethklok from './templateDethklok';
 import templateMurderface from './templateMurderface';
 import templateWartooth from './templateWartooth';
@@ -26,7 +27,7 @@ import draggable from './draggable';
 
 
 const module = angular.module('app.common.directives', [
-    pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda,
+    pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
     userLogin, draggable

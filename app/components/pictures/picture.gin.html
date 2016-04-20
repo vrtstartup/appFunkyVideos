@@ -1,0 +1,84 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isGin">
+    <div layout-gt-sm="row">
+        <md-content layout-padding="" flex="30">
+            <md-input-container class="md-block">
+                <label>Title</label>
+                <input ng-model="vm.quote.authorTitle1" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="" flex="30">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <textarea ng-model="vm.quote.authorName1" md-maxlength="60" rows="3" vrt-maxlines="3" maxlines-prevent-enter="true"></textarea>
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="">
+        <input ng-if="vm.className === 'deafsprak' " ng-model="vm.quote.imageOne" type="file" name="img" required ngf-select="vm.upload($file, 'noise')"/>
+        </md-content>
+    </div>
+    <div layout-gt-sm="row">
+        <md-content layout-padding="" flex="30">
+            <md-input-container class="md-block">
+                <label>Title</label>
+                <input ng-model="vm.quote.authorTitle2" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="" flex="30">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <textarea ng-model="vm.quote.authorName2" md-maxlength="60" rows="3" vrt-maxlines="3" maxlines-prevent-enter="true"></textarea>
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="">
+        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise')"/>
+        </md-content>
+    </div>
+    <div layout-gt-sm="row">
+        <md-content layout-padding="" flex="30">
+            <md-input-container class="md-block">
+                <label>Title</label>
+                <input ng-model="vm.quote.authorTitle3" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="" flex="30">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <textarea ng-model="vm.quote.authorName3" md-maxlength="60" rows="3" vrt-maxlines="3" maxlines-prevent-enter="true"></textarea>
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="">
+        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise')"/>
+        </md-content>
+    </div>
+    <div layout-gt-sm="row">
+        <md-content layout-padding="" flex="30">
+            <md-input-container class="md-block">
+                <label>Title</label>
+                <input ng-model="vm.quote.authorTitle4" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="" flex="30">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <textarea ng-model="vm.quote.authorName4" md-maxlength="60" rows="3" vrt-maxlines="3" maxlines-prevent-enter="true"></textarea>
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="">
+         <input ng-if="vm.className === 'deafsprak' "  type="file" name="img" required ngf-select="vm.upload($file, 'noise')"/>
+        </md-content>
+    </div>
+    <div layout-gt-sm="row">
+
+    </div>
+    <div class="dir-wrap">
+        <vrt-template-gin class="dir-wrap"
+                            is-hidden-sign="true"
+                            author-name-one="vm.quote.authorName1" title-one="vm.quote.authorTitle1"
+                            author-name-two="vm.quote.authorName2" title-two="vm.quote.authorTitle2"
+                            author-name-three="vm.quote.authorName3" title-three="vm.quote.authorTitle3"
+                            author-name-four="vm.quote.authorName4" title-four="vm.quote.authorTitle4"
+                            is-ready="vm.isReady" quote="vm.quote.question"
+                            image-one="vm.quote.imageOne" image-two="vm.image" image-three="vm.image" image-four="vm.image">
+        </vrt-template-gin>
+    </div>
+</div>

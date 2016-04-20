@@ -1,16 +1,19 @@
 <div class='wth-event'>
-    <div class='wth-picture'>
-        <image-cropper ng-if="vm.image" image-url=' {{vm.image}} '
-                       height="398"
-                       show-controls="false"
-                       fit-on-init="true"
-                       center-on-init="true"
-                       check-cross-origin="false"
-                       zoom-step="0.1"
-                       button-labels="myButtonLabelsObject"
-        ></image-cropper>
+    <div ng-class="vm.image ? 'overlay' : 'no-overlay'">
+        <div class='wth-picture'>
+            <image-cropper ng-if="vm.image" image-url='{{vm.image}} '
+                           height="398"
+                           show-controls="false"
+                           fit-on-init="true"
+                           center-on-init="true"
+                           check-cross-origin="false"
+                           zoom-step="0.1"
+            ></image-cropper>
+        </div>
     </div>
     <div class='wth-text'>
-        <p>{{vm.text}}</p>
+        <p class='afspr-name' ng-init="vm.name='Ivo van Hove'">{{vm.name}}</p>
+        <div class="cnvs-line"></div>
+        <p class='afspr-title' ng-init="vm.text='Docent & auteur'">{{vm.text}}</p>
     </div>
 </div>

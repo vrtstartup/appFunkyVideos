@@ -2,6 +2,8 @@ import template from './eventBlock.directive.html';
 
 class EventBlockDirectiveController {
     constructor() {
+
+        console.log('EventBlockDirective');
     }
 }
 
@@ -15,6 +17,7 @@ export const eventBlockDirective = function() {
         bindToController: {
             text: '=',
             image: '=',
+            name: '=',
         },
     };
 };
