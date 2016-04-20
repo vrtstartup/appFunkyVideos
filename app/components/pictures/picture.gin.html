@@ -13,7 +13,7 @@
             </md-input-container>
         </md-content>
         <md-content layout-padding="">
-        <input ng-if="vm.className === 'deafsprak' " ng-model="vm.quote.imageOne" type="file" name="img" required ngf-select="vm.upload($file, 'noise')"/>
+        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageOne')"/>
         </md-content>
     </div>
     <div layout-gt-sm="row">
@@ -30,7 +30,7 @@
             </md-input-container>
         </md-content>
         <md-content layout-padding="">
-        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise')"/>
+        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageTwo')"/>
         </md-content>
     </div>
     <div layout-gt-sm="row">
@@ -47,7 +47,7 @@
             </md-input-container>
         </md-content>
         <md-content layout-padding="">
-        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise')"/>
+        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageThree')"/>
         </md-content>
     </div>
     <div layout-gt-sm="row">
@@ -64,7 +64,7 @@
             </md-input-container>
         </md-content>
         <md-content layout-padding="">
-         <input ng-if="vm.className === 'deafsprak' "  type="file" name="img" required ngf-select="vm.upload($file, 'noise')"/>
+         <input ng-if="vm.className === 'deafsprak' "  type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageFour')"/>
         </md-content>
     </div>
     <div layout-gt-sm="row">
@@ -78,7 +78,7 @@
                             author-name-three="vm.quote.authorName3" title-three="vm.quote.authorTitle3"
                             author-name-four="vm.quote.authorName4" title-four="vm.quote.authorTitle4"
                             is-ready="vm.isReady" quote="vm.quote.question"
-                            image-one="vm.quote.imageOne" image-two="vm.image" image-three="vm.image" image-four="vm.image">
+                            image-one="vm.quote.imageOne" image-two="vm.quote.imageTwo" image-three="vm.quote.imageThree" image-four="vm.quote.imageFour">
         </vrt-template-gin>
     </div>
 </div>

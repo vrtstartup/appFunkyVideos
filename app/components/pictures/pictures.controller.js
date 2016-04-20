@@ -15,8 +15,9 @@ export default class PicturesController {
             url: '/api/convertimage/' + type,
             data: {file: file}
         }).then((resp) => {
-            this.quote[numb] = resp.data.url;
-            console.log(this.quote[numb]);
+            if(numb) {
+                this.quote[numb] = resp.data.url;
+            }
             this.image = resp.data.url;
             console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data.url);
         }, function (resp) {
