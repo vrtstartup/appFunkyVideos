@@ -87,8 +87,9 @@ function getExtension(filename) {
 function sendNotification(email, url) {
     var fullUrl = 'http://nieuwshub-dev.vrt.be/' + url;
     var subject = 'Uw video met ondertitels is klaar om te downloaden (' + url + ')';
-    var message = '<p>Beste collega,</p><p>Uw video met ondertitels is klaar, u kan hem hier downloaden:<br /> <a href=' + fullUrl +
-        ' download="test.mp4">' + fullUrl + '</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>';
+    var name = 'test.mp4'
+    var message = "<p>Beste collega,</p><p>Uw video met ondertitels is klaar, u kan hem hier downloaden:<br /> <a href=" + fullUrl +
+        " download="+ name +">" + fullUrl + "</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>";
 
     emailService.sendMail(email, subject, message);
 }
