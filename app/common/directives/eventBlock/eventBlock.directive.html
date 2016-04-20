@@ -12,8 +12,8 @@
         </div>
     </div>
     <div class='wth-text'>
-        <p class='afspr-name' ng-init="vm.name='Ivo van Hove'">{{vm.name}}</p>
-        <div class="cnvs-line"></div>
-        <p class='afspr-title' ng-init="vm.text='Docent & auteur'">{{vm.text}}</p>
+        <p class='afspr-name'>{{vm.name}}</p>
+        <div ng-if="vm.text && vm.name" class="cnvs-line"></div>
+        <p class='afspr-title'>{{vm.text}}</p>
     </div>
 </div>
