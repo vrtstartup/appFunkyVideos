@@ -118,9 +118,11 @@ export default class SubtitlesController {
 
     addSubtitle() {
         let nextTitleStart = this.form.end + 0.1;
-        let nextTitleEnd = nextTitleStart + 2;
+        //let nextTitleEnd = nextTitleStart + 2;
+        let nextTitleEnd = this.movieDuration;
 
-        console.log('add subtitle', nextTitleEnd);
+
+        console.log('add subtitle', nextTitleEnd, this.movieDuration);
 
         if (nextTitleEnd > this.movieDuration) {
             nextTitleEnd = this.movieDuration;
