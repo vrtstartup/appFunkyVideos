@@ -32,14 +32,8 @@ export default class SubtitlesController {
             }
         });
 
-        //this.$scope.$watch('vm.file.tempUrl', (value) => {
-        //    if(!value) return;
-        //    console.log('this.form', this.file.tempUrl);
-        //    this.setIn();
-        //    this.setOut();
-        //});
 
-        this.$scope.$watchCollection('vm.form', (newValues, oldValues) => {
+        this.$scope.$watch('vm.form', (newValues, oldValues) => {
             if (newValues === oldValues) {
                 return;
             }
@@ -122,11 +116,11 @@ export default class SubtitlesController {
         this.form.end = this.videogular.api.currentTime / 1000;
     }
 
-
-
     addSubtitle() {
         let nextTitleStart = this.form.end + 0.1;
         let nextTitleEnd = nextTitleStart + 2;
+
+        console.log('add subtitle', nextTitleEnd);
 
         if (nextTitleEnd > this.movieDuration) {
             nextTitleEnd = this.movieDuration;
@@ -201,7 +195,7 @@ export default class SubtitlesController {
         if (file.type === "video/mp4" || file.type === "video/quicktime") {
             //set duration of video, init slider values
             this.Upload.mediaDuration(file).then((durationInSeconds) => {
-                console.log('this.movieDuration', durationInSeconds);
+
                 this.movieDuration = Math.round(durationInSeconds * 1000) / 1000;
                 this.form.start = 0.001;
                 this.form.end = 2.001;
