@@ -89,10 +89,12 @@ export default class SubtitlesController {
     }
 
     addSubtitleTodb(email, sub) {
-        this.list = this.$firebaseArray(new Firebase('https://vrtnieuwshub.firebaseio.com/apps/subtitles/' + this.uId));
+
+        let name = sub[0].text;
+        this.list = this.$firebaseArray(new Firebase('https://vrtnieuwshub.firebaseio.com/apps/subtitles/' + this.uId +'/'+name));
 
         this.list.$add({ email: email, sub: sub }).then( (ref) => {
-            console.log('added', email, this.subId);
+            console.log('added', email, ref);
         });
 
     }
