@@ -1,7 +1,7 @@
 import { keys, extend, find, reject } from 'lodash';
 
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys, toast, firebaseAuth) {
+    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys, toast, firebaseAuth, $firebaseObject, $firebaseArray) {
         this.$log = $log;
         this.$sce = $sce;
         this.srt = srt;
@@ -26,9 +26,13 @@ export default class SubtitlesController {
         this.currentSubtitlePreview = '';
 
         this.firebaseAuth = firebaseAuth;
+        this.$firebaseObject = $firebaseObject;
+        this.$firebaseArray = $firebaseArray;
+
         this.firebaseAuth.$onAuth((authData) => {
             if (authData) {
                 this.emailRecipient = authData.password.email;
+                this.uId = authData.uid;
             }
         });
 
@@ -84,6 +88,16 @@ export default class SubtitlesController {
 
     }
 
+    addSubtitleTodb(email, sub) {
+        this.list = this.$firebaseArray(new Firebase('https://vrtnieuwshub.firebaseio.com/apps/subtitles/' + this.uId));
+
+        this.list.$add({ email: email, sub: sub }).then( (ref) => {
+            console.log('added', email, this.subId);
+        });
+
+    }
+
+
     updateSubtitles(newValues) {
         if (!newValues.text) {
             this.deleteSubtitle(this.form);
@@ -104,6 +118,7 @@ export default class SubtitlesController {
                 return extend(subtitle, this.form);
             }
         });
+
     }
 
     // wierd functions
@@ -135,6 +150,8 @@ export default class SubtitlesController {
             text: '',
             isEditmode: false,
         }
+
+        this.addSubtitleTodb(this.emailRecipient, this.subtitles);
     }
 
     editSubtitle(subtitle) {
@@ -240,4 +257,4 @@ export default class SubtitlesController {
     }
 }
 
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast', 'firebaseAuth'];
+SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast', 'firebaseAuth', '$firebaseObject', '$firebaseArray'];
