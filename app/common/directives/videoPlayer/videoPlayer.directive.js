@@ -30,7 +30,10 @@ class VideoPlayerDirectiveController {
             if (!values) return;
 
             let startChanged =  values[0] !== oldValues[0];
+
             if (startChanged && this.videogular.api) {
+                console.log('values[0]', values[0]);
+
                 this.videogular.api.seekTime(values[0]);
                 this.videogular.api.play();
             }
@@ -39,7 +42,7 @@ class VideoPlayerDirectiveController {
                 this.config.cuePoints = {
                     range: [{
                         timeLapse: {
-                            start: values[0],
+                            start: values[0]-0.2,
                             end: values[1]
                         },
                         onComplete: this.onCompleteRangeCuepoint.bind(this)
