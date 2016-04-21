@@ -3,8 +3,6 @@ export default class DownloadController {
         this.$log  = $log;
         this.$http = $http;
 
-        console.log('$stateParams', $stateParams);
-
         this.filename = $stateParams.filename;
     }
 }
