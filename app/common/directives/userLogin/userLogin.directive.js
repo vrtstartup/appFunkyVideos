@@ -22,13 +22,13 @@ class UserLoginDirectiveController {
         // Check if user is logged in. If not: open popup.
         this.firebaseAuth.$onAuth((authData) => {
             if (authData) {
-                console.log(authData);
+                //console.log(authData);
                 this.authenticated = true;
                 this.userId = authData.uid;
 
                 let ref = new Firebase('https://vrtnieuwshub.firebaseio.com/users/' + this.userId);
                 let obj = this.$firebaseObject(ref);
-                console.log(obj);
+                //console.log(obj);
                 // this.userForm.email = obj.email;
 
                 // obj.verificationStatus = 'verified';
@@ -108,9 +108,6 @@ class UserLoginDirectiveController {
 
             }
         });
-
-
-
 
     }
 
