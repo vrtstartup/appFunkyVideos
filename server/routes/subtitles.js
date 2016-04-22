@@ -37,8 +37,6 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         // burn subtitles
         url = path + filename;
 
-
-
         var ffmpegCommand = 'ffmpeg -i ' + path + videoPath +' -y -vf subtitles=' + srtPath + ':force_style="FontSize=24" -strict -2 ' + url;
         var ffmpegProcess = exec(ffmpegCommand);
 
@@ -88,7 +86,7 @@ function getExtension(filename) {
 function sendNotification(email, url) {
 
     var fullUrl = 'http://nieuwshub.vrt.be/#/download/' + url;
-    var subject = 'Uw video met ondertitels is klaar om te downloaden';
+    var subject = 'Uw video met ondertitels is klaar om te downloaden ' + url;
     var message = "<p>Beste collega,</p><p>Uw video met ondertitels is klaar, u kan hem hier downloaden:<br /> <a href=" + fullUrl +
         ">" + fullUrl + "</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>";
 
