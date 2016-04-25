@@ -94,7 +94,7 @@ export default class SubtitlesController {
         this.list = this.$firebaseArray(new Firebase('https://vrtnieuwshub.firebaseio.com/apps/subtitles/' + this.uId +'/'+name));
 
         this.list.$add({ email: email, sub: sub }).then( (ref) => {
-            console.log('added', email, ref);
+            //console.log('added', email, ref);
         });
 
     }
@@ -123,7 +123,6 @@ export default class SubtitlesController {
 
     }
 
-    // wierd functions
     setIn() {
         this.form.start = this.videogular.api.currentTime / 1000;
     }
@@ -208,15 +207,14 @@ export default class SubtitlesController {
 
     //upload file to server, get media duration to init sliders
     upload(file, name, email) {
+        console.log('upload', file);
         if (file.type === "video/mp4" || file.type === "video/quicktime") {
             //set duration of video, init slider values
             this.Upload.mediaDuration(file).then((durationInSeconds) => {
-
                 this.movieDuration = Math.round(durationInSeconds * 1000) / 1000;
                 this.form.start = 0.001;
                 //this.form.end = 2.001;
                 this.form.end = this.movieDuration;
-
 
                 this.slider = {
                     min: 0.001,
@@ -234,6 +232,12 @@ export default class SubtitlesController {
             });
         }
 
+        //if (file.type === 'srt') {
+        //    this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
+        //        'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
+        //    return;
+        //}
+
         //upload video, show player and sliders, or upload subtitle to finalize
         this.Upload.upload({
                 url: 'api/subtitleVideos',
@@ -241,11 +245,9 @@ export default class SubtitlesController {
                 method: 'POST',
             })
             .then((resp) => {
-                if (resp.data.processing) {
-                    this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
-                        'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
-                    return;
-                }
+                if(!resp) return;
+
+                console.log('Resp',resp);
 
                 this.movieUploaded = true;
                 this.file.tempUrl = resp.data.url;

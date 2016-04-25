@@ -19,6 +19,8 @@ router.get('/subtitles', function(req, res) {
 
 router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
+    console.log('req', req.body);
+
     // ffmpeg -i out.mp4 -vf subtitles=sub.srt:force_style='Fontsize=20' vide.mp4
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
@@ -28,8 +30,10 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
     const ext = getExtension(file.name);
 
-
     if (file.type === 'srt') {
+
+        console.log('This is SRT file');
+
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
         fs.renameSync(path + name, srtPath);
@@ -42,10 +46,10 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
         ffmpegProcess.stdout.on('data', function(data) {
 
-            console.log('stdout: ' + data);
+            //console.log('stdout: ' + data);
         });
         ffmpegProcess.stderr.on('data', function(data) {
-            console.log('stderr: ' + data);
+            //console.log('stderr srt: ' + data);
         });
         ffmpegProcess.on('close', function(code) {
             if (code !== 0) {
@@ -53,6 +57,8 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 return;
             }
             sendNotification(email, filename);
+            res.json({ subtitled: true }).send();
+
         });
 
     } else if(ext === 'mov') {
@@ -64,7 +70,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
             console.log('stdout: ' + data);
         });
         ffmpegProcess.stderr.on('data', function(data) {
-            console.log('stderr: ' + data);
+            console.log('stderr mov: ' + data);
         });
         ffmpegProcess.on('close', function(code) {
             if (code !== 0) {
