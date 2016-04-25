@@ -45,11 +45,10 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         var ffmpegProcess = exec(ffmpegCommand);
 
         ffmpegProcess.stdout.on('data', function(data) {
-
-            //console.log('stdout: ' + data);
+            console.log('stdout: ' + data);
         });
         ffmpegProcess.stderr.on('data', function(data) {
-            //console.log('stderr srt: ' + data);
+            console.log('stderr srt: ' + data);
         });
         ffmpegProcess.on('close', function(code) {
             if (code !== 0) {

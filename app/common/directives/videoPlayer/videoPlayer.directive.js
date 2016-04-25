@@ -42,7 +42,7 @@ class VideoPlayerDirectiveController {
                 this.config.cuePoints = {
                     range: [{
                         timeLapse: {
-                            start: values[0]-0.2,
+                            start: values[0],
                             end: values[1]
                         },
                         onComplete: this.onCompleteRangeCuepoint.bind(this)
@@ -93,7 +93,7 @@ class VideoPlayerDirectiveController {
     }
 
     onCompleteRangeCuepoint(currentTime, timeLapse) {
-        this.videogular.api.seekTime(timeLapse.start);
+        this.videogular.api.seekTime(timeLapse.start - 2);
     }
 }
 

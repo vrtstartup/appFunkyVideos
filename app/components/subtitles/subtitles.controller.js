@@ -69,7 +69,6 @@ export default class SubtitlesController {
             }
         });
 
-
         this.hotkeys.add({
             combo: 'p',
             description: 'Start new line',
@@ -131,7 +130,7 @@ export default class SubtitlesController {
     }
 
     addSubtitle() {
-        let nextTitleStart = this.form.end + 0.1;
+        let nextTitleStart = this.form.end;
         //let nextTitleEnd = nextTitleStart + 2;
         let nextTitleEnd = this.movieDuration;
 
@@ -144,13 +143,14 @@ export default class SubtitlesController {
             return;
         }
 
+
         this.form = {
             id: '',
             start: nextTitleStart,
             end: nextTitleEnd,
             text: '',
             isEditmode: false,
-        }
+        };
 
         this.addSubtitleTodb(this.emailRecipient, this.subtitles);
     }
@@ -191,6 +191,10 @@ export default class SubtitlesController {
 
     renderSubtitles() {
         this.movieSubmitted = true;
+        this.subtitles = angular.forEach(this.subtitles, (sub) => {
+            sub.end = sub.end + 0.001;
+            sub.start = sub.start + 0.001;
+        });
         let srtString = this.srt.stringify(this.subtitles);
         let srtFile = new Blob([srtString], {
             type: 'srt'
@@ -236,6 +240,11 @@ export default class SubtitlesController {
         //upload video, show player and sliders, or upload subtitle to finalize
         let subtitled = false;
         if(!subtitled) {
+            if (file.type === 'srt') {
+                this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
+                    'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
+                return;
+            }
             this.Upload.upload({
                     url: 'api/subtitleVideos',
                     data: {file: file, fileName: name, email: email},
@@ -244,14 +253,7 @@ export default class SubtitlesController {
                 .then((resp) => {
                     if (!resp) return;
 
-                    console.log('Resp', resp.data.subtitled);
                     subtitled = resp.data.subtitled;
-
-                    if (file.type === 'srt') {
-                        this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
-                            'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
-                        return;
-                    }
 
                     this.movieUploaded = true;
                     this.file.tempUrl  = resp.data.url;
