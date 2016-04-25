@@ -42,7 +42,7 @@
             <br>verified: {{vm.accountVerified}}
             <br>authenticated: {{vm.authenticated}} -->
         </md-dialog-content>
-        <md-dialog-actions layout="row">
+        <md-dialog-actions layout="row" class="form-footer">
             <span flex ng-if="!vm.authenticated"></span>
             <md-button ng-click="vm.logIn(vm.userForm)" class="vrt-button" ng-if="vm.userExists && vm.accountVerified && !vm.authenticated">
                 Log in

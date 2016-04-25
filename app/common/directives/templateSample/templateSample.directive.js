@@ -1,7 +1,7 @@
-import './templateBob.directive.scss';
-import template from './templateBob.directive.html';
+import './templateSample.directive.scss';
+import template from './templateSample.directive.html';
 
-class TemplateBobDirectiveController {
+class TemplateSampleDirectiveController {
     constructor($scope, $element, videoGeneration) {
         this.videoGeneration = videoGeneration;
         this.$element = $element;
@@ -16,20 +16,19 @@ class TemplateBobDirectiveController {
     }
 }
 
-export const templateBobDirective = function() {
+export const templateSampleDirective = function() {
     return {
         restrict: 'E',
         template: template,
         scope: {},
-        controller: TemplateBobDirectiveController,
+        controller: TemplateSampleDirectiveController,
         controllerAs: 'vm',
         bindToController: {
             quote: '=',
             isReady: '=',
             image: '=',
-            templateClass: '=',
         },
     };
 };
 
-TemplateBobDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
+TemplateSampleDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];

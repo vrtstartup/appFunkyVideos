@@ -111,6 +111,12 @@ export default class PicturesController {
         this.className = scheme;
     }
 
+    showSample(scheme) {
+        this.resetAllTemplates();
+        this.isSample = true;
+        this.className = scheme;
+    }
+
 
     resetAllTemplates() {
         this.isMurderface = false;
@@ -124,6 +130,7 @@ export default class PicturesController {
         this.isWartooth = false;
         this.isLinda = false;
         this.isGin = false;
+        this.isSample = false;
     }
 
 }
