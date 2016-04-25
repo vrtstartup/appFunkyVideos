@@ -232,32 +232,37 @@ export default class SubtitlesController {
             });
         }
 
-        //if (file.type === 'srt') {
-        //    this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
-        //        'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
-        //    return;
-        //}
 
         //upload video, show player and sliders, or upload subtitle to finalize
-        this.Upload.upload({
-                url: 'api/subtitleVideos',
-                data: { file: file, fileName: name, email: email },
-                method: 'POST',
-            })
-            .then((resp) => {
-                if(!resp) return;
+        let subtitled = false;
+        if(!subtitled) {
+            this.Upload.upload({
+                    url: 'api/subtitleVideos',
+                    data: {file: file, fileName: name, email: email},
+                    method: 'POST',
+                })
+                .then((resp) => {
+                    if (!resp) return;
 
-                console.log('Resp',resp);
+                    console.log('Resp', resp.data.subtitled);
+                    subtitled = resp.data.subtitled;
 
-                this.movieUploaded = true;
-                this.file.tempUrl = resp.data.url;
-                this.file.fileName = resp.data.name;
-            }, (resp) => {
-                console.log('Error: ' + resp.error);
-                console.log('Error status: ' + resp.status);
-            }, (evt) => {
-                this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            });
+                    if (file.type === 'srt') {
+                        this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
+                            'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
+                        return;
+                    }
+
+                    this.movieUploaded = true;
+                    this.file.tempUrl  = resp.data.url;
+                    this.file.fileName = resp.data.name;
+                }, (resp) => {
+                    console.log('Error: ' + resp.error);
+                    console.log('Error status: ' + resp.status);
+                }, (evt) => {
+                    this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                });
+        }
     }
 }
 
