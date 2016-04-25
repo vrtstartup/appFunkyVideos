@@ -45,6 +45,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
         var ffmpegProcess = exec(ffmpegCommand);
 
         ffmpegProcess.stdout.on('data', function(data) {
+
             console.log('stdout: ' + data);
         });
         ffmpegProcess.stderr.on('data', function(data) {

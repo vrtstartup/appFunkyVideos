@@ -69,6 +69,7 @@ export default class SubtitlesController {
             }
         });
 
+
         this.hotkeys.add({
             combo: 'p',
             description: 'Start new line',
@@ -143,7 +144,6 @@ export default class SubtitlesController {
             return;
         }
 
-
         this.form = {
             id: '',
             start: nextTitleStart,
@@ -151,6 +151,8 @@ export default class SubtitlesController {
             text: '',
             isEditmode: false,
         };
+
+        console.log(this.form);
 
         this.addSubtitleTodb(this.emailRecipient, this.subtitles);
     }
@@ -240,11 +242,6 @@ export default class SubtitlesController {
         //upload video, show player and sliders, or upload subtitle to finalize
         let subtitled = false;
         if(!subtitled) {
-            if (file.type === 'srt') {
-                this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
-                    'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
-                return;
-            }
             this.Upload.upload({
                     url: 'api/subtitleVideos',
                     data: {file: file, fileName: name, email: email},
@@ -254,6 +251,12 @@ export default class SubtitlesController {
                     if (!resp) return;
 
                     subtitled = resp.data.subtitled;
+
+                    if (file.type === 'srt') {
+                        this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
+                            'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
+                        return;
+                    }
 
                     this.movieUploaded = true;
                     this.file.tempUrl  = resp.data.url;

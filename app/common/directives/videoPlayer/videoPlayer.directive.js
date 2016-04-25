@@ -32,7 +32,6 @@ class VideoPlayerDirectiveController {
             let startChanged =  values[0] !== oldValues[0];
 
             if (startChanged && this.videogular.api) {
-                console.log('values[0]', values[0]);
 
                 this.videogular.api.seekTime(values[0]);
                 this.videogular.api.play();
