@@ -7,6 +7,7 @@ import videogular from './videogular.service.js';
 import toast from './toast.service.js';
 import audioTrack from './audioTrack.service.js';
 import firebaseAuth from './firebaseAuth.service.js';
+import userManagement from './userManagement.service.js';
 
 const module = angular.module('app.common.services', []);
 
@@ -18,5 +19,6 @@ module.service('videogular', videogular);
 module.service('toast', toast);
 module.service('audioTrack', audioTrack);
 module.service('firebaseAuth', firebaseAuth);
+module.service('userManagement', userManagement);
 
 export default module.name;

@@ -4,60 +4,56 @@
             <div class="md-toolbar-tools">
                 <h2>Account</h2>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="vm.closePopup()" ng-if="vm.authenticated">
+                <md-button class="md-icon-button" ng-click="vm.closePopup()" ng-if="vm.accountStatus == 'loggedIn'">
                     <i class="material-icons">close</i>
                 </md-button>
             </div>
         </md-toolbar>
         <md-dialog-content style="max-width:800px;max-height:810px;">
             <md-content class="md-padding">
-                <p class="inset" ng-if="!vm.userExists && !vm.authenticated">Schrijf hier je email adres om je in te loggen of te registeren.</p>
-                <p class="inset" ng-if="!vm.userExists && !vm.authenticated">Opgepast! Je kan enkel een vrt.be adres gebruiken.</p>
-                <md-input-container class="full-length" ng-if="!vm.authenticated">
+                <p class="inset" ng-if="!vm.userExists && vm.accountStatus == 'notAuthenticated'">Schrijf hier je email adres om je in te loggen of te registeren.</p>
+                <p class="inset" ng-if="!vm.userExists && !vm.accountStatus == 'notAuthenticated'">Opgepast! Je kan enkel een vrt.be adres gebruiken.</p>
+                <md-input-container class="full-length" ng-if="vm.accountStatus != 'loggedIn'">
                     <label for="email">Email adres</label>
                     <input type="text" id="email" ng-change="vm.checkIfExistingUser(vm.userForm.email)" ng-model-options='{ debounce: 1000 }' ng-model="vm.userForm.email">
                 </md-input-container>
-                <md-input-container class="full-length" ng-if="vm.userExists && vm.accountVerified && !vm.authenticated">
+                <md-input-container class="full-length" ng-if="vm.accountStatus != 'loggedIn'">
                     <label for="password">Paswoord</label>
                     <input id="password" type="password" ng-model="vm.userForm.password"></input>
                 </md-input-container>
-                <p ng-if="vm.userExists && !vm.accountVerified">We hebben je een mailtje gestuurd met je activatiecode. Vul deze hier in.</p>
-                <md-input-container class="full-length" ng-if="vm.userExists && !vm.accountVerified">
+                <p ng-if="vm.accountStatus == 'pendingVerification'">We hebben je een mailtje gestuurd met je activatiecode. Vul deze hier in.</p>
+                <md-input-container class="full-length" ng-if="vm.accountStatus == 'pendingVerification'">
                     <label for="oldPassword">Activatiecode</label>
                     <input id="oldPassword" ng-model="vm.userForm.oldPassword"></input>
                 </md-input-container>
-                <md-input-container class="full-length" ng-if="vm.userExists && !vm.accountVerified">
+                <md-input-container class="full-length" ng-if="vm.accountStatus == 'pendingVerification'">
                     <label for="newPassword">Kies een paswoord</label>
                     <input id="newPassword" ng-model="vm.userForm.newPassword" type="password"></input>
                 </md-input-container>
-                <p class="inset" ng-if="!vm.userExists && !vm.authenticated && vm.userChecked && vm.correctDomain && !vm.accountVerified">Je bent nog niet geregistreerd. Wil je een account aanmaken?</p>
-                <p class="inset" ng-if="!vm.userExists && !vm.authenticated && vm.userChecked && !vm.correctDomain">Dit is geen vrt.be adres, hiermee kan je geen account aanmaken.</p>
-                <p class="inset" ng-if="vm.authenticated">Je bent ingelogd met het email adres {{vm.userForm.email}}</p>
+                <!-- <p class="inset" ng-if="!vm.userExists && !vm.authenticated && vm.userChecked && vm.correctDomain && !vm.accountVerified">Je bent nog niet geregistreerd. Wil je een account aanmaken?</p> -->
+                <!-- <p class="inset" ng-if="!vm.userExists && !vm.authenticated && vm.userChecked && !vm.correctDomain">Dit is geen vrt.be adres, hiermee kan je geen account aanmaken.</p> -->
+                <!-- <p class="inset" ng-if="vm.authenticated">Je bent ingelogd met het email adres {{vm.userForm.email}}</p> -->
                 <p class="inset forgotLink" ng-if="vm.userExists && vm.accountVerified && !vm.authenticated" ng-click="vm.forgotPassword(vm.userForm)">Ben je jouw paswoord vergeten? Klik hier!</p>
+                <p>{{vm.message}}
+                    <!-- <p>{{vm.accountStatus}} -->
             </md-content>
-
-  <!--           <br>checked: {{vm.userChecked}}
-            <br>correct domain: {{vm.correctDomain}}
-            <br>exists: {{vm.userExists}}
-            <br>verified: {{vm.accountVerified}}
-            <br>authenticated: {{vm.authenticated}} -->
         </md-dialog-content>
         <md-dialog-actions layout="row">
             <span flex ng-if="!vm.authenticated"></span>
-            <md-button ng-click="vm.logIn(vm.userForm)" class="vrt-button" ng-if="vm.userExists && vm.accountVerified && !vm.authenticated">
+            <md-button ng-click="vm.logIn(vm.userForm)" class="vrt-button" ng-if="vm.accountStatus == 'authenticated'">
                 Log in
             </md-button>
-            <md-button ng-click="vm.activateUser(vm.userForm)" class="vrt-button" ng-if="vm.userExists && !vm.accountVerified">
+            <md-button ng-click="vm.activateUser(vm.userForm)" class="vrt-button" ng-if="vm.accountStatus == 'pendingVerification'">
                 Sla paswoord op en log in
             </md-button>
-            <md-button ng-click="vm.createUser(vm.userForm)" class="vrt-button" ng-if="!vm.userExists && !vm.authenticated && vm.userChecked && vm.correctDomain">
+            <md-button ng-click="vm.createUser(vm.userForm)" class="vrt-button" ng-if="vm.accountStatus == 'existsFalse'">
                 Maak een account aan
             </md-button>
-            <md-button ng-click="vm.logOut()" class="vrt-button" ng-if="vm.authenticated">
+            <md-button ng-click="vm.logOut()" class="vrt-button" ng-if="vm.accountStatus == 'loggedIn'">
                 Log uit
             </md-button>
             <span flex></span>
-            <md-button ng-click="vm.closePopup()" ng-if="vm.authenticated">
+            <md-button ng-click="vm.closePopup()" ng-if="vm.accountStatus == 'loggedIn'">
                 Sluit
             </md-button>
         </md-dialog-actions>
