@@ -99,12 +99,11 @@ export default class SubtitlesController {
 
     }
 
-
     updateSubtitles(newValues) {
-        if (!newValues.text) {
-            this.deleteSubtitle(this.form);
-            return;
-        }
+        //if (!newValues.text) {
+        //    this.deleteSubtitle(this.form);
+        //    return;
+        //}
 
         //check if value.id exists, else push object to array with new ID
         if (!this.form.id && this.form.text) {
@@ -120,7 +119,6 @@ export default class SubtitlesController {
                 return extend(subtitle, this.form);
             }
         });
-
     }
 
     setIn() {
@@ -152,13 +150,15 @@ export default class SubtitlesController {
             isEditmode: false,
         };
 
-        console.log(this.form);
+        console.log('addSubtitle', this.form);
 
         this.addSubtitleTodb(this.emailRecipient, this.subtitles);
     }
 
     editSubtitle(subtitle) {
         this.resetEditMode();
+
+        console.log('editing subtitle', subtitle);
 
         this.form = {
             id: subtitle.id,
@@ -167,6 +167,8 @@ export default class SubtitlesController {
             text: subtitle.text,
             isEditmode: true,
         }
+
+        console.log('editing this.form', this.form);
     }
 
     resetEditMode() {
@@ -213,7 +215,7 @@ export default class SubtitlesController {
 
     //upload file to server, get media duration to init sliders
     upload(file, name, email) {
-        console.log('upload', file);
+        console.log('upload', name);
         if (file.type === "video/mp4" || file.type === "video/quicktime") {
             //set duration of video, init slider values
             this.Upload.mediaDuration(file).then((durationInSeconds) => {
@@ -238,6 +240,11 @@ export default class SubtitlesController {
             });
         }
 
+        //if (file.type === 'srt') {
+        //    this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
+        //        'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
+        //    return;
+        //}
 
         //upload video, show player and sliders, or upload subtitle to finalize
         let subtitled = false;
@@ -252,11 +259,6 @@ export default class SubtitlesController {
 
                     subtitled = resp.data.subtitled;
 
-                    if (file.type === 'srt') {
-                        this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
-                            'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
-                        return;
-                    }
 
                     this.movieUploaded = true;
                     this.file.tempUrl  = resp.data.url;

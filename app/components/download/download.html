@@ -1,9 +1,11 @@
-<section layout="row" layout-align="center center">
+<div ng-if="vm.filename">
+    <section layout="row" layout-align="center center">
 
-    <h1>Bedankt om ondertiteltool te gebruiken!</h1>
-</section>
-<section  layout="row" layout-align="center center" layout-wrap="">
+        <h1>Bedankt om ondertiteltool te gebruiken!</h1>
+    </section>
+    <section  layout="row" layout-align="center center" layout-wrap="">
 
-    <a ng-href="/temp/subtitleVideos/{{vm.filename}}" download="subtitled.mp4">download jouw video</a>
+        <a ng-href="/temp/subtitleVideos/{{vm.filename}}" download="subtitled.mp4">download jouw video</a>
 
-</section>
+    </section>
+</div>
