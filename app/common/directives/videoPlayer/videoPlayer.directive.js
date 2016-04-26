@@ -26,13 +26,13 @@ class VideoPlayerDirectiveController {
             };
         });
 
-        $scope.$watch('[start, end]', (values, oldValues) => {
+        $scope.$watchCollection('[start, end]', (values, oldValues) => {
             if (!values) return;
 
-            console.log('values', values);
-
             let startChanged =  values[0] !== oldValues[0];
+
             if (startChanged && this.videogular.api) {
+
                 this.videogular.api.seekTime(values[0]);
                 this.videogular.api.play();
             }
@@ -92,7 +92,7 @@ class VideoPlayerDirectiveController {
     }
 
     onCompleteRangeCuepoint(currentTime, timeLapse) {
-        this.videogular.api.seekTime(timeLapse.start);
+        this.videogular.api.seekTime(timeLapse.start - 2);
     }
 }
 

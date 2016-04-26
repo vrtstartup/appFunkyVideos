@@ -19,6 +19,8 @@ router.get('/subtitles', function(req, res) {
 
 router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
+    console.log('req', req.body);
+
     // ffmpeg -i out.mp4 -vf subtitles=sub.srt:force_style='Fontsize=20' vide.mp4
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
@@ -28,16 +30,16 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
     const ext = getExtension(file.name);
 
-
     if (file.type === 'srt') {
+
+        console.log('This is SRT file');
+
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
         fs.renameSync(path + name, srtPath);
         var filename = 'gen' + videoPath;
         // burn subtitles
         url = path + filename;
-
-
 
         var ffmpegCommand = 'ffmpeg -i ' + path + videoPath +' -y -vf subtitles=' + srtPath + ':force_style="FontSize=24" -strict -2 ' + url;
         var ffmpegProcess = exec(ffmpegCommand);
@@ -47,7 +49,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
             console.log('stdout: ' + data);
         });
         ffmpegProcess.stderr.on('data', function(data) {
-            console.log('stderr: ' + data);
+            console.log('stderr srt: ' + data);
         });
         ffmpegProcess.on('close', function(code) {
             if (code !== 0) {
@@ -55,6 +57,8 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 return;
             }
             sendNotification(email, filename);
+            res.json({ subtitled: true }).send();
+
         });
 
     } else if(ext === 'mov') {
@@ -66,7 +70,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
             console.log('stdout: ' + data);
         });
         ffmpegProcess.stderr.on('data', function(data) {
-            console.log('stderr: ' + data);
+            console.log('stderr mov: ' + data);
         });
         ffmpegProcess.on('close', function(code) {
             if (code !== 0) {
@@ -88,7 +92,7 @@ function getExtension(filename) {
 function sendNotification(email, url) {
 
     var fullUrl = 'http://nieuwshub.vrt.be/#/download/' + url;
-    var subject = 'Uw video met ondertitels is klaar om te downloaden (' + url + ')';
+    var subject = 'Uw video met ondertitels is klaar om te downloaden ' + url;
     var message = "<p>Beste collega,</p><p>Uw video met ondertitels is klaar, u kan hem hier downloaden:<br /> <a href=" + fullUrl +
         ">" + fullUrl + "</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>";
 

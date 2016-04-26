@@ -1,7 +1,7 @@
 import { keys, extend, find, reject } from 'lodash';
 
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys, toast, firebaseAuth) {
+    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys, toast, firebaseAuth, $firebaseObject, $firebaseArray) {
         this.$log = $log;
         this.$sce = $sce;
         this.srt = srt;
@@ -26,26 +26,24 @@ export default class SubtitlesController {
         this.currentSubtitlePreview = '';
 
         this.firebaseAuth = firebaseAuth;
+        this.$firebaseObject = $firebaseObject;
+        this.$firebaseArray = $firebaseArray;
+
         this.firebaseAuth.$onAuth((authData) => {
             if (authData) {
                 this.emailRecipient = authData.password.email;
+                this.uId = authData.uid;
             }
         });
 
-        //this.$scope.$watch('vm.file.tempUrl', (value) => {
-        //    if(!value) return;
-        //    console.log('this.form', this.file.tempUrl);
-        //    this.setIn();
-        //    this.setOut();
-        //});
-
-        this.$scope.$watchCollection('vm.form', (newValues, oldValues) => {
+        this.$scope.$watch('vm.form', (newValues, oldValues) => {
             if (newValues === oldValues) {
                 return;
             }
             this.updateSubtitles(newValues);
         }, true);
 
+        // ordering subtitles
         this.$scope.$on('currentTime', (event, time) => {
             let currentSubtitle = find(this.subtitles, (subtitle) => {
                 if (time >= subtitle.start && time <= subtitle.end) return subtitle.text;
@@ -88,9 +86,19 @@ export default class SubtitlesController {
             }
         });
 
+    }
 
+    addSubtitleTodb(email, sub) {
+
+        let name = sub[0].text;
+        this.list = this.$firebaseArray(new Firebase('https://vrtnieuwshub.firebaseio.com/apps/subtitles/' + this.uId +'/'+name));
+
+        this.list.$add({ email: email, sub: sub }).then( (ref) => {
+            //console.log('added', email, ref);
+        });
 
     }
+
 
     updateSubtitles(newValues) {
         if (!newValues.text) {
@@ -112,9 +120,9 @@ export default class SubtitlesController {
                 return extend(subtitle, this.form);
             }
         });
+
     }
 
-    // wierd functions
     setIn() {
         this.form.start = this.videogular.api.currentTime / 1000;
     }
@@ -122,11 +130,10 @@ export default class SubtitlesController {
         this.form.end = this.videogular.api.currentTime / 1000;
     }
 
-
-
     addSubtitle() {
-        let nextTitleStart = this.form.end + 0.1;
-        let nextTitleEnd = nextTitleStart + 2;
+        let nextTitleStart = this.form.end;
+        //let nextTitleEnd = nextTitleStart + 2;
+        let nextTitleEnd = this.movieDuration;
 
         if (nextTitleEnd > this.movieDuration) {
             nextTitleEnd = this.movieDuration;
@@ -143,7 +150,11 @@ export default class SubtitlesController {
             end: nextTitleEnd,
             text: '',
             isEditmode: false,
-        }
+        };
+
+        console.log(this.form);
+
+        this.addSubtitleTodb(this.emailRecipient, this.subtitles);
     }
 
     editSubtitle(subtitle) {
@@ -182,6 +193,10 @@ export default class SubtitlesController {
 
     renderSubtitles() {
         this.movieSubmitted = true;
+        this.subtitles = angular.forEach(this.subtitles, (sub) => {
+            sub.end = sub.end + 0.001;
+            sub.start = sub.start + 0.001;
+        });
         let srtString = this.srt.stringify(this.subtitles);
         let srtFile = new Blob([srtString], {
             type: 'srt'
@@ -198,13 +213,14 @@ export default class SubtitlesController {
 
     //upload file to server, get media duration to init sliders
     upload(file, name, email) {
+        console.log('upload', file);
         if (file.type === "video/mp4" || file.type === "video/quicktime") {
             //set duration of video, init slider values
             this.Upload.mediaDuration(file).then((durationInSeconds) => {
-                console.log('this.movieDuration', durationInSeconds);
                 this.movieDuration = Math.round(durationInSeconds * 1000) / 1000;
                 this.form.start = 0.001;
-                this.form.end = 2.001;
+                //this.form.end = 2.001;
+                this.form.end = this.movieDuration;
 
                 this.slider = {
                     min: 0.001,
@@ -222,29 +238,37 @@ export default class SubtitlesController {
             });
         }
 
-        //upload video, show player and sliders, or upload subtitle to finalize
-        this.Upload.upload({
-                url: 'api/subtitleVideos',
-                data: { file: file, fileName: name, email: email },
-                method: 'POST',
-            })
-            .then((resp) => {
-                if (resp.data.processing) {
-                    this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
-                        'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
-                    return;
-                }
 
-                this.movieUploaded = true;
-                this.file.tempUrl = resp.data.url;
-                this.file.fileName = resp.data.name;
-            }, (resp) => {
-                console.log('Error: ' + resp.error);
-                console.log('Error status: ' + resp.status);
-            }, (evt) => {
-                this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            });
+        //upload video, show player and sliders, or upload subtitle to finalize
+        let subtitled = false;
+        if(!subtitled) {
+            this.Upload.upload({
+                    url: 'api/subtitleVideos',
+                    data: {file: file, fileName: name, email: email},
+                    method: 'POST',
+                })
+                .then((resp) => {
+                    if (!resp) return;
+
+                    subtitled = resp.data.subtitled;
+
+                    if (file.type === 'srt') {
+                        this.toast.showToast('success', 'Uw video wordt verwerkt door onze servers, <br>' +
+                            'zodra deze klaar is ontvangt u een e-mail  <br> met een link om het resultaat te downloaden.');
+                        return;
+                    }
+
+                    this.movieUploaded = true;
+                    this.file.tempUrl  = resp.data.url;
+                    this.file.fileName = resp.data.name;
+                }, (resp) => {
+                    console.log('Error: ' + resp.error);
+                    console.log('Error status: ' + resp.status);
+                }, (evt) => {
+                    this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                });
+        }
     }
 }
 
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast', 'firebaseAuth'];
+SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast', 'firebaseAuth', '$firebaseObject', '$firebaseArray'];
