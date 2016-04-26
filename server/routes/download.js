@@ -10,15 +10,19 @@ router.get('/download', function(req, res) {
 });
 
 router.post('/download', function(req, res) {
+    // check if url is valid
+    var url = req.body.url;
 
-    var video = youtubedl('https://www.youtube.com/watch?v=lGcZ8sdxKmc',
+    if(!url) return;
+
+    var filename = shortId.generate() + '.mp4';
+    var path = 'temp/downloads/'+filename;
+
+    var video = youtubedl(url,
         // Optional arguments passed to youtube-dl.
         ['--format=18'],
         // Additional options can be given for calling `child_process.execFile()`.
         { cwd: __dirname });
-
-    res.json({message: 'download post'}).send();
-
 
     // Will be called when the download starts.
     video.on('info', function(info) {
@@ -27,11 +31,13 @@ router.post('/download', function(req, res) {
         console.log('size: ' + info.size);
     });
 
-    var filename = shortId.generate() + '.mp4';
+    video.pipe(fs.createWriteStream(path));
 
-    console.log('filename', shortId.generate());
 
-    video.pipe(fs.createWriteStream('temp/downloads/'+filename));
+    video.on('end', function() {
+        console.log('Download ended');
+        res.json({url: path}).send();
+    });
 
 });
 

@@ -9,3 +9,26 @@
 
     </section>
 </div>
+<div ng-if="!vm.filename">
+    <section layout="row" layout-align="center">
+        <p>Voer een url van de video in en wacht totdat er download url verschijnt</p>
+    </section>
+    <section layout="row" layout-align="center">
+        <md-content>
+            <md-input-container class="md-block">
+                <label>Video URL</label>
+                <input ng-model="vm.youtubeUrl">
+            </md-input-container>
+        </md-content>
+        <md-content>
+            <md-input-container class="md-block">
+                <md-button class="md-raised" ng-click="vm.downloadVideo(vm.youtubeUrl)">Get Download URL</md-button>
+            </md-input-container>
+        </md-content>
+    </section>
+    <section  layout="row" layout-align="center center">
+        <p ng-if="vm.isStarted && !vm.url">Onze server is hard aan 't werken!</p>
+
+        <a ng-if="vm.url" ng-href="/{{vm.url}}" download="video.mp4">download</a>
+    </section>
+</div>
