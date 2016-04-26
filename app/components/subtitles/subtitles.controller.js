@@ -150,25 +150,19 @@ export default class SubtitlesController {
             isEditmode: false,
         };
 
-        console.log('addSubtitle', this.form);
-
         this.addSubtitleTodb(this.emailRecipient, this.subtitles);
     }
 
     editSubtitle(subtitle) {
         this.resetEditMode();
-
-        console.log('editing subtitle', subtitle);
-
+        
         this.form = {
             id: subtitle.id,
             start: subtitle.start,
             end: subtitle.end,
             text: subtitle.text,
             isEditmode: true,
-        }
-
-        console.log('editing this.form', this.form);
+        };
     }
 
     resetEditMode() {
@@ -203,6 +197,7 @@ export default class SubtitlesController {
         let srtFile = new Blob([srtString], {
             type: 'srt'
         });
+
         let srtFileName = this.file.fileName + '.srt';
 
         this.upload(srtFile, srtFileName, this.emailRecipient);
@@ -215,6 +210,7 @@ export default class SubtitlesController {
 
     //upload file to server, get media duration to init sliders
     upload(file, name, email) {
+
         console.log('upload', name);
         if (file.type === "video/mp4" || file.type === "video/quicktime") {
             //set duration of video, init slider values
@@ -258,7 +254,6 @@ export default class SubtitlesController {
                     if (!resp) return;
 
                     subtitled = resp.data.subtitled;
-
 
                     this.movieUploaded = true;
                     this.file.tempUrl  = resp.data.url;

@@ -19,8 +19,6 @@ router.get('/subtitles', function(req, res) {
 
 router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
-    console.log('req', req.body);
-
     // ffmpeg -i out.mp4 -vf subtitles=sub.srt:force_style='Fontsize=20' vide.mp4
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
@@ -31,8 +29,6 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
     const ext = getExtension(file.name);
 
     if (file.type === 'srt') {
-
-        console.log('This is SRT file');
 
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
@@ -57,7 +53,7 @@ router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
                 return;
             }
             sendNotification(email, filename);
-            res.json({ subtitled: true }).send();
+            res.json({ name: (req.body.fileName).replace('.srt', ''), subtitled: true }).send();
 
         });
 
