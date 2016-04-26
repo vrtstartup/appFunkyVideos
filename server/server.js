@@ -18,6 +18,8 @@ const mapsApi = require('./routes/maps');
 const questionsApi = require('./routes/questions');
 const convertImageApi = require('./routes/convertimage');
 const environmentVarsApi = require('./routes/environment');
+const downloadApi = require('./routes/download');
+
 
 
 //var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
@@ -49,6 +51,8 @@ app.use('/api', mapsApi);
 app.use('/api', questionsApi);
 app.use('/api', environmentVarsApi);
 app.use('/api', convertImageApi);
+app.use('/api', downloadApi);
+
 
 
 // START THE SERVER
@@ -127,6 +131,11 @@ function createPath() {
     });
     mkdirp('temp/chart', function(err) {
         console.log('Path is created temp/chart');
+        // path was created unless there was error
+        if(err) console.log('Error while creating path:', err);
+    });
+    mkdirp('temp/downloads', function(err) {
+        console.log('Path is created temp/downloads');
         // path was created unless there was error
         if(err) console.log('Error while creating path:', err);
     });
