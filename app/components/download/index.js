@@ -16,6 +16,13 @@ module.config(['$stateProvider', ($stateProvider) => {
             templateUrl: '/components/download/download.html',
             controller: downloadController,
             controllerAs: 'vm',
+        })
+        .state('downloadurl', {
+            url: '/download',
+            title: 'VRT Tools Download Video',
+            templateUrl: '/components/download/download.html',
+            controller: downloadController,
+            controllerAs: 'vm',
         });
 }]);
 
