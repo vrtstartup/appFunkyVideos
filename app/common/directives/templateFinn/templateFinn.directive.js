@@ -1,7 +1,7 @@
-import './templateSample.directive.scss';
-import template from './templateSample.directive.html';
+import './templateFinn.directive.scss';
+import template from './templateFinn.directive.html';
 
-class TemplateSampleDirectiveController {
+class TemplateFinnDirectiveController {
     constructor($scope, $element, videoGeneration) {
         this.videoGeneration = videoGeneration;
         this.$element = $element;
@@ -16,19 +16,21 @@ class TemplateSampleDirectiveController {
     }
 }
 
-export const templateSampleDirective = function() {
+export const templateFinnDirective = function() {
     return {
         restrict: 'E',
         template: template,
         scope: {},
-        controller: TemplateSampleDirectiveController,
+        controller: TemplateFinnDirectiveController,
         controllerAs: 'vm',
         bindToController: {
             quote: '=',
             isReady: '=',
             image: '=',
+            authorName: '=',
+            //authorTitle: '=',
         },
     };
 };
 
-TemplateSampleDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
+TemplateFinnDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];

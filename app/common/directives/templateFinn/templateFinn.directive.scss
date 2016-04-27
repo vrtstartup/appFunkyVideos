@@ -1,0 +1,56 @@
+@import "../../style/variables";
+
+.finn-image {
+  width: 620px;
+  height: 100%;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.finn-quote-wrap {
+  width: 300px;
+}
+
+.line-vert {
+  height: 100%;
+  width: 20px;
+  background-color: rgba($r1-main-color, 0.8);
+  margin: 0;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+}
+
+.r1 {
+  .finn-quote {
+    font-size: 48px;
+    line-height: 50px;
+    color: $r1-main-color;
+
+    .sign {
+      font-size: 48px;
+      line-height: 50px;
+      color: $r1-main-color;
+    }
+  }
+
+  .finn-wrap {
+    background-color: $white;
+  }
+
+  .finn-logo {
+    top: unset;
+    bottom: 25px;
+    left: 42%;
+  }
+
+  .finn-auth {
+    top: 25px;
+    bottom: unset;
+    left: unset;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+}
+

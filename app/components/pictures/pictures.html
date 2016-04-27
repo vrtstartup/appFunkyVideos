@@ -88,6 +88,9 @@
                     <md-list-item class="md-3-line" ng-click="vm.showTina('r1')">
                         <img src="./../assets/templates/quote_r1.png" alt="" width="100%">
                     </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="vm.showFinn('r1')">
+                        <img src="./../assets/templates/fotoquote_r1.png" alt="" width="100%">
+                    </md-list-item>
                 </md-content>
                 <md-toolbar md-scroll-shrink="">
                     <div class="md-toolbar-tools" ng-init="vm.showTempltesCanvas = false" ng-click="vm.getScheme('canvas')">
@@ -110,10 +113,6 @@
                     <md-list-item class="md-3-line" ng-click="vm.showLinda('terzake')">
                         <img src="./../assets/templates/announcement.png" alt="" width="100%">
                     </md-list-item>
-                    <!--<md-subheader class="">Sample</md-subheader>-->
-                    <!--<md-list-item class="md-3-line" ng-click="vm.showSample('terzake')">-->
-                        <!--<img src="./../assets/templates/announcement.png" alt="" width="100%">-->
-                    <!--</md-list-item>-->
                 </md-content>
             </md-list>
         </md-content>
@@ -158,7 +157,7 @@
 
                 <ng-include src="'components/pictures/picture.gin.html'"></ng-include>
 
-                <ng-include src="'components/pictures/picture.sample.html'"></ng-include>
+                <ng-include src="'components/pictures/picture.finn.html'"></ng-include>
 
 
                 <div ng-messages="templateForm.img.$error.required" >
@@ -166,7 +165,7 @@
                 </div>
 
                 <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion
-                                || vm.isPickels || vm.isDethklok || vm.isBob || vm.isTina || vm.isLinda || vm.isGin || vm.isSample"
+                                || vm.isPickels || vm.isDethklok || vm.isBob || vm.isTina || vm.isLinda || vm.isGin || vm.isFinn"
                          layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
                     <md-button class="md-raised" ng-click="vm.getPicture()" ng-disabled="templateForm.img.$error.required && (vm.templateClass != 'breaking')">Get Picture</md-button>
                 </section>

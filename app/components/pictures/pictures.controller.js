@@ -111,26 +111,26 @@ export default class PicturesController {
         this.className = scheme;
     }
 
-    showSample(scheme) {
+    showFinn(scheme) {
         this.resetAllTemplates();
-        this.isSample = true;
+        this.isFinn    = true;
         this.className = scheme;
     }
 
 
     resetAllTemplates() {
         this.isMurderface = false;
-        this.isSkwigelf = false;
-        this.isExplosion = false;
-        this.isReady = false;
-        this.isPickels = false;
-        this.isDethklok = false;
-        this.isBob = false;
-        this.isTina = false;
-        this.isWartooth = false;
-        this.isLinda = false;
-        this.isGin = false;
-        this.isSample = false;
+        this.isSkwigelf   = false;
+        this.isExplosion  = false;
+        this.isReady      = false;
+        this.isPickels    = false;
+        this.isDethklok   = false;
+        this.isBob        = false;
+        this.isTina       = false;
+        this.isWartooth   = false;
+        this.isLinda      = false;
+        this.isGin        = false;
+        this.isFinn       = false;
     }
 
 }
