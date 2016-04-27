@@ -117,6 +117,12 @@ export default class PicturesController {
         this.className = scheme;
     }
 
+    showJake(scheme) {
+        this.resetAllTemplates();
+        this.isJake    = true;
+        this.className = scheme;
+    }
+
 
     resetAllTemplates() {
         this.isMurderface = false;
@@ -131,6 +137,8 @@ export default class PicturesController {
         this.isLinda      = false;
         this.isGin        = false;
         this.isFinn       = false;
+        this.isJake       = false;
+
     }
 
 }

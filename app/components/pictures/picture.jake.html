@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isFinn">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isJake">
 
     <md-content layout-padding="">
         <md-input-container class="md-block">
@@ -14,7 +14,6 @@
                 <input ng-model="quote.authorName" md-maxlength="100">
             </md-input-container>
         </md-content>
-
     </div>
     <div layout-gt-sm="row">
 
@@ -23,9 +22,8 @@
     </div>
 
     <div class="dir-wrap">
-        <vrt-template-finn class="dir-wrap vrt-txt"
-                               is-ready="vm.isReady" quote="quote.question" image="quote.img"
-                               author-name="quote.authorName" >
-        </vrt-template-finn>
+        <vrt-template-jake class="dir-wrap vrt-txt"
+                           is-ready="vm.isReady" image="quote.img">
+        </vrt-template-jake>
     </div>
 </div>
