@@ -13,16 +13,15 @@ router.post('/download', function(req, res) {
     // check if url is valid
     var url = req.body.url;
 
+    //var url = 'https://www.instagram.com/p/BErZzXviA_F/?taken-by=designcollector';
+
+
     if(!url) return;
 
     var filename = shortId.generate() + '.mp4';
     var path = 'temp/downloads/'+filename;
 
-    var video = youtubedl(url,
-        // Optional arguments passed to youtube-dl.
-        ['--format=18'],
-        // Additional options can be given for calling `child_process.execFile()`.
-        { cwd: __dirname });
+    var video = youtubedl(url);
 
     // Will be called when the download starts.
     video.on('info', function(info) {

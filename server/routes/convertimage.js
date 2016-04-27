@@ -9,7 +9,7 @@ var multipartyMiddleware = multiparty({ uploadDir: 'temp/templates/' });
 router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next) {
 
     if(!req.files.file) return;
-    
+
     var file = req.files.file;
     var type = req.params.type;
 
