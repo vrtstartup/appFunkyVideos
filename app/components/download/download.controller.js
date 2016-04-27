@@ -1,19 +1,25 @@
 export default class DownloadController {
-    constructor($log, $http, $stateParams) {
+    constructor($log, $http, $stateParams, firebaseAuth) {
         this.$log  = $log;
         this.$http = $http;
+        this.firebaseAuth = firebaseAuth;
 
         this.filename = $stateParams.filename;
         this.url = '';
         this.isStarted = false;
 
+        this.firebaseAuth.$onAuth((authData) => {
+            if (authData) {
+                this.email = authData.password.email;
+            }
+        });
     }
 
     downloadVideo(url) {
         console.log('download', url);
         this.isStarted = true;
 
-        this.$http.post('/api/download', { 'url' : url }).then((res) => {
+        this.$http.post('/api/download', { url : url, email: this.email }).then((res) => {
             console.log('Success', res.data.url);
             this.url = res.data.url;
         }, (err) => {
@@ -23,4 +29,4 @@ export default class DownloadController {
     }
 }
 
-DownloadController.$inject = ['$log', '$http', '$stateParams'];
+DownloadController.$inject = ['$log', '$http', '$stateParams', 'firebaseAuth'];

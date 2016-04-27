@@ -3,6 +3,8 @@ var router = express.Router();
 var shortId = require('shortid');
 var fs = require('fs');
 var youtubedl = require('youtube-dl');
+var emailService = require('../services/emailService.js');
+
 
 //url /api
 router.get('/download', function(req, res) {
@@ -10,11 +12,8 @@ router.get('/download', function(req, res) {
 });
 
 router.post('/download', function(req, res) {
-    // check if url is valid
     var url = req.body.url;
-
-    //var url = 'https://www.instagram.com/p/BErZzXviA_F/?taken-by=designcollector';
-
+    var email = req.body.email;
 
     if(!url) return;
 
@@ -35,9 +34,21 @@ router.post('/download', function(req, res) {
 
     video.on('end', function() {
         console.log('Download ended');
+        sendNotification(email, filename);
         res.json({url: path}).send();
     });
 
 });
+
+
+function sendNotification(email, url) {
+
+    var fullUrl = 'http://nieuwshub.vrt.be/#/download/' + url;
+    var subject = 'Uw video met ondertitels is klaar om te downloaden ' + url;
+    var message = "<p>Beste collega,</p><p>Uw video kan je hier downloaden:<br /> <a href=" + fullUrl +
+        ">" + fullUrl + "</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>";
+
+    emailService.sendMail(email, subject, message);
+}
 
 module.exports = router;
