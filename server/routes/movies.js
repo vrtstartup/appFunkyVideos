@@ -222,7 +222,7 @@ router.post('/render-movie', function(req, res, next) {
 
     var ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/movies').child("movieclips");
     ref.orderByChild('movieId').equalTo(movieId).on("value", function(snapshot) {
-        var clipFilenames = [];
+        var clipFileNames = [];
         snapshot.forEach(function(child) {
             var childData = child.val();
             clipFileNames.push(childData.output);
