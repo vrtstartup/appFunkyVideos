@@ -230,8 +230,9 @@ router.post('/render-movie', function(req, res, next) {
 
         res.json({data: 'rendering your movie!'}).send();
 
-        stitchClips(childFilenames)
+        stitchClips(clipFileNames)
             .then(function(result) {
+                console.log('++++++ after stitchClips ', result);
                 //#todo send mail and have a part
             });
     });
