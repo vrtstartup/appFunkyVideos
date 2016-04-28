@@ -13,9 +13,6 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
     var file = req.files.file;
     var type = req.params.type;
 
-    console.log('Req', req.headers.host+'/'+file.path);
-    console.log("type is set to " + req.params.type);
-
     if (type === 'grayscale') {
         gm(file.path)
             .type('grayscale')

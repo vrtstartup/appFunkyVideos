@@ -32,7 +32,7 @@ export default class MoviesController {
                 'name': 'tekst',
                 'templateName': 'template_02_tekst',
                 'templateLocalPath': '/components/movies/movie.tekst.html',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\template_02_title.aep',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
                 'thumb': '/assets/movies-title.png'
             }
             //{
@@ -140,12 +140,13 @@ export default class MoviesController {
         //    });
 
         this.Upload.upload({
-            url: 'api/movie/movie-clip',
+            url: 'api/movie/upload-to-dropbox',
             data: {'movieId': this.movie.$id, 'clipId': this.currentClip.id, file: file},
             method: 'POST'
         })
         .then((resp) => {
-            this.currentClip.img01 = window.location.origin + '/' + resp.data.filePath;
+            console.log("RESPONSE", resp.data);
+            this.currentClip.img01 = resp.data.filenameIn;
             this.currentClip.uploaded = true;
             this.tabIndex++;
             console.log('image uploaded', this.currentClip);
@@ -199,6 +200,7 @@ export default class MoviesController {
     }
 
     renderMovie() {
+        //console.log('Clip', clip);
         var counter = 1;
         angular.forEach(this.movieClips, (clip) => {
             if (counter >= this.movieClips.length) {

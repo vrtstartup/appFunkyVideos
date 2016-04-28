@@ -7,6 +7,11 @@ var lodash = require('lodash');
 var Q = require('q');
 var exec = require('child_process').exec;
 var Firebase = require('firebase');
+var shortId = require('shortid');
+var Boom = require('boom');
+
+
+
 var movies = new Firebase("vrtnieuwshub.firebaseio.com/apps/movies/movies");
 var movieClips = new Firebase("https://vrtnieuwshub.firebaseio.com/apps/movies/movieclips");
 
@@ -69,6 +74,32 @@ router.post('/movie-clip', function(req, res, next) {
 
     form.on('close', function() {
         res.json({filePath: fullPath, fileName: fileName + fileExt}).send();
+    });
+});
+
+router.post('/upload-to-dropbox', function(req, res, next) {
+    //handle file with multer - read file to convert into binary - save file to dropbox
+    var form = new multiparty.Form();
+
+    form.parse(req);
+
+    //if form contains file, open fileStream to get binary file
+    form.on('file', function(name, file) {
+
+        console.log('upload-to-dropbox', name);
+
+        fs.readFile(file.path, function(err, data) {
+            dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
+                if (error) {
+                    return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+                }
+
+                res.json({
+                    filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
+                    filenameIn: file.originalFilename
+                }).send();
+            });
+        });
     });
 });
 
