@@ -23,6 +23,62 @@ var renderFolder = 'temp/movies/in';
 
 //url /api/movie
 
+
+router.post('/upload-to-dropbox', function(req, res, next) {
+    //handle file with multer - read file to convert into binary - save file to dropbox
+    var form = new multiparty.Form();
+
+    form.parse(req);
+
+    //if form contains file, open fileStream to get binary file
+    form.on('file', function(name, file) {
+
+        fs.readFile(file.path, function(err, data) {
+            dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
+                if (error) {
+                    return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+                }
+
+                res.json({
+                    filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
+                    filenameIn: file.originalFilename
+                }).send();
+            });
+        });
+    });
+});
+
+router.post('/update-movie-json', function(req, res, next) {
+    var movieClips = req.body.movieClips;
+
+    //update dropbox json
+    var file = {
+        path: '/json/',
+        name: 'templater.json',
+        data: ''
+    };
+
+    //update JSON file on dropbox so AE templater get's triggered
+    dbClient.readFile(file.path + file.name, function(error, data) {
+        if (error) {
+            return next(Boom.badImplementation('unexpected error, couldn\'t read file from dropbox'));
+        }
+
+        file.data = data ? JSON.parse(data) : [];
+
+        movieClips.forEach(function(clip) {
+            file.data.push(clip);
+        });
+
+        dbClient.writeFile(file.path + file.name, JSON.stringify(file.data), function(error, stat) {
+            if (error) {
+                return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+            }
+
+            res.send();
+        });
+    });
+});
 router.post('/movie-clip', function(req, res, next) {
     var form = new multiparty.Form();
     form.parse(req);
@@ -77,108 +133,6 @@ router.post('/movie-clip', function(req, res, next) {
     });
 });
 
-router.post('/upload-to-dropbox', function(req, res, next) {
-    //handle file with multer - read file to convert into binary - save file to dropbox
-    var form = new multiparty.Form();
-
-    form.parse(req);
-
-    //if form contains file, open fileStream to get binary file
-    form.on('file', function(name, file) {
-
-        console.log('upload-to-dropbox', file);
-
-        fs.readFile(file.path, function(err, data) {
-            dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
-                if (error) {
-                    return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-                }
-
-                res.json({
-                    filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-                    filenameIn: file.originalFilename
-                }).send();
-            });
-        });
-    });
-});
-
-router.post('/update-movie-json', function(req, res, next) {
-    var movieClips = req.body.movieClips;
-
-    //update local JS
-    //fs.access('data/json', fs.F_OK, function(err) {
-    //    if(err) {
-    //        console.log('creating json directory');
-    //        fs.mkdirSync('data/json');
-    //    }
-    //
-    //    console.log('dir exists');
-    //
-    //    //append clips to json file on server
-    //    var file = [];
-    //
-    //    fs.access(jsonFile, fs.F_OK, function(err) {
-    //        if (!err) {
-    //            //if file exists, append contents to file
-    //            file = fs.readFileSync(jsonFile, 'utf8');
-    //
-    //            if (file.length > 0) {
-    //                file = JSON.parse(file);
-    //            }
-    //            else {
-    //                file = [];
-    //            }
-    //        }
-    //
-    //        movieClips.forEach(function(clip) {
-    //            file.push(clip);
-    //        });
-    //
-    //        fs.writeFile(jsonFile, JSON.stringify(file), (err) => {
-    //            if(err) {
-    //                console.log('failed to write file');
-    //            }
-    //
-    //            fs.chmod(jsonFile, 511);
-    //
-    //            console.log('updated templater.json');
-    //            res.send();
-    //        });
-    //    });
-    //});
-
-    //update dropbox json
-    var file = {
-        path: '/json/',
-        name: 'templater.json',
-        data: ''
-    };
-
-    console.log('DROP BOX', dbClient);
-
-    //update JSON file on dropbox so AE templater get's triggered
-    dbClient.readFile(file.path + file.name, function(error, data) {
-        if (error) {
-            return next(Boom.badImplementation('unexpected error, couldn\'t read file from dropbox'));
-        }
-
-        file.data = data ? JSON.parse(data) : [];
-
-        movieClips.forEach(function(clip) {
-            file.data.push(clip);
-        });
-
-        dbClient.writeFile(file.path + file.name, JSON.stringify(file.data), function(error, stat) {
-            if (error) {
-                return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-            }
-
-            res.send();
-        });
-    });
-});
-
 //router.post('/delete-movie-json', function(req, res, next) {
 //    var clipId = req.body.clipId || 0;
 //
@@ -206,39 +160,39 @@ router.post('/update-movie-json', function(req, res, next) {
 //    //check if last clip in movie, if so, start render
 //});
 
-router.post('/clean-movie-json', function(req, res, next) {
-    var path = '/json/templater.json';
-    dbClient.writeFile(path, '[]', function(error, stat) {
-        if (error) {
-            return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-        }
-        console.log('succesfully cleared json file');
-        res.send();
-    });
-});
-
-router.post('/render-movie', function(req, res, next) {
-    var movieId = req.body.movieId || 0;
-
-    console.log('rendering movie with id:', movieId);
-
-    var ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/movies').child("movieclips");
-    ref.orderByChild('movieId').equalTo(movieId).on("value", function(snapshot) {
-        var clipFileNames = [];
-        snapshot.forEach(function(child) {
-            var childData = child.val();
-            clipFileNames.push(childData.output);
-        });
-
-        res.json({data: 'rendering your movie!'}).send();
-
-        stitchClips(clipFileNames)
-            .then(function(result) {
-                console.log('++++++ after stitchClips ', result);
-                //#todo send mail and have a part
-            });
-    });
-});
+//router.post('/clean-movie-json', function(req, res, next) {
+//    var path = '/json/templater.json';
+//    dbClient.writeFile(path, '[]', function(error, stat) {
+//        if (error) {
+//            return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+//        }
+//        console.log('succesfully cleared json file');
+//        res.send();
+//    });
+//});
+//
+//router.post('/render-movie', function(req, res, next) {
+//    var movieId = req.body.movieId || 0;
+//
+//    console.log('rendering movie with id:', movieId);
+//
+//    var ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/movies').child("movieclips");
+//    ref.orderByChild('movieId').equalTo(movieId).on("value", function(snapshot) {
+//        var clipFileNames = [];
+//        snapshot.forEach(function(child) {
+//            var childData = child.val();
+//            clipFileNames.push(childData.output);
+//        });
+//
+//        res.json({data: 'rendering your movie!'}).send();
+//
+//        stitchClips(clipFileNames)
+//            .then(function(result) {
+//                console.log('++++++ after stitchClips ', result);
+//                //#todo send mail and have a part
+//            });
+//    });
+//});
 
 // to stitch all the clips, you first need to transfer them from Dropbox to our server so FFMPEG can work with them
 // ISACCO first needs to fix a preset so the files uploaded to dropbox aren't HUGE.
