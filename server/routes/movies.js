@@ -86,7 +86,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
     //if form contains file, open fileStream to get binary file
     form.on('file', function(name, file) {
 
-        console.log('upload-to-dropbox', name);
+        console.log('upload-to-dropbox', file);
 
         fs.readFile(file.path, function(err, data) {
             dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
@@ -154,6 +154,8 @@ router.post('/update-movie-json', function(req, res, next) {
         name: 'templater.json',
         data: ''
     };
+
+    console.log('DROP BOX', dbClient);
 
     //update JSON file on dropbox so AE templater get's triggered
     dbClient.readFile(file.path + file.name, function(error, data) {
@@ -298,7 +300,7 @@ function renderMovie(localFilePaths) {
     var deferred = Q.defer();
 
     //#todo fix FFMPEG line with variable inputs
-    var ffmpegCommand = "ffmpeg ..."
+    var ffmpegCommand = "ffmpeg ...";
 
     console.log('running:', ffmpegCommand);
 

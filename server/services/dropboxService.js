@@ -20,6 +20,8 @@ module.exports = (function dropboxService() {
                 sandbox: false
             });
 
+            console.log('client');
+
             return client;
         }
     };

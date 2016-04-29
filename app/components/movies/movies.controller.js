@@ -1,6 +1,6 @@
 //TODO: refactor show functions
 export default class MoviesController {
-    constructor($scope, $rootScope, $http, $document, Upload, $firebaseArray, $firebaseObject, $mdDialog, toast, firebaseAuth) {
+    constructor($scope, $http, $document, Upload, $firebaseArray, $firebaseObject, $mdDialog, toast, firebaseAuth) {
         this.$scope = $scope;
         this.$http = $http;
         this.$document = $document;
@@ -19,6 +19,12 @@ export default class MoviesController {
         this.progressPercentage = 0;
         this.tabIndex = 0;
         this.templatePath = '';
+
+        this.number = 0;
+        this.movieId = Date.now();
+        // TODO: add dynamic bumper & logo
+        this.movie.bumper = 11;
+        this.movie.logo = 11;
 
         this.firebaseAuth = firebaseAuth;
         this.firebaseAuth.$onAuth((authData) => {
@@ -106,25 +112,26 @@ export default class MoviesController {
         this.emailValid = true;
 
         //#todo save email adres to firebase, use movieID returned by firebase to identify movie
-        this.firebaseMovies.$add({ 'email': this.movie.email })
-            .then((ref) => {
-                this.movie = this.$firebaseObject(ref);
-                this.initNewClip(ref.key());
-            });
+        //this.firebaseMovies.$add({ 'email': this.movie.email })
+        //    .then((ref) => {
+        //        this.movie = this.$firebaseObject(ref);
+        //        this.initNewClip(ref.key());
+        //    });
 
         this.tabIndex++;
     }
 
-    initNewClip(movieId) {
+    initNewClip() {
         this.progressPercentage = 0;
+        this.number = this.number + 1;
 
         this.currentClip = {
-            'id': this.generateClipId(),
-            'movieId': movieId,
+            'id': this.number,
+            'movieId': this.movieId,
             'bot': 'render',
             'render-status': 'ready',
             'uploaded': false,
-            'saved': false
+            'saved': false,
         };
     }
 
@@ -179,7 +186,7 @@ export default class MoviesController {
 
         //this.currentClip.output = this.movie.$id + '/' + this.currentClip.id
         //this.currentClip.aep = this.templatePath.templaterPath;
-        this.currentClip.output = this.currentClip.id;
+        this.currentClip.output = this.movieId + '/' + this.number;
         this.currentClip.last = false;
         this.currentClip.type = this.templatePath.name;
         this.currentClip.saved = true;
@@ -205,10 +212,15 @@ export default class MoviesController {
         angular.forEach(this.movieClips, (clip) => {
             if (counter >= this.movieClips.length) {
                 clip.last = true;
+                clip.email = this.movie.email;
+                clip.bumper = this.movie.bumper;
+                clip.logo = this.movie.logo;
             }
-            this.firebaseMovieClips.$add(clip);
+            //this.firebaseMovieClips.$add(clip);
             counter++;
         });
+
+        console.log('All the clips', this.movieClips);
 
         this.movie.$save()
             .then(() => {
@@ -226,4 +238,4 @@ export default class MoviesController {
     }
 }
 
-MoviesController.$inject = ['$scope', '$rootScope', '$http', '$document', 'Upload', '$firebaseArray', '$firebaseObject', '$mdDialog', 'toast', 'firebaseAuth'];
+MoviesController.$inject = ['$scope', '$http', '$document', 'Upload', '$firebaseArray', '$firebaseObject', '$mdDialog', 'toast', 'firebaseAuth'];
