@@ -6,24 +6,20 @@ var multiparty = require('multiparty');
 var lodash = require('lodash');
 var Q = require('q');
 var exec = require('child_process').exec;
-var Firebase = require('firebase');
 var shortId = require('shortid');
 var Boom = require('boom');
-
-
-
-var movies = new Firebase("vrtnieuwshub.firebaseio.com/apps/movies/movies");
-var movieClips = new Firebase("https://vrtnieuwshub.firebaseio.com/apps/movies/movieclips");
-
 var dropboxService = require('../services/dropboxService.js');
 var dbClient = dropboxService.getDropboxClient();
 
-var jsonFile = 'data/json/templater.json';
-var renderFolder = 'temp/movies/in';
+
+//var Firebase = require('firebase');
+//var movies = new Firebase("vrtnieuwshub.firebaseio.com/apps/movies/movies");
+//var movieClips = new Firebase("https://vrtnieuwshub.firebaseio.com/apps/movies/movieclips");
+
+//var jsonFile = 'data/json/templater.json';
+//var renderFolder = 'temp/movies/in';
 
 //url /api/movie
-
-
 router.post('/upload-to-dropbox', function(req, res, next) {
     //handle file with multer - read file to convert into binary - save file to dropbox
     var form = new multiparty.Form();
@@ -79,59 +75,60 @@ router.post('/update-movie-json', function(req, res, next) {
         });
     });
 });
-router.post('/movie-clip', function(req, res, next) {
-    var form = new multiparty.Form();
-    form.parse(req);
 
-    var fileStream = '';
-    var fileStreamOpened = false;
-    var fileName = '';
-    var fileExt = '';
-    var folderName = '';
-    var uploadPath = 'temp/movies/';
-    var fullPath = '';
-
-    form.on('part', function(part) {
-        part.on('data', function(data) {
-            if (!part.filename) {
-                if (part.name === "movieId") folderName = data.toString();
-                if (part.name === "clipId") fileName = data.toString();
-            }
-            else {
-                if (!fileStreamOpened) {
-                    fileStreamOpened = true;
-                    fileExt = getExtension(part.filename);
-                    fullPath = uploadPath + fileName + fileExt;
-
-                    //check if dir exists else create it
-                    //if (!fs.existsSync(uploadPath)) {
-                    //    fs.mkdirSync(uploadPath);
-                    //}
-
-                    fileStream = fs.createWriteStream(fullPath, {'flags': 'a'});
-                }
-
-                fileStream.write(data);
-            }
-        });
-
-        part.on('error', function(err) {
-            console.log('part error', err);
-            return next(Boom.badImplementation('file upload failed!'));
-        });
-
-        part.resume();
-    });
-
-    form.on('error', function(err) {
-        console.log('upload error', err);
-        return next(Boom.badImplementation('file upload failed!'));
-    });
-
-    form.on('close', function() {
-        res.json({filePath: fullPath, fileName: fileName + fileExt}).send();
-    });
-});
+//router.post('/movie-clip', function(req, res, next) {
+//    var form = new multiparty.Form();
+//    form.parse(req);
+//
+//    var fileStream = '';
+//    var fileStreamOpened = false;
+//    var fileName = '';
+//    var fileExt = '';
+//    var folderName = '';
+//    var uploadPath = 'temp/movies/';
+//    var fullPath = '';
+//
+//    form.on('part', function(part) {
+//        part.on('data', function(data) {
+//            if (!part.filename) {
+//                if (part.name === "movieId") folderName = data.toString();
+//                if (part.name === "clipId") fileName = data.toString();
+//            }
+//            else {
+//                if (!fileStreamOpened) {
+//                    fileStreamOpened = true;
+//                    fileExt = getExtension(part.filename);
+//                    fullPath = uploadPath + fileName + fileExt;
+//
+//                    //check if dir exists else create it
+//                    //if (!fs.existsSync(uploadPath)) {
+//                    //    fs.mkdirSync(uploadPath);
+//                    //}
+//
+//                    fileStream = fs.createWriteStream(fullPath, {'flags': 'a'});
+//                }
+//
+//                fileStream.write(data);
+//            }
+//        });
+//
+//        part.on('error', function(err) {
+//            console.log('part error', err);
+//            return next(Boom.badImplementation('file upload failed!'));
+//        });
+//
+//        part.resume();
+//    });
+//
+//    form.on('error', function(err) {
+//        console.log('upload error', err);
+//        return next(Boom.badImplementation('file upload failed!'));
+//    });
+//
+//    form.on('close', function() {
+//        res.json({filePath: fullPath, fileName: fileName + fileExt}).send();
+//    });
+//});
 
 //router.post('/delete-movie-json', function(req, res, next) {
 //    var clipId = req.body.clipId || 0;
@@ -189,7 +186,7 @@ router.post('/movie-clip', function(req, res, next) {
 //        stitchClips(clipFileNames)
 //            .then(function(result) {
 //                console.log('++++++ after stitchClips ', result);
-//                //#todo send mail and have a part
+//                // send mail and have a part
 //            });
 //    });
 //});
@@ -202,83 +199,83 @@ router.post('/movie-clip', function(req, res, next) {
 // see templater.js - certain parts can be reused or can be used as inspiration :-)
 // have fun
 
-function stitchClips(clipFileNames) {
-    var deferred = Q.defer();
+//function stitchClips(clipFileNames) {
+//    var deferred = Q.defer();
+//
+//    var promises = [];
+//
+//    //filename is without file extension, you'll probably need to add this
+//    clipFileNames.forEach(function(filename) {
+//        //for each clip for this movieId, transfer all the clips from dropbox to local disk
+//        //this is an array of promises, when every promises is resolved (so when all files are transfered), the code inside Q.all will run
+//        promises.push(transferFileToDisk(filename));
+//    });
+//
+//    Q.all(promises)
+//        .then(function(results) {
+//            console.log('transferred', results.length, 'files');
+//            return renderMovie(results); //return the resolved promise of this function to the next then
+//        })
+//        .then(function() {
+//            deferred.resolve('transferred all files and stitched them'); //resolving this will trigger the THEN of stitchClips, thus send the e-mail
+//        })
+//        .catch(function(err) {
+//           console.log('Somewhere along the way, it went wrong', err);
+//        });
+//
+//    return deferred.promise;
+//}
 
-    var promises = [];
+//function transferFileToDisk(filename) {
+//    //#todo test if file transfer works and puts it in the correct folder /temp/movies/in, and uses the correct extensions
+//    var deferred = Q.defer();
+//
+//    dbClient.readFile('out/' + filename, {buffer: true}, function(error, data) {
+//        if (error) {
+//            return next(Boom.badImplementation('unexpected error, couldn\'t open file from dropbox'));
+//        }
+//
+//        fs.writeFile(renderFolder + filename + '.mp4', data, function(err) {
+//            if (err) deferred.reject(new Error(err));
+//            else {
+//                deferred.resolve({filePath: renderFolder + 'in' + fileName + '.mp4'});
+//            }
+//        });
+//    });
+//
+//    return deferred.promise;
+//};
 
-    //filename is without file extension, you'll probably need to add this
-    clipFileNames.forEach(function(filename) {
-        //for each clip for this movieId, transfer all the clips from dropbox to local disk
-        //this is an array of promises, when every promises is resolved (so when all files are transfered), the code inside Q.all will run
-        promises.push(transferFileToDisk(filename));
-    });
-
-    Q.all(promises)
-        .then(function(results) {
-            console.log('transferred', results.length, 'files');
-            return renderMovie(results); //return the resolved promise of this function to the next then
-        })
-        .then(function() {
-            deferred.resolve('transferred all files and stitched them'); //resolving this will trigger the THEN of stitchClips, thus send the e-mail
-        })
-        .catch(function(err) {
-           console.log('Somewhere along the way, it went wrong', err);
-        });
-
-    return deferred.promise;
-}
-
-function transferFileToDisk(filename) {
-    //#todo test if file transfer works and puts it in the correct folder /temp/movies/in, and uses the correct extensions
-    var deferred = Q.defer();
-
-    dbClient.readFile('out/' + filename, {buffer: true}, function(error, data) {
-        if (error) {
-            return next(Boom.badImplementation('unexpected error, couldn\'t open file from dropbox'));
-        }
-
-        fs.writeFile(renderFolder + filename + '.mp4', data, function(err) {
-            if (err) deferred.reject(new Error(err));
-            else {
-                deferred.resolve({filePath: renderFolder + 'in' + fileName + '.mp4'});
-            }
-        });
-    });
-
-    return deferred.promise;
-};
-
-function renderMovie(localFilePaths) {
-    //#todo stitch together files with ffmpeg
-    var deferred = Q.defer();
-
-    //#todo fix FFMPEG line with variable inputs
-    var ffmpegCommand = "ffmpeg ...";
-
-    console.log('running:', ffmpegCommand);
-
-    var ffmpegProcess = exec(ffmpegCommand);
-
-    ffmpegProcess.stdout.on('data', function(data) {
-        console.log('stdout: ' + data);
-    });
-    ffmpegProcess.stderr.on('data', function(data) {
-        console.log('stderr: ' + data);
-    });
-    ffmpegProcess.on('close', function(code) {
-        if(code !== 0) {
-            console.log('program exited error code:', code);
-            return;
-        }
-
-        deferred.resolve('finished rendering movie');
-    });
-}
-
-function getExtension(filename) {
-    var parts = filename.split('.');
-    return '.' + parts[parts.length - 1];
-}
+//function renderMovie(localFilePaths) {
+//    //#todo stitch together files with ffmpeg
+//    var deferred = Q.defer();
+//
+//    //#todo fix FFMPEG line with variable inputs
+//    var ffmpegCommand = "ffmpeg ...";
+//
+//    console.log('running:', ffmpegCommand);
+//
+//    var ffmpegProcess = exec(ffmpegCommand);
+//
+//    ffmpegProcess.stdout.on('data', function(data) {
+//        console.log('stdout: ' + data);
+//    });
+//    ffmpegProcess.stderr.on('data', function(data) {
+//        console.log('stderr: ' + data);
+//    });
+//    ffmpegProcess.on('close', function(code) {
+//        if(code !== 0) {
+//            console.log('program exited error code:', code);
+//            return;
+//        }
+//
+//        deferred.resolve('finished rendering movie');
+//    });
+//}
+//
+//function getExtension(filename) {
+//    var parts = filename.split('.');
+//    return '.' + parts[parts.length - 1];
+//}
 
 module.exports = router;
