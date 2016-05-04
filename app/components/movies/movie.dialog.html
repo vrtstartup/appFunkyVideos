@@ -1,13 +1,31 @@
-<md-dialog aria-label="VRT Movie Tool (a.k.a. The Stitcher)" flex="50">
-    <form>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h2>VRT Movie Tool (a.k.a. The Stitcher)</h2>
-                <span flex></span>
+<md-dialog aria-label="VRT Movie Tool (a.k.a. The Stitcher)" flex="100" class="stitcher-dialog__outside">
+    <md-toolbar class="vrt-toolbar">
+        <div class="md-toolbar-tools">
+            <h2>Kies een template</h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
+    <md-dialog-content class="stitcher-dialog__inside">
+        <div layout="row" layout-align="start center" layout-wrap>
+            <div ng-repeat="t in vm.clipTemplates" flex="30" class="stitcher-templates__preview" ng-click="vm.initiateClip(t.aep)">
+                <img src="{{t.url}}">
+                <div class="stitcher-templates__description">
+                    {{t.description}}
+                </div>
             </div>
-        </md-toolbar>
+        </div>
+        <div class="upload-form" ng-hide="clip.uploaded">
+            <input id="clipFile" type="file" name="img" required ngf-select="vm.uploadFile($file)" class="ng-hide" />
+            <md-button class="md-raised" ng-click="vm.selectFile()">upload afbeelding</md-button>
+            <div ng-if="vm.progressPercentage > 0">
+                <p>Bezig met uploaden: {{vm.progressPercentage}} % compleet.</p>
+                <md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>
+            </div>
+        </div>
+    </md-dialog-content>
+</md-dialog>
+<!--
 
-        <md-dialog-content>
             <md-tabs md-border-bottom md-selected="vm.tabIndex">
                 <md-tab label="E-mail" ng-hide="vm.emailValid" ng-disabled="'true'">
                     <md-content class="md-padding">
@@ -31,7 +49,6 @@
                         <p>Upload een afbeelding om verder te gaan.</p>
                         <div class="upload-form" ng-hide="vm.currentClip.uploaded">
                             <input id="clipFile" type="file" name="img" required ngf-select="vm.uploadFile($file)" class="ng-hide" />
-                            <!--<input id="clipFile" ngf-accept="'video/mp4'" ngf-select="vm.uploadFile($file)" type="file" class="ng-hide" />-->
                             <md-button class="md-raised" ng-click="vm.selectFile()">upload afbeelding</md-button>
                             <div  ng-if="vm.progressPercentage > 0">
                                 <p>Bezig met uploaden: {{vm.progressPercentage}} % compleet.</p>
@@ -56,16 +73,4 @@
                         </md-button>
                     </md-content>
                 </md-tab>
-            </md-tabs>
-        </md-dialog-content>
-        <!--<md-dialog-actions layout="row">-->
-            <!--<span flex></span>-->
-            <!--<md-button ng-click="answer('not useful')" >-->
-                <!--Not Useful-->
-            <!--</md-button>-->
-            <!--<md-button ng-click="answer('useful')" style="margin-right:20px;" >-->
-                <!--Useful-->
-            <!--</md-button>-->
-        <!--</md-dialog-actions>-->
-    </form>
-</md-dialog>
+            </md-tabs> -->

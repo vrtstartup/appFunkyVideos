@@ -1,45 +1,72 @@
 @import "../../common/style/variables";
-
-.email-form {
-  text-align: center;
+.stitcher-dialog__outside {
+    margin: 5%;
 }
 
-.email-input {
-  display: block;
-  max-width: 350px;
-  margin: 0 auto;
+.stitcher-dialog__inside {
+    // padding: 5%;
 }
 
-md-dialog {
-  md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
-    min-height: 300px;
-  }
+.stitcher-templates__preview {
+    margin: 1%;
+    cursor: pointer;
+    background-color: $vrt-tool;
+    position: relative;
+    img {
+        width: 100%;
+        height: auto;
+        -webkit-transition: opacity 1s;
+        transition: opacity 1s;
+        &:hover {
+            opacity: .6;
+            -webkit-transition: opacity 1s;
+            transition: opacity 1s;
+        }
+    }
+    .stitcher-templates__description {
+        padding-left: .2rem;
+        color: $white;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 3rem;
+        padding: .3rem;
+        background-color: transparentize($vrt-tool, .3);
+    }
 }
 
-.clip-preview-container {
-  padding: 25px 50px;
-}
-
-.layout-thumbs {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-
-  li {
-    padding: 10px;
-    outline: 0;
-  }
-
-  p {
-    margin: 0;
-  }
-
-  img {
-    max-width: 100px;
-    height: auto;
-  }
-}
-
-.layout-thumbs li.selected {
-  background-color: $drd-main-color;
-}
+// .email-form {
+//   text-align: center;
+// }
+// .email-input {
+//   display: block;
+//   max-width: 350px;
+//   margin: 0 auto;
+// }
+// md-dialog {
+//   md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
+//     min-height: 300px;
+//   }
+// }
+// .clip-preview-container {
+//   padding: 25px 50px;
+// }
+// .layout-thumbs {
+//   list-style-type: none;
+//   margin: 0;
+//   padding: 0;
+//   li {
+//     padding: 10px;
+//     outline: 0;
+//   }
+//   p {
+//     margin: 0;
+//   }
+//   img {
+//     max-width: 100px;
+//     height: auto;
+//   }
+// }
+// .layout-thumbs li.selected {
+//   background-color: $drd-main-color;
+// }

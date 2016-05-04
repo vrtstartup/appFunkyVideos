@@ -12,9 +12,7 @@ export default class MoviesController {
         this.movieClips = [];
         this.currentClip = {};
 
-        // /used for switching between tabs in a dialog
-        this.progressPercentage = 0;
-        this.tabIndex = 0;
+
         this.templatePath = '';
 
         this.number = 0;
@@ -31,17 +29,71 @@ export default class MoviesController {
             }
         });
 
-        this.movieTypes = [
-            {
-                'name': 'tekst',
-                'templateName': 'template_02_tekst',
-                'templateLocalPath': '/components/movies/movie.tekst.html',
+
+        this.clipTemplates = [{
+                'name': 'text',
+                'description': 'Tekst op foto',
+                'url': 'assets/stitcherTemplates/textSlide.png',
                 'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
-                'thumb': '/assets/movies-title.png'
+                'templateLocalPath': '/components/movies/movie.tekst.html'
+            }, {
+                'name': 'number',
+                'description': 'Licht 1 nummer of woord uit.',
+                'url': 'assets/stitcherTemplates/numberSlide.png',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'templateLocalPath': '/components/movies/movie.number.html'
+            }, {
+                'name': 'quote',
+                'description': 'Licht 1 nummer of woord uit.',
+                'url': 'assets/stitcherTemplates/quoteSlide.png',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'templateLocalPath': '/components/movies/movie.quote.html'
+            }, {
+                'name': 'icon',
+                'description': 'Gebruik een icoon om iets uit te leggen.',
+                'url': 'assets/stitcherTemplates/iconSlide.png',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'templateLocalPath': '/components/movies/movie.icon.html'
+            }, {
+                'name': 'tweet',
+                'description': 'Toon een tweet in beeld.',
+                'url': 'assets/stitcherTemplates/tweetSlide.png',
+                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'templateLocalPath': '/components/movies/movie.tweet.html'
             }
+
         ];
 
-        this.showDialog();
+        this.movieTypes = [{
+            'name': 'tekst',
+            'templateName': 'template_02_tekst',
+            'templateLocalPath': '/components/movies/movie.tekst.html',
+            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+            'thumb': '/assets/movies-title.png'
+        }];
+
+        // this.showDialog();
+    }
+
+
+
+
+    initiateClip(template) {
+        console.log('creating a new clip with template url: ', template);
+        var clip = {
+            'id': this.number,
+            'movieId': this.movie.id,
+            'bot': 'render',
+            'render-status': 'ready',
+            'uploaded': false,
+            'saved': false,
+            'aep': template
+        };
+
+
+        this.movieClips.push(clip);
+        this.$mdDialog.hide();
+
     }
 
     /* start navigation */
@@ -57,7 +109,7 @@ export default class MoviesController {
 
     showDialog() {
         this.$mdDialog.show({
-            templateUrl: '/components/movies/movie.tabs.html',
+            templateUrl: '/components/movies/movie.dialog.html',
             parent: angular.element(document.body),
             clickOutsideToClose: false,
             escapeToClose: false,
@@ -67,11 +119,11 @@ export default class MoviesController {
     }
 
     resetDialog() {
-        this.$mdDialog.hide();
-        //reset tabindex to upload form, if reset is called we assume e-mail is valid so skip index 0.
-        this.tabIndex = 1;
-    }
-    /*  end of navigation */
+            this.$mdDialog.hide();
+            //reset tabindex to upload form, if reset is called we assume e-mail is valid so skip index 0.
+            this.tabIndex = 1;
+        }
+        /*  end of navigation */
 
     initMovie() {
         this.initNewClip();
@@ -100,22 +152,22 @@ export default class MoviesController {
     // upload images to dropbox
     uploadFile(file) {
         this.Upload.upload({
-            url: 'api/movie/upload-to-dropbox',
-            data: {'movieId': this.movie.id, 'clipId': this.currentClip.id, file: file},
-            method: 'POST'
-        })
-        .then((resp) => {
-            console.log("RESPONSE", resp.data);
-            this.currentClip.img01 = resp.data.filenameIn;
-            this.currentClip.uploaded = true;
-            this.tabIndex++;
-            console.log('image uploaded', this.currentClip);
-        }, (resp) => {
-            console.log('Error: ' + resp.error);
-            console.log('Error status: ' + resp.status);
-        }, (evt) => {
-            this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-        });
+                url: 'api/movie/upload-to-dropbox',
+                data: { 'movieId': this.movie.id, 'clipId': this.currentClip.id, file: file },
+                method: 'POST'
+            })
+            .then((resp) => {
+                console.log("RESPONSE", resp.data);
+                this.currentClip.img01 = resp.data.filenameIn;
+                this.currentClip.uploaded = true;
+                this.tabIndex++;
+                console.log('image uploaded', this.currentClip);
+            }, (resp) => {
+                console.log('Error: ' + resp.error);
+                console.log('Error status: ' + resp.status);
+            }, (evt) => {
+                this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            });
     }
 
     addClip() {

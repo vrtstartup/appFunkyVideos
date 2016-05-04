@@ -1,4 +1,24 @@
-<div layout="row" layout-wrap>
+<div layout="row" layout-align="center start">
+    <div layout="column" flex="50">
+        <div ng-if="vm.progressPercentage > 0">
+            <p>Bezig met uploaden: {{vm.progressPercentage}} % compleet.</p>
+            <md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>
+        </div>
+
+        {{vm.movieClips}}
+        <div ng-repeat="clip in vm.movieClips | orderBy: 'start'">
+            {{clip.id}} {{clip.img01}} {{clip.uploaded}}
+            <div class="upload-form" ng-hide="clip.uploaded">
+                <input id="clipFile" type="file" name="img" ng-model="clip.uploads" required ngf-select="vm.uploadFile($file, clip.id)" class="ng-hide" />
+                <md-button class="md-raised" ng-click="vm.selectFile()">upload afbeelding</md-button>
+            </div>
+        </div>
+        <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
+            Add clip
+        </md-button>
+    </div>
+</div>
+<!-- <div layout="row" layout-wrap>
     <section flex="70">
             <div class="clip-preview-container" ng-show="vm.currentClip.uploaded">
                 <h2>Fragment {{this.movieClips.length +1}}</h2>
