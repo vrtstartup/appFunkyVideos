@@ -7,19 +7,13 @@
     </md-toolbar>
     <md-dialog-content class="stitcher-dialog__inside">
         <div layout="row" layout-align="start center" layout-wrap>
-            <div ng-repeat="t in vm.clipTemplates" flex="30" class="stitcher-templates__preview" ng-click="vm.initiateClip(t.aep)">
+
+            <div ng-repeat="(key, t) in vm.clipTemplates" flex="30" class="stitcher-templates__preview" ng-click="vm.initiateClip(t.aep, key)">
+            {{key}}
                 <img src="{{t.url}}">
                 <div class="stitcher-templates__description">
                     {{t.description}}
                 </div>
-            </div>
-        </div>
-        <div class="upload-form" ng-hide="clip.uploaded">
-            <input id="clipFile" type="file" name="img" required ngf-select="vm.uploadFile($file)" class="ng-hide" />
-            <md-button class="md-raised" ng-click="vm.selectFile()">upload afbeelding</md-button>
-            <div ng-if="vm.progressPercentage > 0">
-                <p>Bezig met uploaden: {{vm.progressPercentage}} % compleet.</p>
-                <md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>
             </div>
         </div>
     </md-dialog-content>

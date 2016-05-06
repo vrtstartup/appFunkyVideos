@@ -20,15 +20,26 @@ router.post('/upload-to-dropbox', function(req, res, next) {
     form.on('file', function(name, file) {
 
         fs.readFile(file.path, function(err, data) {
+            var imageUrl = '';
             dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
                 if (error) {
                     return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
                 }
+                var fileUrl = 'in/' + file.originalFilename;
+                dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
+                    imageUrl = data.url;
+                    console.log(error);
 
-                res.json({
-                    filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-                    filenameIn: file.originalFilename
-                }).send();
+                    res.json({
+                        image: imageUrl,
+                        filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
+                        filenameIn: file.originalFilename
+                    }).send();
+
+
+                });
+
+
             });
         });
     });

@@ -1,26 +1,25 @@
 //TODO: refactor show functions
 export default class MoviesController {
-    constructor($scope, $http, $document, Upload, $mdDialog, toast, firebaseAuth) {
+    constructor($scope, $http, $document, Upload, $mdDialog, toast, firebaseAuth, $firebaseArray) {
         this.$scope = $scope;
         this.$http = $http;
         this.$document = $document;
         this.Upload = Upload;
         this.toast = toast;
         this.$mdDialog = $mdDialog;
+        this.$firebaseArray = $firebaseArray;
 
         this.movie = {};
+        this.movieId = '';
         this.movieClips = [];
-        this.currentClip = {};
 
 
-        this.templatePath = '';
 
-        this.number = 0;
-        this.movie.id = Date.now();
+        // this.movie.id = Date.now();
 
         // TODO: add dynamic bumper & logo
-        this.movie.bumper = 11;
-        this.movie.logo = 11;
+        // this.movie.bumper = 11;
+        // this.movie.logo = 11;
 
         this.firebaseAuth = firebaseAuth;
         this.firebaseAuth.$onAuth((authData) => {
@@ -29,36 +28,53 @@ export default class MoviesController {
             }
         });
 
+        // The reference to the firebase
+
+
+        this.moviesRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies');
+        this.movies = this.$firebaseArray(this.moviesRef);
+
+        this.ref = '';
+        this.clips = '';
+
+
+
 
         this.clipTemplates = [{
+                'name': 'title',
+                'description': 'De titel van het filmpje',
+                'url': 'assets/stitcherTemplates/titleSlide.png',
+                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'templateLocalPath': '/components/movies/movie.title.html'
+            }, {
                 'name': 'text',
                 'description': 'Tekst op foto',
                 'url': 'assets/stitcherTemplates/textSlide.png',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
-                'templateLocalPath': '/components/movies/movie.tekst.html'
+                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'templateLocalPath': '/components/movies/movie.text.html'
             }, {
                 'name': 'number',
                 'description': 'Licht 1 nummer of woord uit.',
                 'url': 'assets/stitcherTemplates/numberSlide.png',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
                 'templateLocalPath': '/components/movies/movie.number.html'
             }, {
                 'name': 'quote',
-                'description': 'Licht 1 nummer of woord uit.',
+                'description': 'Toon een quote van.',
                 'url': 'assets/stitcherTemplates/quoteSlide.png',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
                 'templateLocalPath': '/components/movies/movie.quote.html'
             }, {
                 'name': 'icon',
                 'description': 'Gebruik een icoon om iets uit te leggen.',
                 'url': 'assets/stitcherTemplates/iconSlide.png',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
                 'templateLocalPath': '/components/movies/movie.icon.html'
             }, {
                 'name': 'tweet',
                 'description': 'Toon een tweet in beeld.',
                 'url': 'assets/stitcherTemplates/tweetSlide.png',
-                'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
                 'templateLocalPath': '/components/movies/movie.tweet.html'
             }
 
@@ -72,96 +88,150 @@ export default class MoviesController {
             'thumb': '/assets/movies-title.png'
         }];
 
-        // this.showDialog();
+        this.showDialogMovie();
+
+
     }
 
 
 
+    addMovie() {
 
-    initiateClip(template) {
-        console.log('creating a new clip with template url: ', template);
-        var clip = {
-            'id': this.number,
-            'movieId': this.movie.id,
-            'bot': 'render',
-            'render-status': 'ready',
-            'uploaded': false,
-            'saved': false,
-            'aep': template
-        };
+        this.movies.$add(this.movie).then((ref) => {
+            this.openMovie(ref.key());
+            this.initiateClip(this.clipTemplates[0].aep, 0);
 
 
-        this.movieClips.push(clip);
+
+            var emailRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies/' + this.movieId + '/email');
+            emailRef.remove();
+
+
+
+        });
+
+
+    }
+
+
+    openMovie(movieId) {
+        this.movieId = movieId;
+        this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies/' + movieId);
+        this.clips = this.$firebaseArray(this.ref);
+
+
+
         this.$mdDialog.hide();
 
     }
 
-    /* start navigation */
-    changeLayout(type) {
-        var property = type.name.replace('-', '');
+    getInclude(template) {
 
-        if (this.currentClip[property]) {
-            delete this.currentClip[property];
+        // weird bug when template = 0;
+        if (template > 0) {
+            return this.clipTemplates[template].templateLocalPath;
+        } else {
+            return this.clipTemplates[0].templateLocalPath;
         }
-
-        this.templatePath = type;
     }
 
-    showDialog() {
+    showDialogClip() {
         this.$mdDialog.show({
             templateUrl: '/components/movies/movie.dialog.html',
             parent: angular.element(document.body),
-            clickOutsideToClose: false,
-            escapeToClose: false,
+            clickOutsideToClose: true,
+            escapeToClose: true,
             scope: this.$scope,
             preserveScope: true
         });
     }
 
-    resetDialog() {
-            this.$mdDialog.hide();
-            //reset tabindex to upload form, if reset is called we assume e-mail is valid so skip index 0.
-            this.tabIndex = 1;
-        }
-        /*  end of navigation */
 
-    initMovie() {
-        this.initNewClip();
-
-        this.tabIndex++;
+    showDialogMovie() {
+        this.$mdDialog.show({
+            templateUrl: '/components/movies/movie.dialogMovies.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            scope: this.$scope,
+            preserveScope: true
+        });
     }
 
-    initNewClip() {
-        this.progressPercentage = 0;
-        this.number = this.number + 1;
 
-        this.currentClip = {
-            'id': this.number,
-            'movieId': this.movie.id,
-            'bot': 'render',
-            'render-status': 'ready',
-            'uploaded': false,
-            'saved': false
-        };
-    }
+
+
 
     selectFile() {
         angular.element(this.$document[0].querySelector('#clipFile'))[0].click();
     }
 
-    // upload images to dropbox
-    uploadFile(file) {
+
+
+    addClip() {
+        this.showDialogClip();
+    }
+
+
+
+
+
+
+
+    initiateClip(template, templateKey) {
+        console.log('creating a new clip with template url: ', template);
+
+        console.log(this.ref);
+        this.ref.once("value", (snapshot) => {
+            var number = snapshot.numChildren();
+
+            var clip = {
+                'id': number,
+                'movieId': this.movieId,
+                'bot': 'render',
+                'render-status': 'ready',
+                'uploaded': false,
+                'saved': false,
+                'aep': template,
+                'template': templateKey
+            };
+
+            this.clips.$add(clip).then(function(ref) {
+                // console.log(ref);
+            });
+
+
+            // this.movieClips.push(clip);
+            this.$mdDialog.hide();
+
+
+
+        });
+
+
+
+
+    }
+
+
+
+    uploadFile(file, clipKey, key) {
+        console.log(file, clipKey, key);
         this.Upload.upload({
                 url: 'api/movie/upload-to-dropbox',
-                data: { 'movieId': this.movie.id, 'clipId': this.currentClip.id, file: file },
+                data: { 'movieId': this.movie.id, 'clipId': key, file: file },
                 method: 'POST'
             })
             .then((resp) => {
+
                 console.log("RESPONSE", resp.data);
-                this.currentClip.img01 = resp.data.filenameIn;
-                this.currentClip.uploaded = true;
-                this.tabIndex++;
-                console.log('image uploaded', this.currentClip);
+
+                console.log(this.clips);
+                this.clips[key].img01 = resp.data.filenameIn;
+                this.clips[key].img01_url = resp.data.image;
+                this.clips[key].uploaded = true;
+                this.clips.$save(key).then(function(ref) {});
+
             }, (resp) => {
                 console.log('Error: ' + resp.error);
                 console.log('Error status: ' + resp.status);
@@ -170,14 +240,7 @@ export default class MoviesController {
             });
     }
 
-    addClip() {
-        if (!this.currentClip.saved) {
-            this.saveClip();
-        }
 
-        this.showDialog();
-        this.initNewClip();
-    }
 
     saveClip() {
         if (this.currentClip.saved) {
@@ -203,10 +266,66 @@ export default class MoviesController {
         });
     }
 
+
+
+
+    // /* start navigation */
+    // changeLayout(type) {
+    //     var property = type.name.replace('-', '');
+
+    //     if (this.currentClip[property]) {
+    //         delete this.currentClip[property];
+    //     }
+
+    //     this.templatePath = type;
+    // }
+
+
+
+    // resetDialog() {
+    //         this.$mdDialog.hide();
+    //         //reset tabindex to upload form, if reset is called we assume e-mail is valid so skip index 0.
+    //         this.tabIndex = 1;
+    //     }
+    //     /*  end of navigation */
+
+    // initMovie() {
+    //     this.initNewClip();
+
+    //     this.tabIndex++;
+    // }
+
+    // initNewClip() {
+    //     this.progressPercentage = 0;
+    //     this.number = this.number + 1;
+
+    //     this.currentClip = {
+    //         'id': this.number,
+    //         'movieId': this.movie.id,
+    //         'bot': 'render',
+    //         'render-status': 'ready',
+    //         'uploaded': false,
+    //         'saved': false
+    //     };
+    // }
+
+
+
+    // upload images to dropbox
+
+
+
     renderMovie() {
         // go through all clips and set attributes on the last one
+
+
         let counter = 1;
-        angular.forEach(this.movieClips, (clip) => {
+
+        angular.forEach(this.clips, (clip) => {
+
+
+            this.movieClips .push(clip);
+
             if (counter >= this.movieClips.length) {
                 clip.last = true;
                 clip.email = this.movie.email;
@@ -218,7 +337,9 @@ export default class MoviesController {
 
         let params = {
             movieClips: this.movieClips
+
         };
+        console.log(params);
 
         this.$http.post('api/movie/update-movie-json', params)
             .then(() => {
@@ -227,4 +348,4 @@ export default class MoviesController {
     }
 }
 
-MoviesController.$inject = ['$scope', '$http', '$document', 'Upload', '$mdDialog', 'toast', 'firebaseAuth'];
+MoviesController.$inject = ['$scope', '$http', '$document', 'Upload', '$mdDialog', 'toast', 'firebaseAuth', '$firebaseArray'];

@@ -1,7 +1,10 @@
-<h1>Tekst</h1>
-<p>Preview: {{vm.currentClip.text}}</p>
-
 <md-input-container>
     <label>Tekst</label>
-    <textarea ng-model="vm.currentClip.text"></textarea>
+
+    <textarea ng-model="c.text" ng-change="vm.clips.$save(c)" ></textarea>
 </md-input-container>
+
+<div class="upload-form" ng-hide="clip.uploaded">
+    <input id="clipFile" type="file" name="img" ng-model="vm.upload" required ngf-select="vm.uploadFile($file, c.$id, key)" />
+    <!-- <md-button class="md-raised"  ng-model="vm.upload" ng-click="vm.selectFile()">upload afbeelding</md-button> -->
+</div>
