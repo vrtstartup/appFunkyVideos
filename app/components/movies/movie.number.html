@@ -1,13 +1,33 @@
-<h1>Nummer</h1>
-<p>Preview: {{vm.currentClip.number}}</p>
-<p>Preview: {{vm.currentClip.numbertext}}</p>
+<div layout="row">
+    <div flex="50" class="stitcher-clip__image">
+        <img src="{{c.img01_url}}" ng-if="c.img01_url" style="width:100%;">
+        <img ng-if="!c.img01_url" src="http://placehold.it/1600x900" alt="Placeholder" style="width:100%;" />
 
-<md-input-container>
-    <label>nummer</label>
-    <input ng-model="vm.currentClip.number">
-</md-input-container>
-
-<md-input-container>
-    <label>tekst</label>
-    <input ng-model="vm.currentClip.numbertext">
-</md-input-container>
+        <div class="stitcher-clip__uploadform">
+            <!-- <input id="clipFile" type="file" name="img" ng-model="vm.upload" required ngf-select="vm.uploadFile($file)" ng-hide="true" /> -->
+            <!-- <md-button class="md-raised" ng-model="vm.upload" ng-click="vm.selectFile(c.$id, key)">upload afbeelding</md-button> -->
+            <div ngf-drop ngf-select="vm.uploadFile($file, c.$id, key)" ng-model="vm.upload" class="stitcher-dropzone" ng-class="{'stitcher-dropzone__uploading': c.uploading}" ngf-drag-over-class="'stitcher-dropzone__dragover'" ngf-multiple="false" ngf-allow-dir="false" accept="image/*" ngf-pattern="'image/*'">
+                <div class="stitcher-dropzone__content">
+                    <div flex="row" layout-align="center center">
+                        <i class="material-icons">add_a_photo</i>
+                    </div>
+                </div>
+            </div>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        </div>
+    </div>
+    <div layout-padding flex="50">
+        <md-input-container>
+            <label>Nummer</label>
+            <textarea ng-model="c.number" ng-change="vm.clips.$save(c)"></textarea>
+        </md-input-container>
+        <md-input-container>
+            <label>Tekst</label>
+            <textarea ng-model="c.numbertext" ng-change="vm.clips.$save(c)"></textarea>
+        </md-input-container>
+    </div>
+</div>
+<!-- <div ng-if="vm.progressPercentage > 0 && vm.progressPercentage < 100">
+    <p>Bezig met uploaden: {{vm.progressPercentage}} % compleet.</p>
+    <md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>
+</div> -->

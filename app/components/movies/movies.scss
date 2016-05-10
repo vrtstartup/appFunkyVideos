@@ -7,8 +7,6 @@
     // padding: 5%;
 }
 
-
-
 .stitcher-preview__image {
     width: 100%;
     height: auto;
@@ -40,6 +38,64 @@
         padding: .3rem;
         background-color: transparentize($vrt-tool, .3);
     }
+}
+
+
+.stitcher-clip {
+    position: relative;
+}
+
+.stitcher-clip__image {
+    position: relative;
+
+}
+
+.stitcher-clip__uploadform {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+.stitcher-clip__delete {
+    position: absolute;
+    top: 0;
+    right:0;
+}
+
+.stitcher-dropzone {
+    position: relative;
+    background-color: transparentize($vrt-tool, .3);
+    &::before {
+        display: block;
+        content: "";
+        width: 100%;
+        padding-top: 56.25%;
+    }
+    > .stitcher-dropzone__content {
+        position: absolute;
+        top: calc(50% - 1rem);
+        left: calc(50% - 1rem);
+
+        color: $white;
+        size: 1rem;
+
+    }
+
+    &__dragover {
+        background-color: transparentize($vrt-guide, .3);
+    }
+
+    &__uploading {
+        background-color: transparentize($vrt-learnings, .3);
+    }
+
+    &__uploaded {
+        // background-color: transparentize($vrt-guide, .3);
+    }
+
 }
 
 // .email-form {

@@ -1,17 +1,10 @@
 <div layout="row" layout-align="center start">
-
-
     <div layout="column" flex="50">
-        <div ng-if="vm.progressPercentage > 0">
-            <p>Bezig met uploaden: {{vm.progressPercentage}} % compleet.</p>
-            <md-progress-linear md-mode="determinate" value="{{vm.progressPercentage}}"></md-progress-linear>
-        </div>
-{{vm.clips}}
-        <div ng-repeat="(key, c) in vm.clips | orderBy: 'id'" class="grid-item" layout-padding layout="column">
+        <div ng-repeat="(key, c) in vm.clips | orderBy: 'id'" class="stitcher-clip" layout="column">
             <div ng-include="vm.getInclude(c.template)"></div>
-            <md-input-container>
+            <div ng-if="c.id != 1" class="stitcher-clip__delete">
                 <i style="padding-top:8px;" ng-click="vm.clips.$remove(c)" class="material-icons grid-iconbutton">&#xE14C;</i>
-            </md-input-container>
+            </div>
         </div>
         <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
             Voeg clip toe
@@ -19,85 +12,6 @@
         <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.renderMovie()">
             Maak filmpje
         </md-button>
+        {{vm.movieClips}}
     </div>
-
-</div>
-<!-- <div layout="row" layout-wrap>
-    <section flex="70">
-            <div class="clip-preview-container" ng-show="vm.currentClip.uploaded">
-                <h2>Fragment {{this.movieClips.length +1}}</h2>
-
-                <ul layout="row" layout-align="space-between center" class="layout-thumbs">
-                    <li ng-repeat="type in vm.movieTypes" ng-click="vm.changeLayout(type)" ng-class="{'selected' : vm.templatePath.name === type.name}">
-                        <p>{{type.name}}:</p>
-                        <img src="{{type.thumb}}" />
-                    </li>
-                </ul>
-
-                <hr />
-
-                <ng-include src="vm.templatePath.templateLocalPath"></ng-include>
-
-                <hr />
-
-                <div>
-                    <span flex></span>
-                    <md-button class="md-raised" aria-label="Clip opslaan" ng-disabled="vm.currentClip.saved" ng-click="vm.saveClip()">
-                        Opslaan
-                    </md-button>
-                    <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
-                        Nieuw fragment toevoegen
-                    </md-button>
-                </div>
-            </div>
-    </section>
-
-    <section flex="30">
-        <md-toolbar class="vrt-sub-toolbar">
-            <div class="md-toolbar-tools">
-                <h3>
-                    Movie overzicht
-                </h3>
-                <span flex></span>
-            </div>
-        </md-toolbar>
-
-        <md-content  style="height: 450px;">
-            <md-list>
-                <md-list-item class="md-2-line" ng-repeat="clip in vm.movieClips | orderBy: 'start'"
-                              ng-click="" ng-class="{'editingRow' : line.isEditmode}">
-                    <div class="md-list-item-text">
-                        {{clip | json}}
-                    </div>
-                    <i ng-click="" class="material-icons">&#xE254;</i>
-                    <i ng-click="vm.deleteClip(clip)" class="material-icons">&#xE92B;</i>
-                    <md-divider ng-if="!$last"></md-divider>
-                </md-list-item>
-            </md-list>
-        </md-content>
-
-        <md-toolbar class="vrt-sub-toolbar">
-            <div class="md-toolbar-tools">
-                <h3>
-                    Movie options
-                </h3>
-                <span flex></span>
-            </div>
-        </md-toolbar>
-
-        <div flex="50">
-            <md-checkbox ng-model="vm.movie.logo" aria-label="Checkbox logo">
-                Add logo
-            </md-checkbox>
-        </div>
-        <div flex="50">
-            <md-checkbox ng-model="vm.movie.bumper" aria-label="Checkbox bumper">
-                Add bumper
-            </md-checkbox>
-        </div>
-
-        <md-button class="md-raised" aria-label="Movie verzenden" ng-click="vm.renderMovie()">
-            Opslaan en movie verzenden
-        </md-button>
-    </section>
 </div>

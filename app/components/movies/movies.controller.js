@@ -13,14 +13,6 @@ export default class MoviesController {
         this.movieId = '';
         this.movieClips = [];
 
-
-
-        // this.movie.id = Date.now();
-
-        // TODO: add dynamic bumper & logo
-        // this.movie.bumper = 11;
-        // this.movie.logo = 11;
-
         this.firebaseAuth = firebaseAuth;
         this.firebaseAuth.$onAuth((authData) => {
             if (authData) {
@@ -29,54 +21,61 @@ export default class MoviesController {
         });
 
         // The reference to the firebase
-
-
         this.moviesRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies');
         this.movies = this.$firebaseArray(this.moviesRef);
 
         this.ref = '';
         this.clips = '';
 
-
-
+        this.aepLocation = {
+            'bumper': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Apps\\VideoTemplater\\ae\\Slide_Templator\\slides-bumper\\',
+            'normal': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Apps\\VideoTemplater\\ae\\Slide_Templator\\slides\\'
+        };
 
         this.clipTemplates = [{
                 'name': 'title',
                 'description': 'De titel van het filmpje',
                 'url': 'assets/stitcherTemplates/titleSlide.png',
-                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+                'aep': this.aepLocation.normal + 'image_template_title.aep',
                 'templateLocalPath': '/components/movies/movie.title.html'
             }, {
                 'name': 'text',
                 'description': 'Tekst op foto',
                 'url': 'assets/stitcherTemplates/textSlide.png',
-                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
-                'templateLocalPath': '/components/movies/movie.text.html'
+                'aep': this.aepLocation.normal + 'image_template_text.aep',
+                'templateLocalPath': '/components/movies/movie.text.html',
+                'aepWithBumper': this.aepLocation.bumper + 'image_template_text_bumper.aep',
             }, {
                 'name': 'number',
                 'description': 'Licht 1 nummer of woord uit.',
                 'url': 'assets/stitcherTemplates/numberSlide.png',
-                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
-                'templateLocalPath': '/components/movies/movie.number.html'
+                'aep': this.aepLocation.normal + 'image_template_number.aep',
+                'templateLocalPath': '/components/movies/movie.number.html',
+                'aepWithBumper': this.aepLocation.bumper + 'image_template_number_bumper.aep',
             }, {
                 'name': 'quote',
                 'description': 'Toon een quote van.',
                 'url': 'assets/stitcherTemplates/quoteSlide.png',
-                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
-                'templateLocalPath': '/components/movies/movie.quote.html'
-            }, {
-                'name': 'icon',
-                'description': 'Gebruik een icoon om iets uit te leggen.',
-                'url': 'assets/stitcherTemplates/iconSlide.png',
-                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
-                'templateLocalPath': '/components/movies/movie.icon.html'
-            }, {
-                'name': 'tweet',
-                'description': 'Toon een tweet in beeld.',
-                'url': 'assets/stitcherTemplates/tweetSlide.png',
-                'aep': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
-                'templateLocalPath': '/components/movies/movie.tweet.html'
-            }
+                'aep': this.aepLocation.normal + 'image_template_quote.aep',
+                'templateLocalPath': '/components/movies/movie.quote.html',
+                'aepWithBumper': this.aepLocation.bumper + 'image_template_quote_bumper.aep',
+            },
+            //  {
+            //     'name': 'icon',
+            //     'description': 'Gebruik een icoon om iets uit te leggen.',
+            //     'url': 'assets/stitcherTemplates/iconSlide.png',
+            //     'aep': this.aepLocation.normal + 'image_template_icon.aep',
+            //     'templateLocalPath': '/components/movies/movie.icon.html',
+            //     'aepWithBumper': this.aepLocation.bumper + 'image_template_icon_bumper.aep',
+            // },
+            //  {
+            //     'name': 'tweet',
+            //     'description': 'Toon een tweet in beeld.',
+            //     'url': 'assets/stitcherTemplates/tweetSlide.png',
+            //     'aep': this.aepLocation.normal + 'image_template_tweet.aep',
+            //     'templateLocalPath': '/components/movies/movie.tweet.html',
+            //     'aepWithBumper': this.aepLocation.bumper + 'image_template_tweet_bumper.aep',
+            // }
 
         ];
 
@@ -85,44 +84,53 @@ export default class MoviesController {
             'templateName': 'template_02_tekst',
             'templateLocalPath': '/components/movies/movie.tekst.html',
             'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
+            // 'templaterPathWithBumper': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
             'thumb': '/assets/movies-title.png'
         }];
 
         this.showDialogMovie();
 
 
+        $scope.$watch(
+            'vm.upload',
+            function handleFooChange(newValue, oldValue) {
+                // this.uploadFile(this.upload);
+            }
+        );
+
+
+        // this.$watch('upload', function() {
+        //     this.uploadFile(this.upload);
+        // });
+
+
     }
-
-
 
     addMovie() {
-
         this.movies.$add(this.movie).then((ref) => {
             this.openMovie(ref.key());
-            this.initiateClip(this.clipTemplates[0].aep, 0);
-
-
+            this.initiateClip(this.clipTemplates[0].aep, 0, 'title');
 
             var emailRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies/' + this.movieId + '/email');
-            emailRef.remove();
-
-
+            var onComplete = function(error) {
+                if (error) {
+                    console.log('Synchronization failed');
+                } else {
+                    console.log('Synchronization succeeded');
+                }
+            };
+            emailRef.remove(onComplete);
+            this.openMovie(ref.key());
 
         });
-
-
     }
-
 
     openMovie(movieId) {
         this.movieId = movieId;
         this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies/' + movieId);
-        this.clips = this.$firebaseArray(this.ref);
-
-
-
+        var clips = this.$firebaseArray(this.ref);
+        this.clips = clips;
         this.$mdDialog.hide();
-
     }
 
     getInclude(template) {
@@ -146,7 +154,6 @@ export default class MoviesController {
         });
     }
 
-
     showDialogMovie() {
         this.$mdDialog.show({
             templateUrl: '/components/movies/movie.dialogMovies.html',
@@ -160,66 +167,56 @@ export default class MoviesController {
 
 
 
-
-
-    selectFile() {
-        angular.element(this.$document[0].querySelector('#clipFile'))[0].click();
-    }
-
-
-
     addClip() {
         this.showDialogClip();
     }
 
+    initiateClip(template, templateKey, type) {
 
-
-
-
-
-
-    initiateClip(template, templateKey) {
-        console.log('creating a new clip with template url: ', template);
-
-        console.log(this.ref);
         this.ref.once("value", (snapshot) => {
-            var number = snapshot.numChildren();
+            var number = '';
+            if (type === 'title') {
+                number = 1;
+            } else {
+                number = snapshot.numChildren() + 1;
+            }
 
             var clip = {
                 'id': number,
+                'last': false,
                 'movieId': this.movieId,
                 'bot': 'render',
                 'render-status': 'ready',
                 'uploaded': false,
                 'saved': false,
                 'aep': template,
-                'template': templateKey
+                'template': templateKey,
+                'output': this.movieId + '/' + number
             };
 
             this.clips.$add(clip).then(function(ref) {
-                // console.log(ref);
+
             });
-
-
-            // this.movieClips.push(clip);
             this.$mdDialog.hide();
 
-
-
         });
+    }
 
-
-
-
+    selectFile(clipKey, key) {
+        this.clipKey = clipKey;
+        this.key = key;
+        angular.element(this.$document[0].querySelector('#clipFile'))[0].click();
     }
 
 
 
+
     uploadFile(file, clipKey, key) {
-        console.log(file, clipKey, key);
+        this.clips[key].uploading = true;
+
         this.Upload.upload({
                 url: 'api/movie/upload-to-dropbox',
-                data: { 'movieId': this.movie.id, 'clipId': key, file: file },
+                data: { 'movieId': this.movieId, 'clipId': key, file: file },
                 method: 'POST'
             })
             .then((resp) => {
@@ -229,18 +226,32 @@ export default class MoviesController {
                 console.log(this.clips);
                 this.clips[key].img01 = resp.data.filenameIn;
                 this.clips[key].img01_url = resp.data.image;
-                this.clips[key].uploaded = true;
-                this.clips.$save(key).then(function(ref) {});
+
+                this.clips[key].uploading = false;
+
+
+                // Add the image as the second image for the previous slide
+
+                    this.clips[key - 1].img02 = resp.data.filenameIn;
+                    console.log(this.clips[key - 1]);
+
+
+                this.clips.$save(key).then(function(ref) {
+
+                });
+
+
 
             }, (resp) => {
                 console.log('Error: ' + resp.error);
                 console.log('Error status: ' + resp.status);
+
+
+
             }, (evt) => {
                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             });
     }
-
-
 
     saveClip() {
         if (this.currentClip.saved) {
@@ -260,89 +271,34 @@ export default class MoviesController {
         this.movieClips.push(this.currentClip);
     }
 
-    deleteClip(clip) {
-        this.movieClips = reject(this.movieClips, (movieClip) => {
-            return movieClip.id === clip.id;
-        });
-    }
-
-
-
-
-    // /* start navigation */
-    // changeLayout(type) {
-    //     var property = type.name.replace('-', '');
-
-    //     if (this.currentClip[property]) {
-    //         delete this.currentClip[property];
-    //     }
-
-    //     this.templatePath = type;
-    // }
-
-
-
-    // resetDialog() {
-    //         this.$mdDialog.hide();
-    //         //reset tabindex to upload form, if reset is called we assume e-mail is valid so skip index 0.
-    //         this.tabIndex = 1;
-    //     }
-    //     /*  end of navigation */
-
-    // initMovie() {
-    //     this.initNewClip();
-
-    //     this.tabIndex++;
-    // }
-
-    // initNewClip() {
-    //     this.progressPercentage = 0;
-    //     this.number = this.number + 1;
-
-    //     this.currentClip = {
-    //         'id': this.number,
-    //         'movieId': this.movie.id,
-    //         'bot': 'render',
-    //         'render-status': 'ready',
-    //         'uploaded': false,
-    //         'saved': false
-    //     };
-    // }
-
-
-
-    // upload images to dropbox
-
-
-
     renderMovie() {
         // go through all clips and set attributes on the last one
-
-
         let counter = 1;
-
         angular.forEach(this.clips, (clip) => {
 
+            this.movieClips.push(clip);
 
-            this.movieClips .push(clip);
-
-            if (counter >= this.movieClips.length) {
+            if (counter >= this.clips.length) {
                 clip.last = true;
                 clip.email = this.movie.email;
-                clip.bumper = this.movie.bumper;
-                clip.logo = this.movie.logo;
+
+                for (var i = 0; i < this.clipTemplates.length; i++) {
+                    if (i === clip.template) {
+                        clip.aep = this.clipTemplates[i].aepWithBumper;
+                    }
+                }
             }
+
             counter++;
         });
 
         let params = {
             movieClips: this.movieClips
-
         };
-        console.log(params);
 
         this.$http.post('api/movie/update-movie-json', params)
             .then(() => {
+                console.log('json updated');
                 this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
             });
     }
