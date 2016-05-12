@@ -18,6 +18,27 @@ class UserLoginDirectiveController {
         this.userForm = {};
 
 
+        this.brands = [{
+            'name': 'deredactie.be',
+            'logo': 'assets/logos/deredactie.png'
+        }, {
+            'name': 'sporza',
+            'logo': 'assets/logos/sporza.png'
+        },
+         {
+            'name': 'radio 1',
+            'logo': 'assets/logos/radio1.png'
+        },
+        {
+            'name': 'canvas',
+            'logo': 'assets/logos/canvas.png'
+        },
+        {
+            'name': 'amerika kiest',
+            'logo': 'assets/logos/amerikakiest.png'
+        }];
+
+
         /**
         notChecked
         notAuthenticated
@@ -30,19 +51,37 @@ class UserLoginDirectiveController {
 
 
         this.userManagement.checkAuth().then((userId) => {
-            this.userId = userId;
-            this.userManagement.checkAccountStatus(userId).then((obj, message, error) => {
-                if (obj.verificationStatus) {
-                    if (obj.verificationStatus === 'pendingVerification' || obj.verificationStatus === 'lostPassword') {
-                        this.accountStatus = obj.verificationStatus;
-                        this.openLoginPopup(this.userForm);
+            console.log(userId);
+            if (userId !== null) {
+
+                this.userId = userId;
+                this.userManagement.checkAccountStatus(userId).then((obj, message, error) => {
+
+                     if (obj.brand) {
+                        this.userForm.brand = obj.brand;
                     } else {
-                        this.accountStatus = 'loggedIn';
+                        this.brandWarning = 'Vanaf nu moet je je merk selecteren, opdat we de voor jouw geschikte templates en logos kunnen tonen.'
+                        this.openLoginPopup(this.userForm);
                     }
-                }
-            }, (reason) => {
-                console.log('failed', reason);
-            });
+                    this.userForm.email = obj.email;
+
+
+                    if (obj.verificationStatus) {
+                        if (obj.verificationStatus === 'pendingVerification' || obj.verificationStatus === 'lostPassword') {
+                            this.accountStatus = obj.verificationStatus;
+
+                        } else {
+                            this.accountStatus = 'loggedIn';
+                        }
+                    } else {
+                        this.openLoginPopup(this.userForm);
+                    }
+                }, (reason) => {
+                    console.log('failed', reason);
+                });
+            } else {
+                this.openLoginPopup(this.userForm);
+            }
         }, (reason) => {
             console.log('Failed: ' + reason);
             this.accountStatus = 'notAuthenticated';
@@ -67,7 +106,7 @@ class UserLoginDirectiveController {
             this.userManagement.changePassword(user.email, user.oldPassword, user.newPassword).then((data, message, error) => {
                 this.message = message;
                 console.log(data, message, error);
-                this.userManagement.setVerificationStatus(authData.uid, user.email, 'verified').then(() => {
+                this.userManagement.setVerificationStatus(authData.uid, user.email, user.brand, 'verified').then(() => {
                     this.accountStatus = 'verified';
                 }, (reason) => {
                     console.log('Failed: ' + reason);
@@ -116,8 +155,9 @@ class UserLoginDirectiveController {
 
         this.userManagement.checkDomain(user.email).then((domain) => {
             this.userManagement.createUser(user.email).then((userData, message) => {
+
                 this.message = message;
-                this.userManagement.setVerificationStatus(userData.uid, user.email, 'pendingVerification').then(() => {
+                this.userManagement.setVerificationStatus(userData.uid, user.email, user.brand, 'pendingVerification').then(() => {
                     this.userManagement.resetPassword(user.email).then((response, message) => {
                         this.message = message;
                         if (response === 'success') {
@@ -129,6 +169,15 @@ class UserLoginDirectiveController {
             });
         });
     }
+
+
+
+    changeBrand(newBrand) {
+
+        this.userManagement.setBrand(newBrand, this.userId).then(() => {
+        });
+    }
+
 
     closePopup() {
         // If the user is not logged in, do not make it possible to close the dialog.
@@ -155,7 +204,6 @@ class UserLoginDirectiveController {
 
     checkIfExistingUser(email) {
         this.message = '';
-
         this.userManagement.checkDomain(email).then((domain) => {
             if (domain === 'vrt.be') {
                 this.accountStatus = 'domainTrue';

@@ -13,33 +13,58 @@
             <md-content class="md-padding">
                 <p class="inset" ng-if="!vm.userExists && vm.accountStatus == 'notAuthenticated'">Schrijf hier je email adres om je in te loggen of te registeren.</p>
                 <p class="inset" ng-if="!vm.userExists && !vm.accountStatus == 'notAuthenticated'">Opgepast! Je kan enkel een vrt.be adres gebruiken.</p>
+                <p class="inset" ng-if="vm.accountStatus == 'loggedIn'">Je bent ingelogd met het emailadres {{vm.userForm.email}}</p>
                 <md-input-container class="full-length" ng-if="vm.accountStatus != 'loggedIn'">
                     <label for="email">Email adres</label>
                     <input type="text" id="email" ng-change="vm.checkIfExistingUser(vm.userForm.email)" ng-model-options='{ debounce: 1000 }' ng-model="vm.userForm.email">
                 </md-input-container>
-                <md-input-container class="full-length" ng-if="vm.accountStatus != 'loggedIn'">
+                <md-input-container class="full-length" ng-if="vm.accountStatus != 'loggedIn' && vm.accountStatus != 'existsFalse' && vm.accountStatus != 'pendingVerification'">
                     <label for="password">Paswoord</label>
                     <input id="password" type="password" ng-model="vm.userForm.password"></input>
                 </md-input-container>
                 <p ng-if="vm.accountStatus == 'pendingVerification'">We hebben je een mailtje gestuurd met je activatiecode. Vul deze hier in.</p>
                 <md-input-container class="full-length" ng-if="vm.accountStatus == 'pendingVerification'">
                     <label for="oldPassword">Activatiecode</label>
-                    <input  ng-model="vm.userForm.oldPassword"></input>
+                    <input ng-model="vm.userForm.oldPassword"></input>
                 </md-input-container>
                 <md-input-container class="full-length" ng-if="vm.accountStatus == 'pendingVerification'">
                     <label for="password">Kies een paswoord</label>
-                    <input id="password"  ng-model="vm.userForm.newPassword" type="password"></input>
+                    <input id="password" ng-model="vm.userForm.newPassword" type="password"></input>
                 </md-input-container>
+                <md-input-container class="full-length" ng-if="vm.accountStatus == 'pendingVerification'" >
+                    <label>Voor welk merk werk je?</label>
+                    <md-select ng-model="vm.userForm.brand">
+                        <md-option ng-repeat="brand in vm.brands" value="{{brand.name}}">
+                            {{brand.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <!-- quick fix, not DRY, to change brand -->
+                <p class="inset" ng-if="vm.brandWarning != ''" >{{vm.brandWarning}}</p>
+                <md-input-container class="full-length" ng-if="vm.accountStatus == 'loggedIn'" >
+                    <label>Verander het merk waarvoor je werkt:</label>
+                    <md-select ng-model="vm.userForm.brand" ng-change="vm.changeBrand(vm.userForm.brand)">
+                        <md-option ng-repeat="brand in vm.brands" value="{{brand.name}}">
+                            {{brand.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+
+
+
+
                 <!-- <p class="inset" ng-if="!vm.userExists && !vm.authenticated && vm.userChecked && vm.correctDomain && !vm.accountVerified">Je bent nog niet geregistreerd. Wil je een account aanmaken?</p> -->
                 <!-- <p class="inset" ng-if="!vm.userExists && !vm.authenticated && vm.userChecked && !vm.correctDomain">Dit is geen vrt.be adres, hiermee kan je geen account aanmaken.</p> -->
                 <!-- <p class="inset" ng-if="vm.authenticated">Je bent ingelogd met het email adres {{vm.userForm.email}}</p> -->
                 <p class="inset forgotLink" ng-if="vm.userExists && vm.accountVerified && !vm.authenticated" ng-click="vm.forgotPassword(vm.userForm)">Ben je jouw paswoord vergeten? Klik hier!</p>
-                <p>{{vm.message}}
-                    <!-- <p>{{vm.accountStatus}} -->
+                <p>{{vm.message}}</p>
+
             </md-content>
         </md-dialog-content>
         <md-dialog-actions layout="row" class="form-footer">
-            <span flex ng-if="!vm.authenticated"></span>
+            <span flex ng-if="vm.accountStatus != 'loggedIn'"></span>
             <md-button ng-click="vm.logIn(vm.userForm)" class="vrt-button" ng-if="vm.accountStatus == 'authenticated'">
                 Log in
             </md-button>

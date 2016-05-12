@@ -19,8 +19,8 @@ export default class UserManagemeService {
         const deferred = this.$q.defer();
         let message = '';
         this.firebaseAuth.$onAuth((authData) => {
-            if (authData) {
-                console.log(authData);
+            console.log(authData);
+            if (authData !== null) {
                 deferred.resolve(authData.uid);
             } else {
                 deferred.reject('not authenticated');
@@ -140,14 +140,27 @@ export default class UserManagemeService {
     }
 
 
+    setBrand(brand, userId) {
+        const deferred = this.$q.defer();
+        let ref = new Firebase('https://vrtnieuwshub.firebaseio.com/users/' + userId);
+        ref.child('brand').set(brand);
+        deferred.resolve();
+        return deferred.promise;
+    }
 
-    setVerificationStatus(userId, email, status) {
-        console.log(userId, email, status);
+
+
+    setVerificationStatus(userId, email, brand, status) {
+        console.log(userId, email, brand, status);
         const deferred = this.$q.defer();
         let ref = new Firebase('https://vrtnieuwshub.firebaseio.com/users/' + userId);
         ref.child('verificationStatus').set(status);
         if (email) {
             ref.child('email').set(email);
+        }
+
+        if (brand) {
+            ref.child('brand').set(brand);
         }
         deferred.resolve();
         return deferred.promise;
@@ -157,14 +170,17 @@ export default class UserManagemeService {
     createUser(email) {
         const deferred = this.$q.defer();
         let message = '';
+        console.log(email);
         this.firebaseAuth.$createUser({
             email: email,
             password: this._generatePassword()
         }).then((userData) => {
+
             message = 'User created';
             console.log(userData);
             deferred.resolve(userData, message);
         }).catch((error) => {
+            console.log(error);
             deferred.reject(error);
         });
         return deferred.promise;
@@ -193,29 +209,6 @@ export default class UserManagemeService {
         return deferred.promise;
 
     }
-
-    // checkIfExistingUser(email) {
-
-    //     let ref = new Firebase('https://vrtnieuwshub.firebaseio.com/users/');
-    //     let query = ref.orderByChild('email').equalTo(email).on('value', (snapshot) => {
-    //         if (snapshot.val() !== null) {
-    //             let data = snapshot.val();
-    //             let key = Object.keys(data)[0];
-    //             this.userId = Object.keys(data)[0];
-    //             this.userExists = true;
-    //             this.userChecked = true;
-    //             this.checkAccountStatus(this.userId);
-    //         } else {
-
-    //             console.log('test');
-    //             this.error = 'Je bent nog niet geregistreerd. Wil je een account aanmaken?';
-    //             this.userExists = false;
-    //             this.userChecked = true;
-    //         }
-    //     });
-
-
-    // }
 
 }
 

@@ -2,12 +2,12 @@
     <section flex="15" >
         <md-content class="pictures-sidebar">
             <md-list>
-                <md-toolbar md-scroll-shrink="">
+                <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'deredactie.be'">
                     <div class="md-toolbar-tools" ng-init="vm.showTempltesDRD = false" ng-click="vm.getScheme('drd')">
                         De redactie <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon':vm.showTempltesDRD}">&#xE313;</i>
                     </div>
                 </md-toolbar>
-                <md-content ng-if="vm.showTempltesDRD">
+                <md-content ng-if="vm.showTempltesDRD && vm.userBrand == 'deredactie.be'">
                     <md-subheader class="">Headline</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showBob('drd')">
                         <img src="./../assets/templates/header.png" alt="" width="100%">
@@ -52,12 +52,12 @@
                         <img src="./../assets/templates/hub_Opinie.jpg" alt="" width="100%">
                     </md-list-item>
                 </md-content>
-                <md-toolbar md-scroll-shrink="">
+                <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'amerika kiest'">
                     <div class="md-toolbar-tools" ng-init="vm.showTempltesAK = false" ng-click="vm.getScheme('ak')">
                         Amerika kiest <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesAK}">&#xE313;</i>
                     </div>
                 </md-toolbar>
-                <md-content ng-if="vm.showTempltesAK">
+                <md-content ng-if="vm.showTempltesAK && vm.userBrand == 'amerika kiest'" >
                     <!--<md-subheader class="">Headline</md-subheader>-->
                     <!--<md-list-item class="md-3-line" ng-click="vm.showExplosion('ak')">-->
                     <!--<img src="./../assets/templates/headline_ak.png" alt="" width="100%">-->
@@ -74,12 +74,12 @@
                         <img src="./../assets/templates/number_ak.png" alt="" width="100%">
                     </md-list-item>
                 </md-content>
-                <md-toolbar md-scroll-shrink="">
+                <md-toolbar md-scroll-shrink=""  ng-if="vm.userBrand == 'radio 1'">
                     <div class="md-toolbar-tools" ng-init="vm.showTempltesR1 = false" ng-click="vm.getScheme('r1')">
                         Radio 1 <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesR1}">&#xE313;</i>
                     </div>
                  </md-toolbar>
-                <md-content ng-if="vm.showTempltesR1">
+                <md-content ng-if="vm.showTempltesR1  && vm.userBrand == 'radio 1'">
                     <md-subheader class="">Headline</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showExplosion('r1')">
                         <img src="./../assets/templates/titelpan_r1.png" alt="" width="100%">
@@ -95,12 +95,12 @@
                         <!--<img src="./../assets/templates/fotoquote_r1.png" alt="" width="100%">-->
                     <!--</md-list-item>-->
                 </md-content>
-                <md-toolbar md-scroll-shrink="">
+                <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'canvas'">
                     <div class="md-toolbar-tools" ng-init="vm.showTempltesCanvas = false" ng-click="vm.getScheme('canvas')">
                         Canvas <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesCanvas}">&#xE313;</i>
                     </div>
                 </md-toolbar>
-                <md-content ng-if="vm.showTempltesCanvas">
+                <md-content ng-if="vm.showTempltesCanvas  && vm.userBrand == 'canvas'">
                     <md-subheader class="">De afspraak</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.showWartooth('deafsprak')">
                         <img src="./../assets/templates/quote_canvas.png" alt="" width="100%">
