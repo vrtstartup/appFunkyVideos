@@ -1,6 +1,6 @@
 //TODO: refactor show functions
 export default class MoviesController {
-    constructor($scope, $http, $document, Upload, $mdDialog, toast, firebaseAuth, $firebaseArray) {
+    constructor($scope, $http, $document, Upload, $mdDialog, toast, firebaseAuth, $firebaseArray, userManagement) {
         this.$scope = $scope;
         this.$http = $http;
         this.$document = $document;
@@ -8,17 +8,29 @@ export default class MoviesController {
         this.toast = toast;
         this.$mdDialog = $mdDialog;
         this.$firebaseArray = $firebaseArray;
+        this.userManagement = userManagement;
 
-        this.movie = {};
         this.movieId = '';
         this.movieClips = [];
 
         this.firebaseAuth = firebaseAuth;
+
+
         this.firebaseAuth.$onAuth((authData) => {
             if (authData) {
-                this.movie.email = authData.password.email;
+                this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
+                    this.userBrand = obj.brand;
+                    this.userEmail = authData.password.email;
+                    this.movie = [{
+                        'email': this.userEmail,
+                        'brand': this.userBrand
+                    }];
+                });
             }
         });
+
+
+
 
         // The reference to the firebase
         this.moviesRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies');
@@ -34,12 +46,14 @@ export default class MoviesController {
 
         this.clipTemplates = [{
                 'name': 'title',
+                'brand': 'deredactie.be',
                 'description': 'De titel van het filmpje',
                 'url': 'assets/stitcherTemplates/titleSlide.png',
                 'aep': this.aepLocation.normal + 'image_template_title.aep',
                 'templateLocalPath': '/components/movies/movie.title.html'
             }, {
                 'name': 'text',
+                'brand': 'deredactie.be',
                 'description': 'Tekst op foto',
                 'url': 'assets/stitcherTemplates/textSlide.png',
                 'aep': this.aepLocation.normal + 'image_template_text.aep',
@@ -47,6 +61,7 @@ export default class MoviesController {
                 'aepWithBumper': this.aepLocation.bumper + 'image_template_text_bumper.aep',
             }, {
                 'name': 'number',
+                'brand': 'deredactie.be',
                 'description': 'Licht 1 nummer of woord uit.',
                 'url': 'assets/stitcherTemplates/numberSlide.png',
                 'aep': this.aepLocation.normal + 'image_template_number.aep',
@@ -54,7 +69,23 @@ export default class MoviesController {
                 'aepWithBumper': this.aepLocation.bumper + 'image_template_number_bumper.aep',
             }, {
                 'name': 'quote',
-                'description': 'Toon een quote van.',
+                'brand': 'deredactie.be',
+                'description': 'Toon een quote.',
+                'url': 'assets/stitcherTemplates/quoteSlide.png',
+                'aep': this.aepLocation.normal + 'image_template_quote.aep',
+                'templateLocalPath': '/components/movies/movie.quote.html',
+                'aepWithBumper': this.aepLocation.bumper + 'image_template_quote_bumper.aep',
+            }, {
+                'name': 'title',
+                'brand': 'sporza',
+                'description': 'De titel van het filmpje',
+                'url': 'assets/stitcherTemplates/titleSlide.png',
+                'aep': this.aepLocation.normal + 'image_template_title.aep',
+                'templateLocalPath': '/components/movies/movie.title.html'
+            }, {
+                'name': 'quote',
+                'brand': 'sporza',
+                'description': 'Toon een quote.',
                 'url': 'assets/stitcherTemplates/quoteSlide.png',
                 'aep': this.aepLocation.normal + 'image_template_quote.aep',
                 'templateLocalPath': '/components/movies/movie.quote.html',
@@ -88,7 +119,7 @@ export default class MoviesController {
             'thumb': '/assets/movies-title.png'
         }];
 
-        this.showDialogMovie();
+        // this.showDialogMovie();
 
 
         $scope.$watch(
@@ -107,20 +138,22 @@ export default class MoviesController {
     }
 
     addMovie() {
+        console.log(this.movie);
         this.movies.$add(this.movie).then((ref) => {
             this.openMovie(ref.key());
-            this.initiateClip(this.clipTemplates[0].aep, 0, 'title');
+            var titleTemplate = '';
 
-            var emailRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies/' + this.movieId + '/email');
-            var onComplete = function(error) {
-                if (error) {
-                    console.log('Synchronization failed');
-                } else {
-                    console.log('Synchronization succeeded');
+            angular.forEach(this.clipTemplates, (template) => {
+                if (template.brand === this.userBrand && template.name === 'title') {
+                    console.log(template);
+                    titleTemplate = template.aep;
+                    console.log(titleTemplate);
+                    this.initiateClip(titleTemplate, 0, 'title');
+                    this.openMovie(ref.key());
                 }
-            };
-            emailRef.remove(onComplete);
-            this.openMovie(ref.key());
+
+            });
+
 
         });
     }
@@ -232,8 +265,8 @@ export default class MoviesController {
 
                 // Add the image as the second image for the previous slide
 
-                    this.clips[key - 1].img02 = resp.data.filenameIn;
-                    console.log(this.clips[key - 1]);
+                this.clips[key - 1].img02 = resp.data.filenameIn;
+                console.log(this.clips[key - 1]);
 
 
                 this.clips.$save(key).then(function(ref) {
@@ -275,12 +308,14 @@ export default class MoviesController {
         // go through all clips and set attributes on the last one
         let counter = 1;
         angular.forEach(this.clips, (clip) => {
-
-            this.movieClips.push(clip);
+            console.log(clip);
+            if (clip.$id !== '0') {
+                this.movieClips.push(clip);
+            }
 
             if (counter >= this.clips.length) {
                 clip.last = true;
-                clip.email = this.movie.email;
+                clip.email = this.userEmail;
 
                 for (var i = 0; i < this.clipTemplates.length; i++) {
                     if (i === clip.template) {
@@ -288,20 +323,18 @@ export default class MoviesController {
                     }
                 }
             }
-
             counter++;
         });
-
         let params = {
             movieClips: this.movieClips
         };
 
-        this.$http.post('api/movie/update-movie-json', params)
-            .then(() => {
-                console.log('json updated');
-                this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
-            });
+        // this.$http.post('api/movie/update-movie-json', params)
+        //     .then(() => {
+        //         console.log('json updated');
+        //         this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
+        //     });
     }
 }
 
-MoviesController.$inject = ['$scope', '$http', '$document', 'Upload', '$mdDialog', 'toast', 'firebaseAuth', '$firebaseArray'];
+MoviesController.$inject = ['$scope', '$http', '$document', 'Upload', '$mdDialog', 'toast', 'firebaseAuth', '$firebaseArray', 'userManagement'];

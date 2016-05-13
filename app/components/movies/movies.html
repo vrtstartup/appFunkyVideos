@@ -1,6 +1,26 @@
-<div layout="row" layout-align="center start">
-    <div layout="column" flex="50">
-        <div ng-repeat="(key, c) in vm.clips | orderBy: 'id'" class="stitcher-clip" layout="column">
+<div layout="row">
+    <section flex="20" layout="column" class="stitcher-movies">
+        <md-toolbar class="vrt-toolbar">
+            <div class="md-toolbar-tools">
+                <h2>Filmpjes</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content layout-padding class="stitcher-dialog__inside">
+            <div layout="row" layout-align="start center" layout-wrap>
+                <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.addMovie()">
+                    Start nieuw filmpje
+                </md-button>
+                <div ng-repeat="(key, m) in vm.movies" flex="30" ng-click="vm.openMovie(m.$id)"=>
+                    {{m.$id}}
+                    <md-input-container>
+                        <i style="padding-top:8px;" ng-click="vm.movies.$remove(m)" class="material-icons grid-iconbutton">&#xE14C;</i>
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+    </section>
+    <section flex ng-hide="vm.movieId == ''" class="stitcher-movie">
+        <div ng-repeat="(key, c) in vm.clips | orderBy: 'id'" class="stitcher-clip" layout="column" ng-if="c.$id != 0">
             <div ng-include="vm.getInclude(c.template)"></div>
             <div ng-if="c.id != 1" class="stitcher-clip__delete">
                 <i style="padding-top:8px;" ng-click="vm.clips.$remove(c)" class="material-icons grid-iconbutton">&#xE14C;</i>
@@ -9,9 +29,15 @@
         <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
             Voeg clip toe
         </md-button>
-        <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.renderMovie()">
+        <!--         <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.renderMovie()">
             Maak filmpje
-        </md-button>
-        {{vm.movieClips}}
+        </md-button> -->
+    </section>
+</div>
+<!--
+<div layout="row" layout-align="center start">
+    <div layout="column" flex="50">
+
     </div>
 </div>
+ -->

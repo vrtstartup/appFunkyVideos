@@ -8,7 +8,7 @@
     <md-dialog-content class="stitcher-dialog__inside">
         <div layout="row" layout-align="start center" layout-wrap>
 
-            <div ng-repeat="(key, t) in vm.clipTemplates" flex="30" class="stitcher-templates__preview" ng-click="vm.initiateClip(t.aep, key)">
+            <div ng-repeat="(key, t) in vm.clipTemplates" flex="30" class="stitcher-templates__preview" ng-click="vm.initiateClip(t.aep, key)" ng-if="vm.userBrand == t.brand">
 
                 <img src="{{t.url}}">
                 <div class="stitcher-templates__description">
