@@ -1,0 +1,11 @@
+@import "../../common/style/variables";
+.explainers-video {
+    position: relative;
+    &__templates {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        opacity: .7;
+        width: 100%;
+    }
+}
