@@ -2,17 +2,8 @@ import './templateSkwigelf.directive.scss';
 import template from './templateSkwigelf.directive.html';
 
 class TemplateSkwigelfDirectiveController {
-    constructor($scope, $element, videoGeneration) {
-        this.videoGeneration = videoGeneration;
-        this.$element = $element;
+    constructor() {
 
-        $scope.$watch('vm.isReady', (value) => {
-            if (!value) return;
-            if (this.isReady){
-                this.videoGeneration.takeScreenshot(this.$element, true);
-                this.isReady = !this.isReady;
-            }
-        });
 
     }
 }
@@ -26,7 +17,6 @@ export const templateSkwigelfDirective = function() {
         controllerAs: 'vm',
         bindToController: {
             quote: '=',
-            isReady: '=',
             image: '=',
             authorName: '=',
             authorTitle: '=',
@@ -37,4 +27,4 @@ export const templateSkwigelfDirective = function() {
     };
 };
 
-TemplateSkwigelfDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
+TemplateSkwigelfDirectiveController.$inject = [];

@@ -2,17 +2,9 @@ import './templateLinda.directive.scss';
 import template from './templateLinda.directive.html';
 
 class TemplateLindaDirectiveController {
-    constructor($scope, $element, videoGeneration) {
-        this.videoGeneration = videoGeneration;
+    constructor($scope, $element) {
         this.$element = $element;
 
-        $scope.$watch('vm.isReady', (value) => {
-            if (!value) return;
-            if (this.isReady){
-                this.videoGeneration.takeScreenshot(this.$element, true);
-                this.isReady = !this.isReady;
-            }
-        });
 
         $scope.$watchCollection('[vm.titleOne, vm.titleTwo, vm.titleThree, vm.titleFour, ' +
             'vm.authorNameOne, vm.authorNameTwo, vm.authorNameThree, vm.authorNameFour]', (value) => {
@@ -40,7 +32,6 @@ export const templateLindaDirective = function() {
         controller: TemplateLindaDirectiveController,
         controllerAs: 'vm',
         bindToController: {
-            isReady: '=',
             image: '=',
             authorNameOne: '=',
             authorNameTwo: '=',
@@ -54,4 +45,4 @@ export const templateLindaDirective = function() {
     };
 };
 
-TemplateLindaDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
+TemplateLindaDirectiveController.$inject = ['$scope', '$element'];

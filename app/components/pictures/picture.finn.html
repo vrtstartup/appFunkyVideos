@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isFinn">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'finn'">
 
     <md-content layout-padding="">
         <md-input-container class="md-block">
@@ -24,8 +24,9 @@
 
     <div class="dir-wrap">
         <vrt-template-finn class="dir-wrap vrt-txt"
-                               is-ready="vm.isReady" quote="quote.question" image="quote.img"
-                               author-name="quote.authorName" >
+                           quote="quote.question"
+                           image="quote.img"
+                           author-name="quote.authorName" >
         </vrt-template-finn>
     </div>
 </div>

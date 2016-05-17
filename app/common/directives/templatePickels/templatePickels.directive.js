@@ -2,17 +2,7 @@ import './templatePickels.directive.scss';
 import template from './templatePickels.directive.html';
 
 class TemplatePickelsDirectiveController {
-    constructor($scope, $element, videoGeneration) {
-        this.videoGeneration = videoGeneration;
-        this.$element = $element;
-
-        $scope.$watch('vm.isReady', (value) => {
-            if (!value) return;
-            if (this.isReady){
-                this.videoGeneration.takeScreenshot(this.$element, true);
-                this.isReady = !this.isReady;
-            }
-        });
+    constructor() {
 
     }
 }
@@ -26,7 +16,6 @@ export const templatePickelsDirective = function() {
         controllerAs: 'vm',
         bindToController: {
             quote: '=',
-            isReady: '=',
             image: '=',
             templateClass: '=',
             numbr: '=',
@@ -34,4 +23,4 @@ export const templatePickelsDirective = function() {
     };
 };
 
-TemplatePickelsDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
+TemplatePickelsDirectiveController.$inject = [];

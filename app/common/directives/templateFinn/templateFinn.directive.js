@@ -2,17 +2,8 @@ import './templateFinn.directive.scss';
 import template from './templateFinn.directive.html';
 
 class TemplateFinnDirectiveController {
-    constructor($scope, $element, videoGeneration) {
-        this.videoGeneration = videoGeneration;
-        this.$element = $element;
+    constructor() {
 
-        $scope.$watch('vm.isReady', (value) => {
-            if (!value) return;
-            if (this.isReady){
-                this.videoGeneration.takeScreenshot(this.$element, true);
-                this.isReady = !this.isReady;
-            }
-        });
     }
 }
 
@@ -25,7 +16,6 @@ export const templateFinnDirective = function() {
         controllerAs: 'vm',
         bindToController: {
             quote: '=',
-            isReady: '=',
             image: '=',
             authorName: '=',
             //authorTitle: '=',
@@ -33,4 +23,4 @@ export const templateFinnDirective = function() {
     };
 };
 
-TemplateFinnDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
+TemplateFinnDirectiveController.$inject = [];

@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isDethklok" ng-class="vm.templateClass">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'dethklok'" ng-class="vm.templateClass">
 
     <md-content layout-padding="">
         <md-input-container class="md-block">
@@ -15,8 +15,11 @@
     </div>
 
     <div class="dir-wrap">
-        <vrt-template-dethklok class="dir-wrap" is-ready="vm.isReady" template-class="vm.templateClass"
-                                quote="quote.question" image="quote.img" footer-text="vm.footerText">
+        <vrt-template-dethklok class="dir-wrap"
+                               template-class="vm.templateClass"
+                               quote="quote.question"
+                               image="quote.img"
+                               footer-text="vm.footerText">
         </vrt-template-dethklok>
     </div>
 </div>

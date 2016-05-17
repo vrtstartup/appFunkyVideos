@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isGin">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'gin'">
     <div layout-gt-sm="row">
         <md-content layout-padding="" flex="30">
             <md-input-container class="md-block">
@@ -77,7 +77,7 @@
                             author-name-two="vm.quote.authorName2" title-two="vm.quote.authorTitle2"
                             author-name-three="vm.quote.authorName3" title-three="vm.quote.authorTitle3"
                             author-name-four="vm.quote.authorName4" title-four="vm.quote.authorTitle4"
-                            is-ready="vm.isReady" quote="vm.quote.question"
+                            quote="vm.quote.question"
                             image-one="vm.quote.imageOne" image-two="vm.quote.imageTwo" image-three="vm.quote.imageThree" image-four="vm.quote.imageFour">
         </vrt-template-gin>
     </div>

@@ -1,93 +1,59 @@
-// TODO: refactoring that=this bullshit
-
 export default class VideoGenerationService {
-    constructor($log, $http, $rootScope, FileSaver) {
-        const that = this;
-        that.$http = $http;
-        that.$log  = $log;
-        that.$rootScope = $rootScope;
-        that.isTemplate = false;
-        that.toGrayscale = false;
-
-        this.takeScreenshot = function(element, isTemplate) {
-            that.isTemplate = isTemplate;
-            const el = element.parent();
-            html2canvas(el, {
-                onrendered: (canvas) => {
-                    if (that.isTemplate) {
-                        that._canvasToJPG(canvas, that._userUpload.bind(this));
-                        //that._canvasToJPG(canvas, that._upload.bind(this));
-                    } else {
-                        that._canvasToJPG(canvas, that._upload.bind(this));
-                    }
-                },
-            });
-        };
-
-        that._userUpload = function(data) {
-            FileSaver.saveAs(data, 'template.png');
-        };
-
-        that._upload = function(data) {
-
-
-            let url = '/api/images';
-            let contentType = 'image/jpeg';
-
-            if (that.isTemplate) {
-                url = '/api/templates';
-                contentType = 'image/png';
-            }
-
-
-            that.$http({
-                    method: 'POST',
-                    url: url,
-                    headers: {
-                        'Content-Type': contentType
-                    },
-                    data: data,
-                    transformRequest: []
-                })
-                .success((res) => {
-                    that.$log.info('image uploaded', res);
-                    that.$rootScope.template_url = res.template_url;
-                })
-                .error((err) => {
-                    that.$log.error('upload error', err);
-                });
-        };
-
-        that._dataURItoBlob = function(dataURI) {
-            let contentType = 'image/jpeg';
-            if (that.isTemplate) {
-                contentType = 'image/png';
-            }
-            const binary = atob(dataURI.split(',')[1]);
-            const array = [];
-            for (var i = 0; i < binary.length; i++) {
-                array.push(binary.charCodeAt(i));
-            }
-            return new Blob([new Uint8Array(array)], {
-                type: contentType
-            });
-        };
-
-            that._canvasToJPG = function(cvs, done) {
-            let contentType = 'image/jpeg';
-            if (that.isTemplate) {
-                contentType = 'image/png';
-            }
-
-            if (cvs.toBlob) { // some browsers has support for toBlob
-                cvs.toBlob(done, contentType);
-            }
-            else {
-                done(that._dataURItoBlob(cvs.toDataURL(contentType, 1.0)));
-            }
-        };
-
+    constructor($log, $http, FileSaver, canvasUtil, $q) {
+        this.$http       = $http;
+        this.$log        = $log;
+        this.$q = $q;
+        this.FileSaver = FileSaver;
+        this.canvasUtil = canvasUtil;
     }
+
+    takeScreenshot(element, isTemplate) {
+
+        let contentType = 'image/jpeg';
+        if (isTemplate) {
+            contentType = 'image/png';
+        }
+
+        return this.canvasUtil
+            .fromHtml(element)
+            .then(canvas => {
+                return this.canvasUtil.toImage(canvas, contentType);
+            })
+            .then(image => {
+                if (isTemplate) {
+                    return this._userUpload(image);
+                } else {
+                    return this._upload(image, contentType);
+                }
+            })
+    };
+
+    _userUpload(data) {
+        this.FileSaver.saveAs(data, 'template.png');
+        return this.$q.when(null);
+    };
+
+    _upload(data, contentType) {
+
+        return this.$http({
+                method: 'POST',
+                url: '/api/templates',
+                headers: {
+                    'Content-Type': contentType
+                },
+                data: data,
+                transformRequest: []
+            })
+            .then((response) => {
+                this.$log.info('image uploaded', response.data);
+                return response.data.template_url;
+            })
+            .catch((err) => {
+                this.$log.error('upload error', err);
+                throw err;
+            });
+    };
 }
 
-VideoGenerationService.$inject = ['$log', '$http', '$rootScope', 'FileSaver'];
+
+VideoGenerationService.$inject = ['$log', '$http', 'FileSaver', 'canvasUtil', '$q'];

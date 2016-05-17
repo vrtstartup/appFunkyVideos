@@ -2,17 +2,8 @@ import './templateGin.directive.scss';
 import template from './templateGin.directive.html';
 
 class TemplateGinDirectiveController {
-    constructor($scope, $element, videoGeneration) {
-        this.videoGeneration = videoGeneration;
-        this.$element = $element;
+    constructor() {
 
-        $scope.$watch('vm.isReady', (value) => {
-            if (!value) return;
-            if (this.isReady){
-                this.videoGeneration.takeScreenshot(this.$element, true);
-                this.isReady = !this.isReady;
-            }
-        });
     }
 }
 
@@ -24,7 +15,6 @@ export const templateGinDirective = function() {
         controller: TemplateGinDirectiveController,
         controllerAs: 'vm',
         bindToController: {
-            isReady: '=',
             image: '=',
             authorNameOne: '=',
             authorNameTwo: '=',
@@ -42,4 +32,4 @@ export const templateGinDirective = function() {
     };
 };
 
-TemplateGinDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
+TemplateGinDirectiveController.$inject = [];

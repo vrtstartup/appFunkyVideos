@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isSkwigelf">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'skwigelf'">
 
     <md-content layout-padding="">
         <md-input-container class="md-block">
@@ -37,7 +37,7 @@
 
     <div class="dir-wrap">
         <vrt-template-skwigelf class="dir-wrap vrt-txt"
-                               is-ready="vm.isReady" quote="quote.question" image="quote.img"
+                               quote="quote.question" image="quote.img"
                                author-name="quote.authorName" author-title="quote.authorTitle"
                                is-mirrored="quote.isMirrored" is-hidden-sign="true">
         </vrt-template-skwigelf>

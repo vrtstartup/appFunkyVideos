@@ -2,17 +2,8 @@ import './templateWartooth.directive.scss';
 import template from './templateWartooth.directive.html';
 
 class TemplateWartoothDirectiveController {
-    constructor($scope, $element, videoGeneration) {
-        this.videoGeneration = videoGeneration;
-        this.$element = $element;
+    constructor() {
 
-        $scope.$watch('vm.isReady', (value) => {
-            if (!value) return;
-            if (this.isReady){
-                this.videoGeneration.takeScreenshot(this.$element, true);
-                this.isReady = !this.isReady;
-            }
-        });
 
     }
 }
@@ -26,7 +17,6 @@ export const templateWartoothDirective = function() {
         controllerAs: 'vm',
         bindToController: {
             quote: '=',
-            isReady: '=',
             image: '=',
             authorName: '=',
             authorTitle: '=',
@@ -35,4 +25,4 @@ export const templateWartoothDirective = function() {
     };
 };
 
-TemplateWartoothDirectiveController.$inject = ['$scope', '$element', 'videoGeneration'];
+TemplateWartoothDirectiveController.$inject = [];

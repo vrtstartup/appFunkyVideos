@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isPickels" ng-class="vm.templateClass">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'pickels'" ng-class="vm.templateClass">
     <md-content layout-padding="">
         <md-input-container class="md-block">
             <label>Cijfer</label>
@@ -15,8 +15,11 @@
 
     </div>
     <div class="dir-wrap">
-        <vrt-template-pickels class="dir-wrap" is-ready="vm.isReady" template-class="vm.templateClass"
-                                numbr = "quote.number" quote="quote.question" image="quote.img">
+        <vrt-template-pickels class="dir-wrap"
+                              template-class="vm.templateClass"
+                              numbr = "quote.number"
+                              quote="quote.question"
+                              image="quote.img">
         </vrt-template-pickels>
     </div>
 </div>
