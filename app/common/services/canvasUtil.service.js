@@ -4,10 +4,10 @@ export default class CanvasUtil {
         this.$q = $q;
     }
 
-    // util.toImage(canvas, 'image/jpeg')
-    //     .then(image => {
-    //
-    //     }
+    /** util.toImage(canvas, 'image/jpeg')
+            .then(image => {
+            }
+     **/
     toImage(canvas, contentType) {
         return this.$q(resolve => {
             if (canvas.toBlob) {
@@ -21,10 +21,10 @@ export default class CanvasUtil {
         });
     }
 
-    // util.fromHtml(element)
-    //     .then(canvas => {
-    //
-    //     }
+    /** util.fromHtml(element)
+            .then(canvas => {
+            }
+     **/
     fromHtml(element) {
         return this.$q(resolve => {
             html2canvas(element, {
@@ -36,10 +36,7 @@ export default class CanvasUtil {
     }
 
     _dataURItoBlob(dataURI, contentType) {
-        //let contentType = 'image/jpeg';
-        //if (that.isTemplate) {
-        //    contentType = 'image/png';
-        //}
+
         const binary = atob(dataURI.split(',')[1]);
         const array = [];
         for (var i = 0; i < binary.length; i++) {
