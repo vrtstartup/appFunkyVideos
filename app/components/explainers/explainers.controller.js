@@ -22,26 +22,42 @@ export default class ExplainersController {
         this.progressPercentage = '';
         this.ref = '';
 
+
+
+
+
+
+
+
         this.aepLocation = 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Apps\\VideoTemplater\\ae\\Video_Templator\\AE\\';
 
         this.clipTemplates = [{
-            'name': 'centraal',
+            'name': 'Titel',
             'id': 0,
             'brand': 'deredactie.be',
-            'url': 'assets/stitcherTemplates/titleSlide.png',
-            'aep': this.aepLocation + 'image_template_title.aep',
+            'img': 'assets/videoTemplates/Still_title.jpg',
+            'aep': this.aepLocation + 'Template_Text_title.aep',
             'form': '/components/explainers/explainers.centercenter.form.html',
             'view': '/components/explainers/explainers.centercenter.view.html',
-            'length': 3
+            'length': 5
         }, {
             'name': 'links beneden',
             'id': 1,
             'brand': 'deredactie.be',
-            'url': 'assets/stitcherTemplates/titleSlide.png',
-            'aep': this.aepLocation + 'image_template_title.aep',
+            'img': 'assets/videoTemplates/still_bottom.jpg',
+            'aep': this.aepLocation + 'Template_Text.aep',
             'form': '/components/explainers/explainers.leftbottom.form.html',
             'view': '/components/explainers/explainers.leftbottom.view.html',
-            'length': 3
+            'length': 8
+        }, {
+            'name': 'links boven',
+            'id': 2,
+            'brand': 'deredactie.be',
+            'img': 'assets/videoTemplates/Still_top.jpg',
+            'aep': this.aepLocation + 'Template_Text_top.aep',
+            'form': '/components/explainers/explainers.lefttop.form.html',
+            'view': '/components/explainers/explainers.lefttop.view.html',
+            'length': 8
         }];
 
         // Place in Firebase where we save the explainers.
@@ -90,32 +106,41 @@ export default class ExplainersController {
 
     createFFMPEGLine() {
         const deferred = this.$q.defer();
-        const movieFolder = 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Apps\\VideoTemplater\\in\\';
-        const footageFolder = 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Apps\\VideoTemplater\\out\\';
-        const outputFolder = 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Apps\\VideoTemplater\\finished\\';
-
-        const input = movieFolder + this.clips[0].movieName;
+        console.log(this.movieId);
+        const folder = 'D:\\videoTemplater\\out\\' + this.movieId + '\\';
+        const inFolder = 'D:\\videoTemplater\\in\\';
+        const output = 'D:\\videoTemplater\\fin\\' + this.movieId + '.mp4';
+        const input = inFolder + this.clips[0].movieName;
 
         let ffmpegLine = 'ffmpeg -i ' + input;
 
         let clipsToOverlay = '';
-        let clipsTiming = '"[0:v]setpts=PTS-STARTPTS[v0];';
+        let clipsTiming = '\"\"[0:v]setpts=PTS-STARTPTS[v0];';
         let clipOverlaying = '';
-        let counter = 1;
+
+
 
         angular.forEach(this.movieClips, (clip) => {
-            if (clip.id <= this.clips.length) {
-                clipsToOverlay = clipsToOverlay + ' -i ' + footageFolder + clip.id + '.avi';
-                clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clip.id + '];';
-                clipOverlaying = clipOverlaying + '[v' + clip.id - 1 + '][v' + clip.id + ']overlay=w[c' + clip.id + ']';
-            }
-            if (clip.id == this.clips.length - 1) {
-                clipsToOverlay = clipsToOverlay + ' -filter_complex ';
-                clipOverlaying = clipOverlaying + '[v' + clip.id - 1 + '][v' + clip.id + ']overlay=[out]';
-                ffmpegLine = ffmpegLine + clipsToOverlay + clipsTiming + ' -map "[out]" ' + outputFolder + 'out.mp4';
+            console.log(clip.id);
+            let clipId = parseInt(clip.id);
+            let total = parseInt(this.movieClips.length);
+            if (clipId === 1) {
+                clipsToOverlay = clipsToOverlay + ' -i ' + folder + clip.id + '.mov';
+                clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
+                clipOverlaying = clipOverlaying + '[v0]scale=1920:1080 [resized];[resized][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
+
+            } else if (1 < clipId && clipId < total) {
+                clipsToOverlay = clipsToOverlay + ' -i ' + folder + clip.id + '.mov';
+                clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
+                clipOverlaying = clipOverlaying + '[c' + (clipId - 1) + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
+
+            } else {
+                clipsToOverlay = clipsToOverlay + ' -i ' + folder + clipId + '.mov' + ' -filter_complex ';
+                clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
+                clipOverlaying = clipOverlaying + '[c' + (clipId - 1) + '][v' + clipId + ']overlay=eof_action=pass[out]\"\"';
+                ffmpegLine = ffmpegLine + clipsToOverlay + clipsTiming + clipOverlaying + ' -map [out] -map 0:1? ' + output;
                 deferred.resolve(ffmpegLine);
             }
-            counter++;
         });
         return deferred.promise;
     }
@@ -145,7 +170,6 @@ export default class ExplainersController {
 
     }
 
-
     openMovie(movieId) {
         this.movieUploadStatus = 'none';
         this.movieId = movieId;
@@ -171,28 +195,15 @@ export default class ExplainersController {
         let ffmpegLine = '';
         this.movieClips = [];
 
-
         angular.forEach(this.clips, (clip) => {
             if (clip.$id !== '0') {
-
-                // var clip = {
-                //     'id': counter,
-                //     'last': false,
-                //     'movieId': this.movieId,
-                //     'bot': 'render',
-                //     'render-status': 'ready',
-                //     'uploaded': false,
-                //     'saved': false,
-                //     'aep': template,
-                //     'template': templateKey,
-                //     'output': this.movieId + '/' + number
-                // };
 
                 clip.id = counter;
                 clip['render-status'] = 'ready';
                 clip.bot = 'render';
                 clip.last = 'false';
                 clip.output = this.movieId + '/' + counter;
+                clip.module = 'jpg2000';
 
                 this.movieClips.push(clip);
 
@@ -226,7 +237,7 @@ export default class ExplainersController {
                 clip.last = true;
                 clip.email = this.clips[0].email;
                 clip.movie = this.clips[0].movieName;
-                // clip.ffmpeg = ffmpegLine;
+                clip.ffmpeg = ffmpegLine;
 
 
             }
@@ -243,7 +254,6 @@ export default class ExplainersController {
                 console.log('json updated');
                 this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
             });
-
     }
 
     // Happens when the slider get dragged
@@ -273,6 +283,8 @@ export default class ExplainersController {
             movieDuration = Math.round(durationInSeconds * 1000) / 1000;
         });
 
+
+
         // upload to dropbox
         this.Upload.upload({
                 url: 'api/movie/upload-to-dropbox',
@@ -280,13 +292,14 @@ export default class ExplainersController {
                 method: 'POST'
             })
             .then((resp) => {
+                this.clips[0].movieWidth= resp.data.width;
+                this.clips[0].movieHeight= resp.data.height;
                 this.clips[0].movieName = resp.data.filenameIn;
                 this.clips[0].movieUrl = resp.data.image;
                 this.clips[0].movieDuration = movieDuration;
                 this.clips.$save(0).then((ref) => {
                     this.movieUploadStatus = 'uploaded';
                 });
-
             }, (resp) => {
                 console.log('Error: ' + resp.error);
                 console.log('Error status: ' + resp.status);

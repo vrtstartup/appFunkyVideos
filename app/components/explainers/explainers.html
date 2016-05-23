@@ -19,7 +19,6 @@
             </div>
         </md-dialog-content>
     </section>
-
     <section ng-hide="vm.movieId == ''" flex="20" layout="column">
         <div ng-repeat="(key, c) in vm.clips" ng-if="key != 0" ng-click="vm.activeTab = key; vm.goToTime(c.start)">
             {{key}} - {{c.start}} - {{c.text}}
@@ -30,7 +29,8 @@
             <input ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'" ngf-select="vm.upload($file)" type="file" />
         </div>
         <!-- {{vm.clips}} -->
-        <div class="explainers-video">
+
+        <div class="explainers-video" >
             <vrt-videoplayer source="vm.clips[0].movieUrl" ng-if="vm.movieUploadStatus == 'uploaded'"></vrt-videoplayer>
             <div class="explainers-video__templates" ng-repeat="(key, c) in vm.clips" ng-if="(vm.videogular.api.currentTime/1000) >= c.start && (vm.videogular.api.currentTime/1000) <= (c.start + c.length) && key != 0">
                 <div style="width:100%;height:100%" ng-include="vm.getInclude('view', c.template)"></div>
@@ -38,20 +38,24 @@
             <div ng-if="vm.movieUploadStatus == 'none'">No video</div>
             <div ng-if="vm.movieUploadStatus == 'uploading'">Uploading</div>
         </div>
-        <md-tabs md-border-bottom md-autoselect style="margin-top:50px;">
-            <md-tab ng-repeat="(key, c) in vm.clips" ng-disabled="tab.disabled" label="{{key}}" md-on-select="vm.activeTab = key; vm.goToTime(c.start)" ng-if="key != 0" md-active="key == vm.activeTab">
-                <div>
-                    <md-slider aria-label="slider" ng-model="c.start" step="0.001" min="0" max="{{vm.clips[0].movieDuration}}" ng-change="vm.setTime(c)"></md-slider>
-                    {{c.length}} {{tab}} {{key}}, {{c.$id}}
-                    <br/>
-                    <div ng-repeat="t in vm.clipTemplates" ng-click="vm.saveTemplateToClip(key, t)">
-                        {{t.name}}
+        <div layout-padding>
+            <md-tabs md-border-bottom md-autoselect style="margin-top:50px;">
+                <md-tab ng-repeat="(key, c) in vm.clips" ng-disabled="tab.disabled" label="{{key}}" md-on-select="vm.activeTab = key; vm.goToTime(c.start)" ng-if="key != 0" md-active="key == vm.activeTab">
+                    <div>
+                        <md-slider aria-label="slider" ng-model="c.start" step="0.001" min="0" max="{{vm.clips[0].movieDuration}}" ng-change="vm.setTime(c)"></md-slider>
+                        {{c.length}} {{tab}} {{key}}, {{c.$id}}
+                        <br/>
+                        <div layout="row">
+                            <div class="explainers-templates__preview" ng-repeat="t in vm.clipTemplates" ng-click="vm.saveTemplateToClip(key, t)">
+                                <img src="{{t.img}}" ng-class="{'selectedTemplate' : t.id == c.template}">
+                            </div>
+                        </div>
+                        <div ng-include="vm.getInclude('form', c.template)"></div>
+                        <md-button class="md-primary md-raised" ng-click="vm.clips.$remove(c)" ng-disabled="c.length <= 1">Verwijder Clip</md-button>
                     </div>
-                    <div ng-include="vm.getInclude('form', c.template)"></div>
-                    <md-button class="md-primary md-raised" ng-click="vm.clips.$remove(c)" ng-disabled="c.length <= 1">Verwijder Clip</md-button>
-                </div>
-            </md-tab>
-        </md-tabs>
+                </md-tab>
+            </md-tabs>
+        </div>
         <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
             Voeg clip toe
         </md-button>

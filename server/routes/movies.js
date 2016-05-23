@@ -25,16 +25,37 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                 if (error) {
                     return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
                 }
+
+
                 var fileUrl = 'in/' + file.originalFilename;
                 dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
                     imageUrl = data.url;
                     console.log(error);
 
-                    res.json({
-                        image: imageUrl,
-                        filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-                        filenameIn: file.originalFilename
-                    }).send();
+                    var width;
+                    var height;
+                    ffmpeg.ffprobe(imageUrl, function(err, metadata) {
+                        console.log(metadata.streams);
+                        console.log(metadata.streams[0]);
+                        console.log(metadata.streams[0].width, metadata.streams[0].height);
+                        width = metadata.streams[0].width;
+                        height = metadata.streams[0].height;
+
+
+                        res.json({
+                            image: imageUrl,
+                            width: width,
+                            height: height,
+                            filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
+                            filenameIn: file.originalFilename
+                        }).send();
+
+
+                    });
+
+
+
+
 
 
                 });

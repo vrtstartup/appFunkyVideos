@@ -1,11 +1,58 @@
 @import "../../common/style/variables";
-.explainers-video {
-    position: relative;
-    &__templates {
-        position: absolute;
-        top: 0;
-        height: 100%;
-        opacity: .7;
-        width: 100%;
+.explainers {
+    &-video {
+        position: relative;
+        &__templates {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            opacity: .7;
+            width: 100%;
+        }
+    }
+    &-templates {
+        &__preview {
+            height: 7rem;
+            margin: 3px;
+            border-color: $white;
+            border-style: solid;
+            border-width: 3px;
+            img {
+                height: 100%;
+                width: auto;
+            }
+            .selectedTemplate {
+                border-style: solid;
+                border-width: 3px;
+                border-color: $vrt-guide;
+            }
+        }
+    }
+}
+
+.explainers-templates {
+    &__deredactie {
+        &--simple {
+            text-transform: uppercase;
+            color: $white;
+            background-color: rgba(#20313D, .9);
+            padding: .2rem;
+            font-size: 2rem;
+            width: 80%;
+        }
+        &--simpleSubline {
+            margin-top: 1rem;
+            height: .8rem;
+
+            width: 50%;
+            background-color: rgba(#90C553, .9);
+        }
+        &--title {
+            text-transform: uppercase;
+            color: $white;
+            background-color: rgba(#20313D, .8);
+            padding: .2rem;
+            font-size: 4rem;
+        }
     }
 }

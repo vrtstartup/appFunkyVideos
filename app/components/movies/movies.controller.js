@@ -119,21 +119,6 @@ export default class MoviesController {
             'thumb': '/assets/movies-title.png'
         }];
 
-        // this.showDialogMovie();
-
-
-        $scope.$watch(
-            'vm.upload',
-            function handleFooChange(newValue, oldValue) {
-                // this.uploadFile(this.upload);
-            }
-        );
-
-
-        // this.$watch('upload', function() {
-        //     this.uploadFile(this.upload);
-        // });
-
 
     }
 
@@ -329,11 +314,11 @@ export default class MoviesController {
             movieClips: this.movieClips
         };
 
-        // this.$http.post('api/movie/update-movie-json', params)
-        //     .then(() => {
-        //         console.log('json updated');
-        //         this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
-        //     });
+        this.$http.post('api/movie/update-movie-json', params)
+            .then(() => {
+                console.log('json updated');
+                this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
+            });
     }
 }
 
