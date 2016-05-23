@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isMurderface">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'murderface'">
     <md-content layout-padding="">
         <md-input-container class="md-block">
             <label>Quote</label>
@@ -30,7 +30,7 @@
         <vrt-template-murderface class="dir-wrap"
                                  is-hidden-sign="true"
                                  author-name="quote.authorName" author-title="quote.authorTitle"
-                                 is-ready="vm.isReady" quote="quote.question" image="quote.img">
+                                 quote="quote.question" image="quote.img">
         </vrt-template-murderface>
     </div>
 </div>

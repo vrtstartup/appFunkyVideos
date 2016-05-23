@@ -1,8 +1,8 @@
-//TODO: refactor show functions
 export default class PicturesController {
-    constructor(Upload, firebaseAuth, userManagement) {
+    constructor(Upload, firebaseAuth, userManagement, videoGeneration) {
 
         this.Upload = Upload;
+        this.videoGeneration = videoGeneration;
 
         this.className = 'drd';
         this.image = '';
@@ -18,8 +18,6 @@ export default class PicturesController {
             }
         });
 
-
-        this.resetAllTemplates();
     }
 
     upload(file, type, numb) {
@@ -58,101 +56,23 @@ export default class PicturesController {
     }
 
     getPicture() {
-        this.isReady = !this.isReady;
+        // takeScreenShot
+        var element = angular.element(document.getElementsByClassName('dir-wrap'));
+        this.videoGeneration
+            .takeScreenshot(element, true)
+            .then(templateUrl => {
+                //$scope.template_url = templateUrl;
+            });
     }
 
-    showMurderface(scheme) {
-        this.resetAllTemplates();
-        this.isMurderface = true;
+    // setTemplate('Murderface', 'drd);
+    setTemplate(name, scheme, templateClass, footerText) {
+        this.templateName = name;
         this.className = scheme;
-    }
-
-    showSkwigelf(scheme) {
-        this.resetAllTemplates();
-        this.isSkwigelf = true;
-        this.className = scheme;
-    }
-
-    showPickels(scheme) {
-        this.resetAllTemplates();
-        this.isPickels = true;
-        this.className = scheme;
-    }
-
-    showDethklok(templateClass, footerText, scheme) {
-        this.resetAllTemplates();
-        this.isDethklok = true;
         this.templateClass = templateClass;
         this.footerText = footerText;
-        this.className = scheme;
-    }
-
-    showExplosion(scheme) {
-        this.resetAllTemplates();
-        this.isExplosion = true;
-        this.className = scheme;
-    }
-
-    showBob(scheme) {
-        this.resetAllTemplates();
-        this.isBob = true;
-        this.className = scheme;
-    }
-
-    showTina(scheme) {
-        this.resetAllTemplates();
-        this.isTina = true;
-        this.className = scheme;
-    }
-
-    showWartooth(scheme) {
-        this.resetAllTemplates();
-        this.isWartooth = true;
-        this.className = scheme;
-    }
-
-    showLinda(scheme) {
-        this.resetAllTemplates();
-        this.isLinda = true;
-        this.className = scheme;
-    }
-
-    showGin(scheme) {
-        this.resetAllTemplates();
-        this.isGin = true;
-        this.className = scheme;
-    }
-
-    showFinn(scheme) {
-        this.resetAllTemplates();
-        this.isFinn = true;
-        this.className = scheme;
-    }
-
-    showJake(scheme) {
-        this.resetAllTemplates();
-        this.isJake = true;
-        this.className = scheme;
-    }
-
-
-    resetAllTemplates() {
-        this.isMurderface = false;
-        this.isSkwigelf = false;
-        this.isExplosion = false;
-        this.isReady = false;
-        this.isPickels = false;
-        this.isDethklok = false;
-        this.isBob = false;
-        this.isTina = false;
-        this.isWartooth = false;
-        this.isLinda = false;
-        this.isGin = false;
-        this.isFinn = false;
-        this.isJake = false;
-
     }
 
 }
 
-PicturesController.$inject = ['Upload', 'firebaseAuth', 'userManagement'];
+PicturesController.$inject = ['Upload', 'firebaseAuth', 'userManagement', 'videoGeneration'];

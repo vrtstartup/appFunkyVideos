@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isExplosion">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'explosion'">
     <md-content layout-padding="">
         <md-input-container class="md-block">
             <label>Headline</label>
@@ -16,8 +16,11 @@
         <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
     </div>
     <div class="dir-wrap">
-        <vrt-template-explosion class="dir-wrap" is-ready="vm.isReady" template-class="vm.templateClass"
-                                quote="quote.question" image="quote.img" headline="quote.headline">
+        <vrt-template-explosion class="dir-wrap"
+                                template-class="vm.templateClass"
+                                quote="quote.question"
+                                image="quote.img"
+                                headline="quote.headline">
         </vrt-template-explosion>
     </div>
 </div>

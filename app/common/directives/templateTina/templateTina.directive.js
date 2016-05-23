@@ -2,18 +2,8 @@ import './templateTina.directive.scss';
 import template from './templateTina.directive.html';
 
 class TemplateTinaDirectiveController {
-    constructor($scope, $element, videoGeneration, $document) {
-        this.videoGeneration = videoGeneration;
-        this.$element = $element;
-        this.$document = $document;
+    constructor() {
 
-        $scope.$watch('vm.isReady', (value) => {
-            if (!value) return;
-            if (this.isReady){
-                this.videoGeneration.takeScreenshot(this.$element, true);
-                this.isReady = !this.isReady;
-            }
-        });
 
     }
 }
@@ -36,4 +26,4 @@ export const templateTinaDirective = function() {
     };
 };
 
-TemplateTinaDirectiveController.$inject = ['$scope', '$element', 'videoGeneration', '$document'];
+TemplateTinaDirectiveController.$inject = [];

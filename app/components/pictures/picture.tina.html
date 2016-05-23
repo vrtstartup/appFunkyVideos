@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isTina">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'tina'">
     <md-content layout-padding="">
         <md-input-container class="md-block">
             <label>Quote</label>
@@ -28,9 +28,11 @@
     </div>
     <div class="dir-wrap">
         <vrt-template-tina class="dir-wrap"
-                                 is-hidden-sign="true"
-                                 author-name="vm.quote.authorName" author-title="vm.quote.authorTitle"
-                                 is-ready="vm.isReady" quote="vm.quote.question" image="vm.image">
+                           is-hidden-sign="true"
+                           author-name="vm.quote.authorName"
+                           author-title="vm.quote.authorTitle"
+                           quote="vm.quote.question"
+                           image="vm.image">
         </vrt-template-tina>
     </div>
 </div>

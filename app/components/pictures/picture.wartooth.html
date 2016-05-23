@@ -1,4 +1,4 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isWartooth">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'wartooth'">
 
     <md-content layout-padding="">
         <md-input-container class="md-block">
@@ -29,8 +29,10 @@
     <div class="dir-wrap">
         <vrt-template-wartooth class="dir-wrap"
                                is-hidden-sign="true"
-                               author-name="quote.authorName" author-title="quote.authorTitle"
-                               is-ready="vm.isReady" quote="quote.question" image="vm.image">
+                               author-name="quote.authorName"
+                               author-title="quote.authorTitle"
+                               quote="quote.question"
+                               image="vm.image">
         </vrt-template-wartooth>
     </div>
 

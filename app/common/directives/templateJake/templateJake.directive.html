@@ -1,4 +1,22 @@
 <section class='wrap container-screenshot'>
 
-    <div>template jake</div>
+    <div class='wrap finn-wrap'>
+        <div class='quote-wrap finn-quote-wrap'>
+            <div class='quote finn-quote'><span class="sign">“</span>{{vm.quote}}<span class="sign">”</span></div>
+            <img class='logo logo-r1 finn-logo' src="./assets/logor1_blauw.svg">
+        </div>
+        <div class='finn-image'>
+            <div ng-if="vm.image" class='line-vert'></div>
+            <image-cropper ng-if="vm.image" image-url=' {{vm.image}} '
+                           height="688"
+                           show-controls="false"
+                           fit-on-init="true"
+                           center-on-init="true"
+                           check-cross-origin="false"
+                           zoom-step="0.1"
+                           button-labels="myButtonLabelsObject"
+            ></image-cropper>
+        </div>
+
+    </div>
 </section>
