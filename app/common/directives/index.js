@@ -26,13 +26,14 @@ import userLogin from './userLogin';
 import draggable from './draggable';
 import templateFinn from './templateFinn';
 import templateJake from './templateJake';
+import audioPlayer from './audioplayer';
 
 
 const module = angular.module('app.common.directives', [
     pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
-    userLogin, draggable, templateFinn, templateJake,
+    userLogin, draggable, templateFinn, templateJake, audioPlayer
 ]);
 
 export default module.name;

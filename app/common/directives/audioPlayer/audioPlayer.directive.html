@@ -1,0 +1,19 @@
+<style type="text/css">
+.audioplayer {
+    margin-bottom: 60px;
+}
+</style>
+<videogular class="videogular-container audioplayer">
+    <vg-media vg-src="vm.config.sources" vg-type="audio"></vg-media>
+    <vg-controls>
+        <vg-play-pause-button></vg-play-pause-button>
+        <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+        <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+        </vg-scrub-bar>
+        <vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
+        <vg-volume>
+            <vg-mute-button></vg-mute-button>
+        </vg-volume>
+    </vg-controls>
+</videogular>
