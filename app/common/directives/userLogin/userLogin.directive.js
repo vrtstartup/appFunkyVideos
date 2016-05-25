@@ -51,7 +51,6 @@ class UserLoginDirectiveController {
 
 
         this.userManagement.checkAuth().then((userId) => {
-            console.log(userId);
             if (userId !== null) {
 
                 this.userId = userId;
@@ -102,10 +101,8 @@ class UserLoginDirectiveController {
 
     activateUser(user) {
         this.userManagement.authenticate(user.email, user.oldPassword).then((authData, message) => {
-            console.log(authData, message);
             this.userManagement.changePassword(user.email, user.oldPassword, user.newPassword).then((data, message, error) => {
                 this.message = message;
-                console.log(data, message, error);
                 this.userManagement.setVerificationStatus(authData.uid, user.email, user.brand, 'verified').then(() => {
                     this.accountStatus = 'verified';
                 }, (reason) => {
