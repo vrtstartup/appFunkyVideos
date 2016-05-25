@@ -6,8 +6,6 @@ class DraggableDirectiveController {
         this.$document = $document;
         this.$element = $element;
 
-        console.log('Draggable', $element);
-
         this.startX = 0;
         this.startY = 0;
         this.x = 380;

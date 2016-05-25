@@ -5,14 +5,14 @@
             <img class='logo-bottom-bg logo-drd' src="./assets/deredactie.svg">
             <img class='logo logo-r1' src="./assets/logor1_blauw.svg">
 
-        <div class="long-quote-wrap">
-            <div class="r1-wrap">
-                <div ng-if='vm.headline' class="r1-header">
-                    {{vm.headline}}
+            <div class="long-quote-wrap">
+                <div class="r1-wrap">
+                    <div ng-if='vm.headline' class="r1-header">
+                        {{vm.headline}}
+                    </div>
+                    <div class="r1-line"></div>
+                    <div ng-if='vm.quote' class="r1-text">{{vm.quote}}</div>
                 </div>
-                <div class="r1-line"></div>
-                <div ng-if='vm.quote' class="r1-text">{{vm.quote}}</div>
-            </div>
             </div>
         </div>
 </section>
