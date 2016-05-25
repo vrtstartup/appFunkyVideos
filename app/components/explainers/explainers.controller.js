@@ -1,5 +1,5 @@
 export default class ExplainersController {
-    constructor($scope, $http, $document, Upload, toast, firebaseAuth, $firebaseArray, userManagement, videogular, $q) {
+    constructor($scope, $sce, $http, $document, Upload, toast, firebaseAuth, $firebaseArray, userManagement, videogular, $q) {
 
         this.$scope = $scope;
         this.$http = $http;
@@ -10,26 +10,25 @@ export default class ExplainersController {
         this.userManagement = userManagement;
         this.videogular = videogular;
         this.$q = $q;
-
+        this.$sce = $sce;
         this.activeTab = 1;
         this.clips = '';
         this.file = {};
         this.movieClips = [];
         this.movieId = '';
+        this.movie = {
+            'audio': 0
+        };
         this.movieUploadStatus = 'none';
         this.movieUrl = '';
         this.movieSubmitted = false;
         this.progressPercentage = '';
         this.ref = '';
+        this.audioTrack = 0;
 
+        this.root = 'D:\\videoTemplater\\dropbox\\';
+        this.aepLocation = this.root + 'ae\\Video_Templator\\AE\\';
 
-
-
-
-
-
-
-        this.aepLocation = 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Apps\\VideoTemplater\\ae\\Video_Templator\\AE\\';
 
         this.clipTemplates = [{
             'name': 'Titel',
@@ -60,12 +59,68 @@ export default class ExplainersController {
             'length': 8
         }];
 
+
+
+
+        this.audioTracks = [{
+            'name': 'geen',
+            'id': 0,
+            'brand': 'deredactie.be',
+            'length': 'nvt',
+            'fileLocal': 'nvt',
+            'fileRemote': 'nvt'
+        }, {
+            'name': '1',
+            'id': 1,
+            'brand': 'deredactie.be',
+            'length': '02:54',
+            'fileLocal': 'assets/audio/deredactiebe/1.mp3',
+            'fileRemote': '\\audio\\1.wav'
+        }, {
+            'name': '2',
+            'id': 2,
+            'brand': 'deredactie.be',
+            'length': '01:23',
+            'fileLocal': 'assets/audio/deredactiebe/2.mp3',
+            'fileRemote': this.root + 'audio\\2.wav'
+        }, {
+            'name': '3',
+            'id': 3,
+            'brand': 'deredactie.be',
+            'length': '01:23',
+            'fileLocal': 'assets/audio/deredactiebe/3.mp3',
+            'fileRemote': this.root + 'audio\\3.wav'
+        }, {
+            'name': '4',
+            'id': 4,
+            'brand': 'deredactie.be',
+            'length': '01:23',
+            'fileLocal': 'assets/audio/deredactiebe/4.mp3',
+            'fileRemote': this.root + 'audio\\4.wav'
+        }, {
+            'name': '5',
+            'id': 5,
+            'brand': 'deredactie.be',
+            'length': '01:23',
+            'fileLocal': 'assets/audio/deredactiebe/5.mp3',
+            'fileRemote': this.root + 'audio\\5.wav'
+        }, {
+            'name': '6',
+            'id': 6,
+            'brand': 'deredactie.be',
+            'length': '01:23',
+            'fileLocal': 'assets/audio/deredactiebe/6.mp3',
+            'fileRemote': this.root + 'audio\\6.wav'
+        }];
+
+
+
         // Place in Firebase where we save the explainers.
         this.moviesRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/explainers');
         // Make it available to the dom as an array
         this.movies = this.$firebaseArray(this.moviesRef);
 
-        // Authtenticate the user
+        // Authenticate the user
         this.firebaseAuth = firebaseAuth;
         this.firebaseAuth.$onAuth((authData) => {
             if (authData) {
@@ -107,13 +162,20 @@ export default class ExplainersController {
     createFFMPEGLine() {
         const deferred = this.$q.defer();
         console.log(this.movieId);
-        const folder = 'D:\\videoTemplater\\out\\' + this.movieId + '\\';
-        const inFolder = 'D:\\videoTemplater\\in\\';
-        const output = 'D:\\videoTemplater\\fin\\' + this.movieId + '.mp4';
+        const folder = this.root + 'out\\' + this.movieId + '\\';
+        const inFolder = this.root + 'in\\';
+        const output = this.root + 'finished\\' + this.movieId + '.mp4';
+        const outputWithSound = this.root + 'finished\\' + this.movieId + '-withSound.mp4';
         const input = inFolder + this.clips[0].movieName;
 
         let ffmpegLine = 'ffmpeg -i ' + input;
 
+
+        if (this.movieClips[0].audio !== 0) {
+
+        } else {
+
+        }
         let clipsToOverlay = '';
         let clipsTiming = '\"\"[0:v]setpts=PTS-STARTPTS[v0];';
         let clipOverlaying = '';
@@ -121,7 +183,6 @@ export default class ExplainersController {
 
 
         angular.forEach(this.movieClips, (clip) => {
-            console.log(clip.id);
             let clipId = parseInt(clip.id);
             let total = parseInt(this.movieClips.length);
             if (clipId === 1) {
@@ -139,7 +200,14 @@ export default class ExplainersController {
                 clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
                 clipOverlaying = clipOverlaying + '[c' + (clipId - 1) + '][v' + clipId + ']overlay=eof_action=pass[out]\"\"';
                 ffmpegLine = ffmpegLine + clipsToOverlay + clipsTiming + clipOverlaying + ' -map [out] -map 0:1? ' + output;
-                deferred.resolve(ffmpegLine);
+                if (this.clips[0].audio !== 0) {
+
+                    // ffmpegLine = ffmpegLine + clipsToOverlay + clipsTiming + clipOverlaying + ' -map [out] -map ' + (this.movieClips.length) 1 + 1 + ':1? ' + output + ' && ffmpeg -i ' + output + ' -i ' + this.audioTracks[this.clips[0].audio].fileRemote + ' -c:v copy -c:a aac -strict experimental -shortest ' + outputWithSound;
+                    deferred.resolve(ffmpegLine);
+                } else {
+                    deferred.resolve(ffmpegLine);
+                }
+
             }
         });
         return deferred.promise;
@@ -171,6 +239,7 @@ export default class ExplainersController {
     }
 
     openMovie(movieId) {
+        this.audioTrack = 0;
         this.movieUploadStatus = 'none';
         this.movieId = movieId;
         this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/explainers/' + movieId);
@@ -183,6 +252,9 @@ export default class ExplainersController {
                 if (clips[0].movieUrl) {
                     this.movieUploadStatus = 'uploaded';
                     this.movieUrl = clips[0].movieUrl;
+                }
+                if (clips[0].audio) {
+                    this.audioTrack = clips[0].audio;
                 }
             },
             (error) => {
@@ -256,6 +328,13 @@ export default class ExplainersController {
             });
     }
 
+    // Happens when the dropdown of the audio is changed.
+    setAudio(audioId) {
+        this.clips[0].audio = audioId;
+        this.audioTrackUrl = this.audioTracks[audioId].fileLocal;
+        this.clips.$save(0);
+    };
+
     // Happens when the slider get dragged
     setTime(c) {
         // Set the video to the correct time
@@ -292,8 +371,8 @@ export default class ExplainersController {
                 method: 'POST'
             })
             .then((resp) => {
-                this.clips[0].movieWidth= resp.data.width;
-                this.clips[0].movieHeight= resp.data.height;
+                this.clips[0].movieWidth = resp.data.width;
+                this.clips[0].movieHeight = resp.data.height;
                 this.clips[0].movieName = resp.data.filenameIn;
                 this.clips[0].movieUrl = resp.data.image;
                 this.clips[0].movieDuration = movieDuration;
@@ -310,4 +389,4 @@ export default class ExplainersController {
 
 }
 
-ExplainersController.$inject = ['$scope', '$http', '$document', 'Upload', 'toast', 'firebaseAuth', '$firebaseArray', 'userManagement', 'videogular', '$q'];
+ExplainersController.$inject = ['$scope', '$sce', '$http', '$document', 'Upload', 'toast', 'firebaseAuth', '$firebaseArray', 'userManagement', 'videogular', '$q'];

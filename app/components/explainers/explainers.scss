@@ -36,14 +36,13 @@
             text-transform: uppercase;
             color: $white;
             background-color: rgba(#20313D, .9);
-            padding: .2rem;
-            font-size: 2rem;
+            padding: .2vw;
+            font-size: 2vw;
             width: 80%;
         }
         &--simpleSubline {
             margin-top: 1rem;
-            height: .8rem;
-
+            height: .8vw;
             width: 50%;
             background-color: rgba(#90C553, .9);
         }
@@ -51,8 +50,8 @@
             text-transform: uppercase;
             color: $white;
             background-color: rgba(#20313D, .8);
-            padding: .2rem;
-            font-size: 4rem;
+            padding: .2vw;
+            font-size: 3vw;
         }
     }
 }
