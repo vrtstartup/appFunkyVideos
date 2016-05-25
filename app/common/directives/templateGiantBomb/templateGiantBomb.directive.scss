@@ -1,0 +1,58 @@
+@import "../../style/variables";
+.wrap {
+  &.facebook {
+    width: 300px;
+    height: 200px;
+  }
+
+  &.twitter {
+    width: 600px;
+    height: 400px;
+  }
+
+
+  .r1-wrapper {
+
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .lines {
+      text-align: center;
+
+      .line-1 {
+        background-color: rgba(#3e94ca, 0.75);
+        font-family: 'Calibre-Black';
+        font-size: 53pt;
+        text-transform: uppercase;
+        color: white;
+        padding: 15px;
+        height: 63pt;
+      }
+
+      .line-2 {
+        background-color: #e74011;
+        font-size: 24pt;
+        height: 34pt;
+        font-family: 'Calibre-Light';
+        color: white;
+        padding: 5px;
+      }
+    }
+
+
+    .background-image {
+      position: absolute;
+    }
+
+
+  }
+
+  .logo {
+    display: block;
+  }
+}

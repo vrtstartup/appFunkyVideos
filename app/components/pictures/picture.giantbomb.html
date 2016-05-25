@@ -1,0 +1,31 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.isGiantBomb" ng-class="vm.templateClass">
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Bovenste lijn</label>
+            <input ng-model="quote.line1" md-maxlength="30">
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Onderste lijn</label>
+            <input ng-model="quote.line2" md-maxlength="40">
+        </md-input-container>
+        <md-input container class="md-block">
+            <md-select ng-model="quote.size" placeholder="Kies een grootte">
+                <md-option value="facebook">Facebook</md-option>
+                <md-option value="twitter">Twitter</md-option>
+
+            </md-select>
+
+        </md-input>
+    </md-content>
+
+    <div layout-gt-sm="row">
+        <input ng-model="vm.image" type="file" name="img" required ngf-select="vm.upload($file, 'vibrance')"/>
+
+    </div>
+    <div class="dir-wrap">
+
+        <vrt-template-giant-bomb class="dir-wrap" is-ready="vm.isReady" template-class="vm.templateClass"
+                              line1 = "quote.line1" line2="quote.line2" image="vm.image" size="quote.size">
+        </vrt-template-giant-bomb>
+    </div>
+</div>

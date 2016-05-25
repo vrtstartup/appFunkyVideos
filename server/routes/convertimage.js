@@ -38,6 +38,19 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
             );
     }
 
+    if(type === 'vibrance') {
+        gm(file.path)
+            .contrast(1)
+            .modulate(100, 45)
+            .write(file.path, (err) => {
+            if (err) return console.dir('Error is occured', err, arguments);
+        var path = 'http://'+req.headers.host+'/'+file.path;
+        console.log('DONE',  path);
+        res.json({url: path}).send();
+    }
+    );
+    }
+
 
 });
 

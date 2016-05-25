@@ -2,6 +2,9 @@
     <section flex="15" >
         <md-content class="pictures-sidebar">
             <md-list>
+
+
+
                 <md-toolbar md-scroll-shrink="">
                     <div class="md-toolbar-tools" ng-init="vm.showTempltesDRD = false" ng-click="vm.getScheme('drd')">
                         De redactie <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon':vm.showTempltesDRD}">&#xE313;</i>
@@ -91,6 +94,12 @@
                     <md-list-item class="md-3-line" ng-click="vm.showFinn('r1')">
                         <img src="./../assets/templates/fotoquote_r1.png" alt="" width="100%">
                     </md-list-item>
+
+                    <md-subheader class="">Foto met 2 regels tekst</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.showGiantBomb('r1')">
+                        <img src="./../assets/templates/fotoquote_r1.png" alt="" width="100%">
+                    </md-list-item>
+
                     <!--<md-list-item class="md-3-line" ng-click="vm.showJake('r1')">-->
                         <!--<img src="./../assets/templates/fotoquote_r1.png" alt="" width="100%">-->
                     <!--</md-list-item>-->
@@ -164,6 +173,8 @@
 
                 <ng-include src="'components/pictures/picture.jake.html'"></ng-include>
 
+                <ng-include src="'components/pictures/picture.giantbomb.html'"></ng-include>
+
 
 
                 <div ng-messages="templateForm.img.$error.required" >
@@ -172,7 +183,7 @@
 
                 <section ng-if="vm.isSkwigelf || vm.isMurderface || vm.isWartooth || vm.isExplosion
                                 || vm.isPickels || vm.isDethklok || vm.isBob || vm.isTina || vm.isLinda
-                                || vm.isGin || vm.isFinn || vm.isJake"
+                                || vm.isGin || vm.isFinn || vm.isJake || vm.isGiantBomb"
                          layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
                     <md-button class="md-raised" ng-click="vm.getPicture()" ng-disabled="templateForm.img.$error.required && (vm.templateClass != 'breaking')">Get Picture</md-button>
                 </section>

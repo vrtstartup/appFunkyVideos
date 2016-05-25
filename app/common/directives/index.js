@@ -12,6 +12,7 @@ import templateWartooth from './templateWartooth';
 import templateSkwigelf from './templateSkwigelf';
 import templateExplosion from './templateExplosion';
 import templatePickels from './templatePickels';
+import templateGiantBomb from './templateGiantBomb';
 import imagePreview from './imagePreview';
 import subtitleLine from './subtitleLine';
 import videoUploader from './videoUploader';
@@ -32,7 +33,7 @@ const module = angular.module('app.common.directives', [
     pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
-    userLogin, draggable, templateFinn, templateJake,
+    userLogin, draggable, templateFinn, templateJake, templateGiantBomb
 ]);
 
 export default module.name;

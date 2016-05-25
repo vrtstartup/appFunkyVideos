@@ -123,6 +123,12 @@ export default class PicturesController {
         this.className = scheme;
     }
 
+    showGiantBomb(scheme) {
+        this.resetAllTemplates();
+        this.isGiantBomb = true;
+        this.className = scheme;
+    }
+
 
     resetAllTemplates() {
         this.isMurderface = false;
@@ -138,6 +144,7 @@ export default class PicturesController {
         this.isGin        = false;
         this.isFinn       = false;
         this.isJake       = false;
+        this.isGiantBomb  = false;  
 
     }
 
