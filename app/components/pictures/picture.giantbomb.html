@@ -1,0 +1,23 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'giantbomb'">
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Bovenste lijn</label>
+            <input ng-model="quote.line1" md-maxlength="30">
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Onderste lijn</label>
+            <input ng-model="quote.line2" md-maxlength="40">
+        </md-input-container>
+    </md-content>
+
+    <div layout-gt-sm="row">
+        <input type="file" required ngf-select="vm.upload($file, 'vibrance')"/>
+
+    </div>
+    <div class="dir-wrap">
+
+        <vrt-template-giant-bomb class="dir-wrap" template-class="vm.templateClass"
+                                 line1 = "quote.line1" line2="quote.line2" image="vm.image">
+        </vrt-template-giant-bomb>
+    </div>
+</div>

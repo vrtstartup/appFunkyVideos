@@ -27,13 +27,14 @@ import draggable from './draggable';
 import templateFinn from './templateFinn';
 import templateJake from './templateJake';
 import audioPlayer from './audioplayer';
-
+import templateGiantBomb from './templateGiantBomb';
+import movable from './movable';
 
 const module = angular.module('app.common.directives', [
     pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
-    userLogin, draggable, templateFinn, templateJake, audioPlayer
+    userLogin, draggable, templateFinn, templateJake, audioPlayer, templateGiantBomb, movable,
 ]);
 
 export default module.name;

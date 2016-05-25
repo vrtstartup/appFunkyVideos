@@ -51,6 +51,11 @@
 }
 
 @font-face {
+  font-family: 'Calibre-Light';
+  src: url('./fonts/Calibre-Light.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
   font-family: 'textanarrow-book';
   src:    url('./fonts/textanarrow-book.ttf') format('ttf'),
           url('./fonts/textanarrow-book.woff') format('woff'); /* Pretty Modern Browsers */

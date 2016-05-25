@@ -10,9 +10,9 @@
         <div ng-if="vm.image" class='line-vert'></div>
         <image-cropper ng-if="vm.image" image-url=' {{vm.image}} '
                        height="688"
-                       show-controls="false"
-                       fit-on-init="true"
-                       center-on-init="true"
+                       show-controls="true"
+                       fit-on-init="false"
+                       center-on-init="false"
                        check-cross-origin="false"
                        zoom-step="0.1"
                        button-labels="myButtonLabelsObject"

@@ -1,0 +1,45 @@
+@import "../../style/variables";
+
+.r1 .wrap.light {
+  background-color: #5e5e5e;
+}
+
+.logo-r1__bottom--blue {
+  position: absolute;
+  bottom: 30px;
+  left: 47%;
+  display: block;
+  height: 44px;
+}
+
+.r1-wrap__auto {
+  width: auto;
+  margin: 0 auto;
+}
+
+.line-2 {
+  background-color: #e74011;
+  font-size: 24pt;
+  height: 34pt;
+  font-family: 'Calibre-Light';
+  color: white;
+  padding: 5px;
+  text-align: center;
+}
+
+.r1-image__draggable {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  cursor: move;
+}
+
+.r1-long-quote-wrap {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  pointer-events: none;
+  align-items: center;
+  justify-content: center;
+}

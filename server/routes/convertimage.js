@@ -5,6 +5,9 @@ var gm = require('gm').subClass({imageMagick: true});
 var multiparty = require('connect-multiparty');
 var multipartyMiddleware = multiparty({ uploadDir: 'temp/templates/' });
 
+var exec = require('child_process').exec;
+
+
 
 router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next) {
 
@@ -36,6 +39,28 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
                     res.json({url: path}).send();
                 }
             );
+    }
+
+    if(type === 'vibrance') {
+        console.log('~~~~~~vibrance');
+        var cmd = 'convert -brightness-contrast 0x25 ' + file.path + ' ' + file.path;
+        var imagemagicProcess = exec(cmd);
+
+        imagemagicProcess.stdout.on('data', function(data) {
+            console.log('stdout: ' + data);
+        });
+        imagemagicProcess.stderr.on('data', function(data) {
+            console.log('stderr mov: ' + data);
+        });
+        imagemagicProcess.on('close', function(code) {
+            if (code !== 0) {
+                console.log('program exited error code:', code);
+                return;
+            }
+            var path = 'http://'+req.headers.host+'/'+file.path;
+            console.log('DONE',  path);
+            res.json({url: path}).send();
+        });
     }
 
 
