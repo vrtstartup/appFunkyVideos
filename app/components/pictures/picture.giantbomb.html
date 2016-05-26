@@ -12,11 +12,23 @@
 
     <div layout-gt-sm="row">
         <input type="file" required ngf-select="vm.upload($file, 'vibrance')"/>
-
     </div>
+
+    <div layout>
+        <div flex="10" layout layout-align="center center">
+            <span class="md-body-1">Image size</span>
+        </div>
+        <md-slider flex ng-init="quote.imageSize='100'" ng-model="quote.imageSize" min="0" max="200"
+                   id="imageSize-slider" class="md-primary">
+        </md-slider>
+        <div flex="20" layout layout-align="center center">
+            <input flex type="number" ng-model="quote.imageSize" aria-controls="imageSize-slider">
+        </div>
+    </div>
+
     <div class="dir-wrap">
 
-        <vrt-template-giant-bomb class="dir-wrap" template-class="vm.templateClass"
+        <vrt-template-giant-bomb class="dir-wrap" template-class="vm.templateClass" image-size="quote.imageSize"
                                  line1 = "quote.line1" line2="quote.line2" image="vm.image">
         </vrt-template-giant-bomb>
     </div>
