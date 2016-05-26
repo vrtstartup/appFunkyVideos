@@ -1,19 +1,20 @@
-import './templateTina.directive.scss';
-import template from './templateTina.directive.html';
+import './templateLumpy.directive.scss';
+import template from './templateLumpy.directive.html';
 
-class TemplateTinaDirectiveController {
+class TemplateLumpyDirectiveController {
     constructor() {
 
 
     }
+
 }
 
-export const templateTinaDirective = function() {
+export const templateLumpyDirective = function() {
     return {
         restrict: 'E',
         template: template,
         scope: {},
-        controller: TemplateTinaDirectiveController,
+        controller: TemplateLumpyDirectiveController,
         controllerAs: 'vm',
         bindToController: {
             quote: '=',
@@ -25,4 +26,4 @@ export const templateTinaDirective = function() {
     };
 };
 
-TemplateTinaDirectiveController.$inject = [];
+TemplateLumpyDirectiveController.$inject = [];
