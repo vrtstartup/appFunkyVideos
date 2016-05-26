@@ -2,13 +2,7 @@ import './templateGiantBomb.directive.scss';
 import template from './templateGiantBomb.directive.html';
 
 class TemplateGiantBombDirectiveController {
-    constructor($scope) {
-        console.log('imageSize', this.imageSize);
-
-        $scope.$watch('vm.imageSize', (value) => {
-            if (!value) return;
-            console.log('imageSize', value);
-        });
+    constructor() {
 
     }
 }
@@ -21,15 +15,13 @@ export const templateGiantBombDirective = function() {
         controller: TemplateGiantBombDirectiveController,
         controllerAs: 'vm',
         bindToController: {
-            quote: '=',
             image: '=',
             templateClass: '=',
-            numbr: '=',
             line1: '=',
             line2: '=',
-            imageSize: '='
+            imageSize: '=',
         },
     };
 };
 
-TemplateGiantBombDirectiveController.$inject = ['$scope'];
+TemplateGiantBombDirectiveController.$inject = [];

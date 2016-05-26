@@ -18,7 +18,8 @@ export const templateFinnDirective = function() {
             quote: '=',
             image: '=',
             authorName: '=',
-            //authorTitle: '=',
+            authorTitle: '=',
+            imageSize: '=',
         },
     };
 };

@@ -150,15 +150,18 @@
     color: $r1-light-color;
     background-color: $r1-accent-color;
     display: inline-block;
-    padding: 12px 8px 2px 8px;
+    padding: 8px 6px 0px 6px;
     margin: 0;
     font-size: 30px;
+    text-transform: none;
+    line-height: 1em;
+    width: 100%;
   }
 
   .auth-title {
     font-family: "Calibre-Medium", sans-serif;
     padding: 6px 8px 0px 10px;
-    color: rgba($r1-light-color, 0.8);
+    color: rgba($r1-light-color, 0.9);
     margin: 4px 0 0 0;
     font-style: normal;
     font-size: 23px;

@@ -86,13 +86,16 @@
                     </md-list-item>
                     <md-subheader class="">Quote</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('tina','r1')">
-                        <img src="./../assets/templates/quote_r1.png" alt="" width="100%">
+                        <img src="./../assets/templates/r1_option3.png" alt="" width="100%">
                     </md-list-item>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('finn', 'r1')">
                         <img src="./../assets/templates/fotoquote_r1.png" alt="" width="100%">
                     </md-list-item>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('giantbomb','r1')">
-                        <img src="./../assets/templates/r1_test.png" alt="" width="100%">
+                        <img src="./../assets/templates/r1_option1.png" alt="" width="100%">
+                    </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('bmo','r1')">
+                        <img src="./../assets/templates/r1_option2.png" alt="" width="100%">
                     </md-list-item>
                 </md-content>
                 <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'canvas'">
@@ -165,6 +168,8 @@
                 <ng-include src="'components/pictures/picture.jake.html'"></ng-include>
 
                 <ng-include src="'components/pictures/picture.giantbomb.html'"></ng-include>
+
+                <ng-include src="'components/pictures/picture.bmo.html'"></ng-include>
 
 
                 <div ng-messages="templateForm.img.$error.required" >
