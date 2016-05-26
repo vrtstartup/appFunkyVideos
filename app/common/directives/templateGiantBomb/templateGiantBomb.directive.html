@@ -1,5 +1,5 @@
 <section class="wrap container-screenshot light" ng-class="vm.templateClass">
-    <div class='r1-image__draggable' vrt-movable style="background-image: url('{{vm.image}}')">
+    <div class='r1-image__draggable' vrt-movable ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
         <div class="r1-long-quote-wrap" ng-if="vm.line1 || vm.line2">
             <div class="r1-wrap__auto">
                 <div class="r1-header">

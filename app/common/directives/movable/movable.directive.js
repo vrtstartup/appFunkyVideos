@@ -28,6 +28,9 @@ class MovableDirectiveController {
 
         tg.style.backgroundPositionX = x - this.originX + this.originBgPosX + 'px';
         tg.style.backgroundPositionY = y - this.originY + this.originBgPosY + 'px';
+
+        //console.log('e.clientX', e.clientX);
+        //console.log('tg.style.backgroundPositionX', tg.style.backgroundPositionX);
     }
 
     onMousedown(e) {
@@ -43,9 +46,6 @@ class MovableDirectiveController {
         this.mouseIsDown = false;
         this.originBgPosY = parseInt(styles.getPropertyValue('background-position-x'), 10);
         this.originBgPosY = parseInt(styles.getPropertyValue('background-position-y'), 10);
-
-        this.$window.unbind('mousemove');
-        this.$window.unbind('mouseup');
     }
 }
 
