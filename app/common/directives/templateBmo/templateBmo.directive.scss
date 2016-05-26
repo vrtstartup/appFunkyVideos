@@ -1,0 +1,15 @@
+@import "../../style/variables";
+
+.r1-separate-line {
+  background-color: $r1-accent-color;
+  height: 10px;
+}
+
+.r1-quote {
+  background-color: $white;
+  color: $r1-main-color;
+  font-family: 'Calibre-Light';
+  font-size: 24px;
+  text-align: center;
+  padding: 5px 10px;
+}

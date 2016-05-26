@@ -1,12 +1,12 @@
-<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'giantbomb'">
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'bmo'">
     <md-content layout-padding="">
         <md-input-container class="md-block">
-            <label>Bovenste lijn</label>
-            <input ng-model="quote.line1" md-maxlength="30">
+            <label>Header/name</label>
+            <input ng-model="quote.header" md-maxlength="40">
         </md-input-container>
         <md-input-container class="md-block">
-            <label>Onderste lijn</label>
-            <input ng-model="quote.line2" md-maxlength="40">
+            <label>Title/quote</label>
+            <input ng-model="quote.text" md-maxlength="100">
         </md-input-container>
     </md-content>
 
@@ -28,8 +28,12 @@
 
     <div class="dir-wrap">
 
-        <vrt-template-giant-bomb class="dir-wrap" template-class="vm.templateClass" image-size="quote.imageSize"
-                                 line1 = "quote.line1" line2="quote.line2" image="vm.image">
-        </vrt-template-giant-bomb>
+        <vrt-template-bmo class="dir-wrap"
+                                 template-class="vm.templateClass"
+                                 image-size="quote.imageSize"
+                                 header = "quote.header"
+                                 quote="quote.text"
+                                 image="vm.image">
+        </vrt-template-bmo>
     </div>
 </div>

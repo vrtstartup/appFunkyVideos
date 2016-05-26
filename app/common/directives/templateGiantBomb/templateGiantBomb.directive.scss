@@ -15,6 +15,7 @@
 .r1-wrap__auto {
   width: auto;
   margin: 0 auto;
+  max-width: 600px;
 }
 
 .line-2 {
@@ -33,7 +34,6 @@
   overflow: hidden;
   background-repeat: no-repeat;
   cursor: move;
-  //background-size: 50%;
 }
 
 .r1-long-quote-wrap {

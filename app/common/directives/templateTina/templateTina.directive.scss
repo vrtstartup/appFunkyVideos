@@ -1,5 +1,38 @@
+@import "../../style/variables";
+
 .cnvs {
   width: 984px;
   height: 512px;
   background-color: #0db9f0;
+}
+
+.logo-r1__bottom--white {
+  position: absolute;
+  bottom: 30px;
+  left: 47%;
+  display: block;
+  height: 54px;
+}
+
+.r1-author__block--top {
+  position: absolute;
+  text-align: center;
+  top: 30px;
+  max-width: 300px;
+  right: 0;
+  left: 0;
+  margin: auto;
+  width: auto;
+}
+
+.auth-title__bg {
+  font-family: "Calibre-Medium", sans-serif;
+  padding: 6px 8px 0px 10px;
+  color: $r1-main-color;
+  margin: 0;
+  font-style: normal;
+  font-size: 23px;
+  background-color: $white;
+  line-height: 1em;
+  width: 100%;
 }

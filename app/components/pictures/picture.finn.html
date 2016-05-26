@@ -1,12 +1,5 @@
 <div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'finn'">
 
-    <md-content layout-padding="">
-        <md-input-container class="md-block">
-            <label>Quote</label>
-            <input ng-model="quote.question" md-maxlength="100">
-        </md-input-container>
-    </md-content>
-
     <div layout-gt-sm="row">
         <md-content layout-padding="" flex="50">
             <md-input-container class="md-block">
@@ -14,19 +7,43 @@
                 <input ng-model="quote.authorName" md-maxlength="100">
             </md-input-container>
         </md-content>
-
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Author title</label>
+                <input ng-model="quote.authorTitle" md-maxlength="100">
+            </md-input-container>
+        </md-content>
     </div>
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Quote</label>
+            <input ng-model="quote.question" md-maxlength="100">
+        </md-input-container>
+    </md-content>
     <div layout-gt-sm="row">
 
         <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
 
+    </div>
+    <div layout>
+        <div flex="10" layout layout-align="center center">
+            <span class="md-body-1">Image size</span>
+        </div>
+        <md-slider flex ng-init="quote.imageSize=100" ng-model="quote.imageSize" min="0" max="200"
+                   id="imageSize-slider" class="md-primary">
+        </md-slider>
+        <div flex="20" layout layout-align="center center">
+            <input flex type="number" ng-model="quote.imageSize" aria-controls="imageSize-slider">
+        </div>
     </div>
 
     <div class="dir-wrap">
         <vrt-template-finn class="dir-wrap vrt-txt"
                            quote="quote.question"
                            image="quote.img"
-                           author-name="quote.authorName" >
+                           image-size="quote.imageSize"
+                           author-name="quote.authorName"
+                           author-title="quote.authorTitle">
         </vrt-template-finn>
     </div>
 </div>
