@@ -1,4 +1,5 @@
-<section class="wrap container-screenshot light" ng-class="vm.templateClass">
+<section class="wrap light"
+         ng-class="{'container-screenshot__facebook': vm.isFacebook, 'container-screenshot': !vm.isFacebook}">
     <div class='r1-image__draggable' vrt-movable ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
         <div class="r1-long-quote-wrap" ng-if="vm.header || vm.quote">
             <div class="r1-wrap__auto">
