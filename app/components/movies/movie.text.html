@@ -5,7 +5,7 @@
         <div class="stitcher-clip__uploadform">
             <!-- <input id="clipFile" type="file" name="img" ng-model="vm.upload" required ngf-select="vm.uploadFile($file)" ng-hide="true" /> -->
             <!-- <md-button class="md-raised" ng-model="vm.upload" ng-click="vm.selectFile(c.$id, key)">upload afbeelding</md-button> -->
-            <div ngf-drop ngf-select="vm.uploadFile($file, c.$id, key)" ng-model="vm.upload" class="stitcher-dropzone" ng-class="{'stitcher-dropzone__uploading': c.uploading}" ngf-drag-over-class="'stitcher-dropzone__dragover'" ngf-multiple="false" ngf-allow-dir="false" accept="image/*" ngf-pattern="'image/*'">
+            <div ngf-drop ngf-select="vm.uploadFile($file, c.$id, c.id)" ng-model="vm.upload" class="stitcher-dropzone" ng-class="{'stitcher-dropzone__uploading': c.uploading}" ngf-drag-over-class="'stitcher-dropzone__dragover'" ngf-multiple="false" ngf-allow-dir="false" accept="image/*" ngf-pattern="'image/*'">
                 <div class="stitcher-dropzone__content">
                     <div flex="row" layout-align="center center">
                         <i class="material-icons">add_a_photo</i>
