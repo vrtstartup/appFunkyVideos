@@ -26,6 +26,7 @@ export const templateLumpyDirective = function() {
             titleOne: '=',
             titleTwo: '=',
             titleThree: '=',
+            title: '='
         },
     };
 };
