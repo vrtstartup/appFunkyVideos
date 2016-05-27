@@ -30,12 +30,13 @@ import audioPlayer from './audioplayer';
 import templateGiantBomb from './templateGiantBomb';
 import movable from './movable';
 import templateBmo from './templateBmo';
+import templateLumpy from './templateLumpy'
 
 const module = angular.module('app.common.directives', [
     pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
-    userLogin, draggable, templateFinn, templateJake, audioPlayer, templateGiantBomb, movable, templateBmo,
+    userLogin, draggable, templateFinn, templateJake, audioPlayer, templateGiantBomb, movable, templateBmo, templateLumpy,
 ]);
 
 export default module.name;

@@ -17,11 +17,15 @@ export const templateLumpyDirective = function() {
         controller: TemplateLumpyDirectiveController,
         controllerAs: 'vm',
         bindToController: {
-            quote: '=',
-            image: '=',
-            authorName: '=',
-            authorTitle: '=',
-            imageSize: '=',
+            imageOne: '=',
+            imageTwo: '=',
+            imageThree: '=',
+            authorNameOne: '=',
+            authorNameTwo: '=',
+            authorNameThree: '=',
+            titleOne: '=',
+            titleTwo: '=',
+            titleThree: '=',
         },
     };
 };
