@@ -1,0 +1,15 @@
+<div class='ab-wrap'>
+    <div class='ab-picture__wrap'>
+        <div class="ab-line__separator"></div>
+        <div class="ab-line__blue"></div>
+        <div class='r1-image__draggable ab-picture' vrt-movable ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
+            <div ng-class="{'ab-text__wrap--bottom': vm.isBottom, 'ab-text__wrap': !vm.isBottom }">
+                <p class="ab-line">{{vm.nummer}}</p>
+                <p class='ab-name__wrap'>
+                    <span class='ab-name'>{{vm.name}}</span>
+                    <span class='ab-title'>{{vm.text}}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

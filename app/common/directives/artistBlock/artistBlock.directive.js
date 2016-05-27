@@ -1,9 +1,21 @@
+import './artistBlock.directive.scss';
 import template from './artistBlock.directive.html';
 
 class ArtistBlockDirectiveController {
-    constructor() {
+    constructor($scope) {
+        // set the line length according to the first word length
 
-        console.log('ArtistBlockDirective');
+        $scope.$watch('vm.name',(value) => {
+            if(!value) return;
+
+            this.calculateLineLength(value);
+
+        });
+
+    }
+
+    calculateLineLength(name) {
+        console.log('Name', name);
     }
 }
 
@@ -18,8 +30,11 @@ export const artistBlockDirective = function() {
             text: '=',
             image: '=',
             name: '=',
+            imageSize: '=',
+            nummer: '=',
+            isBottom: '=',
         },
     };
 };
 
-ArtistBlockDirectiveController.$inject = [];
+ArtistBlockDirectiveController.$inject = ['$scope'];
