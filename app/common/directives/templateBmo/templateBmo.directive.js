@@ -20,6 +20,7 @@ export const templateBmoDirective = function() {
             header: '=',
             quote: '=',
             imageSize: '=',
+            isFacebook: '=',
         },
     };
 };
