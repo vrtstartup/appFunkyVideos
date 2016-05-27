@@ -20,6 +20,7 @@ export const templateGiantBombDirective = function() {
             line1: '=',
             line2: '=',
             imageSize: '=',
+            isFacebook: '=',
         },
     };
 };

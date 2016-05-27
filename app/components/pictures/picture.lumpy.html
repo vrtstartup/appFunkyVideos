@@ -1,0 +1,64 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'lumpy'">
+    <div layout-gt-sm="row">
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Title</label>
+                <input ng-model="vm.quote.authorTitle1" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <input ng-model="vm.quote.authorName1" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+    </div>
+    <div layout-gt-sm="row">
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Title</label>
+                <input ng-model="vm.quote.authorTitle2" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <input ng-model="vm.quote.authorName2" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+    </div>
+    <div layout-gt-sm="row">
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Title</label>
+                <input ng-model="vm.quote.authorTitle3" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <input ng-model="vm.quote.authorName3" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+    </div>
+
+    <div layout-gt-sm="row">
+
+        <!-- if terzake just display-->
+        <input ng-model="vm.imageOne" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
+        <input ng-model="vm.imageTwo" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
+        <input ng-model="vm.imageThree" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
+
+
+    </div>
+    <div class="dir-wrap">
+        <vrt-template-lumpy class="dir-wrap"
+                            is-hidden-sign="true"
+                            author-name-one="vm.quote.authorName1" title-one="vm.quote.authorTitle1"
+                            author-name-two="vm.quote.authorName2" title-two="vm.quote.authorTitle2"
+                            author-name-three="vm.quote.authorName3" title-three="vm.quote.authorTitle3"
+                            image-one="vm.imageOne" image-two="vm.imageTwo" image-three="vm.imageThree"
+                            quote="vm.quote.question" image="vm.image">
+        </vrt-template-lumpy>
+    </div>
+</div>
