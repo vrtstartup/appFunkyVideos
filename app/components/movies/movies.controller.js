@@ -196,7 +196,7 @@ export default class MoviesController {
             if (type === 'title') {
                 number = 1;
             } else {
-                number = snapshot.numChildren() + 1;
+                number = snapshot.numChildren();
             }
 
             var clip = {
@@ -206,6 +206,7 @@ export default class MoviesController {
                 'bot': 'render',
                 'render-status': 'ready',
                 'uploaded': false,
+                'uploading': false,
                 'saved': false,
                 'aep': template,
                 'template': templateKey,
@@ -231,32 +232,29 @@ export default class MoviesController {
 
     uploadFile(file, clipKey, key) {
         this.clips[key].uploading = true;
-
+        console.log(this.clips[(key * 1) - 1]);
         this.Upload.upload({
                 url: 'api/movie/upload-to-dropbox',
                 data: { 'movieId': this.movieId, 'clipId': key, file: file },
                 method: 'POST'
             })
             .then((resp) => {
-
-                console.log("RESPONSE", resp.data);
-
-                console.log(this.clips);
                 this.clips[key].img01 = resp.data.filenameIn;
                 this.clips[key].img01_url = resp.data.image;
-
                 this.clips[key].uploading = false;
 
 
                 // Add the image as the second image for the previous slide
+                // This can actually be done when we create the json for the templater.
+                if ((key * 1) - 1 != 0) {
+                    console.log('not the meta');
 
-                this.clips[key - 1].img02 = resp.data.filenameIn;
-                console.log(this.clips[key - 1]);
+                    this.clips[(key * 1) - 1].img02 = resp.data.filenameIn;
+                    this.clips.$save((key * 1) - 1).then(function(ref) {
 
+                    });
+                }
 
-                this.clips.$save(key).then(function(ref) {
-
-                });
 
 
 
@@ -276,7 +274,7 @@ export default class MoviesController {
             return;
         }
 
-        if (this.movieClips.length) {
+        if (this.movieClips.length > 1) {
             this.movieClips[this.movieClips.length - 1].img02 = this.currentClip.img01;
             console.log('setting img02 of previous clip', this.movieClips);
         }
@@ -313,12 +311,13 @@ export default class MoviesController {
         let params = {
             movieClips: this.movieClips
         };
+        console.log(this.movieClips);
 
-        this.$http.post('api/movie/update-movie-json', params)
-            .then(() => {
-                console.log('json updated');
-                this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
-            });
+        // this.$http.post('api/movie/update-movie-json', params)
+        //     .then(() => {
+        //         console.log('json updated');
+        //         this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
+        //     });
     }
 }
 
