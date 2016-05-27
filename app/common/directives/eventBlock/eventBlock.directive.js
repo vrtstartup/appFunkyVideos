@@ -3,7 +3,6 @@ import template from './eventBlock.directive.html';
 class EventBlockDirectiveController {
     constructor() {
 
-        console.log('EventBlockDirective');
     }
 }
 
