@@ -35,6 +35,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                     var width;
                     var height;
                     ffmpeg.ffprobe(imageUrl, function(err, metadata) {
+                        console.log(metadata);
                         console.log(metadata.streams);
                         console.log(metadata.streams[0]);
                         console.log(metadata.streams[0].width, metadata.streams[0].height);
