@@ -17,7 +17,8 @@ export default class ExplainersController {
         this.movieClips = [];
         this.movieId = '';
         this.movie = {
-            'audio': 0
+            'audio': 0,
+            'logo': 0
         };
         this.movieUploadStatus = 'none';
         this.movieUrl = '';
@@ -25,6 +26,7 @@ export default class ExplainersController {
         this.progressPercentage = '';
         this.ref = '';
         this.audioTrack = 0;
+        this.selectedLogo = 0;
 
         this.root = 'D:\\videoTemplater\\dropbox\\';
         this.aepLocation = this.root + 'ae\\Video_Templator\\AE\\';
@@ -58,9 +60,6 @@ export default class ExplainersController {
             'view': '/components/explainers/explainers.lefttop.view.html',
             'length': 8
         }];
-
-
-
 
         this.audioTracks = [{
             'name': 'geen',
@@ -113,6 +112,22 @@ export default class ExplainersController {
             'fileRemote': this.root + 'audio\\6.wav'
         }];
 
+        this.logos = [{
+            'name': 'geen',
+            'id': 0,
+            'brand': 'deredactie.be',
+            'fileLocal': 'nvt',
+            'fileRemote': 'nvt'
+        }, {
+            'name': 'Deredactie.be simpel',
+            'id': 1,
+            'brand': 'deredactie.be',
+            'fileLocal': 'assets/logos/deredactie1.png',
+            'fileRemote': this.root + 'logos\\deredactie_1.mov'
+        }];
+
+
+
 
 
         // Place in Firebase where we save the explainers.
@@ -162,20 +177,15 @@ export default class ExplainersController {
     createFFMPEGLine() {
         const deferred = this.$q.defer();
         console.log(this.movieId);
-        const folder = this.root + 'out\\' + this.movieId + '\\';
+        const outFolder = this.root + 'out\\' + this.movieId + '\\';
         const inFolder = this.root + 'in\\';
-        const output = this.root + 'finished\\' + this.movieId + '.mp4';
-        const outputWithSound = this.root + 'finished\\' + this.movieId + '-withSound.mp4';
+        const tempOutput = this.root + 'out\\' + this.movieId + '\\temp.mp4';
+        const fin = this.root + 'finished\\' + this.movieId + '.mp4';
+        const finWithLogo = this.root + 'finished\\' + this.movieId + '-logo.mp4';
         const input = inFolder + this.clips[0].movieName;
 
         let ffmpegLine = 'ffmpeg -i ' + input;
 
-
-        if (this.movieClips[0].audio !== 0) {
-
-        } else {
-
-        }
         let clipsToOverlay = '';
         let clipsTiming = '\"\"[0:v]setpts=PTS-STARTPTS[v0];';
         let clipOverlaying = '';
@@ -186,24 +196,32 @@ export default class ExplainersController {
             let clipId = parseInt(clip.id);
             let total = parseInt(this.movieClips.length);
             if (clipId === 1) {
-                clipsToOverlay = clipsToOverlay + ' -i ' + folder + clip.id + '.mov';
+                clipsToOverlay = clipsToOverlay + ' -i ' + outFolder + clip.id + '.mov';
                 clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
                 clipOverlaying = clipOverlaying + '[v0]scale=1920:1080 [resized];[resized][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
 
             } else if (1 < clipId && clipId < total) {
-                clipsToOverlay = clipsToOverlay + ' -i ' + folder + clip.id + '.mov';
+                clipsToOverlay = clipsToOverlay + ' -i ' + outFolder + clip.id + '.mov';
                 clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
                 clipOverlaying = clipOverlaying + '[c' + (clipId - 1) + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
 
             } else {
-                clipsToOverlay = clipsToOverlay + ' -i ' + folder + clipId + '.mov' + ' -filter_complex ';
+                clipsToOverlay = clipsToOverlay + ' -i ' + outFolder + clipId + '.mov' + ' -filter_complex ';
                 clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
                 clipOverlaying = clipOverlaying + '[c' + (clipId - 1) + '][v' + clipId + ']overlay=eof_action=pass[out]\"\"';
-                ffmpegLine = ffmpegLine + clipsToOverlay + clipsTiming + clipOverlaying + ' -map [out] -map 0:1? ' + output;
+                ffmpegLine = ffmpegLine + clipsToOverlay + clipsTiming + clipOverlaying + ' -map [out] -map 0:1? ' + tempOutput;
                 if (this.clips[0].audio !== 0) {
 
-                    // ffmpegLine = ffmpegLine + clipsToOverlay + clipsTiming + clipOverlaying + ' -map [out] -map ' + (this.movieClips.length) 1 + 1 + ':1? ' + output + ' && ffmpeg -i ' + output + ' -i ' + this.audioTracks[this.clips[0].audio].fileRemote + ' -c:v copy -c:a aac -strict experimental -shortest ' + outputWithSound;
-                    deferred.resolve(ffmpegLine);
+                    ffmpegLine = ffmpegLine + ' && ffmpeg -i ' + tempOutput + ' ' + outFolder + 'audio.mp3 && ffmpeg -i ' + outFolder + 'audio.mp3 -i ' + this.audioTracks[this.clips[0].audio].fileRemote + ' -filter_complex amerge -c:a libmp3lame -q:a 4 ' + outFolder + 'audioMix.mp3 && ffmpeg  -i ' + tempOutput + ' -i ' + outFolder + 'audioMix.mp3 -c:v copy -c:a aac -strict experimental -map 0:v:0 -map 1:a:0 ' + fin;
+
+
+                    if (this.clips[0].logo !== 0) {
+                        ffmpegLine = ffmpegLine + '&& ffmpeg -i ' + fin + ' -i ' + this.logos[this.clips[0].logo].fileRemote + ' -filter_complex overlay=10:10 ' + finWithLogo;
+                        deferred.resolve(ffmpegLine);
+                    } else {
+                        deferred.resolve(ffmpegLine);
+                    }
+
                 } else {
                     deferred.resolve(ffmpegLine);
                 }
@@ -240,6 +258,7 @@ export default class ExplainersController {
 
     openMovie(movieId) {
         this.audioTrack = 0;
+        this.selectedLogo = 0;
         this.movieUploadStatus = 'none';
         this.movieId = movieId;
         this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/explainers/' + movieId);
@@ -256,6 +275,11 @@ export default class ExplainersController {
                 if (clips[0].audio) {
                     this.audioTrack = clips[0].audio;
                 }
+                if (clips[0].logo) {
+                    this.selectedLogo = clips[0].logo;
+                }
+
+
             },
             (error) => {
                 console.error("Error:", error);
@@ -335,6 +359,14 @@ export default class ExplainersController {
         this.clips.$save(0);
     };
 
+
+    setLogo(logoId) {
+        this.clips[0].logo = logoId;
+        console.log(logoId, this.logos[logoId].fileLocal);
+        this.logoUrl = this.logos[logoId].fileLocal;
+        this.clips.$save(0);
+    };
+
     // Happens when the slider get dragged
     setTime(c) {
         // Set the video to the correct time
@@ -371,8 +403,8 @@ export default class ExplainersController {
                 method: 'POST'
             })
             .then((resp) => {
-                this.clips[0].movieWidth = resp.data.width;
-                this.clips[0].movieHeight = resp.data.height;
+                // this.clips[0].movieWidth = resp.data.width;
+                // this.clips[0].movieHeight = resp.data.height;
                 this.clips[0].movieName = resp.data.filenameIn;
                 this.clips[0].movieUrl = resp.data.image;
                 this.clips[0].movieDuration = movieDuration;
