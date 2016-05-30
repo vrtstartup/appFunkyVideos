@@ -21,7 +21,6 @@ module.exports = (function dropboxService() {
             });
 
 
-
             return client;
         }
     };

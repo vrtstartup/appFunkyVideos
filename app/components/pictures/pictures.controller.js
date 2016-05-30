@@ -52,6 +52,9 @@ export default class PicturesController {
         if (scheme === 'canvas') {
             this.showTempltesCanvas = !this.showTempltesCanvas;
         }
+        if (scheme === 'r2') {
+            this.showTempltesR2 = !this.showTempltesR2;
+        }
         console.log('Scheme', this.selected);
     }
 

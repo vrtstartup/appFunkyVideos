@@ -1,0 +1,70 @@
+@import "../../style/variables";
+
+.logo-r2 {
+  display: block;
+  left: 15px;
+  position: absolute;
+  top: 15px;
+}
+
+.r2-light{
+  background-color: $r2-main-color;
+}
+
+.r2-img {
+  width: 492px;
+  //height: 100%;
+  background-size: cover;
+  height: 513px;
+}
+
+.r2-quote-wrap {
+  width: 492px;
+  margin: 0 auto;
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.r2-author {
+  line-height: 6px;
+  color: #fff;
+  width: 492px;
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+}
+
+.r2-auth-name {
+  text-transform: uppercase;
+  font-size: 24px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+}
+
+.r2-auth-title {
+  font-style: italic;
+  font-size: 20px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+}
+
+.r2-quote {
+  margin: 0 auto;
+  color: #fff;
+  text-align: center;
+  width: 800px;
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 55px;
+  font-family: 'markpro-bold', sans-serif;
+}
+
+.r2-sign {
+  padding: 5px;
+}

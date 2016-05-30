@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:900,400italic');
+
 @font-face {
   font-family: 'dinbold';
   src: url('./fonts/din-bold.eot'); /* IE9 Compat Modes */
@@ -89,6 +91,12 @@
   font-family: 'NarzissTextBold';
   src:    url('./fonts/NarzissTextBold.ttf') format('ttf'),
   url('./fonts/NarzissTextBold.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'markpro-bold';
+  src:    url('./fonts/MarkPro-Bold.ttf') format('ttf'),
+  url('./fonts/MarkPro-Bold.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
 @font-face {
