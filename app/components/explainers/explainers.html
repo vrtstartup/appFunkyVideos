@@ -33,6 +33,18 @@
         <md-button class="md-raised" aria-label="Film maken" ng-click="vm.renderMovie()">
             Maak filmpje
         </md-button>
+
+         <md-input-container>
+            <label>Kies een logo</label>
+            <md-select ng-model="vm.selectedLogo" ng-change="vm.setLogo(vm.selectedLogo)">
+                <md-option ng-repeat="(key, l) in vm.logos" value="{{l.id}}">
+                    {{l.name}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <img src="{{vm.logoUrl}}">
+
+
     </section>
     <section ng-hide="vm.movieId == ''" flex="20" layout="column">
         <div ng-repeat="(key, c) in vm.clips" ng-if="key != 0" ng-click="vm.activeTab = key; vm.goToTime(c.start)">
