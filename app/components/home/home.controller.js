@@ -82,7 +82,7 @@ export default class HomeController {
                 'category': 'facebook',
                 'image': 'assets/home-maps.png',
                 'url': '/#/maps',
-                'disabled': true
+
             },
             {
                 'title': 'Video met tekst',

@@ -32,13 +32,15 @@ import movable from './movable';
 import templateBmo from './templateBmo';
 import templateLumpy from './templateLumpy'
 import artistBlock from './artistBlock';
+import templateCinnabon from './templateCinnabon';
+import templateBubblegum from './templateBubblegum';
 
 const module = angular.module('app.common.directives', [
     pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
     userLogin, draggable, templateFinn, templateJake, templateGiantBomb, movable, templateBmo, templateLumpy,
-    artistBlock,
+    artistBlock, templateCinnabon, templateBubblegum,
     audioPlayer,
 ]);
 

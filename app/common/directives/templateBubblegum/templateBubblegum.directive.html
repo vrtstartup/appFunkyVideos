@@ -1,0 +1,11 @@
+<section class='wrap container-screenshot r2-light'>
+    <div class='r1-image__draggable' vrt-movable
+         ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
+        <div ng-class="vm.image ? 'overlay' : 'no-overlay'" class="r1-image__draggable--wrap">
+            <img class='logo-r2' src="./assets/logor2.svg">
+            <div class="long-quote-wrap">
+                <p class='r2-quote'>{{vm.quote}}</p>
+            </div>
+        </div>
+    </div>
+</section>

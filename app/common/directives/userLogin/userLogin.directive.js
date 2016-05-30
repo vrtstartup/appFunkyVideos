@@ -34,6 +34,10 @@ class UserLoginDirectiveController {
             'logo': 'assets/logos/canvas.png'
         },
         {
+            'name': 'radio 2',
+            'logo': 'assets/logos/radio2.png'
+        },
+        {
             'name': 'amerika kiest',
             'logo': 'assets/logos/amerikakiest.png'
         }];
