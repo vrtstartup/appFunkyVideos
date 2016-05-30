@@ -26,7 +26,7 @@ import userLogin from './userLogin';
 import draggable from './draggable';
 import templateFinn from './templateFinn';
 import templateJake from './templateJake';
-import audioPlayer from './audioplayer';
+import audioPlayer from './audioPlayer';
 import templateGiantBomb from './templateGiantBomb';
 import movable from './movable';
 import templateBmo from './templateBmo';
