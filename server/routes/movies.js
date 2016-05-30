@@ -79,7 +79,9 @@ router.post('/update-movie-json', function(req, res, next) {
             return next(Boom.badImplementation('unexpected error, couldn\'t read file from dropbox'));
         }
 
+console.log(data);
         file.data = data ? JSON.parse(data) : [];
+
 
         movieClips.forEach(function(clip) {
 
