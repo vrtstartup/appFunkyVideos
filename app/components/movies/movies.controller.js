@@ -231,6 +231,7 @@ export default class MoviesController {
 
 
     uploadFile(file, clipKey, key) {
+        console.log(clipKey, key);
         this.clips[key].uploading = true;
         console.log(this.clips[(key * 1) - 1]);
         this.Upload.upload({
