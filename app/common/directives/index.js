@@ -26,7 +26,7 @@ import userLogin from './userLogin';
 import draggable from './draggable';
 import templateFinn from './templateFinn';
 import templateJake from './templateJake';
-//import audioPlayer from './audioplayer';
+import audioPlayer from './audioplayer';
 import templateGiantBomb from './templateGiantBomb';
 import movable from './movable';
 import templateBmo from './templateBmo';
@@ -39,7 +39,7 @@ const module = angular.module('app.common.directives', [
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
     userLogin, draggable, templateFinn, templateJake, templateGiantBomb, movable, templateBmo, templateLumpy,
     artistBlock,
-    //audioPlayer,
+    audioPlayer,
 ]);
 
 export default module.name;
