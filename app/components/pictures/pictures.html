@@ -123,6 +123,17 @@
                         <img src="./../assets/templates/announcement.png" alt="" width="100%">
                     </md-list-item>
                 </md-content>
+                <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'radio 2'">
+                    <div class="md-toolbar-tools" ng-init="vm.showTempltesR2 = false" ng-click="vm.getScheme('r2')">
+                        Radio 2 <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesR2}">&#xE313;</i>
+                    </div>
+                </md-toolbar>
+                <md-content ng-if="vm.showTempltesR2 && vm.userBrand == 'radio 2'">
+                    <md-subheader class="">Quote</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('cinnabon', 'r2')">
+                        <img src="./../assets/templates/quote_r2.png" alt="" width="100%">
+                    </md-list-item>
+                </md-content>
             </md-list>
         </md-content>
     </section>
@@ -175,6 +186,8 @@
                 <ng-include src="'components/pictures/picture.bmo.html'"></ng-include>
 
                 <ng-include src="'components/pictures/picture.lumpy.html'"></ng-include>
+
+                <ng-include src="'components/pictures/picture.cinnabon.html'"></ng-include>
 
 
                 <div ng-messages="templateForm.img.$error.required" >
