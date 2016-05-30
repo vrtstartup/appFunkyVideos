@@ -10,7 +10,7 @@
                 <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.startMovie()">
                     Start nieuw filmpje
                 </md-button>
-                <div ng-repeat="(key, m) in vm.movies" layout-padding layout="row" style="width:100%;" layout-align="space-between center" ng-click="vm.openMovie(m.$id)"=>
+                <div ng-repeat="(key, m) in vm.movies" layout-padding layout="row" style="width:100%;" layout-align="space-between center" ng-click="vm.openMovie(m.$id)">
                     {{m.$id}}
                     <md-input-container>
                         <i style="padding-top:8px;" ng-click="vm.movies.$remove(m)" class="material-icons grid-iconbutton">&#xE14C;</i>
