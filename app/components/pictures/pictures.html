@@ -131,7 +131,11 @@
                 <md-content ng-if="vm.showTempltesR2 && vm.userBrand == 'radio 2'">
                     <md-subheader class="">Quote</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('cinnabon', 'r2')">
-                        <img src="./../assets/templates/quote_r2.png" alt="" width="100%">
+                        <img src="./../assets/templates/r2_quote.png" alt="" width="100%">
+                    </md-list-item>
+                    <md-subheader class="">Header</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('bubblegum', 'r2')">
+                        <img src="./../assets/templates/r2_header.png" alt="" width="100%">
                     </md-list-item>
                 </md-content>
             </md-list>
@@ -188,6 +192,9 @@
                 <ng-include src="'components/pictures/picture.lumpy.html'"></ng-include>
 
                 <ng-include src="'components/pictures/picture.cinnabon.html'"></ng-include>
+
+                <ng-include src="'components/pictures/picture.bubblegum.html'"></ng-include>
+
 
 
                 <div ng-messages="templateForm.img.$error.required" >
