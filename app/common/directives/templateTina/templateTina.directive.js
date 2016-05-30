@@ -17,11 +17,10 @@ export const templateTinaDirective = function() {
         controllerAs: 'vm',
         bindToController: {
             quote: '=',
-            isReady: '=',
             image: '=',
             authorName: '=',
             authorTitle: '=',
-            isHiddenSign: '=',
+            imageSize: '=',
         },
     };
 };

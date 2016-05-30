@@ -24,6 +24,11 @@
         <div flex="20" layout layout-align="center center">
             <input flex type="number" ng-model="quote.imageSize" aria-controls="imageSize-slider">
         </div>
+        <div flex-xs flex="20">
+            <md-checkbox ng-model="quote.isFacebook" aria-label="Checkbox 1">
+                Is it Facebook header?
+            </md-checkbox>
+        </div>
     </div>
 
     <div class="dir-wrap">
@@ -33,6 +38,7 @@
                                  image-size="quote.imageSize"
                                  header = "quote.header"
                                  quote="quote.text"
+                                 is-facebook="quote.isFacebook"
                                  image="vm.image">
         </vrt-template-bmo>
     </div>

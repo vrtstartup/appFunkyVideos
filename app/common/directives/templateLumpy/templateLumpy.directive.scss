@@ -1,0 +1,20 @@
+@import "../../style/variables";
+
+.logo-title {
+  color: $white;
+  font-family: "Calibre-Black", sans-serif;
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  padding-top: 5px;
+}
+
+.logo-r1__bottom--wrap {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: block;
+  height: 44px;
+}

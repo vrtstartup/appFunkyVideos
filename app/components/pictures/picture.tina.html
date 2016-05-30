@@ -26,12 +26,25 @@
         <input ng-if="vm.className === 'terzake' " ng-model="vm.image" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
 
     </div>
+    <div layout>
+        <div flex="10" layout layout-align="center center">
+            <span class="md-body-1">Image size</span>
+        </div>
+        <md-slider flex ng-init="vm.quote.imageSize=100" ng-model="vm.quote.imageSize" min="0" max="200"
+                   id="imageSize-slider" class="md-primary">
+        </md-slider>
+        <div flex="20" layout layout-align="center center">
+            <input flex type="number" ng-model="vm.quote.imageSize" aria-controls="imageSize-slider">
+        </div>
+    </div>
+
     <div class="dir-wrap">
         <vrt-template-tina class="dir-wrap"
                            is-hidden-sign="true"
                            author-name="vm.quote.authorName"
                            author-title="vm.quote.authorTitle"
                            quote="vm.quote.question"
+                           image-size="vm.quote.imageSize"
                            image="vm.image">
         </vrt-template-tina>
     </div>

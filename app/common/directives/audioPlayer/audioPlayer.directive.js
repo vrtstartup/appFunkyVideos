@@ -27,6 +27,7 @@ export const audioPlayerDirective = function() {
         },
         controller: AudioPlayerDirectiveController,
         controllerAs: 'vm',
+
     };
 };
 

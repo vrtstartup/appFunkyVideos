@@ -18,7 +18,7 @@
   position: absolute;
   text-align: center;
   top: 30px;
-  max-width: 300px;
+  //max-width: 300px;
   right: 0;
   left: 0;
   margin: auto;
@@ -35,4 +35,8 @@
   background-color: $white;
   line-height: 1em;
   width: 100%;
+}
+
+.r1-image__draggable--wrap {
+  pointer-events: none;
 }
