@@ -21,8 +21,11 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
         fs.readFile(file.path, function(err, data) {
             var imageUrl = '';
+            var fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
+
             dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
                 if (error) {
+                    console.log('ERROR:',error);
                     return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
                 }
 
