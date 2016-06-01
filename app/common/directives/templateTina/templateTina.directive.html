@@ -2,11 +2,13 @@
     <div class='r1-image__draggable' vrt-movable
              ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
         <div ng-class="vm.image ? 'overlay' : 'no-overlay'" class="r1-image__draggable--wrap">
-            <div class="r1-author__block--top" ng-if="vm.authorName || vm.authorTitle">
-                <p ng-if="vm.authorName" class='auth-name' >{{vm.authorName}}</p><br>
-                <p class='auth-title__bg'>{{vm.authorTitle}}</p>
+            <div class="r1-author__block--wrap">
+                <div class="r1-author__block--top" ng-if="vm.authorName || vm.authorTitle">
+                    <p ng-if="vm.authorName" class='r1-auth-name' >{{vm.authorName}}</p>
+                    <p class='auth-title__bg'>{{vm.authorTitle}}</p>
+                </div>
             </div>
-            <div class="long-quote-wrap">
+            <div class="r1-long-quote-wrap__padded">
                 <p class='quote'><span class="sign">“</span>{{vm.quote}}<span class="sign">”</span></p>
             </div>
             <img class='logo-r1__bottom--white' src="./assets/logor1.svg">
