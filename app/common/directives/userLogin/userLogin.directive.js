@@ -129,14 +129,14 @@ class UserLoginDirectiveController {
                     this.userManagement.setVerificationStatus(userId, 'lostPassword').then(() => {
                         this.accountStatus = 'lostPassword';
                     }, (reason) => {
-                        console.log('Failed: ' + reason);
+                        console.log('setVerificationStatus failed: ' + reason);
                     });
                 }, (reason) => {
-                    console.log('Failed: ' + reason);
+                    console.log('getUserIdFromEmail failed: ' + reason);
                 });
             }
         }, (reason) => {
-            console.log('Failed: ' + reason);
+            console.log('resetPassword failed: ' + reason);
         });
     }
 
