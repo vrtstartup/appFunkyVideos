@@ -19,7 +19,7 @@ export default class UserManagemeService {
         const deferred = this.$q.defer();
         let message = '';
         this.firebaseAuth.$onAuth((authData) => {
-            console.log(authData);
+            //console.log(authData);
             if (authData !== null) {
                 deferred.resolve(authData.uid);
             } else {

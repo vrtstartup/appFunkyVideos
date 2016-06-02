@@ -1,16 +1,16 @@
 <section class="wrap light"
          ng-class="{'container-screenshot__facebook': vm.isFacebook, 'container-screenshot': !vm.isFacebook}">
     <div class='r1-image__draggable' vrt-movable ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
-        <div class="r1-long-quote-wrap" ng-if="vm.line1 || vm.line2">
+        <div class="r1-long-quote-wrap">
             <div class="r1-wrap__auto">
-                <div class="r1-header">
+                <div class="r1-header" ng-if="vm.line1">
                     {{vm.line1}}
                 </div>
-                <div class="line-2">
+                <div class="line-2" ng-if="vm.line2">
                     {{vm.line2}}
                 </div>
             </div>
         </div>
-        <img  class="logo-r1__bottom--blue" src="./assets/logor1_blauw.svg">
+        <img  class="logo-r1__bottom--blue" src="./assets/logor1_blue.svg">
     </div>
 </section>

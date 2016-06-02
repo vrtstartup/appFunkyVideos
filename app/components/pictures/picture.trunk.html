@@ -1,0 +1,41 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'trunk'">
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Quote</label>
+            <input ng-model="vm.quote.question" md-maxlength="100">
+        </md-input-container>
+    </md-content>
+    <div layout-gt-sm="row">
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Author name</label>
+                <input ng-model="vm.quote.authorName" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+        <md-content layout-padding="" flex="50">
+            <md-input-container class="md-block">
+                <label>Author title/partij/locatie</label>
+                <input ng-model="vm.quote.authorTitle" md-maxlength="100">
+            </md-input-container>
+        </md-content>
+    </div>
+    <div layout-gt-sm="row">
+        <input ng-if="vm.className === 'r1' " type="file" name="img" required ngf-select="vm.upload($file, 'grayscale')" />
+
+        <!-- if terzake just display-->
+        <input ng-if="vm.className === 'terzake' " ng-model="vm.image" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
+
+    </div>
+
+
+    <div class="dir-wrap">
+        <vrt-template-trunk class="dir-wrap"
+                           is-hidden-sign="true"
+                           author-name="vm.quote.authorName"
+                           author-title="vm.quote.authorTitle"
+                           quote="vm.quote.question"
+                           image-size="vm.quote.imageSize"
+                           image="vm.image">
+        </vrt-template-trunk>
+    </div>
+</div>

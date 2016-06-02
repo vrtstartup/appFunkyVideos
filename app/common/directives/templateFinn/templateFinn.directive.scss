@@ -35,7 +35,7 @@
   }
 
   .finn-wrap {
-    background-color: $white;
+    background-color: $r1-light-color;
   }
 
   .finn-logo {
@@ -65,8 +65,8 @@
 
 .finn-auth-name {
   font-family: "Calibre-Semibold", sans-serif;
-  color: #FFFDE9;
-  background-color: #EE4F2E;
+  color: $r1-light-color;
+  background-color: $r1-accent-color;
   display: inline-block;
   padding: 8px 6px 0px 6px;
   margin: 0;

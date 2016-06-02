@@ -1,16 +1,15 @@
 <section class='wrap container-screenshot'>
     <div class='image' style="background-image: url('{{vm.image}}')">
         <div ng-class="vm.image ? 'overlay' : 'no-overlay'">
+            <img class='logo logo-terzake' src="./assets/logo_terzake.svg">
             <img class="logo logo-ak" src="./assets/logoak.svg">
             <img class='logo logo-drd' src="./assets/deredactie.svg">
+            <img class='logo logo-r1' src="./assets/logor1.svg">
             <div class="long-quote-wrap">
-                <p class='quote numbr'>
-                    <span class='number'>{{vm.numbr}}</span><br>
-                     {{vm.quote}}
-                </p>
+                <p class='quote'><span class="sign">“</span>{{vm.quote}}<span class="sign">”</span></p>
             </div>
             <div class="author skwg-author">
-                <p class='auth-name'>{{vm.authorName}}</p>
+                <p ng-if="vm.authorName" class='auth-name' >{{vm.authorName}}</p>
                 <p class='auth-title'>{{vm.authorTitle}}</p>
             </div>
         </div>

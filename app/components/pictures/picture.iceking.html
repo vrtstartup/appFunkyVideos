@@ -1,0 +1,50 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'iceking'">
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Tekst</label>
+            <textarea ng-model="quote.question" md-maxlength="80" rows="3" vrt-maxlines="3" maxlines-prevent-enter="true"></textarea>
+
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Stad</label>
+            <input ng-model="quote.city" md-maxlength="100">
+        </md-input-container>
+    </md-content>
+
+    <div layout-gt-sm="row">
+        <input ng-model="quote.img" type="file" name="img"  vrt-image-preview="onFileSelect($files)"/>
+    </div>
+    <div layout>
+        <div flex="10" layout layout-align="center center">
+            <span class="md-body-1">Image size</span>
+        </div>
+        <md-slider flex ng-init="quote.imageSize=100" ng-model="quote.imageSize" min="100" max="200"
+                   id="imageSize-slider" class="md-primary">
+        </md-slider>
+        <div flex="20" layout layout-align="center center">
+            <input flex type="number" ng-model="quote.imageSize" aria-controls="imageSize-slider">
+        </div>
+    </div>
+    <div layout-gt-sm="row" ng-model="quote.weatherImageSrc" ng-init="quote.weatherImageSrc = '001lighticons-02.svg'">
+        <img src="../../assets/weersvg/001lighticons-02.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = '001lighticons-02.svg'">
+        <img src="../../assets/weersvg/001lighticons-08.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = '001lighticons-08.svg'">
+        <img src="../../assets/weersvg/001lighticons-13.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = '001lighticons-13.svg'">
+        <img src="../../assets/weersvg/001lighticons-17.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = '001lighticons-17.svg'">
+        <img src="../../assets/weersvg/001lighticons-18.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = '001lighticons-18.svg'">
+        <img src="../../assets/weersvg/001lighticons-19.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = '001lighticons-19.svg'">
+        <img src="../../assets/weersvg/001lighticons-23.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = '001lighticons-23.svg'">
+        <img src="../../assets/weersvg/001lighticons-24.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = '001lighticons-24.svg'">
+        <img src="../../assets/weersvg/001lighticons-25.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = '001lighticons-25.svg'">
+        <img src="../../assets/weersvg/001lighticons-26.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = '001lighticons-26.svg'">
+        <img src="../../assets/weersvg/regenzon.svg" class='weather-icon' alt="weather icon" ng-click="quote.weatherImageSrc = 'regenzon.svg'">
+    </div>
+    <div class="dir-wrap">
+        <vrt-template-ice-king class="dir-wrap"
+                                image-size="quote.imageSize"
+                                quote="quote.question"
+                                image="quote.img"
+                               city="quote.city"
+                                weather-image-src="quote.weatherImageSrc">
+        </vrt-template-ice-king>
+    </div>
+</div>

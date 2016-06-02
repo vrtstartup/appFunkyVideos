@@ -80,23 +80,26 @@
                     </div>
                  </md-toolbar>
                 <md-content ng-if="vm.showTempltesR1  && vm.userBrand == 'radio 1'">
-                    <md-subheader class="">Headline</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('explosion','r1')">
-                        <img src="./../assets/templates/titelpan_r1.png" alt="" width="100%">
-                    </md-list-item>
+                    <!--<md-subheader class="">Headline</md-subheader>-->
+                    <!--<md-list-item class="md-3-line" ng-click="vm.setTemplate('explosion','r1')">-->
+                        <!--<img src="./../assets/templates/titelpan_r1.png" alt="" width="100%">-->
+                    <!--</md-list-item>-->
                     <md-subheader class="">Quote</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('tina','r1')">
                         <img src="./../assets/templates/r1_option3.png" alt="" width="100%">
                     </md-list-item>
+                    <md-subheader class="">Short Quote</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('finn', 'r1')">
                         <img src="./../assets/templates/fotoquote_r1.png" alt="" width="100%">
-                    </md-list-item>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('giantbomb','r1')">
-                        <img src="./../assets/templates/r1_option1.png" alt="" width="100%">
                     </md-list-item>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('bmo','r1')">
                         <img src="./../assets/templates/r1_option2.png" alt="" width="100%">
                     </md-list-item>
+                    <md-subheader class="">Announcement</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('giantbomb','r1')">
+                        <img src="./../assets/templates/r1_option1.png" alt="" width="100%">
+                    </md-list-item>
+
                     <!--<md-list-item class="md-3-line" ng-click="vm.setTemplate('lumpy','r1')">-->
                         <!--<img src="./../assets/templates/r1_vox.png" alt="" width="100%">-->
                     <!--</md-list-item>-->
@@ -115,7 +118,7 @@
                         <img src="./../assets/templates/announcement_deafspraak.png" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="">Terzake Quote</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('tina','terzake')">
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('trunk','terzake')">
                         <img src="./../assets/templates/quote_terzake.png" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="">Announcement</md-subheader>
@@ -133,9 +136,13 @@
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('cinnabon', 'r2')">
                         <img src="./../assets/templates/r2_quote.png" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="">Header</md-subheader>
+                    <md-subheader class="">Titelafbeelding</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('bubblegum', 'r2')">
                         <img src="./../assets/templates/r2_header.png" alt="" width="100%">
+                    </md-list-item>
+                    <md-subheader class="">Het Weer</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('iceking', 'r2')">
+                        <img src="./../assets/templates/r2_weather.png" alt="" width="100%">
                     </md-list-item>
                 </md-content>
             </md-list>
@@ -189,11 +196,15 @@
 
                 <ng-include src="'components/pictures/picture.bmo.html'"></ng-include>
 
-                <ng-include src="'components/pictures/picture.lumpy.html'"></ng-include>
+                <!--<ng-include src="'components/pictures/picture.lumpy.html'"></ng-include>-->
 
                 <ng-include src="'components/pictures/picture.cinnabon.html'"></ng-include>
 
                 <ng-include src="'components/pictures/picture.bubblegum.html'"></ng-include>
+
+                <ng-include src="'components/pictures/picture.trunk.html'"></ng-include>
+
+                <ng-include src="'components/pictures/picture.iceking.html'"></ng-include>
 
 
 

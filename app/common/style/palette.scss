@@ -129,12 +129,12 @@
   }
 
   .quote, .sign {
-    font-family: "Calibre-Black", sans-serif;
+    font-family: "Calibre-Semibold", sans-serif;
     font-style: normal;
-    letter-spacing: 2px;
+    //letter-spacing: 2px;
     color: $r1-light-color;
     font-size: 70px;
-    line-height: 60px;
+    line-height: 70px;
   }
 
   .author {
@@ -146,7 +146,7 @@
     left: 0;
   }
   .auth-name {
-    font-family: "Calibre-Semibold", sans-serif;
+    font-family: "Calibre-Medium", sans-serif;
     color: $r1-light-color;
     background-color: $r1-accent-color;
     display: inline-block;
@@ -219,9 +219,9 @@
   .quote {
     font-family: 'NarzissTextBold', serif;
     font-style: normal;
-    font-weight: bold;
-    font-size: 60px;
-    line-height: 1em;
+    font-weight: 100;
+    font-size: 55px;
+    line-height: 1.2em;
   }
 
   .author {

@@ -13,7 +13,9 @@
             </md-input-container>
         </md-content>
         <md-content layout-padding="">
-        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageOne')"/>
+        <!--<input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageOne')"/>        <input ng-if="vm.className === 'terzake' " ng-model="vm.image" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>-->
+            <input  ng-model="vm.quote.imageOne" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
+
         </md-content>
     </div>
     <div layout-gt-sm="row">
@@ -30,7 +32,8 @@
             </md-input-container>
         </md-content>
         <md-content layout-padding="">
-        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageTwo')"/>
+        <!--<input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageTwo')"/>-->
+            <input  ng-model="vm.quote.imageTwo" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
         </md-content>
     </div>
     <div layout-gt-sm="row">
@@ -47,7 +50,9 @@
             </md-input-container>
         </md-content>
         <md-content layout-padding="">
-        <input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageThree')"/>
+            <input  ng-model="vm.quote.imageThree" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
+
+            <!--<input ng-if="vm.className === 'deafsprak' " type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageThree')"/>-->
         </md-content>
     </div>
     <div layout-gt-sm="row">
@@ -64,7 +69,8 @@
             </md-input-container>
         </md-content>
         <md-content layout-padding="">
-         <input ng-if="vm.className === 'deafsprak' "  type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageFour')"/>
+         <!--<input ng-if="vm.className === 'deafsprak' "  type="file" name="img" required ngf-select="vm.upload($file, 'noise', 'imageFour')"/>-->
+            <input  ng-model="vm.quote.imageFour" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
         </md-content>
     </div>
     <div layout-gt-sm="row">

@@ -3,16 +3,16 @@
     <div class='r1-image__draggable' vrt-movable ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
         <div class="r1-long-quote-wrap" ng-if="vm.header || vm.quote">
             <div class="r1-wrap__auto">
-                <div class="r1-header">
+                <div class="r1-header" ng-if="vm.header">
                     {{vm.header}}
                 </div>
-                <div class="r1-separate-line">
+                <div class="r1-separate-line" ng-if="vm.header && vm.quote">
                 </div>
-                <div class="r1-quote">
+                <div class="r1-quote" ng-if="vm.quote">
                     {{vm.quote}}
                 </div>
             </div>
         </div>
-        <img  class="logo-r1__bottom--blue" src="./assets/logor1_blauw.svg">
+        <img  class="logo-r1__bottom--blue" src="./assets/logor1_blue.svg">
     </div>
 </section>
