@@ -3,9 +3,9 @@
              ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
         <div ng-class="vm.image ? 'overlay' : 'no-overlay'" class="r1-image__draggable--wrap">
             <div class="r1-author__block--wrap">
-                <div class="r1-author__block--top" ng-if="vm.authorName || vm.authorTitle">
-                    <p ng-if="vm.authorName" class='r1-auth-name' >{{vm.authorName}}</p>
-                    <p class='auth-title__bg'>{{vm.authorTitle}}</p>
+                <div class="r1-author__block--top">
+                    <p class='r1-auth-name' ng-if="vm.authorName">{{vm.authorName}}</p>
+                    <p class='auth-title__bg' ng-if="vm.authorTitle">{{vm.authorTitle}}</p>
                 </div>
             </div>
             <div class="r1-long-quote-wrap__padded">
