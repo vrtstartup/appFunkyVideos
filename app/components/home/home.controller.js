@@ -69,6 +69,14 @@ export default class HomeController {
                 'docUrl': 'https://app.frontify.com/d/TxcwgYOVtrNH/vrt-pagemaker-handleiding#/de-basis/basis-in-7-regels'
             },
             {
+                'title': 'Video Downloader',
+                'sub': 'Download video\'s vanuit Facebook en andre bronen',
+                'status': 'Stuur een mailtje naar maarten.lauwaert@vrt.be indien je deze tool wil uittesten.',
+                'type': 'tool',
+                'image': 'assets/home-download-video.png',
+                'url': '/#/download',
+            },
+            {
                 'title': 'Social Dashboard',
                 'sub': 'Evalueer bereik en interactie van Facebookposts',
                 'type': 'tool',
