@@ -21,6 +21,20 @@
   white-space: pre-wrap;
 }
 
-.r2-weather-img {
+.r2-weather-image {
+  display: block;
+  width: auto;
+  height: 180px;
+  margin: -30px auto 20px auto;
+}
 
+.r2-wrapper-weather {
+  max-width: 90%;
+}
+
+.weather-icon {
+  background-color: #000;
+  display: block;
+  height: 40px;
+  width: auto;
 }

@@ -3,6 +3,7 @@ import template from './templateIceKing.directive.html';
 
 class TemplateIceKingDirectiveController {
     constructor() {
+
     }
 }
 
@@ -18,6 +19,7 @@ export const templateIceKingDirective = function() {
             image: '=',
             imageSize: '=',
             city: '=',
+            weatherImageSrc: '=',
         },
     };
 };
