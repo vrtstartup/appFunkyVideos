@@ -20,7 +20,6 @@ export const templateWartoothDirective = function() {
             image: '=',
             authorName: '=',
             authorTitle: '=',
-            isHiddenSign: '=',
         },
     };
 };
