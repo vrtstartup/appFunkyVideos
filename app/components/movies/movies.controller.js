@@ -127,12 +127,14 @@ export default class MoviesController {
 
     }
 
-    addMovie() {
+    createMovie() {
         this.movies.$add(this.movie).then((ref) => {
             this.openMovie(ref.key());
             var titleTemplate = '';
             angular.forEach(this.clipTemplates, (template) => {
+                console.log(template.brand, this.userBrand, template.brand === this.userBrand);
                 if (template.brand === this.userBrand && template.name === 'title') {
+                    console.log(template);
                     titleTemplate = template.aep;
                     this.initiateClip(titleTemplate, 0, 'title');
                     this.openMovie(ref.key());
@@ -143,6 +145,7 @@ export default class MoviesController {
     }
 
     openMovie(movieId) {
+        console.log(movieId);
         this.movieId = movieId;
         this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies/' + movieId);
         var clips = this.$firebaseArray(this.ref);
@@ -169,19 +172,6 @@ export default class MoviesController {
             preserveScope: true
         });
     }
-
-    showDialogMovie() {
-        this.$mdDialog.show({
-            templateUrl: '/components/movies/movie.dialogMovies.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: true,
-            escapeToClose: true,
-            scope: this.$scope,
-            preserveScope: true
-        });
-    }
-
-
 
     addClip() {
         this.showDialogClip();
@@ -210,7 +200,7 @@ export default class MoviesController {
                 'template': templateKey,
                 // 'output': this.movieId + '/' + number
             };
-            this.clips.$add(clip).then(function(ref) {
+            this.clips.$add(clip).then((ref) => {
                 this.$mdDialog.hide();
             });
 
@@ -234,18 +224,22 @@ export default class MoviesController {
                 method: 'POST'
             })
             .then((resp) => {
+                console.log(resp);
+                console.log(clipKey, key);
                 this.clips[key].img01 = resp.data.filenameIn;
                 this.clips[key].img01_url = resp.data.image;
                 this.clips[key].uploading = false;
+                this.clips.$save(key).then((ref) => {});
 
 
                 // Add the image as the second image for the previous slide
                 // This can actually be done when we create the json for the templater.
-                if ((key * 1) - 1 != 0) {
+                if ((key * 1) - 1 !== 0) {
+                    console.log('test');
 
 
                     this.clips[(key * 1) - 1].img02 = resp.data.filenameIn;
-                    this.clips.$save((key * 1) - 1).then(function(ref) {
+                    this.clips.$save((key * 1) - 1).then((ref) => {
 
                     });
                 }
@@ -291,36 +285,35 @@ export default class MoviesController {
 
 
 
-        let ffmpegLine = 'ffmpeg -i "concat:';
+        let ffmpegLine = '';
+
+        let total = parseInt(clips.length);
 
 
+        let clipsToConcat = '';
+        let listClips = '';
 
         angular.forEach(clips, (clip) => {
+            let clipId = parseInt(clip.id);
+            clipsToConcat = clipsToConcat + ' -i ' + outFolder + clip.id + '.avi';
 
-
-
-            if(clip.last !== true) {
-
-                ffmpegLine = ffmpegLine + outFolder + clip.id + '.avi|';
-
-            } else {
-                ffmpegLine = ffmpegLine + outFolder + clip.id + '.avi" ' + fin;
-                clip.ffmpeg = ffmpegLine;
-                deferred.resolve(clips);
+            let clipMinusOne = clipId-1;
+            listClips = listClips + '[' + clipMinusOne + '] ';
+            if (clipId === total) {
+                ffmpegLine = 'ffmpeg' + clipsToConcat + ' -filter_complex \"\"' + listClips + 'concat=n=' + total + ':v=1[out]\"\" -map [out] ' + fin;
+                deferred.resolve(ffmpegLine);
             }
-
-
-
         });
         return deferred.promise;
     }
 
 
     sendToTemplater(clips) {
+        console.log(clips);
         let params = {
             movieClips: clips
         };
-        console.log(clips);
+
 
         this.$http.post('api/movie/update-movie-json', params)
             .then(() => {
@@ -358,6 +351,7 @@ export default class MoviesController {
                 clip.bot = 'render';
                 clip.last = true;
                 clip.email = this.userEmail;
+                clip.output = this.movieId + '/' + counter;
 
                 for (var i = 0; i < this.clipTemplates.length; i++) {
 
@@ -368,7 +362,8 @@ export default class MoviesController {
                         this.movieClips.push(clip);
 
                         this.createFFMPEGLine(this.movieClips).then((resp) => {
-                            this.sendToTemplater(resp);
+                            clip.ffmpeg = resp;
+                            this.sendToTemplater(this.movieClips);
                         });
                     }
                 }
