@@ -7,7 +7,7 @@
         </md-toolbar>
         <md-dialog-content class="explainers-dialog__inside">
             <div layout="column" layout-align="start center" layout-wrap>
-                <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.startMovie()">
+                <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.createMovie()">
                     Start nieuw filmpje
                 </md-button>
                 <div ng-repeat="(key, m) in vm.movies" layout-padding layout="row" style="width:100%;" layout-align="space-between center" ng-click="vm.openMovie(m.$id)">

@@ -379,7 +379,7 @@ export default class ExplainersController {
     }
 
     // Start a new movie
-    startMovie() {
+    createMovie() {
         this.movies.$add(this.movie).then((ref) => {
             this.openMovie(ref.key());
         });
