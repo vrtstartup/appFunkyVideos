@@ -74,7 +74,7 @@ export default class ExplainersController {
             'brand': 'deredactie.be',
             'length': '02:54',
             'fileLocal': 'assets/audio/deredactiebe/1.mp3',
-            'fileRemote': '\\audio\\1.wav'
+            'fileRemote': this.root + 'audio\\1.wav'
         }, {
             'name': '2',
             'id': 2,
@@ -176,56 +176,39 @@ export default class ExplainersController {
 
     createFFMPEGLine() {
         const deferred = this.$q.defer();
-        console.log(this.movieId);
         const outFolder = this.root + 'out\\' + this.movieId + '\\';
-        const inFolder = this.root + 'in\\';
         const tempOutput = this.root + 'out\\' + this.movieId + '\\temp.mp4';
         const fin = this.root + 'finished\\' + this.movieId + '.mp4';
         const finWithLogo = this.root + 'finished\\' + this.movieId + '-logo.mp4';
-        const input = inFolder + this.clips[0].movieName;
+        const input = this.root + 'in\\' + this.clips[0].movieName;
 
-        let ffmpegLine = 'ffmpeg -i ' + input;
-
+        let ffmpegLine = '';
         let clipsToOverlay = '';
-        let clipsTiming = '\"\"[0:v]setpts=PTS-STARTPTS[v0];';
+        let clipsTiming = '';
         let clipOverlaying = '';
-
-
 
         angular.forEach(this.movieClips, (clip) => {
             let clipId = parseInt(clip.id);
+            let clipMinusOne = clipId-1;
             let total = parseInt(this.movieClips.length);
-            if (clipId === 1) {
-                clipsToOverlay = clipsToOverlay + ' -i ' + outFolder + clip.id + '.mov';
-                clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
-                clipOverlaying = clipOverlaying + '[v0]scale=1920:1080 [resized];[resized][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
 
-            } else if (1 < clipId && clipId < total) {
-                clipsToOverlay = clipsToOverlay + ' -i ' + outFolder + clip.id + '.mov';
-                clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
-                clipOverlaying = clipOverlaying + '[c' + (clipId - 1) + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
+            clipsToOverlay = clipsToOverlay + ' -i ' + outFolder + clip.id + '.mov';
+            clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
+            clipOverlaying = clipOverlaying + ';[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + ']';
 
-            } else {
-                clipsToOverlay = clipsToOverlay + ' -i ' + outFolder + clipId + '.mov' + ' -filter_complex ';
-                clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
-                clipOverlaying = clipOverlaying + '[c' + (clipId - 1) + '][v' + clipId + ']overlay=eof_action=pass[out]\"\"';
-                ffmpegLine = ffmpegLine + clipsToOverlay + clipsTiming + clipOverlaying + ' -map [out] -map 0:1? ' + tempOutput;
+            if (clipId === total) {
+                ffmpegLine = 'ffmpeg -i ' + input + clipsToOverlay + ' -filter_complex \"\"[0:v]setpts=PTS-STARTPTS[v0];' + clipsTiming + '[v0]scale=1920:1080 [c0]' + clipOverlaying + '\"\" -map [c' + clipId +  '] -map 0:1? ' + tempOutput;
                 if (this.clips[0].audio !== 0) {
-
-                    ffmpegLine = ffmpegLine + ' && ffmpeg -i ' + tempOutput + ' ' + outFolder + 'audio.mp3 && ffmpeg -i ' + outFolder + 'audio.mp3 -i ' + this.audioTracks[this.clips[0].audio].fileRemote + ' -filter_complex amerge -c:a libmp3lame -q:a 4 ' + outFolder + 'audioMix.mp3 && ffmpeg  -i ' + tempOutput + ' -i ' + outFolder + 'audioMix.mp3 -c:v copy -c:a aac -strict experimental -map 0:v:0 -map 1:a:0 ' + fin;
-
-
-                    if (this.clips[0].logo !== 0) {
-                        ffmpegLine = ffmpegLine + '&& ffmpeg -i ' + fin + ' -i ' + this.logos[this.clips[0].logo].fileRemote + ' -filter_complex overlay=10:10 ' + finWithLogo;
+                    ffmpegLine = ffmpegLine + ' && ffmpeg -i ' + tempOutput + ' ' + outFolder + 'audio.mp3 && ffmpeg -i ' + outFolder + 'audio.mp3 -i ' + this.audioTracks[this.clips[0].audio].fileRemote + ' -filter_complex amerge -c:a libmp3lame -q:a 4 ' + outFolder + 'audioMix.mp3 && ffmpeg -i ' + tempOutput + ' -i ' + outFolder + 'audioMix.mp3 -c:v copy -c:a aac -strict experimental -map 0:v:0 -map 1:a:0 ' + fin;
+                    if (this.clips[0].logo !== "0") {
+                        ffmpegLine = ffmpegLine + ' && ffmpeg -i ' + fin + ' -i ' + this.logos[this.clips[0].logo].fileRemote + ' -filter_complex overlay=10:10 ' + finWithLogo;
                         deferred.resolve(ffmpegLine);
                     } else {
                         deferred.resolve(ffmpegLine);
                     }
-
                 } else {
                     deferred.resolve(ffmpegLine);
                 }
-
             }
         });
         return deferred.promise;
