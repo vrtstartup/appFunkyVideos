@@ -21,6 +21,9 @@
     </section>
     <section flex ng-hide="vm.movieId == ''" class="stitcher-movie">
         <div ng-repeat="(key, c) in vm.clips | orderBy: 'id'" class="stitcher-clip" layout="column" ng-if="c.$id != 0">
+
+
+
             <div ng-include="vm.getInclude(c.template)"></div>
             <div ng-if="c.id != 1" class="stitcher-clip__delete">
                 <i style="padding-top:8px;" ng-click="vm.clips.$remove(c)" class="material-icons grid-iconbutton">&#xE14C;</i>
