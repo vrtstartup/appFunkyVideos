@@ -7,10 +7,10 @@
         </md-toolbar>
         <md-dialog-content layout-padding class="stitcher-dialog__inside">
             <div layout="column" layout-align="start center" layout-wrap>
-                <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.createMovie()">
+                <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.createMovie(vm.movie)">
                     Start nieuw filmpje
                 </md-button>
-                <div ng-repeat="(key, m) in vm.movies" flex="30" ng-click="vm.openMovie(m.$id)"=>
+                <div ng-repeat="(key, m) in vm.movies" flex="30" ng-click="vm.openMovie(m.$id)">
                     {{m.$id}}
                     <md-input-container>
                         <i style="padding-top:8px;" ng-click="vm.movies.$remove(m)" class="material-icons grid-iconbutton">&#xE14C;</i>
@@ -21,18 +21,24 @@
     </section>
     <section flex="80" layout="column" ng-hide="vm.movieId == ''" class="stitcher-movie">
         <md-content flex="100">
-            <div ng-repeat="(key, c) in vm.clips | orderBy: 'id'" class="stitcher-clip" layout="column" ng-if="c.$id != 0" flex="90">
+            <div ng-repeat="(key, c) in vm.clips | orderBy: 'id'" class="stitcher-clip" layout="column" ng-if="c.$id != 'meta'" flex="90">
                 <div ng-include="vm.getInclude(c.template)"></div>
                 <div ng-if="c.id != 1" class="stitcher-clip__delete">
-                    <i style="padding-top:8px;" ng-click="vm.clips.$remove(c)" class="material-icons grid-iconbutton">&#xE14C;</i>
+                    <i style="padding-top:8px;" ng-click="vm.remove(c)" class="material-icons grid-iconbutton">&#xE14C;</i>
                 </div>
+                {{c.id}}
+                    <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg" ng-click="vm.moveUp(key, c)">
+                        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+                        <path d="M0 0h24v24H0z" fill="none" />
+                    </svg>
+
             </div>
         </md-content>
         <div flex="10">
             <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addClip()">
                 Voeg clip toe
             </md-button>
-            <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.renderMovie()">
+            <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.renderMovie(vm.clips, vm.meta, vm.root)">
                 Maak filmpje
             </md-button>
         </div>

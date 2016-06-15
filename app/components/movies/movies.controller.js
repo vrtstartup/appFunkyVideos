@@ -1,50 +1,41 @@
 //TODO: refactor show functions
 export default class MoviesController {
-    constructor($scope, $http, $document, Upload, $mdDialog, toast, firebaseAuth, $firebaseArray, userManagement, $q) {
+    constructor($scope, $document, Upload, $mdDialog, firebaseAuth, $firebaseArray, $firebaseObject, userManagement, templater) {
         this.$scope = $scope;
-        this.$http = $http;
         this.$document = $document;
         this.Upload = Upload;
-        this.toast = toast;
         this.$mdDialog = $mdDialog;
         this.$firebaseArray = $firebaseArray;
+        this.$firebaseObject = $firebaseObject;
         this.userManagement = userManagement;
-        this.$q = $q;
+        this.templater = templater;
 
-        this.movie = {};
-        this.movieId = '';
+
+        this.movie = {
+            meta: {
+                'audio': 0,
+                'logo': 0,
+                'bumper': 0
+            }
+        };
+
         this.movieClips = [];
 
-        this.root = 'D:\\videoTemplater\\dropbox\\';
-
-
         this.firebaseAuth = firebaseAuth;
-        console.log(this.firebaseAuth);
-
 
         this.firebaseAuth.$onAuth((authData) => {
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
-                    this.userBrand = obj.brand;
-                    this.userEmail = authData.password.email;
-                    this.movie = [{
-                        'email': this.userEmail,
-                        'brand': this.userBrand
-                    }];
+                    this.movie.meta.email = authData.password.email;
+                    this.movie.meta.brand = obj.brand;
                 });
             }
         });
 
+        this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies');
+        this.movies = this.$firebaseArray(this.ref);
 
-
-
-        // The reference to the firebase
-        this.moviesRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies');
-        this.movies = this.$firebaseArray(this.moviesRef);
-
-        this.ref = '';
-        this.clips = '';
-
+        // Move this to service <-
         this.aepLocation = {
             'bumper': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Apps\\VideoTemplater\\ae\\Slide_Templator\\slides-bumper\\',
             'normal': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Apps\\VideoTemplater\\ae\\Slide_Templator\\slides\\'
@@ -116,41 +107,28 @@ export default class MoviesController {
 
         ];
 
-        this.movieTypes = [{
-            'name': 'tekst',
-            'templateName': 'template_02_tekst',
-            'templateLocalPath': '/components/movies/movie.tekst.html',
-            'templaterPath': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
-            // 'templaterPathWithBumper': 'C:\\Users\\chiafis\\Dropbox (Vrt Startup)\\Vrt Startup Team Folder\\NieuwsHub\\Lab\\Isacco_Material\\02_Video\\Video Templating 2.0\\AE\\image_test_02.aep',
-            'thumb': '/assets/movies-title.png'
-        }];
-
+        // -> End service
 
     }
 
-    createMovie() {
-        this.movies.$add(this.movie).then((ref) => {
+    createMovie(movie) {
+        this.movies.$add(movie).then((ref) => {
             this.openMovie(ref.key());
-            var titleTemplate = '';
+            let titleTemplate = '';
             angular.forEach(this.clipTemplates, (template) => {
-                console.log(template.brand, this.userBrand, template.brand === this.userBrand);
-                if (template.brand === this.userBrand && template.name === 'title') {
-                    console.log(template);
-                    titleTemplate = template.aep;
-                    this.initiateClip(titleTemplate, 0, 'title');
-                    this.openMovie(ref.key());
+                if (template.brand === movie.meta.brand && template.name === 'title') {
+                    console.log('add title clip');
+                    this.initiateClip(template.aep, 0, 'title');
                 }
-
             });
         });
     }
 
     openMovie(movieId) {
-        console.log(movieId);
-        this.movieId = movieId;
-        this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/stitcher/movies/' + movieId);
-        var clips = this.$firebaseArray(this.ref);
-        this.clips = clips;
+        let clipsRef = this.ref.child(movieId);
+        this.clips = this.$firebaseArray(clipsRef);
+        this.refMeta = clipsRef.child('meta');
+        this.meta = this.$firebaseObject(this.refMeta);
         this.$mdDialog.hide();
     }
 
@@ -180,32 +158,60 @@ export default class MoviesController {
 
     initiateClip(template, templateKey, type) {
 
-        this.ref.once("value", (snapshot) => {
-            var number = '';
-            if (type === 'title') {
-                number = 1;
-            } else {
-                number = snapshot.numChildren();
-            }
+        let number = '';
+        if (type === 'title') {
+            number = 1;
+        } else {
+            number = this.clips.length;
+        }
 
-            var clip = {
-                'id': number,
-                // 'last': false,
-                'movieId': this.movieId,
-                // 'bot': 'render',
-                // 'render-status': 'ready',
-                'uploaded': false,
-                'uploading': false,
-                'saved': false,
-                'aep': template,
-                'template': templateKey,
-                // 'output': this.movieId + '/' + number
-            };
-            this.clips.$add(clip).then((ref) => {
-                this.$mdDialog.hide();
-            });
+        console.log(number);
 
+        var clip = {
+            'id': number,
+            'uploading': false,
+            'saved': false,
+            'aep': template,
+            'template': templateKey,
+        };
+
+        this.clips.$add(clip).then((ref) => {
+            this.$mdDialog.hide();
         });
+    }
+
+
+    enumerate() {
+        let counter = 1;
+        angular.forEach(this.clips, (clip) => {
+
+            if (clip.$id !== 'meta') {
+
+                clip.id = counter;
+                console.log(clip);
+                var clip = this.clips.$getRecord(clip.$id);
+                this.clips.$save(clip).then((ref) => {});
+                counter++;
+            }
+        });
+    }
+
+    remove(clip) {
+        var clip = this.clips.$getRecord(clip.$id);
+        this.clips.$remove(clip).then((ref) => {
+            this.enumerate();
+        });
+
+
+    }
+
+    moveUp(key, c) {
+        // this.enumerate();
+        let to = c.id - 1;
+        let from = c.id;
+        console.log(from, to);
+        this.clips.splice(to, 0, this.clips.splice(from, 1)[0]);
+        this.enumerate();
     }
 
     selectFile(clipKey, key) {
@@ -217,140 +223,82 @@ export default class MoviesController {
 
 
 
-    uploadFile(file, clipKey, key) {
-        this.clips[key].uploading = true;
+    uploadFile(file, key, number) {
+        var clip = this.clips.$getRecord(key);
+
+
+        clip.uploading = true;
         this.Upload.upload({
                 url: 'api/movie/upload-to-dropbox',
-                data: { 'movieId': this.movieId, 'clipId': key, file: file },
+                data: { file: file },
                 method: 'POST'
             })
             .then((resp) => {
-                console.log(resp);
-                console.log(clipKey, key);
-                this.clips[key].img01 = resp.data.filenameIn;
-                this.clips[key].img01_url = resp.data.image;
-                this.clips[key].uploading = false;
-                this.clips.$save(key).then((ref) => {});
-
+                clip.img01 = resp.data.filenameIn;
+                clip.img01_url = resp.data.image;
+                clip.uploading = false;
+                this.clips.$save(number).then((ref) => {});
 
                 // Add the image as the second image for the previous slide
                 // This can actually be done when we create the json for the templater.
-                if ((key * 1) - 1 !== 0) {
-                    console.log('test');
-
-
-                    this.clips[(key * 1) - 1].img02 = resp.data.filenameIn;
-                    this.clips.$save((key * 1) - 1).then((ref) => {
-
-                    });
+                if ((number * 1) - 1 !== 0) {
+                    this.clips[(number * 1) - 1].img02 = resp.data.filenameIn;
+                    this.clips.$save((number * 1) - 1).then((ref) => {});
                 }
 
             }, (resp) => {
                 console.log('Error: ' + resp.error);
                 console.log('Error status: ' + resp.status);
-
-
-
             }, (evt) => {
                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             });
     }
 
-    createFFMPEGLine(clips) {
-        const deferred = this.$q.defer();
 
-        const outFolder = this.root + 'out\\' + this.movieId + '\\';
-        const inFolder = this.root + 'in\\';
-        const fin = this.root + 'finished\\' + this.movieId + '.mp4';
-        const finWithLogo = this.root + 'finished\\' + this.movieId + '-logo.mp4';
-        const input = inFolder + this.clips[0].movieName;
-
-        let ffmpegLine = '';
-        let total = parseInt(clips.length);
-        let clipsToConcat = '';
-        let listClips = '';
-
-        angular.forEach(clips, (clip) => {
-            let clipId = parseInt(clip.id);
-            let clipMinusOne = clipId-1;
-
-            clipsToConcat = clipsToConcat + ' -i ' + outFolder + clip.id + '.avi';
-
-            listClips = listClips + '[' + clipMinusOne + '] ';
-            if (clipId === total) {
-                ffmpegLine = 'ffmpeg' + clipsToConcat + ' -filter_complex \"\"' + listClips + 'concat=n=' + total + ':v=1[out]\"\" -map [out] ' + fin;
-                deferred.resolve(ffmpegLine);
-            }
-        });
-        return deferred.promise;
-    }
-
-
-    sendToTemplater(clips) {
-        console.log(clips);
-        let params = {
-            movieClips: clips
-        };
-
-
-        this.$http.post('api/movie/update-movie-json', params)
-            .then(() => {
-                console.log('json updated');
-                this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
-            });
-    }
-
-
-
-    renderMovie() {
-
-
+    renderMovie(clips, meta, root) {
         // go through all clips and set attributes on the last one
         let counter = 1;
-        let ffmpegLine = '';
-        this.movieClips = [];
+        let project = this.templater.time() + '_' + (this.meta.email.substring(0, this.meta.email.indexOf("@"))).replace('.', '');
+        let readyClips = [];
+        let ffmpeg = '';
+        let state = '';
+
         angular.forEach(this.clips, (clip) => {
-
-            if (clip.$id !== '0' && clip.id !== this.clips.length - 1) {
-                console.log(counter);
-                // clip.id = counter;
+            if (clip.$id !== 'meta') {
                 clip['render-status'] = 'ready';
                 clip.bot = 'render';
-                clip.last = 'false';
-
-                clip.output = this.movieId + '/' + counter;
-                // clip.module = 'jpg2000';
-                this.movieClips.push(clip);
-                counter++;
-            }
-
-            if (clip.$id !== '0' && clip.id === this.clips.length - 1) {
-                clip['render-status'] = 'ready';
-                clip.bot = 'render';
-                clip.last = true;
+                clip.output = project + '/clips/' + counter;
+                this.readyClips.push(clip);
                 clip.email = this.userEmail;
-                clip.output = this.movieId + '/' + counter;
 
-                for (var i = 0; i < this.clipTemplates.length; i++) {
-
-                    if (i === clip.template) {
-
-                        clip.aep = this.clipTemplates[i].aepWithBumper;
-
-                        this.movieClips.push(clip);
-
-                        this.createFFMPEGLine(this.movieClips).then((resp) => {
-                            clip.ffmpeg = resp;
-                            this.sendToTemplater(this.movieClips);
-                        });
+                if (clip.id === this.clips.length - 1) {
+                    // Add attributes specific for the last one
+                    clip.last = true;
+                    // Loop through templates and add the template with the bumper for the last one
+                    for (var i = 0; i < this.clipTemplates.length; i++) {
+                        if (i === clip.template) {
+                            clip.aep = this.clipTemplates[i].aepWithBumper;
+                            // Create the ffmpegline
+                            this.templater.stitcher(readyClips, meta, root, project).then((resp) => {
+                                ffmpeg = resp.ffmpeg;
+                                state = resp.state;
+                                this.templater.addLogo(ffmpeg, this.meta.logo, root, project, state).then((resp) => {
+                                    ffmpeg = resp.ffmpeg;
+                                    state = resp.state;
+                                    this.templater.addAudio(ffmpeg, this.meta.audio, root, project, state).then((resp) => {
+                                        clip.ffmpeg = ffmpeg;
+                                        this.templater.send(readyClips);
+                                    });
+                                });
+                            });
+                        }
                     }
                 }
+                counter++;
             }
-
-
         });
 
     }
 }
 
-MoviesController.$inject = ['$scope', '$http', '$document', 'Upload', '$mdDialog', 'toast', 'firebaseAuth', '$firebaseArray', 'userManagement', '$q'];
+MoviesController.$inject = ['$scope', '$document', 'Upload', '$mdDialog', 'firebaseAuth', '$firebaseArray', '$firebaseObject', 'userManagement', 'templater'];
