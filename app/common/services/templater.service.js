@@ -197,9 +197,9 @@ export default class templaterService {
             listClips = listClips + '[' + clipMinusOne + '] ';
             if (clipId === total) {
                 ffmpegLine = 'ffmpeg' + clipsToConcat + ' -filter_complex \"\"' + listClips + 'concat=n=' + total + ':v=1[out]\"\" -map [out] ' + folder + project + '_clean.mp4';
-                console.log(ffmpegLine);
-                // deferred.resolve(ffmpegLine);
-            i}
+                deferred.resolve(ffmpegLine);
+
+            }
         });
         return deferred.promise;
     }
@@ -240,6 +240,71 @@ export default class templaterService {
         }
         let date = yyyy + mm + dd + '_' + hours + minutes + seconds;
         return date;
+    }
+
+
+
+    msToTime(millis) {
+        var dur = {};
+        millis = millis * 1000;
+
+        var units = [
+            { label: 'millis', mod: 1000 },
+            { label: 'seconds', mod: 60 },
+            { label: 'minutes', mod: 60 },
+            { label: 'hours', mod: 24 },
+        ];
+        // calculate the individual unit values...
+        units.forEach(function(u) {
+            millis = (millis - (dur[u.label] = (millis % u.mod))) / u.mod;
+        });
+
+
+
+        let twoDigits = function(number) {
+            if (number < 10) {
+                number = '0' + number;
+                return number;
+            } else {
+                return number;
+            }
+        };
+
+
+        let round = function(number) {
+
+            if (number < 99) {
+                return number;
+
+            } else {
+                number = Math.round((number / 10));
+                return number;
+            }
+        };
+
+
+        let time = dur.hours + ':' + twoDigits(dur.minutes) + ':' + twoDigits(dur.seconds) + '.' + round(dur.millis);
+        console.log(time);
+
+        return time;
+    }
+
+
+    createAss(json) {
+        const deferred = this.$q.defer();
+        let string = '';
+        string = '[Script Info]\nTitle: Nieuwshub subtitles\nScriptType: v4.00\nCollisions: Normal\n\n';
+        string = string + '[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n';
+        string = string + 'Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1\n\n';
+        string = string + '[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
+        angular.forEach(json, (line) => {
+            console.log(line);
+            if (line.$id !== 'meta') {
+                string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',Default,,0,0,0,,' + line.text + '\n';
+            }
+        });
+        deferred.resolve(string);
+        return deferred.promise;
     }
 
 }
