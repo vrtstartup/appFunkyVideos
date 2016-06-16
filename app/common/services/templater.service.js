@@ -167,6 +167,7 @@ export default class templaterService {
 
     overlays(clips, meta, project) {
         const deferred = this.$q.defer();
+        console.log(project);
         const folder = this.root + 'out\\' + project + '\\';
         let state = '';
         let resp = '';
@@ -218,6 +219,12 @@ export default class templaterService {
                 ffmpegLine = 'ffmpeg' + clipsToConcat + ' -filter_complex \"\"' + listClips + 'concat=n=' + total + ':v=1[out]\"\" -map [out] ' + folder + project + '_clean.mp4';
                 deferred.resolve(ffmpegLine);
 
+            } else {
+                let resp = {
+                    ffmpeg: ffmpeg,
+                    state: state
+                };
+                deferred.resolve(resp);
             }
         });
         return deferred.promise;

@@ -11,9 +11,10 @@
                     Start nieuw filmpje
                 </md-button>
                 <div ng-repeat="(key, m) in vm.movies" layout-padding layout="row" style="width:100%;" layout-align="space-between center" ng-click="vm.openMovie(m.$id)">
+                    {{m.meta.email}}
                     {{m.$id}}
                     <md-input-container>
-                        <i style="padding-top:8px;" ng-click="vm.movies.$remove(m)" class="material-icons grid-iconbutton">&#xE14C;</i>
+                        <i style="padding-top:8px;" ng-click="vm.removeMovie(m.$id, m.meta.email)" class="material-icons grid-iconbutton">&#xE14C;</i>
                     </md-input-container>
                 </div>
             </div>

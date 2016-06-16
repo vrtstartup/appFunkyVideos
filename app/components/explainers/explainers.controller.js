@@ -1,5 +1,5 @@
 export default class ExplainersController {
-    constructor($scope, $sce, $document, Upload, firebaseAuth, $firebaseArray, $firebaseObject, userManagement, videogular, templater) {
+    constructor($scope, $sce, $document, Upload, firebaseAuth, $firebaseArray, $firebaseObject, userManagement, videogular, templater, toast) {
 
         this.$scope = $scope;
         this.$sce = $sce;
@@ -9,6 +9,7 @@ export default class ExplainersController {
         this.$firebaseObject = $firebaseObject;
         this.userManagement = userManagement;
         this.videogular = videogular;
+        this.toast = toast;
         this.templater = templater;
         this.audioTracks = this.templater.audioTracks;
         this.logos = this.templater.logos;
@@ -75,6 +76,7 @@ export default class ExplainersController {
         this.firebaseAuth.$onAuth((authData) => {
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
+                    this.email = authData.password.email;
                     this.movie.meta.email = authData.password.email;
                     this.movie.meta.brand = obj.brand;
                 });
@@ -165,19 +167,19 @@ export default class ExplainersController {
                     // Add attributes specific for the last one
                     clip.last = true;
                     // Create the ffmpegline
-                    this.templater.overlays(readyClips, meta, root, project).then((resp) => {
-                        console.log('step 1');
+                    this.templater.overlays(readyClips, meta, project).then((resp) => {
+
                         ffmpeg = resp.ffmpeg;
                         state = resp.state;
-                        this.templater.addLogo(ffmpeg, this.meta.logo, root, project, state).then((resp) => {
+                        this.templater.addLogo(ffmpeg, this.meta.logo, project, state).then((resp) => {
                             console.log('step 2');
                             ffmpeg = resp.ffmpeg;
                             state = resp.state;
-                            this.templater.addBumper(ffmpeg, this.meta.bumper, meta.movieDuration, root, project, state).then((resp) => {
+                            this.templater.addBumper(ffmpeg, this.meta.bumper, meta.movieDuration, project, state).then((resp) => {
                                 console.log('step 3');
                                 ffmpeg = resp.ffmpeg;
                                 state = resp.state;
-                                this.templater.addAudio(ffmpeg, this.meta.audio, root, project, state).then((resp) => {
+                                this.templater.addAudio(ffmpeg, this.meta.audio, project, state).then((resp) => {
                                     clip.ffmpeg = ffmpeg;
                                     console.log(readyClips);
                                     this.templater.send(readyClips);
@@ -199,6 +201,17 @@ export default class ExplainersController {
         this.meta.$save().then(function(ref) {}, function(error) {
             console.log("Error:", error);
         });
+    }
+
+    // Service, cuz needed for all tools
+    removeMovie(movieId, owner) {
+
+        if (this.email === owner) {
+            var movie = this.movies.$getRecord(movieId);
+            this.movies.$remove(movie).then((ref) => {});
+        } else {
+            this.toast.showToast('error', 'Dit is niet jouw filmpje, dus kan je het ook niet verwijderen.');
+        }
     }
 
     // Happens when the logo is changed.
@@ -223,6 +236,7 @@ export default class ExplainersController {
 
     // Start a new movie
     createMovie() {
+        this.movie.createdAt = this.templater.time();
         this.movies.$add(this.movie).then((ref) => {
             this.openMovie(ref.key());
         });
@@ -242,7 +256,7 @@ export default class ExplainersController {
         // upload to dropbox
         this.Upload.upload({
                 url: 'api/movie/upload-to-dropbox',
-                data: {file: file },
+                data: { file: file },
                 method: 'POST'
             })
             .then((resp) => {
@@ -263,4 +277,4 @@ export default class ExplainersController {
     }
 }
 
-ExplainersController.$inject = ['$scope', '$sce', '$document', 'Upload', 'firebaseAuth', '$firebaseArray', '$firebaseObject', 'userManagement', 'videogular', 'templater'];
+ExplainersController.$inject = ['$scope', '$sce', '$document', 'Upload', 'firebaseAuth', '$firebaseArray', '$firebaseObject', 'userManagement', 'videogular', 'templater', 'toast'];
