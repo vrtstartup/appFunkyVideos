@@ -30,7 +30,7 @@
         </div>
         <div class="explainers-video">
             <vrt-videoplayer source="vm.meta.movieUrl" ng-if="vm.meta.movieUrl != ''"></vrt-videoplayer>
-            <div class="explainers-video__templates" ng-repeat="(key, c) in vm.clips" ng-if="(vm.videogular.api.currentTime/1000) >= c.start && (vm.videogular.api.currentTime/1000) <= (c.start + c.length) && key != 0">
+            <div class="explainers-video__templates" ng-repeat="(key, c) in vm.clips" ng-if="(vm.videogular.api.currentTime/1000) >= c.start && (vm.videogular.api.currentTime/1000) <= (c.start + c.length) && key != 'meta'">
                 <div style="width:100%;height:100%" ng-include="vm.getInclude('view', c.template)"></div>
             </div>
         </div>
@@ -40,7 +40,6 @@
             <div layout-padding>
                 <md-tabs md-border-bottom md-autoselect style="margin-top:50px;">
                     <md-tab ng-repeat="(key, c) in vm.clips" ng-disabled="tab.disabled" label="{{key}}" md-on-select="vm.activeTab = key; vm.goToTime(c.start)" ng-if="c.$id != 'meta'" md-active="key == vm.activeTab">
-                        {{key}}, {{c}}
                         <div>
                             <md-slider aria-label="slider" ng-model="c.start" step="0.001" min="0" max="{{vm.meta.movieDuration}}" ng-change="vm.setTime(c)"></md-slider>
                             {{c.length}} {{tab}} {{key}}, {{c.$id}}
@@ -72,7 +71,7 @@
         </md-input-container>
         {{vm.audioTrackUrl}}
         <vrt-audioplayer source="vm.audioTrackUrl"></vrt-audioplayer>
-        {{vm.meta}}
+
         <md-button class="md-raised" aria-label="Film maken" ng-click="vm.renderMovie(vm.clips, vm.meta, vm.root)">
             Maak filmpje
         </md-button>

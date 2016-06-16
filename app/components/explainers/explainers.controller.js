@@ -10,6 +10,8 @@ export default class ExplainersController {
         this.userManagement = userManagement;
         this.videogular = videogular;
         this.templater = templater;
+        this.audioTracks = this.templater.audioTracks;
+        this.logos = this.templater.logos;
 
         this.activeTab = 1;
         this.uploading = false;
@@ -23,7 +25,6 @@ export default class ExplainersController {
             }
         };
 
-        this.movieSubmitted = false;
         this.progressPercentage = '';
 
         this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/explainers/');
@@ -114,7 +115,7 @@ export default class ExplainersController {
 
     // Opening movie, after create, of when you click in the list with projects
     openMovie(movieId) {
-        this.bumper = 1;
+        this.bumper = this.movie.bumper;
         this.uploading = false;
 
         let clipsRef = this.ref.child(movieId);
@@ -141,7 +142,7 @@ export default class ExplainersController {
 
 
     renderMovie(clips, meta, root) {
-        console.log(clips, meta, root);
+
         let counter = 1;
         let project = this.templater.time() + '_' + (this.meta.email.substring(0, this.meta.email.indexOf("@"))).replace('.', '');
         let readyClips = [];
@@ -165,17 +166,22 @@ export default class ExplainersController {
                     clip.last = true;
                     // Create the ffmpegline
                     this.templater.overlays(readyClips, meta, root, project).then((resp) => {
+                        console.log('step 1');
                         ffmpeg = resp.ffmpeg;
                         state = resp.state;
                         this.templater.addLogo(ffmpeg, this.meta.logo, root, project, state).then((resp) => {
+                            console.log('step 2');
                             ffmpeg = resp.ffmpeg;
                             state = resp.state;
                             this.templater.addBumper(ffmpeg, this.meta.bumper, meta.movieDuration, root, project, state).then((resp) => {
+                                console.log('step 3');
                                 ffmpeg = resp.ffmpeg;
                                 state = resp.state;
                                 this.templater.addAudio(ffmpeg, this.meta.audio, root, project, state).then((resp) => {
                                     clip.ffmpeg = ffmpeg;
+                                    console.log(readyClips);
                                     this.templater.send(readyClips);
+
                                 });
                             });
                         });
@@ -243,9 +249,9 @@ export default class ExplainersController {
                 this.meta.movieName = resp.data.filenameIn;
                 this.meta.movieUrl = resp.data.image;
                 this.meta.movieDuration = movieDuration;
-                this.meta.$save().then(function(ref) {
+                this.meta.$save().then((ref) => {
                     // ref.key() === obj.$id; // true
-                }, function(error) {
+                }, (error) => {
                     console.log("Error:", error);
                 });
             }, (resp) => {

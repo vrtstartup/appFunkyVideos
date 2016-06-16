@@ -110,6 +110,12 @@ export default class templaterService {
                 state: state
             };
             deferred.resolve(resp);
+        } else {
+            let resp = {
+                ffmpeg: ffmpeg,
+                state: state
+            };
+            deferred.resolve(resp);
         }
         return deferred.promise;
     }
@@ -117,9 +123,16 @@ export default class templaterService {
     addLogo(ffmpeg, logo, project, state) {
         const deferred = this.$q.defer();
         const folder = this.root + 'out\\' + project + '\\';
+        console.log(logo);
         if (logo !== 0) {
             ffmpeg = ffmpeg + ' && ffmpeg -i ' + folder + project + '_clean.mp4' + ' -i ' + this.logos[logo].fileRemote + ' -filter_complex overlay=10:10 ' + folder + project + state + '_logo.mp4';
             state = state + '_logo';
+            let resp = {
+                ffmpeg: ffmpeg,
+                state: state
+            };
+
+        } else {
             let resp = {
                 ffmpeg: ffmpeg,
                 state: state
@@ -135,6 +148,12 @@ export default class templaterService {
         if (bumper !== 0) {
             ffmpeg = ffmpeg + ' && ffmpeg -i ' + folder + project + state + '.mp4' + ' -i ' + this.bumpers[bumper].fileRemote + ' -filter_complex \"\"color=black:1920x1080:d=' + duration + '[base];[0:v]setpts=PTS-STARTPTS[v0];[1:v]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - this.bumpers[bumper].fade) + ')/TB)[v1];[base][v0]overlay[tmp];[tmp][v1]overlay,format=yuv420p[fv]\"\" -map [fv] -c copy -c:v libx264 -b:v 1000k ' + folder + project + state + '_bumper.mp4';
             state = state + '_bumper';
+            let resp = {
+                ffmpeg: ffmpeg,
+                state: state
+            };
+            deferred.resolve(resp);
+        } else {
             let resp = {
                 ffmpeg: ffmpeg,
                 state: state
@@ -206,11 +225,14 @@ export default class templaterService {
 
 
     send(clips) {
+        console.log('clips');
         let params = {
             movieClips: clips
         };
+        console.log('send');
         this.$http.post('api/movie/update-movie-json', params)
             .then(() => {
+                console.log('send');
                 this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
             });
     }
@@ -298,7 +320,6 @@ export default class templaterService {
         string = string + 'Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1\n\n';
         string = string + '[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
         angular.forEach(json, (line) => {
-            console.log(line);
             if (line.$id !== 'meta') {
                 string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',Default,,0,0,0,,' + line.text + '\n';
             }
