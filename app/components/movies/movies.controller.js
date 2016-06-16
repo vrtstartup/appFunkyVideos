@@ -201,8 +201,6 @@ export default class MoviesController {
         this.clips.$remove(clip).then((ref) => {
             this.enumerate();
         });
-
-
     }
 
     moveUp(key, c) {

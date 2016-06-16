@@ -22,9 +22,9 @@ router.post('/upload-to-dropbox', function(req, res, next) {
             var imageUrl = '';
             var fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
 
-            if (!dbClient) {
+            if(!dbClient) {
                 console.log('No dbClient');
-            } else {
+            }else {
 
                 dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
                     if (error) {
@@ -33,7 +33,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                     }
 
                     var fileUrl = 'in/' + file.originalFilename;
-                    dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
+                    dbClient.makeUrl(fileUrl, {downloadHack: true}, function(error, data) {
                         imageUrl = data.url;
                         console.log(error);
 
@@ -62,7 +62,7 @@ router.post('/update-movie-json', function(req, res, next) {
         name: 'templater.json',
         data: ''
     };
-
+    console.log(movieClips);
     //update JSON file on dropbox so AE templater get's triggered
     dbClient.readFile(file.path + file.name, function(error, data) {
         if (error) {
