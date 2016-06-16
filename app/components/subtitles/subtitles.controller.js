@@ -164,8 +164,8 @@ export default class SubtitlesController {
             let assFile = new Blob([ass], {
                 type: 'ass'
             });
-            let assFileName = this.templater.time() + '_' + this.meta.email + '.ass';
-            this.upload(assFile, assFileName, this.meta.email);
+            let assFileName = this.templater.time() + '_' + (this.meta.email.substring(0, this.meta.email.indexOf("@"))).replace('.', '') + '.ass';
+            this.sendToFFMPEG(assFile, assFileName, this.meta.email, this.meta.movieUrl);
         });
 
 
@@ -241,11 +241,11 @@ export default class SubtitlesController {
 
 
 
-    upload(file, name, email) {
+    sendToFFMPEG(file, name, email, movie) {
 
         this.Upload.upload({
                 url: 'api/subtitleVideos',
-                data: { file: file, fileName: name, email: email },
+                data: { file: file, fileName: name, email: email, movie: movie},
                 method: 'POST',
             })
             .then((resp) => {

@@ -19,7 +19,6 @@ router.get('/subtitles', function(req, res) {
 
 router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
 
-    // ffmpeg -i out.mp4 -vf subtitles=sub.srt:force_style='Fontsize=20' vide.mp4
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
     var url = file.path;
