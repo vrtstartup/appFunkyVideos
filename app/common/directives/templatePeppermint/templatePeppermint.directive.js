@@ -16,8 +16,7 @@ export const templatePeppermintDirective = function() {
         controllerAs: 'vm',
         bindToController: {
             image: '=',
-            authorName: '=',
-            authorDates: '=',
+            text: '=',
             imageSize: '=',
         },
     };
