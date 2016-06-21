@@ -36,6 +36,10 @@ import templateCinnabon from './templateCinnabon';
 import templateBubblegum from './templateBubblegum';
 import templateTrunk from './templateTrunk';
 import templateIceKing from './templateIceKing';
+import templateMarceline from './templateMarceline';
+import templatePeppermint from './templatePeppermint';
+
+
 
 
 const module = angular.module('app.common.directives', [
@@ -43,8 +47,8 @@ const module = angular.module('app.common.directives', [
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
     userLogin, draggable, templateFinn, templateJake, templateGiantBomb, movable, templateBmo, templateLumpy,
-    artistBlock, templateCinnabon, templateBubblegum, templateTrunk, templateIceKing,
-    audioPlayer,
+    artistBlock, templateCinnabon, templateBubblegum, templateTrunk, templateIceKing, templateMarceline,
+    audioPlayer, templatePeppermint,
 ]);
 
 export default module.name;
