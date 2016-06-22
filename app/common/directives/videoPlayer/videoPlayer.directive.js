@@ -20,7 +20,9 @@ class VideoPlayerDirectiveController {
                             start: 0.001,
                             end: 5.001
                         },
-                        onComplete: this.onCompleteRangeCuepoint.bind(this)
+                        onComplete: this.onCompleteRangeCuepoint.bind(this),
+                        onProgress: this.changeTime.bind(this),
+
                     }]
                 }
             };
@@ -29,7 +31,7 @@ class VideoPlayerDirectiveController {
         $scope.$watchCollection('[start, end]', (values, oldValues) => {
             if (!values) return;
 
-            let startChanged =  values[0] !== oldValues[0];
+            let startChanged = values[0] !== oldValues[0];
 
             if (startChanged && this.videogular.api) {
 
@@ -37,7 +39,7 @@ class VideoPlayerDirectiveController {
                 this.videogular.api.play();
             }
 
-            if(values[0] && values[1]) {
+            if (values[0] && values[1]) {
                 this.config.cuePoints = {
                     range: [{
                         timeLapse: {
@@ -47,8 +49,7 @@ class VideoPlayerDirectiveController {
                         onComplete: this.onCompleteRangeCuepoint.bind(this)
                     }]
                 };
-            }
-            else {
+            } else {
                 this.config.cuePoints = {};
             }
         });
@@ -83,6 +84,7 @@ class VideoPlayerDirectiveController {
         //});
     }
 
+
     setTimes(currentTime) {
         this.$scope.$emit('currentTime', currentTime);
     }
@@ -94,6 +96,14 @@ class VideoPlayerDirectiveController {
     onCompleteRangeCuepoint(currentTime, timeLapse) {
         this.videogular.api.seekTime(timeLapse.start - 2);
     }
+
+    changeTime(currentTime) {
+        console.log(currentTime);
+        let timeInSeconds = currentTime/1000;
+        this.$scope.$emit('currentTime', timeInSeconds);
+    }
+
+
 }
 
 export const videoPlayerDirective = function() {

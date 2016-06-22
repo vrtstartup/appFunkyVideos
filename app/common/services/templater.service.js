@@ -324,7 +324,7 @@ export default class templaterService {
         let string = '';
         string = '[Script Info]\nTitle: Nieuwshub subtitles\nScriptType: v4.00\nCollisions: Normal\n\n';
         string = string + '[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n';
-        string = string + 'Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1\n\n';
+        string = string + 'Style: Default,Helvetica Neue,40,&H00FFFFFF,&H000000F8,&H00FF8100,&H0000FFB5,0,0,0,0,100,100,0,0,3,3.6,4.3,5,10,10,10,1\n\n';
         string = string + '[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
         angular.forEach(json, (line) => {
             if (line.$id !== 'meta') {

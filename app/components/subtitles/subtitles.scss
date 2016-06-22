@@ -16,11 +16,11 @@ md-toolbar.vrt-sub-toolbar {
   height: calc(100vh - 64px);
 }
 
-rzslider {
-  display: block;
-  width: 66%;
-  margin: 90px auto 20px;
-}
+// rzslider {
+//   display: block;
+//   width: 66%;
+//   margin: 90px auto 20px;
+// }
 
 .subtitle-editor-wrap {
   width: 66%;
@@ -43,7 +43,7 @@ rzslider {
   bottom: 25px;
   left: 0;
   display: block;
-  z-index: 100;
+  z-index: 70;
   width: 100%;
   padding: 14px 90px 0px;
   line-height: 1.12em;
