@@ -129,10 +129,11 @@ export default class SubtitlesController {
         this.bumper = this.movie.bumper; // Should go away once bumper is add as an option
         this.uploading = false;
 
-        let clipsRef = this.ref.child(movieId);
-        this.clips = this.$firebaseArray(clipsRef);
+        this.projectRef = this.ref.child(movieId);
+        this.clipsRef = this.projectRef.child('subs').orderByChild('start');
+        this.clips = this.$firebaseArray(this.clipsRef);
 
-        this.refMeta = clipsRef.child('meta');
+        this.refMeta = this.projectRef.child('meta');
         this.meta = this.$firebaseObject(this.refMeta);
 
         this.clips.$loaded(
@@ -155,22 +156,27 @@ export default class SubtitlesController {
     }
 
     // Add one clip
-    addSubtitle(start, end, movieDuration) {
+    addSubtitle(movieDuration) {
 
+        // get last clip
+        const lastClipRef = this.projectRef.child('subs').orderByChild('start').limitToLast(1);
+        const lastClip = this.$firebaseObject(this.lastClipRef);
+        console.log(lastClip.end);
+        var clip = {};
 
-        var clip = { end: movieDuration, start: 0.001 };
         if (movieDuration) {
             if (this.clips.length > 1) {
-                clip.start = end;
+                clip = { end: movieDuration, start: lastClip.end };
             } else {
-                console.log(this.clips[-1]);
+                clip = { end: movieDuration, start: 0.001 };
             }
 
             this.selectedSub = {
-                start: end,
+                start: clip.start,
                 end: clip.end,
                 id: 1,
             };
+            console.log('selected sub', this.selectedSub);
 
             this.clips.$add(clip).then((ref) => {
                 console.log(ref);

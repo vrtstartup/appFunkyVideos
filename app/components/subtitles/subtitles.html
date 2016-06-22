@@ -26,10 +26,19 @@
                     Open project / Start nieuw
                 </md-button>
             </div>
-            <div ng-repeat="(key, c) in vm.clips | orderBy: 'start'" ng-if="c.$id != 'meta'" ng-click="vm.selectSub(c.$id, c.start, c.end); vm.goToTime(c.start);">
-                {{c.start}} - {{c.text}}
-            </div>
-            <md-button ng-if="vm.meta.movieUrl" class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.selectedSub.start, vm.selectedSub.end, vm.meta.movieDuration)">
+            <md-list>
+                <md-list-item class="md-2-line animate-repeat" ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" ng-repeat="(key, c) in vm.clips | orderBy: 'start'" ng-if="c.$id != 'meta'">
+                    <div class="md-list-item-text" ng-click="vm.selectSub(c.$id, c.start, c.end); vm.goToTime(c.start);">
+                        <h3>{{c.start}} - {{c.end}}</h3>
+                        <p>{{ c.text | limitTo: 20 }}{{c.text.length > 20 ? '...' : ''}}
+                        </p>
+                    </div>
+                    <md-button class="md-secondary md-icon-button" ng-click="vm.clips.$remove(c)" aria-label="remove clip">
+                        <i class="material-icons" ng-click="vm.clips.$remove(c)">close</i>
+                    </md-button>
+                </md-list-item>
+            </md-list>
+            <md-button ng-if="vm.meta.movieUrl" class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.meta.movieDuration)">
                 Voeg ondertitel toe
             </md-button>
         </section>
