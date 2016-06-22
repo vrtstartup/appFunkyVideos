@@ -73,7 +73,7 @@ export default class templaterService {
             'name': 'Deredactie.be simpel',
             'id': 1,
             'brand': 'deredactie.be',
-            'fileLocal': 'assets/logos/deredactie1.png',
+            'fileLocal': 'assets/logos/deredactie_1.mov',
             'fileRemote': this.root + 'logos\\deredactie_1.mov'
         }];
 
@@ -88,7 +88,7 @@ export default class templaterService {
             'name': 'Deredactie.be simpel',
             'id': 1,
             'brand': 'deredactie.be',
-            'fileLocal': 'assets/bumpers/deredactie1.png',
+            'fileLocal': 'assets/bumpers/deredactie_1.mov',
             'fileRemote': this.root + 'bumpers\\deredactie_1.mov',
             'fade': 2
         }];
@@ -160,8 +160,6 @@ export default class templaterService {
             };
             deferred.resolve(resp);
         }
-
-
         return deferred.promise;
     }
 
@@ -194,8 +192,6 @@ export default class templaterService {
         });
         return deferred.promise;
     }
-
-
 
     stitcher(clips) {
         const deferred = this.$q.defer();
@@ -270,6 +266,10 @@ export default class templaterService {
         let date = yyyy + mm + dd + '_' + hours + minutes + seconds;
         return date;
     }
+
+
+
+
 
 
 
