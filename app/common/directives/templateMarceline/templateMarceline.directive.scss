@@ -1,0 +1,27 @@
+@import "../../style/variables";
+
+.footer-r2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  pointer-events: none;
+
+}
+
+.footer-r2__content {
+  color: $white;
+  text-align: center;
+  align-self: flex-end;
+  width: 100%;
+  z-index: 1;
+  font-size: 38px;
+  font-family: 'markpro-bold';
+  line-height: 0.2em;
+}
+
+.r2-obit {
+  position: absolute;
+  bottom: 0;
+}
