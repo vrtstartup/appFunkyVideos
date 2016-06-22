@@ -68,7 +68,9 @@ export default class SubtitlesController {
             combo: 'i',
             description: 'Get In Time',
             callback: () => {
-                this.setIn();
+                // this.selectedSub.start = this.videogular.api.currentTime;
+                // let c = this.clips.$getRecord(this.selectedSub.id);
+                // this.clips.$save(c);
             }
         });
 
@@ -76,7 +78,9 @@ export default class SubtitlesController {
             combo: 'o',
             description: 'Get Out Time',
             callback: () => {
-                this.setOut();
+                // this.selectedSub.end = this.currentTime;
+                // let c = this.clips.$getRecord(this.selectedSub.id);
+                // this.clips.$save(c);
             }
         });
 
@@ -159,9 +163,14 @@ export default class SubtitlesController {
     addSubtitle(movieDuration) {
 
         // get last clip
-        const lastClipRef = this.projectRef.child('subs').orderByChild('start').limitToLast(1);
-        const lastClip = this.$firebaseObject(this.lastClipRef);
-        console.log(lastClip.end);
+        let lastClip = {};
+        this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function(snapshot) {
+            snapshot.forEach(function(data) {
+                console.log(data.val());
+                lastClip = data.val();
+            });
+        });
+
         var clip = {};
 
         if (movieDuration) {
@@ -176,8 +185,6 @@ export default class SubtitlesController {
                 end: clip.end,
                 id: 1,
             };
-            console.log('selected sub', this.selectedSub);
-
             this.clips.$add(clip).then((ref) => {
                 console.log(ref);
                 this.selectSub(ref.key(), ref.start, ref.end);
@@ -298,7 +305,7 @@ export default class SubtitlesController {
 
 
     setClipSlider(movieDuration) {
-        console.log(movieDuration);
+        let c;
         this.clipSlider = {
             min: 0.001,
             max: movieDuration,
@@ -314,17 +321,23 @@ export default class SubtitlesController {
                     this.videogular.api.play();
                 },
                 onChange: (id, newValue, highValue) => {
+
                     if (newValue) {
                         // Jump to this point in time in the video
                         this.goToTime(newValue, 'start');
                         // Set the IN-point of the videoloop
                         this.selectedSub.start = newValue;
+                        c = this.clips.$getRecord(this.selectedSub.id);
+                        this.clips.$save(c);
+
                     }
                     if (highValue) {
                         // Jump to this point in time in the video
                         this.goToTime(highValue, 'end');
                         // Set the OUT-point of the videoloop
                         this.selectedSub.end = highValue;
+                        c = this.clips.$getRecord(this.selectedSub.id);
+                        this.clips.$save(c);
                     }
                 },
                 floor: 0.001,
