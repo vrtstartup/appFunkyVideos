@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <html ng-app="app" ng-strict-di ng-cloak>
-    <head lang="en">
-        <meta charset="utf-8">
-        <title ng-bind="pageTitle ? pageTitle : 'VRT'">VRT</title>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.css"> -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.6/angular-material.css">
-        <!--<link rel="stylesheet" href="https://www.videogular.com/styles/themes/default/latest/videogular.css">-->
-        <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
-        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.css' rel='stylesheet' />
-        <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.0.0/mapbox-gl-geocoder.css' rel='stylesheet' />
 
+<head lang="en">
+    <meta charset="utf-8">
+    <title ng-bind="pageTitle ? pageTitle : 'VRT'">VRT</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.6/angular-material.css">
+    <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.0.0/mapbox-gl-geocoder.css' rel='stylesheet' />
+    <link rel="stylesheet" href="build/bundle.css">
+</head>
 
-        <link rel="stylesheet" href="build/bundle.css">
-    </head>
+<body>
+    <app>
+        Loading ...
+    </app>
 
-    <body>
+<!-- <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDJ1ASQGT3vqAzUOHBtKrtuzYh7i91dqmU",
+    authDomain: "vrtnieuwshub.firebaseapp.com",
+    databaseURL: "https://vrtnieuwshub.firebaseio.com",
+    storageBucket: "project-1407104807720831955.appspot.com",
+  };
+  firebase.initializeApp(config);
+</script> -->
 
-        <app>
-            Loading ...
-        </app>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+    <script src='html2canvas.js'></script>
+    <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+    <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-image/v0.0.4/leaflet-image.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.0.0/mapbox-gl-geocoder.js'></script>
+    <script src='build/bundle.js'></script>
+</body>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
-        <script src='html2canvas.js'></script>
-        <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
-        <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-image/v0.0.4/leaflet-image.js'></script>
-        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.js'></script>
-        <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.0.0/mapbox-gl-geocoder.js'></script>
-
-        <script src='build/bundle.js'></script>
-    </body>
 </html>
