@@ -49,9 +49,8 @@ export default class SubtitlesController {
         this.movie = {
             meta: {
                 'audio': 0,
-                'logo': 0,
-                'bumper': 1,
-                'movieUrl': ''
+                'logo': true,
+                'bumper': true,
             }
         };
         this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/subtitles/');
