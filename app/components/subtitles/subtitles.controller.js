@@ -130,7 +130,6 @@ export default class SubtitlesController {
                 this.addSubtitle(this.meta.movieDuration);
             }
         });
-
     }
 
     // Start a new movie
@@ -142,6 +141,7 @@ export default class SubtitlesController {
             // this.addSubtitle(0.001, 9999, 9999);
             this.$mdDialog.cancel();
         });
+
     }
 
     finishMovie(ev) {
