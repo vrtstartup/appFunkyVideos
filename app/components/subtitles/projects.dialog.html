@@ -1,4 +1,4 @@
-<md-dialog aria-label="Login" flex="50">
+<md-dialog aria-label="Open project of start nieuw" flex="70" style="max-height:80vh;">
     <form>
         <md-toolbar class="vrt-toolbar">
             <div class="md-toolbar-tools">
@@ -9,26 +9,28 @@
                 </md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content style="max-width:800px;max-height:810px;">
-            <md-content class="md-padding">
-                <div layout="row">
-                    <div layout="column" layout-align="start center" layout-wrap>
-                        <md-list>
-                            <md-list-item class="md-2-line" ng-repeat="(key, m) in vm.movies | reverse">
-                                <div class="md-list-item-text" ng-click="vm.openMovie(m.$id)">
-                                    <h3>{{m.meta.projectId}}</h3>
-                                    <p>{{m.meta.email}}</p>
-                                </div>
-                            </md-list-item>
-                        </md-list>
-                    </div>
-                    <div layout="column" layout-align="start center" layout-wrap>
-                        <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.createMovie()">
-                            Start nieuw project
-                        </md-button>
-                    </div>
+        <md-dialog-content>
+            <div class="md-padding" layout="row">
+                <md-content flex="65" layout="column">
+                    <md-list>
+                        <md-list-item class="md-2-line animate-repeat" ng-repeat="(key, m) in vm.movies | reverse" ng-click="vm.openMovie(m.$id)">
+                            <div class="md-list-item-text" class="md-list-item-text" >
+                                <h3>{{m.meta.projectId}}</h3>
+                                <p>{{m.meta.email}}</p>
+                            </div>
+                            <md-button class="md-secondary md-icon-button" ng-click="vm.movies.$remove(m)" aria-label="remove clip">
+                                <i class="material-icons" ng-click="vm.movies.$remove(c)">close</i>
+                            </md-button>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+                <!-- </div> -->
+                <div layout="column" layout-align="start center" layout-wrap flex="35">
+                    <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.createMovie()">
+                        Start nieuw project
+                    </md-button>
                 </div>
-            </md-content>
+            </div>
         </md-dialog-content>
         <!--  <md-dialog-actions layout="row" class="form-footer">
             <span flex ng-if="vm.accountStatus != 'loggedIn'"></span>

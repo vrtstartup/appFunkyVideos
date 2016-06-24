@@ -1,19 +1,17 @@
 @import "../../common/style/variables";
-
 md-toolbar.vrt-sub-toolbar {
-  color: #000;
-  background-color: lightgrey;
+    color: #000;
+    background-color: $drd-main-color;
 }
 
-.page-container {
-}
+.page-container {}
 
 .upload-container {
-  padding: 50px;
+    padding: 50px;
 }
 
 .video-container {
-  height: calc(100vh - 64px);
+    height: calc(100vh - 64px);
 }
 
 // rzslider {
@@ -21,56 +19,67 @@ md-toolbar.vrt-sub-toolbar {
 //   width: 66%;
 //   margin: 90px auto 20px;
 // }
-
 .subtitle-editor-wrap {
-  width: 66%;
-  margin: 0 auto 50px;
+    width: 66%;
+    margin: 0 auto 50px;
 }
 
 .subtitles-container {
-  position: relative;
-  height: calc(100% - 64px);
-
-  .subtitles-wrap {
     position: relative;
-    height: 100%;
-  }
+    height: calc(100% - 64px);
+    .subtitles-wrap {
+        position: relative;
+        height: 100%;
+    }
 }
 
 #subtitlePreview {
-  margin: 0;
-  position: absolute;
-  bottom: 25px;
-  left: 0;
-  display: block;
-  z-index: 70;
-  width: 100%;
-  padding: 14px 90px 0px;
-  line-height: 1.12em;
-  text-align: center;
-  color: white;
-  font-weight: 600;
-  font-size: 3em;
-  -webkit-text-stroke: 2px black;
+    margin: 0;
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    display: block;
+    z-index: 70;
+    width: 100%;
+    padding: 14px 90px 0px;
+    line-height: 1.12em;
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    font-size: 3em;
+    -webkit-text-stroke: 2px black;
 }
 
 .videowrapper {
-  position: relative;
+    position: relative;
 }
 
 .videowrapper:hover {
-  #subtitleText {
-    background-color: rgba(255,255,255, 0.3);
-    border-bottom: 1px solid white;
-  }
+    #subtitleText {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-bottom: 1px solid white;
+    }
 }
 
-
 .subtitles-text-line-preserve {
-   white-space: pre-wrap;
+    white-space: pre-wrap;
 }
 
 .editingRow {
-  color: $ook-dat-nog;
-  background-color: rgba(158,158,158,0.2);
+    color: $ook-dat-nog;
+    background-color: rgba(158, 158, 158, 0.2);
+}
+
+.subtitles-controls__icon {
+    width: 100%;
+    &.videoLooping {
+      svg {
+        fill: $drd-main-bg-color;
+      }
+    }
+    svg {
+        fill: $drd-main-color;
+        height: 100%;
+        width: 100%;
+    }
 }

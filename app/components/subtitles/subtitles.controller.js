@@ -23,9 +23,19 @@ export default class SubtitlesController {
         this.currentSubtitlePreview = '';
         this.numberOfProjects = 20;
         this.currentTime = '';
+        this.playingVideo = '';
+        this.loop = false;
         this.$scope.$on('currentTime', (event, data) => {
             this.currentTime = data;
         });
+        this.$scope.$on('onUpdateState', (event, data) => {
+            if (data === 'play') {
+                this.playingVideo = true;
+            } else if (data === 'pause') {
+                this.playingVideo = false;
+            }
+        });
+
 
         this.selectedSub = {};
 
@@ -66,38 +76,58 @@ export default class SubtitlesController {
         // Hotkeys to make editing superfast and smooth. Using angular-hotkeys (http://chieffancypants.github.io/angular-hotkeys/)
         this.hotkeys.add({
             combo: 'i',
-            description: 'Get In Time',
+            description: 'Begin van ondertitel',
             callback: () => {
-                // this.selectedSub.start = this.videogular.api.currentTime;
-                // let c = this.clips.$getRecord(this.selectedSub.id);
-                // this.clips.$save(c);
+                this.selectedSub.start = this.currentTime;
+                let c = this.clips.$getRecord(this.selectedSub.id);
+                c.start = this.selectedSub.start;
+                this.clips.$save(c);
             }
         });
 
         this.hotkeys.add({
             combo: 'o',
-            description: 'Get Out Time',
+            description: 'Einde van ondertitel',
             callback: () => {
-                // this.selectedSub.end = this.currentTime;
-                // let c = this.clips.$getRecord(this.selectedSub.id);
-                // this.clips.$save(c);
-            }
-        });
-
-
-        this.hotkeys.add({
-            combo: 'p',
-            description: 'Start new line',
-            callback: () => {
-                this.addSubtitle();
+                this.selectedSub.end = this.currentTime;
+                let c = this.clips.$getRecord(this.selectedSub.id);
+                c.end = this.selectedSub.end;
+                this.clips.$save(c);
             }
         });
 
         this.hotkeys.add({
             combo: 'k',
-            description: 'Start new line',
+            description: 'Frame verder',
             callback: () => {
-                this.videogular.api.seekTime(this.selectedSub.start - 1 / 1000);
+                this.videogular.api.pause();
+                this.goToTime(this.currentTime + 0.01);
+            }
+        });
+
+        this.hotkeys.add({
+            combo: 'j',
+            description: 'Frame terug',
+            callback: () => {
+                this.videogular.api.pause();
+                this.goToTime(this.currentTime - 0.01);
+            }
+        });
+
+
+        this.hotkeys.add({
+            combo: 'l',
+            description: 'Loop aan / uit',
+            callback: () => {
+                this.toggleLoop();
+            }
+        });
+
+        this.hotkeys.add({
+            combo: 'u',
+            description: 'Nieuwe ondertitel',
+            callback: () => {
+                this.addSubtitle(this.meta.movieDuration);
             }
         });
 
@@ -114,7 +144,19 @@ export default class SubtitlesController {
         });
     }
 
-    openProjects(ev) {
+    finishMovie(ev) {
+        this.$mdDialog.show({
+            templateUrl: '/components/subtitles/finish.dialog.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: false,
+            escapeToClose: false,
+            scope: this.$scope,
+            preserveScope: true
+        });
+    }
+
+     openProjects(ev) {
         this.$mdDialog.show({
             templateUrl: '/components/subtitles/projects.dialog.html',
             parent: angular.element(document.body),
@@ -125,6 +167,7 @@ export default class SubtitlesController {
             preserveScope: true
         });
     }
+
 
     // Opening movie, after create, of when you click in the list with projects
     openMovie(movieId) {
@@ -155,6 +198,12 @@ export default class SubtitlesController {
             });
     }
 
+    toggleLoop() {
+        this.loop = !this.loop;
+        this.goToTime(this.selectedSub.start);
+
+    }
+
     closeModal() {
         this.$mdDialog.cancel();
     }
@@ -166,7 +215,6 @@ export default class SubtitlesController {
         let lastClip = {};
         this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function(snapshot) {
             snapshot.forEach(function(data) {
-                console.log(data.val());
                 lastClip = data.val();
             });
         });
@@ -186,7 +234,6 @@ export default class SubtitlesController {
                 id: 1,
             };
             this.clips.$add(clip).then((ref) => {
-                console.log(ref);
                 this.selectSub(ref.key(), ref.start, ref.end);
                 this.goToTime(ref.start);
             });
@@ -194,7 +241,7 @@ export default class SubtitlesController {
     }
 
     // Make the video follow when the range gets dragged
-    goToTime(time, type) {
+    goToTime(time) {
         this.videogular.api.seekTime(time);
 
     }
@@ -203,11 +250,14 @@ export default class SubtitlesController {
 
 
     selectSub(id, start, end) {
+        this.loop = true;
         this.selectedSub = {
             'id': id,
             'start': start,
             'end': end
         };
+        this.goToTime(start);
+
     }
 
     renderSubtitles(clips) {
@@ -261,11 +311,13 @@ export default class SubtitlesController {
 
 
         let time = twoDigits(dur.minutes) + ':' + twoDigits(dur.seconds) + '.' + round(dur.millis);
-        console.log(time);
-
         return time;
     }
 
+    playPausePlayer() {
+        console.log(this.videogular.api);
+        this.videogular.api.playPause();
+    }
 
     setTimeSlider(movieDuration) {
         this.timeSlider = {
@@ -281,6 +333,7 @@ export default class SubtitlesController {
                 },
                 onChange: (id, newValue) => {
                     if (newValue) {
+
                         // Jump to this point in time in the video
 
                         this.goToTime(newValue, 'start');
@@ -320,9 +373,10 @@ export default class SubtitlesController {
                 onEnd: () => {
                     this.videogular.api.play();
                 },
+                noSwitching: true,
                 onChange: (id, newValue, highValue) => {
 
-                    if (newValue) {
+                    if (newValue && newValue) {
                         // Jump to this point in time in the video
                         this.goToTime(newValue, 'start');
                         // Set the IN-point of the videoloop
@@ -359,7 +413,6 @@ export default class SubtitlesController {
         //get duration of video
         this.Upload.mediaDuration(file).then((durationInSeconds) => {
             movieDuration = Math.round(durationInSeconds * 1000) / 1000;
-            console.log(movieDuration);
         });
 
         // upload to dropbox
@@ -373,6 +426,7 @@ export default class SubtitlesController {
                 this.meta.movieName = resp.data.filenameIn;
                 this.meta.movieUrl = resp.data.image;
                 this.meta.movieDuration = movieDuration;
+                this.uploading = false;
                 this.meta.$save().then((ref) => {
                     // Set slider options
                     this.setClipSlider(movieDuration);
@@ -398,8 +452,6 @@ export default class SubtitlesController {
             })
             .then((resp) => {
                 if (!resp) return;
-                console.log(resp);
-                // resp.data.url
                 this.sendToFFMPEG(resp.data.url, this.meta.movieUrl, this.meta.email, this.meta.logo, this.meta.audio, this.meta.bumper, this.meta.movieDuration);
 
             }, (resp) => {
@@ -474,22 +526,19 @@ export default class SubtitlesController {
 
     sendToFFMPEG(ass, movie, email, logo, audio, bumper, duration) {
 
-        bumper = 1; // For testing purposes
-        logo = 1;
-
         let fade = 0;
 
-        if (logo !== 0) {
-            logo = this.templater.logos[logo].fileLocal;
+        if (logo === true) {
+            logo = this.templater.logos[1].fileLocal;
         }
 
         if (audio !== 0) {
             audio = this.templater.audioTracks[audio].fileLocal;
         }
 
-        if (bumper !== 0) {
-            fade = this.templater.bumpers[bumper].fade;
-            bumper = this.templater.bumpers[bumper].fileLocal;
+        if (bumper === true) {
+            fade = this.templater.bumpers[1].fade;
+            bumper = this.templater.bumpers[1].fileLocal;
         }
 
         this.$http({
