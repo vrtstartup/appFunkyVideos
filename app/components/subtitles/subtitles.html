@@ -47,13 +47,13 @@
         </section>
         <section flex ng-if="vm.movieActive == true" class="subtitles-movie" layout="column" flex="40">
             <md-list>
-                <md-list-item>
+                <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl != null">
                     <p>Huidig filmpje: {{vm.meta.movieUrl | limitTo: 30}}{{vm.meta.movieUrl > 30 ? '...' : ''}}</p>
                     <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'" ngf-select="vm.upload($file)" type="file">
                         Verander
                     </md-button>
                 </md-list-item>
-                <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl != ''">
+                <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl != null">
                     <div class="videowrapper">
                         <vrt-videoplayer source="vm.meta.movieUrl" start="vm.selectedSub.start" end="vm.selectedSub.end" update-time="vm.updateTime($currentTime, $duration)" loop="vm.loop"></vrt-videoplayer>
                         <div class="subtitles-preview__line" ng-repeat="(key, c) in vm.clips" ng-if="(vm.videogular.api.currentTime/1000) >= c.start && (vm.videogular.api.currentTime/1000) <= (c.start + c.end) && key != 'meta'">
@@ -62,17 +62,17 @@
                     </div>
                 </md-list-item>
                 <BR/>
-                <md-list-item ng-if="vm.meta.movieUrl == '' && !vm.uploading">
-                    <p>Er is nog geen video toegevoegd.</p>
+                <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl == null">
                     <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'" ngf-select="vm.upload($file)" type="file">
-                        Verander
+                        Voeg een video toe
                     </md-button>
                 </md-list-item>
                 <md-list-item ng-if="vm.uploading">
                     <md-progress-linear md-mode="indeterminate"></md-progress-linear>
                 </md-list-item>
             </md-list>
-            <md-toolbar>
+            {{}}
+            <md-toolbar ng-if="vm.meta.movieUrl != null">
                 <div class="md-toolbar-tools">
                     <span flex></span>
                     <md-button class="md-raised" aria-label="Maak filmpje" ng-click="vm.finishMovie()">
@@ -83,7 +83,7 @@
             </md-toolbar>
         </section>
     </div>
-    <!-- {{vm.meta.movieUrl == ''}} {{vm.meta.movieUrl == null}} {{vm.meta.movieUrl == undefined}} {{vm.meta.movieUrl == 'undefined'}} -->
+    {{vm.meta.movieUrl == ''}} {{vm.meta.movieUrl == null}} {{vm.meta.movieUrl == undefined}} {{vm.meta.movieUrl == 'undefined'}}
     <section ng-if="vm.meta.movieUrl != null" layout="row" layout-padding style="max-height:10rem;">
         <div ng-click="vm.playPausePlayer()" layout="column" layout-align="center center" flex="5">
             <ng-include src="'assets/iconIncludes/play.html'" layout-align="center center" class="subtitles-controls__icon" ng-if="!vm.playingVideo"></ng-include>
