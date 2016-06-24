@@ -23,9 +23,15 @@ class VideoPlayerDirectiveController {
                         onComplete: this.onCompleteRangeCuepoint.bind(this),
                         onProgress: this.changeTime.bind(this),
 
+
                     }]
                 }
             };
+        });
+
+
+        $scope.$watch('loop', (value) => {
+            this.looping = value;
         });
 
         $scope.$watchCollection('[start, end]', (values, oldValues) => {
@@ -52,36 +58,10 @@ class VideoPlayerDirectiveController {
             } else {
                 this.config.cuePoints = {};
             }
+
+
         });
 
-        //$scope.$watch('start', (value) => {
-        //    if (!value) return;
-        //    this.videogular.api.seekTime(value);
-        //    this.videogular.api.play();
-        //
-        //    this.config.cuePoints = {
-        //        range: [{
-        //            timeLapse: {
-        //                start: value,
-        //                end: $scope.end
-        //            },
-        //            onComplete: this.onCompleteRangeCuepoint.bind(this)
-        //        }]
-        //    };
-        //});
-        //
-        //$scope.$watch('end', (value) => {
-        //    if (!value) return;
-        //    this.config.cuePoints = {
-        //        range: [{
-        //            timeLapse: {
-        //                start: $scope.start,
-        //                end: value
-        //            },
-        //            onComplete: this.onCompleteRangeCuepoint.bind(this)
-        //        }]
-        //    };
-        //});
     }
 
 
@@ -89,17 +69,25 @@ class VideoPlayerDirectiveController {
         this.$scope.$emit('currentTime', currentTime);
     }
 
+    onUpdateState(state) {
+        this.$scope.$emit('onUpdateState', state);
+    }
+
     onPlayerReady(API) {
         this.videogular.onPlayerReady(API);
     }
 
     onCompleteRangeCuepoint(currentTime, timeLapse) {
-        this.videogular.api.seekTime(timeLapse.start - 2);
+        if (this.looping === true) {
+            this.videogular.api.seekTime(timeLapse.start);
+        } else {
+            // Do nothing if we don't want it to loop
+        }
     }
 
     changeTime(currentTime) {
         console.log(currentTime);
-        let timeInSeconds = currentTime/1000;
+        let timeInSeconds = currentTime / 1000;
         this.$scope.$emit('currentTime', timeInSeconds);
     }
 
@@ -115,7 +103,8 @@ export const videoPlayerDirective = function() {
             start: '=',
             end: '=',
             currentTime: '=',
-            updateTime: '&'
+            updateTime: '&',
+            loop: '='
         },
         controller: VideoPlayerDirectiveController,
         controllerAs: 'vm',
