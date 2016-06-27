@@ -133,7 +133,8 @@ export default class SubtitlesController {
 
     // Start a new movie
     createMovie() {
-        this.movie.meta.projectId = this.templater.time() + '_' + (this.movie.meta.email.substring(0, this.movie.meta.email.indexOf("@"))).replace('.', '');
+        let userEmail = this.movie.meta.email;
+        this.movie.meta.projectId = this.templater.time() + '_' + (userEmail.substring(0, userEmail.indexOf("@"))).replace('.', '');
         this.movies.$add(this.movie).then((ref) => {
 
             this.openMovie(ref.key());

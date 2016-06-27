@@ -22,6 +22,7 @@ class VideoPlayerDirectiveController {
                         },
                         onComplete: this.onCompleteRangeCuepoint.bind(this),
                         onProgress: this.changeTime.bind(this),
+                        onChangeSource: this.setTimeSlider()
 
 
                     }]
@@ -30,9 +31,18 @@ class VideoPlayerDirectiveController {
         });
 
 
+
+
+
         $scope.$watch('loop', (value) => {
             this.looping = value;
         });
+
+
+        $scope.$watch('videogular.api.totalTime', (value) => {
+            console.log(value);
+        });
+
 
         $scope.$watchCollection('[start, end]', (values, oldValues) => {
             if (!values) return;
@@ -65,6 +75,89 @@ class VideoPlayerDirectiveController {
     }
 
 
+    // TESTING
+
+    secToTime(millis) {
+        var dur = {};
+        var units = [
+            { label: 'millis', mod: 1000 },
+            { label: 'seconds', mod: 60 },
+            { label: 'minutes', mod: 60 },
+        ];
+        // calculate the individual unit values...
+        units.forEach(function(u) {
+            millis = (millis - (dur[u.label] = (millis % u.mod))) / u.mod;
+        });
+
+
+
+        let twoDigits = function(number) {
+            if (number < 10) {
+                number = '0' + number;
+                return number;
+            } else {
+                return number;
+            }
+        };
+
+
+        let round = function(number) {
+
+            if (number < 99) {
+                return number;
+
+            } else {
+                number = Math.round((number / 10));
+                return number;
+            }
+        };
+
+
+        let time = twoDigits(dur.minutes) + ':' + twoDigits(dur.seconds) + '.' + round(dur.millis);
+        return time;
+    }
+
+
+    setTimeSlider(totalTime) {
+        console.log(totalTime);
+        this.timeSlider = {
+            min: 0,
+            max: totalTime,
+            options: {
+                showSelectionBar: true,
+                translate: (value) => {
+                    return this.secToTime(value);
+                },
+                onStart: () => {
+                    this.videogular.api.pause();
+                },
+                onChange: (id, newValue) => {
+                    if (newValue) {
+
+                        // Jump to this point in time in the video
+                        // Make the video follow when the range gets dragged
+                        this.videogular.api.seekTime(time);
+
+                    }
+                },
+                onEnd: () => {
+                    this.videogular.api.play();
+                },
+                hideLimitLabels: true,
+
+                floor: 0,
+                ceil: totalTime,
+                precision: 3,
+                step: 0.001,
+                draggableRange: true,
+                keyboardSupport: true
+            }
+        };
+
+    }
+
+    // END OF TEST
+
     setTimes(currentTime) {
         this.$scope.$emit('currentTime', currentTime);
     }
@@ -75,6 +168,10 @@ class VideoPlayerDirectiveController {
 
     onPlayerReady(API) {
         this.videogular.onPlayerReady(API);
+
+        console.log(this.videogular.api);
+        console.log(this.videogular.api.timeLeft);
+        this.setTimeSlider(this.videogular.api.totalTime);
     }
 
     onCompleteRangeCuepoint(currentTime, timeLapse) {

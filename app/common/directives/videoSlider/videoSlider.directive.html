@@ -1,0 +1,16 @@
+
+<section layout="row" layout-padding style="max-height:10rem;">
+    <div ng-click="vm.playPausePlayer()" layout="column" layout-align="center center" flex="5">
+        <ng-include src="'assets/iconIncludes/play.html'" layout-align="center center" class="subtitles-controls__icon"></ng-include>
+        <!-- <ng-include src="'assets/iconIncludes/pause.html'" layout-align="center center" class="subtitles-controls__icon" ng-if="vm.playingVideo"></ng-include> -->
+    </div>
+    <div layout="column" flex="90" layout-align="center center">
+        <rzslider rz-slider-model="vm.api.currentTime" rz-slider-options="vm.timeSlider.options"></rzslider>
+        <!--       <div ng-repeat="(key, c) in vm.clips" ng-if="c.$id == vm.selectedSub.id" class="clipSlider" style="width:100%;" ng-class="vm.loop ? '' : 'videoLooping'">
+                <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.clipSlider.options"></rzslider>
+            </div> -->
+    </div>
+    <div layout="column" layout-align="center center" flex="5">
+        <ng-include src="'assets/iconIncludes/loop.html'" ng-click="vm.toggleLoop()" ng-class="vm.loop ? '' : 'videoLooping'" layout-align="center center" class="subtitles-controls__icon"></ng-include>
+    </div>
+</section>

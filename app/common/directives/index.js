@@ -38,6 +38,7 @@ import templateTrunk from './templateTrunk';
 import templateIceKing from './templateIceKing';
 import templateMarceline from './templateMarceline';
 import templatePeppermint from './templatePeppermint';
+import videoSlider from './videoSlider';
 
 
 
@@ -48,7 +49,7 @@ const module = angular.module('app.common.directives', [
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
     userLogin, draggable, templateFinn, templateJake, templateGiantBomb, movable, templateBmo, templateLumpy,
     artistBlock, templateCinnabon, templateBubblegum, templateTrunk, templateIceKing, templateMarceline,
-    audioPlayer, templatePeppermint,
+    audioPlayer, templatePeppermint, videoSlider
 ]);
 
 export default module.name;
