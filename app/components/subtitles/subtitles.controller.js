@@ -156,7 +156,7 @@ export default class SubtitlesController {
         });
     }
 
-     openProjects(ev) {
+    openProjects(ev) {
         this.$mdDialog.show({
             templateUrl: '/components/subtitles/projects.dialog.html',
             parent: angular.element(document.body),
@@ -189,7 +189,7 @@ export default class SubtitlesController {
                 if (this.meta.movieDuration) {
                     this.clip = { end: this.meta.movieDuration, start: 0.001 };
                     this.setClipSlider(this.meta.movieDuration);
-                    this.setTimeSlider(this.meta.movieDuration);
+                    // this.setTimeSlider(this.meta.movieDuration);
                 }
                 this.$mdDialog.cancel();
             },
@@ -200,7 +200,10 @@ export default class SubtitlesController {
 
     toggleLoop() {
         this.loop = !this.loop;
-        this.goToTime(this.selectedSub.start);
+        this.selectedSub.id = null;
+
+        this.goToTime(0);
+        this.videogular.api.play();
 
     }
 
@@ -243,7 +246,6 @@ export default class SubtitlesController {
     // Make the video follow when the range gets dragged
     goToTime(time) {
         this.videogular.api.seekTime(time);
-
     }
 
 
@@ -314,48 +316,9 @@ export default class SubtitlesController {
         return time;
     }
 
-    playPausePlayer() {
-        console.log(this.videogular.api);
-        this.videogular.api.playPause();
-    }
-
-    setTimeSlider(movieDuration) {
-        this.timeSlider = {
-            min: 0,
-            max: movieDuration,
-            options: {
-                showSelectionBar: true,
-                translate: (value) => {
-                    return this.secToTime(value);
-                },
-                onStart: () => {
-                    this.videogular.api.pause();
-                },
-                onChange: (id, newValue) => {
-                    if (newValue) {
-
-                        // Jump to this point in time in the video
-
-                        this.goToTime(newValue, 'start');
-
-                    }
-                },
-                onEnd: () => {
-                    this.videogular.api.play();
-                },
-                hideLimitLabels: true,
-
-                floor: 0,
-                ceil: movieDuration,
-                precision: 3,
-                step: 0.001,
-                draggableRange: true,
-                keyboardSupport: true
-            }
-        };
-
-    }
-
+    // playPausePlayer() {
+    //     this.videogular.api.playPause();
+    // }
 
     setClipSlider(movieDuration) {
         let c;
@@ -363,9 +326,9 @@ export default class SubtitlesController {
             min: 0.001,
             max: movieDuration,
             options: {
-                translate: (value) => {
-                    return this.secToTime(value);
-                },
+                // translate: (value) => {
+                //     return this.secToTime(value);
+                // },
                 onStart: () => {
                     this.videogular.api.pause();
                 },
@@ -378,7 +341,7 @@ export default class SubtitlesController {
 
                     if (newValue && newValue) {
                         // Jump to this point in time in the video
-                        this.goToTime(newValue, 'start');
+                        // this.goToTime(newValue, 'start');
                         // Set the IN-point of the videoloop
                         this.selectedSub.start = newValue;
                         c = this.clips.$getRecord(this.selectedSub.id);
@@ -387,13 +350,14 @@ export default class SubtitlesController {
                     }
                     if (highValue) {
                         // Jump to this point in time in the video
-                        this.goToTime(highValue, 'end');
+                        // this.goToTime(highValue, 'end');
                         // Set the OUT-point of the videoloop
                         this.selectedSub.end = highValue;
                         c = this.clips.$getRecord(this.selectedSub.id);
                         this.clips.$save(c);
                     }
                 },
+                hideLimitLabels: true,
                 floor: 0.001,
                 ceil: movieDuration,
                 precision: 3,
@@ -403,7 +367,36 @@ export default class SubtitlesController {
             }
         };
 
+        this.clipsSlider = {
+            min: 0.001,
+            max: movieDuration,
+            options: {
+                // translate: (value) => {
+                //     return this.secToTime(value);
+                // },
+
+                noSwitching: true,
+                disabled: true,
+
+                hideLimitLabels: true,
+                floor: 0.001,
+                ceil: movieDuration,
+                precision: 3,
+                step: 0.001,
+                // draggableRange: true,
+                keyboardSupport: true
+            }
+        };
+
+
     }
+
+
+
+
+
+
+
 
     // Upload the video
     upload(file) {
@@ -430,7 +423,7 @@ export default class SubtitlesController {
                 this.meta.$save().then((ref) => {
                     // Set slider options
                     this.setClipSlider(movieDuration);
-                    this.setTimeSlider(movieDuration);
+                    // this.setTimeSlider(movieDuration);
                 }, (error) => {
                     console.log("Error:", error);
                 });
@@ -520,6 +513,15 @@ export default class SubtitlesController {
     //     }
     // }
 
+
+
+    setAudio(audioId) {
+        this.meta.audio = audioId;
+        this.audioTrackUrl = this.templater.audioTracks[audioId].fileLocal;
+        this.meta.$save().then(function(ref) {}, function(error) {
+            console.log("Error:", error);
+        });
+    }
 
 
 

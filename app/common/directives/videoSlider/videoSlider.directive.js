@@ -1,15 +1,18 @@
 import template from './videoSlider.directive.html';
 
 class VideoSliderDirectiveController {
-    constructor($scope) {
+    constructor($scope, videogular) {
         this.$scope = $scope;
 
-        $scope.$watch('api', (value) => {
-            this.api = value;
+        this.videogular = videogular;
+        this.totalTime = this.videogular.api.totalTime;
+
+        // $scope.$watch('api', (value) => {
+        //     this.api = value;
 
 
-            this.setTimeSlider();
-        });
+        //     this.setTimeSlider();
+        // });
 
 
 
@@ -110,4 +113,4 @@ export const videoSliderDirective = function() {
     };
 };
 
-VideoSliderDirectiveController.$inject = ['$scope'];
+VideoSliderDirectiveController.$inject = ['$scope', 'videogular'];

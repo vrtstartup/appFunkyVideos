@@ -26,7 +26,7 @@
                     <md-input-container>
                         <label>Kies een audiotrack</label>
                         <md-select ng-model="vm.meta.audio" ng-change="vm.setAudio(vm.meta.audio)">
-                            <md-option ng-repeat="(key, a) in vm.audioTracks" value="{{a.id}}">
+                            <md-option ng-repeat="(key, a) in vm.templater.audioTracks" value="{{a.id}}">
                                 {{a.name}}
                             </md-option>
                         </md-select>
@@ -39,6 +39,10 @@
                 <md-toolbar class="vrt-toolbar">
                     <div class="md-toolbar-tools">
                         <h2>kies mailadres</h2>
+                        <span flex></span>
+                         <md-button class="md-icon-button" ng-click="vm.closeModal()">
+                    <i class="material-icons">close</i>
+                </md-button>
                     </div>
                 </md-toolbar>
                 <div layout-padding layout="column">
@@ -49,6 +53,10 @@
                     </md-input-container>
                 </div>
             </section>
+            <span flex></span>
+            <md-button class="md-raised" aria-label="Film maken" ng-click="vm.renderSubtitles(vm.clips)">
+                Maak filmpje
+            </md-button>
             <!-- <md-input-container>
                 <label>Kies een logo</label>
                 <md-select ng-model="vm.logo" ng-change="vm.setLogo(vm.meta.logo)">
@@ -59,12 +67,12 @@
             </md-input-container>
             <img src="{{vm.logoUrl}}"> -->
         </md-dialog-content>
-        <md-dialog-actions layout="row" class="form-footer">
+       <!--  <md-dialog-actions layout="row" class="form-footer">
             <span flex></span>
             <md-button class="md-raised" aria-label="Film maken" ng-click="vm.renderSubtitles(vm.clips)">
                 Maak filmpje
             </md-button>
             <span flex></span>
-        </md-dialog-actions>
+        </md-dialog-actions> -->
     </form>
 </md-dialog>

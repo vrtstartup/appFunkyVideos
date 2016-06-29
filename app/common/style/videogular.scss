@@ -8,7 +8,7 @@ videogular, [videogular] {
   width: 100%;
   height: 100%;
   position: relative;
-  background-color: #000000;
+  background-color: $drd-main-bg-color;
   display: block;
   flex-direction: column;
 
@@ -155,7 +155,7 @@ videogular, [videogular] {
   vg-controls .controls-container {
     width: 100%;
     height: 50px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: $drd-main-bg-color;
     position: absolute;
     display: table;
 
@@ -164,7 +164,7 @@ videogular, [videogular] {
 
   vg-play-pause-button {
     display: table-cell;
-    width: 50px;
+    width: 5%;
     vertical-align: middle;
     text-align: center;
     cursor: pointer;
@@ -175,7 +175,7 @@ videogular, [videogular] {
     display: table-cell;
     font-family: Arial;
     font-size: 18px;
-    width: 75px;
+    width: 10%;
     vertical-align: middle;
     text-align: center;
     cursor: default;
@@ -199,7 +199,7 @@ videogular, [videogular] {
       margin-top: 24px;
       margin-bottom: 24px;
       height: 2px;
-      background-color: black;
+      background-color: $drd-main-bg-color;
       position: relative;
     }
 
@@ -212,13 +212,13 @@ videogular, [videogular] {
     }
 
     :focus vg-scrub-bar-current-time {
-      border-right: 6px black groove;
+      border-right: 6px $drd-main-bg-color groove;
     }
   }
 
   vg-scrub-bar-current-time {
     position: absolute;
-    background-color: #FFFFFF;
+    background-color: $vrt-guide;
     width: 100%;
     height: 100%;
     display: block;
@@ -295,7 +295,7 @@ videogular, [videogular] {
 
   vg-volume {
     display: table-cell;
-    width: 50px;
+    width: 5%;
     vertical-align: middle;
     text-align: center;
     cursor: pointer;
@@ -332,7 +332,7 @@ videogular, [videogular] {
   vg-volume-bar .verticalVolumeBar {
     width: 50px;
     height: 100px;
-    background-color: #000000;
+    background-color: $drd-main-bg-color;
     position: absolute;
   }
 
@@ -619,4 +619,41 @@ videogular, [videogular] {
     top: 0;
     display: none;
   }
+}
+
+
+
+
+
+
+
+
+
+videogular {
+    /*        width: 95%;
+        margin: 20px auto 50px;*/
+    display: static;
+    display: inherit;
+}
+
+videogular vg-scrub-bar .container {
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+
+videogular vg-scrub-bar-cue-points .cue-point-timeline .cue-point {
+    background-color: transparent !important;
+}
+
+videogular vg-scrub-bar {}
+
+videogular vg-controls {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+}
+
+videogular vg-controls .controls-container {
+    background-color: $drd-main-bg-color;
 }

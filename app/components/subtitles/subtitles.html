@@ -1,5 +1,5 @@
 <md-content layout="column" style="height:calc(100vh - 4em)">
-    <div layout="row" style="height:calc(100% - 10rem)">
+    <div layout="row" style="height:calc(100% - 3rem)">
         <section ng-hide="vm.movieId == ''" flex="20" layout="column">
             <md-toolbar>
                 <div class="md-toolbar-tools">
@@ -12,7 +12,7 @@
                 </div>
             </md-toolbar>
             <md-list style="overflow-y: scroll;">
-                <md-list-item class="md-2-line animate-repeat" ng-click="vm.selectSub(c.$id, c.start, c.end);" ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" ng-repeat="(key, c) in vm.clips | orderBy: 'start'" ng-if="c.$id != 'meta'">
+                <md-list-item class="md-2-line animate-repeat" ng-click="vm.selectSub(c.$id, c.start, c.end);vm.loop = true" ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" ng-repeat="(key, c) in vm.clips | orderBy: 'start'" ng-if="c.$id != 'meta'">
                     <div class="md-list-item-text">
                         <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
                         <p>{{ c.text | limitTo: 20 }}{{c.text.length > 20 ? '...' : ''}}
@@ -53,15 +53,12 @@
                         Verander
                     </md-button>
                 </md-list-item>
-                <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl != null">
-                    <div class="videowrapper">
-                        <vrt-videoplayer source="vm.meta.movieUrl" start="vm.selectedSub.start" end="vm.selectedSub.end" update-time="vm.updateTime($currentTime, $duration)" loop="vm.loop"></vrt-videoplayer>
-                        <!-- <div class="subtitles-preview__line" ng-repeat="(key, c) in vm.clips" ng-if="(vm.videogular.api.currentTime/1000) >= c.start && (vm.videogular.api.currentTime/1000) <= (c.start + c.end) && key != 'meta'">
-                            <p id="subtitlePreview">{{c.text}}</p>
-                        </div> -->
+                <div class="videowrapper" ng-if="!vm.uploading && vm.meta.movieUrl != null">
+                    <vrt-videoplayer source="vm.meta.movieUrl" start="vm.selectedSub.start" end="vm.selectedSub.end" update-time="vm.updateTime($currentTime, $duration)" loop="vm.loop"></vrt-videoplayer>
+                    <div class="subtitles-preview__line" ng-repeat="(key, c) in vm.clips" ng-if="(vm.videogular.api.currentTime/1000) >= c.start && (vm.videogular.api.currentTime/1000) <= (c.start + c.end) && key != 'meta'">
+                        <p id="subtitlePreview">{{c.text}}</p>
                     </div>
-                </md-list-item>
-                <BR/>
+                </div>
                 <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl == null">
                     <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'" ngf-select="vm.upload($file)" type="file">
                         Voeg een video toe
@@ -71,31 +68,23 @@
                     <md-progress-linear md-mode="indeterminate"></md-progress-linear>
                 </md-list-item>
             </md-list>
-            {{}}
             <md-toolbar ng-if="vm.meta.movieUrl != null">
                 <div class="md-toolbar-tools">
+                    <md-button class="md-raised" aria-label="Bekijk filmpje" ng-click="vm.toggleLoop()">
+                        <span ng-if="vm.loop">Preview filmpje</span>
+                        <span ng-if="!vm.loop">Stop Preview</span>
+                    </md-button>
                     <span flex></span>
                     <md-button class="md-raised" aria-label="Maak filmpje" ng-click="vm.finishMovie()">
                         Maak filmpje
                     </md-button>
-                    <span flex></span>
                 </div>
             </md-toolbar>
         </section>
     </div>
-<!--     <section ng-if="vm.meta.movieUrl != null" layout="row" layout-padding style="max-height:10rem;">
-        <div ng-click="vm.playPausePlayer()" layout="column" layout-align="center center" flex="5">
-            <ng-include src="'assets/iconIncludes/play.html'" layout-align="center center" class="subtitles-controls__icon" ng-if="!vm.playingVideo"></ng-include>
-            <ng-include src="'assets/iconIncludes/pause.html'" layout-align="center center" class="subtitles-controls__icon" ng-if="vm.playingVideo"></ng-include>
+    <section ng-if="vm.meta.movieUrl != null" layout="row">
+        <div flex="70" layout-align="center center" ng-repeat="(key, c) in vm.clips" ng-if="c.$id == vm.selectedSub.id" class="clipSlider" style="width: 100%;position: fixed;bottom: 20px;left: calc(15% - 1px); background-color: transparent; z-index: 3;" ng-class="vm.loop ? '' : 'videoLooping'">
+            <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.clipSlider.options"></rzslider>
         </div>
-        <div layout="column" flex="90" layout-align="center center">
-            <rzslider rz-slider-model="vm.currentTime" rz-slider-options="vm.timeSlider.options"></rzslider>
-            <div ng-repeat="(key, c) in vm.clips" ng-if="c.$id == vm.selectedSub.id" class="clipSlider" style="width:100%;" ng-class="vm.loop ? '' : 'videoLooping'">
-                <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.clipSlider.options"></rzslider>
-            </div>
-        </div>
-        <div layout="column" layout-align="center center" flex="5">
-            <ng-include src="'assets/iconIncludes/loop.html'" ng-click="vm.toggleLoop()" ng-class="vm.loop ? '' : 'videoLooping'" layout-align="center center" class="subtitles-controls__icon"></ng-include>
-        </div>
-    </section> -->
+    </section>
 </md-content>

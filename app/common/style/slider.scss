@@ -3,8 +3,8 @@
  https://github.com/angular-slider/angularjs-slider -
  2016-02-18 */
 $sliderColor: $drd-main-color;
-$sliderHeight: 32px;
-$sliderDrqgWidth: 4px;
+$sliderHeight: 20px;
+$sliderDragWidth: 4px;
 $sliderDragColor: black;
 
 
@@ -64,7 +64,7 @@ rzslider .rz-bar {
   z-index: 1;
   width: 100%;
   height: $sliderHeight;
-  background: #d8e0f3;
+  background: $drd-main-bg-color;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
@@ -79,15 +79,16 @@ rzslider .rz-bar.rz-selection {
 }
 
 rzslider .rz-pointer {
-  top: -($sliderHeight/2);
-  z-index: 3;
-  width: $sliderDrqgWidth;
-  height: $sliderHeight;
+  width: 5px;
+  height: 20px;
   cursor: pointer;
-  background-color: $sliderDragColor;
-  -webkit-border-radius: 16px;
-  -moz-border-radius: 16px;
-  border-radius: 16px;
+  background-color: $drd-main-color;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  // position: relative;
+    top: -16px;
+    z-index: 10;
 }
 
 rzslider .rz-pointer:after {
@@ -116,7 +117,7 @@ rzslider .rz-pointer.rz-active:after {
 }
 
 rzslider .rz-bubble {
-  bottom: 16px;
+  bottom: 20px;
   padding: 1px 3px;
   color: #55637d;
   cursor: default;
@@ -246,7 +247,7 @@ rzslider.vertical .rz-ticks .tick .tick-value {
 
 // Hack for bottom slider
 .clipSlider rzslider .rz-bubble {
-  bottom: -$sliderHeight;
+  // bottom: -$sliderHeight;
 }
 
 .clipSlider .videoLooping {
