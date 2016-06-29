@@ -208,7 +208,6 @@ router.post('/burnSubs', function(req, res) {
         .input(movie)
         .input(bumper)
         .input(logo)
-        .input(audio)
         .complexFilter([
             'color=black:' + width + 'x' + height + ':d=' + duration + '[blackVideo]',
             '[0:v]setpts=PTS-STARTPTS[theMovie]',

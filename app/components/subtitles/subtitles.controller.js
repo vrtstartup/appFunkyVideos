@@ -227,7 +227,8 @@ export default class SubtitlesController {
 
         if (movieDuration) {
             if (this.clips.length > 1) {
-                clip = { end: movieDuration, start: lastClip.end };
+                console.log(lastClip);
+                clip = { end: movieDuration, start: (lastClip.end*1 + 0.010)};
             } else {
                 clip = { end: movieDuration, start: 0.001 };
             }
