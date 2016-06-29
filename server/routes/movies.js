@@ -82,18 +82,37 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
                         console.log(error);
 
-                        var width;
-                        var height;
                         ffmpeg.ffprobe(imageUrl, function(err, metadata) {
+                            if (metadata) {
+                                for (i = 0; i < metadata.streams.length; i++) {
 
-                                // console.log(metadata, metadata.streams[0].width, metadata.streams[0].height);
-                            res.json({
-                                image: imageUrl,
-                                filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-                                filenameIn: file.originalFilename
-                            }).send();
+                                    if (metadata.streams[i].codec_type === 'video') {
+                                        width = metadata.streams[i].width;
+                                        height = metadata.streams[i].height;
+                                        res.json({
+                                            image: imageUrl,
+                                            width: metadata.streams[i].width,
+                                            height: metadata.streams[i].height,
+                                            filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
+                                            filenameIn: file.originalFilename
+                                        }).send();
 
+                                    }
+                                }
+                            } else {
+                                res.json({
+                                    image: imageUrl,
+                                    filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
+                                    filenameIn: file.originalFilename
+                                }).send();
+                            }
                         });
+
+
+
+
+
+
                     });
                 });
             }
@@ -177,17 +196,47 @@ router.post('/burnSubs', function(req, res) {
     var bumper = req.body.bumper;
     var duration = req.body.duration;
     var fade = req.body.fade;
+    var width = req.body.width;
+    var height = req.body.height;
     var videoName = time() + '_' + (email.substring(0, email.indexOf("@"))).replace('.', '') + '.mp4';
     var tempVideo = path + videoName;
     // var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:0]scale=1920:1080;[1:v]setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[bumper];[base][0:v]overlay[tmp];[tmp][bumper]overlay[allOverlayed];[allOverlayed]ass=' + ass + '[out]" -map [out] ' + tempVideo;
     // var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:v]scale=1920:1080,setpts=PTS-STARTPTS;[1:v]setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[bumper];[base][v0]overlay[tmp];[tmp][bumper]overlay[allOverlayed],[allOverlayed]ass=' + ass + '[out]" -map [out] -map 0:1 -c copy -c:v libx264 -b:v 1000k ' + tempVideo;
-    var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:v]setpts=PTS-STARTPTS[v0];[1:v]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[v1];[base][v0]overlay[tmp];[tmp][v1]overlay,format=yuv420p[fv],[fv]ass=' + ass + '[sub],[sub][2:v]overlay=10:10[out]" -map [out] -c copy -c:v libx264 -b:v 1000k ' + tempVideo;
+    // var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:v]setpts=PTS-STARTPTS[v0];[1:v]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[v1];[base][v0]overlay[tmp];[tmp][v1]overlay,format=yuv420p[fv],[fv]ass=' + ass + '[sub],[sub][2:v]overlay=10:10[out]" -map [out] -c copy -c:v libx264 -b:v 1000k ' + tempVideo;
+
+    var ffmpegCommand = ffmpeg()
+        .input(movie)
+        .input(bumper)
+        .input(logo)
+        .input(audio)
+        .complexFilter([
+            'color=black:' + width + 'x' + height + ':d=' + duration + '[blackVideo]',
+            '[0:v]setpts=PTS-STARTPTS[theMovie]',
+            '[1:v]scale=' + width + ':-1[bumperRescaled]',
+            '[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]',
+            '[2:v]scale=' + width / 5 + ':-1[logoRescaled]', {
+                filter: 'overlay',
+                options: { x: 0, y: 0 },
+                inputs: ['blackVideo', 'theMovie'],
+                outputs: 'longMovie'
+            }, {
+                filter: 'overlay',
+                options: { x: 10, y: 10 },
+                inputs: ['longMovie', 'logoRescaled'],
+                outputs: 'longMovieWithLogo'
+            }, {
+                filter: 'overlay',
+                options: { x: 0, y: 0 },
+                inputs: ['longMovieWithLogo', 'theBumper'],
+                outputs: 'longMovieWithLogoAndBumper'
+            },
+            '[longMovieWithLogoAndBumper]ass=' + ass + '[out]'
+        ], 'out')
+        .save(tempVideo)
+        .run();
 
 
-
-    var testCommand = ffmpeg(movie)
-        .videoFilters('fade=in:0:30');
-    testCommand.save(tempVideo);
+    // ffmpeg = ffmpeg + ' && ffmpeg -i ' + folder + project + state + '.mp4' + ' ' + folder + project + '_audioTrack.mp3 && ffmpeg -i ' + folder + project + 'audioTrack.mp3 -i ' + this.audioTracks[audio].fileRemote + ' -filter_complex amerge -c:a libmp3lame -q:a 4 ' + folder + project + 'audioMix.mp3 && ffmpeg -i ' + folder + project + state + '.mp4' + ' -i ' + folder + project + 'audioMix.mp3 -c:v copy -c:a aac -strict experimental -map 0:v:0 -map 1:a:0 ' + folder + project + state + '_audio.mp4';
 
     // console.log(testCommand);
     // var ffmpegProcess = exec(testCommand);

@@ -1,4 +1,6 @@
-<md-dialog aria-label="Finish" flex="70" style="max-height:80vh;">
+
+
+<md-dialog aria-label="Finish" flex="70" style="max-height:120vh;">
     <form>
         <md-dialog-content layout="row">
             <section flex="33" layout="column">
@@ -16,7 +18,7 @@
                     </md-checkbox>
                 </div>
             </section>
-            <section flex="33" layout="column">
+<!--             <section flex="33" layout="column">
                 <md-toolbar class="vrt-toolbar">
                     <div class="md-toolbar-tools">
                         <h2>Kies audio</h2>
@@ -32,31 +34,27 @@
                         </md-select>
                     </md-input-container>
                     {{vm.audioTrackUrl}}
-                    <vrt-audioplayer source="vm.audioTrackUrl"></vrt-audioplayer>
+                    <vrt-audioplayer source="vm.audioTrackUrl" class="audioplayer"></vrt-audioplayer>
                 </div>
-            </section>
+            </section> -->
             <section flex="33" layout="column">
                 <md-toolbar class="vrt-toolbar">
                     <div class="md-toolbar-tools">
                         <h2>kies mailadres</h2>
                         <span flex></span>
-                         <md-button class="md-icon-button" ng-click="vm.closeModal()">
-                    <i class="material-icons">close</i>
-                </md-button>
+                        <md-button class="md-icon-button" ng-click="vm.closeModal()">
+                            <i class="material-icons">close</i>
+                        </md-button>
                     </div>
                 </md-toolbar>
                 <div layout-padding layout="column">
                     <p>Deze video zal verstuurd worden naar:</p>
                     <md-input-container>
                         <label>Email adres</label>
-                        <input type="text" ng-model="vm.meta.email">
+                        <input type="text" ng-model="vm.meta.sendTo" ng-change="vm.meta.$save()">
                     </md-input-container>
                 </div>
             </section>
-            <span flex></span>
-            <md-button class="md-raised" aria-label="Film maken" ng-click="vm.renderSubtitles(vm.clips)">
-                Maak filmpje
-            </md-button>
             <!-- <md-input-container>
                 <label>Kies een logo</label>
                 <md-select ng-model="vm.logo" ng-change="vm.setLogo(vm.meta.logo)">
@@ -67,12 +65,12 @@
             </md-input-container>
             <img src="{{vm.logoUrl}}"> -->
         </md-dialog-content>
-       <!--  <md-dialog-actions layout="row" class="form-footer">
+         <md-dialog-actions layout="row" class="form-footer">
             <span flex></span>
             <md-button class="md-raised" aria-label="Film maken" ng-click="vm.renderSubtitles(vm.clips)">
                 Maak filmpje
             </md-button>
             <span flex></span>
-        </md-dialog-actions> -->
+        </md-dialog-actions>
     </form>
 </md-dialog>

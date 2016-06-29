@@ -64,6 +64,7 @@ export default class SubtitlesController {
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
                     this.movie.meta.email = authData.password.email;
+                    this.movie.meta.sendTo = authData.password.email;
                     this.movie.meta.brand = obj.brand;
                     this.movie.meta.uid = authData.uid;
                 });
@@ -417,6 +418,8 @@ export default class SubtitlesController {
             .then((resp) => {
                 // Set the meta information
                 this.meta.movieName = resp.data.filenameIn;
+                this.meta.movieWidth = resp.data.width;
+                this.meta.movieHeight = resp.data.height;
                 this.meta.movieUrl = resp.data.image;
                 this.meta.movieDuration = movieDuration;
                 this.uploading = false;
@@ -445,7 +448,7 @@ export default class SubtitlesController {
             })
             .then((resp) => {
                 if (!resp) return;
-                this.sendToFFMPEG(resp.data.url, this.meta.movieUrl, this.meta.email, this.meta.logo, this.meta.audio, this.meta.bumper, this.meta.movieDuration);
+                this.sendToFFMPEG(resp.data.url, this.meta.movieUrl, this.meta.sendTo, this.meta.logo, this.meta.audio, this.meta.bumper, this.meta.movieDuration, this.meta.movieWidth, this.meta.movieHeight);
 
             }, (resp) => {
                 console.log('Error: ' + resp.error);
@@ -526,7 +529,7 @@ export default class SubtitlesController {
 
 
 
-    sendToFFMPEG(ass, movie, email, logo, audio, bumper, duration) {
+    sendToFFMPEG(ass, movie, email, logo, audio, bumper, duration, width, height) {
 
         let fade = 0;
 
@@ -544,7 +547,7 @@ export default class SubtitlesController {
         }
 
         this.$http({
-            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade },
+            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height},
             method: 'POST',
             url: '/api/movie/burnSubs/'
         }).then((res) => {

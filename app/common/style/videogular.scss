@@ -654,6 +654,12 @@ videogular vg-controls {
     position: fixed;
 }
 
+.audioplayer videogular vg-controls {
+    bottom: 0;
+    left: 0;
+    position: relative;
+}
+
 videogular vg-controls .controls-container {
     background-color: $drd-main-bg-color;
 }
