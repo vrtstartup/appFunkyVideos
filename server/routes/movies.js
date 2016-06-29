@@ -177,7 +177,11 @@ router.post('/burnSubs', function(req, res) {
     var fade = req.body.fade;
     var videoName = time() + '_' + (email.substring(0, email.indexOf("@"))).replace('.', '') + '.mp4';
     var tempVideo = path + videoName;
-    var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:v]setpts=PTS-STARTPTS[v0];[1:v]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[v1];[base][v0]overlay[tmp];[tmp][v1]overlay,format=yuv420p[fv],[fv]ass=' + ass + '[sub],[sub][2:v]overlay=10:10[out]" -map [out] -c copy -c:v libx264 -b:v 1000k ' + tempVideo;
+        // var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:0]scale=1920:1080;[1:v]setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[bumper];[base][0:v]overlay[tmp];[tmp][bumper]overlay[allOverlayed];[allOverlayed]ass=' + ass + '[out]" -map [out] ' + tempVideo;
+
+    // var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:v]scale=1920:1080,setpts=PTS-STARTPTS;[1:v]setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[bumper];[base][v0]overlay[tmp];[tmp][bumper]overlay[allOverlayed],[allOverlayed]ass=' + ass + '[out]" -map [out] -map 0:1 -c copy -c:v libx264 -b:v 1000k ' + tempVideo;
+        var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:v]setpts=PTS-STARTPTS[v0];[1:v]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[v1];[base][v0]overlay[tmp];[tmp][v1]overlay,format=yuv420p[fv],[fv]ass=' + ass + '[sub],[sub][2:v]overlay=10:10[out]" -map [out] -c copy -c:v libx264 -b:v 1000k ' + tempVideo;
+
     console.log(ffmpegCommand);
     var ffmpegProcess = exec(ffmpegCommand);
 
