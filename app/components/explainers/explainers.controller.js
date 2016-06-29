@@ -197,7 +197,7 @@ export default class ExplainersController {
     // Happens when the dropdown of the audio is changed.
     setAudio(audioId) {
         this.meta.audio = audioId;
-        this.audioTrackUrl = this.audioTracks[audioId].fileLocal;
+        this.audioTrackUrl = this.templater.audioTracks[audioId].fileLocal;
         this.meta.$save().then(function(ref) {}, function(error) {
             console.log("Error:", error);
         });
