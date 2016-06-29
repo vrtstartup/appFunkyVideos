@@ -232,7 +232,38 @@ router.post('/burnSubs', function(req, res) {
             '[longMovieWithLogoAndBumper]ass=' + ass + '[out]'
         ], 'out')
         .save(tempVideo)
-        .run();
+        .on('start', function(commandLine) {
+            console.log('Spawned Ffmpeg with command: ' + commandLine);
+        })
+        .on('error', function(err) {
+            console.log('An error occurred: ' + err.message);
+        })
+        .on('end', function() {
+            console.log('Processing finished !');
+            fs.readFile(tempVideo, function(err, data) {
+                if (!dbClient) {
+                    console.log('No dbClient');
+                } else {
+                    dbClient.writeFile('subtitled/' + videoName, data, function(error, stat) {
+                        console.log('stat', stat);
+                        if (error) {
+                            console.log('ERROR:', error);
+                            return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+                        }
+                        var fileUrl = 'subtitled/' + videoName;
+                        dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
+                            console.log('data', data);
+                            sendNotification(email, 'https://www.dropbox.com/sh/cjfyjgupjbsdivh/AAB8zeW3Yc3cATefpKJV1ccha?dl=0');
+                            // Delete the tempVideo and the ass-File
+                            fs.unlinkSync(tempVideo);
+                            fs.unlinkSync(ass);
+                        });
+                    });
+                }
+            });
+
+        })
+
 
 
     // ffmpeg = ffmpeg + ' && ffmpeg -i ' + folder + project + state + '.mp4' + ' ' + folder + project + '_audioTrack.mp3 && ffmpeg -i ' + folder + project + 'audioTrack.mp3 -i ' + this.audioTracks[audio].fileRemote + ' -filter_complex amerge -c:a libmp3lame -q:a 4 ' + folder + project + 'audioMix.mp3 && ffmpeg -i ' + folder + project + state + '.mp4' + ' -i ' + folder + project + 'audioMix.mp3 -c:v copy -c:a aac -strict experimental -map 0:v:0 -map 1:a:0 ' + folder + project + state + '_audio.mp4';
