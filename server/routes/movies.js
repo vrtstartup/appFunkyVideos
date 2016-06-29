@@ -85,6 +85,8 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                         var width;
                         var height;
                         ffmpeg.ffprobe(imageUrl, function(err, metadata) {
+
+                                // console.log(metadata, metadata.streams[0].width, metadata.streams[0].height);
                             res.json({
                                 image: imageUrl,
                                 filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
@@ -177,47 +179,53 @@ router.post('/burnSubs', function(req, res) {
     var fade = req.body.fade;
     var videoName = time() + '_' + (email.substring(0, email.indexOf("@"))).replace('.', '') + '.mp4';
     var tempVideo = path + videoName;
-        // var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:0]scale=1920:1080;[1:v]setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[bumper];[base][0:v]overlay[tmp];[tmp][bumper]overlay[allOverlayed];[allOverlayed]ass=' + ass + '[out]" -map [out] ' + tempVideo;
-
+    // var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:0]scale=1920:1080;[1:v]setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[bumper];[base][0:v]overlay[tmp];[tmp][bumper]overlay[allOverlayed];[allOverlayed]ass=' + ass + '[out]" -map [out] ' + tempVideo;
     // var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:v]scale=1920:1080,setpts=PTS-STARTPTS;[1:v]setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[bumper];[base][v0]overlay[tmp];[tmp][bumper]overlay[allOverlayed],[allOverlayed]ass=' + ass + '[out]" -map [out] -map 0:1 -c copy -c:v libx264 -b:v 1000k ' + tempVideo;
-        var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:v]setpts=PTS-STARTPTS[v0];[1:v]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[v1];[base][v0]overlay[tmp];[tmp][v1]overlay,format=yuv420p[fv],[fv]ass=' + ass + '[sub],[sub][2:v]overlay=10:10[out]" -map [out] -c copy -c:v libx264 -b:v 1000k ' + tempVideo;
+    var ffmpegCommand = 'ffmpeg -i ' + movie + ' -i ' + bumper + ' -i ' + logo + ' -filter_complex "color=black:1920x1080:d=' + duration + '[base];[0:v]setpts=PTS-STARTPTS[v0];[1:v]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[v1];[base][v0]overlay[tmp];[tmp][v1]overlay,format=yuv420p[fv],[fv]ass=' + ass + '[sub],[sub][2:v]overlay=10:10[out]" -map [out] -c copy -c:v libx264 -b:v 1000k ' + tempVideo;
 
-    console.log(ffmpegCommand);
-    var ffmpegProcess = exec(ffmpegCommand);
 
-    ffmpegProcess.stdout.on('data', function(data) {
-        console.log('stdout: ' + data);
-    });
-    ffmpegProcess.stderr.on('data', function(data) {
-        console.log('stderr ass: ' + data);
-    });
-    ffmpegProcess.on('close', function(code) {
-        if (code !== 0) {
-            console.log('program exited error code:', code);
-            return;
-        }
-        fs.readFile(tempVideo, function(err, data) {
-            if (!dbClient) {
-                console.log('No dbClient');
-            } else {
-                dbClient.writeFile('subtitled/' + videoName, data, function(error, stat) {
-                    console.log('stat', stat);
-                    if (error) {
-                        console.log('ERROR:', error);
-                        return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-                    }
-                    var fileUrl = 'subtitled/' + videoName;
-                    dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
-                        console.log('data', data);
-                        sendNotification(email, 'https://www.dropbox.com/sh/cjfyjgupjbsdivh/AAB8zeW3Yc3cATefpKJV1ccha?dl=0');
-                        // Delete the tempVideo and the ass-File
-                        fs.unlinkSync(tempVideo);
-                        fs.unlinkSync(ass);
-                    });
-                });
-            }
-        });
-    });
+
+    var testCommand = ffmpeg(movie)
+        .videoFilters('fade=in:0:30');
+    testCommand.save(tempVideo);
+
+    // console.log(testCommand);
+    // var ffmpegProcess = exec(testCommand);
+
+
+    // ffmpegProcess.stdout.on('data', function(data) {
+    //     console.log('stdout: ' + data);
+    // });
+    // ffmpegProcess.stderr.on('data', function(data) {
+    //     console.log('stderr ass: ' + data);
+    // });
+    // ffmpegProcess.on('close', function(code) {
+    //     if (code !== 0) {
+    //         console.log('program exited error code:', code);
+    //         return;
+    //     }
+    //     fs.readFile(tempVideo, function(err, data) {
+    //         if (!dbClient) {
+    //             console.log('No dbClient');
+    //         } else {
+    //             dbClient.writeFile('subtitled/' + videoName, data, function(error, stat) {
+    //                 console.log('stat', stat);
+    //                 if (error) {
+    //                     console.log('ERROR:', error);
+    //                     return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+    //                 }
+    //                 var fileUrl = 'subtitled/' + videoName;
+    //                 dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
+    //                     console.log('data', data);
+    //                     sendNotification(email, 'https://www.dropbox.com/sh/cjfyjgupjbsdivh/AAB8zeW3Yc3cATefpKJV1ccha?dl=0');
+    //                     // Delete the tempVideo and the ass-File
+    //                     fs.unlinkSync(tempVideo);
+    //                     fs.unlinkSync(ass);
+    //                 });
+    //             });
+    //         }
+    //     });
+    // });
 
 });
 
