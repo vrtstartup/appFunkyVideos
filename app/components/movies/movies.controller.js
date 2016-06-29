@@ -19,6 +19,7 @@ export default class MoviesController {
 
 
         this.firebaseAuth = firebaseAuth;
+        console.log(this.firebaseAuth);
 
 
         this.firebaseAuth.$onAuth((authData) => {
@@ -255,25 +256,6 @@ export default class MoviesController {
             });
     }
 
-    // saveClip() {
-    //     if (this.currentClip.saved) {
-    //         return;
-    //     }
-
-    //     if (this.movieClips.length > 1) {
-    //         this.movieClips[this.movieClips.length - 1].img02 = this.currentClip.img01;
-    //         console.log('setting img02 of previous clip', this.movieClips);
-    //     }
-
-    //     this.currentClip.output = this.movie.id + '/' + this.number;
-    //     this.currentClip.last = false;
-    //     this.currentClip.type = this.templatePath.name;
-    //     this.currentClip.saved = true;
-
-    //     this.movieClips.push(this.currentClip);
-    // }
-
-
     createFFMPEGLine(clips) {
         const deferred = this.$q.defer();
 
@@ -283,21 +265,17 @@ export default class MoviesController {
         const finWithLogo = this.root + 'finished\\' + this.movieId + '-logo.mp4';
         const input = inFolder + this.clips[0].movieName;
 
-
-
         let ffmpegLine = '';
-
         let total = parseInt(clips.length);
-
-
         let clipsToConcat = '';
         let listClips = '';
 
         angular.forEach(clips, (clip) => {
             let clipId = parseInt(clip.id);
+            let clipMinusOne = clipId-1;
+
             clipsToConcat = clipsToConcat + ' -i ' + outFolder + clip.id + '.avi';
 
-            let clipMinusOne = clipId-1;
             listClips = listClips + '[' + clipMinusOne + '] ';
             if (clipId === total) {
                 ffmpegLine = 'ffmpeg' + clipsToConcat + ' -filter_complex \"\"' + listClips + 'concat=n=' + total + ':v=1[out]\"\" -map [out] ' + fin;
