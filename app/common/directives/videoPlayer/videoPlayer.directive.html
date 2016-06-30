@@ -1,4 +1,4 @@
-<videogular vg-cue-points="vm.config.cuePoints" vg-update-time="vm.setTimes($currentTime, $duration)" vg-player-ready="vm.onPlayerReady($API)" vg-can-play="vm.readyToPlay()" vg-update-state="vm.onUpdateState($state)">
+<videogular vg-cue-points="vm.config.cuePoints" vg-update-time="vm.setTimes($currentTime)" vg-player-ready="vm.onPlayerReady($API)" vg-can-play="vm.readyToPlay()" vg-update-state="vm.onUpdateState($state)">
     <vg-media vg-src="vm.config.sources" vg-tracks="vm.config.tracks" id="vrtvideo"></vg-media>
     <vg-controls>
         <vg-play-pause-button></vg-play-pause-button>
@@ -13,4 +13,9 @@
             <vg-volume-bar></vg-volume-bar>
         </vg-volume>
     </vg-controls>
+    <div class="subtitles-preview__line" style="    top: -100px;
+    position: relative;
+    width: 100%;">
+        <p id="subtitlePreview" >{{vm.activeSub}}</p>
+    </div>
 </videogular>

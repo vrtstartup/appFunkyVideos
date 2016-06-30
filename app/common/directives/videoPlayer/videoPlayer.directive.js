@@ -34,6 +34,11 @@ class VideoPlayerDirectiveController {
             this.looping = value;
         });
 
+
+        $scope.$watch('subs', (value) => {
+            this.subs = value;
+        });
+
         $scope.$watchCollection('[start, end]', (values, oldValues) => {
             console.log(values);
             if (!values) return;
@@ -65,8 +70,23 @@ class VideoPlayerDirectiveController {
 
     }
 
-
     setTimes(currentTime) {
+        // let timeInSeconds = currentTime / 1000;
+        // ng-show="(currentTime/1000) >= c.start && (currentTime/1000) <= (c.start + c.end) && key != 'meta'"
+        angular.forEach(this.subs, (value, key) => {
+
+            if (value.start && currentTime >= value.start && currentTime <= value.end) {
+
+                this.activeSub = value.text;
+            }
+
+            if(this.loop === true) {
+
+            }
+
+        });
+
+
         this.$scope.$emit('currentTime', currentTime);
     }
 
@@ -79,17 +99,15 @@ class VideoPlayerDirectiveController {
     }
 
     onCompleteRangeCuepoint(currentTime, timeLapse) {
+        console.log(this.looping);
         if (this.looping === true) {
             this.videogular.api.seekTime(timeLapse.start);
-        } else {
-            // Do nothing if we don't want it to loop
         }
     }
 
     changeTime(currentTime) {
-        console.log(currentTime);
-        let timeInSeconds = currentTime / 1000;
-        this.$scope.$emit('currentTime', timeInSeconds);
+
+
     }
 
 
@@ -103,9 +121,8 @@ export const videoPlayerDirective = function() {
             source: '=',
             start: '=',
             end: '=',
-            currentTime: '=',
-            updateTime: '&',
-            loop: '='
+            loop: '=',
+            subs: '=',
         },
         controller: VideoPlayerDirectiveController,
         controllerAs: 'vm',
