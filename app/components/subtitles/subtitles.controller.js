@@ -373,13 +373,6 @@ export default class SubtitlesController {
 
     }
 
-
-
-
-
-
-
-
     // Upload the video
     upload(file) {
         let movieDuration = 0;
@@ -513,6 +506,7 @@ export default class SubtitlesController {
     sendToFFMPEG(ass, movie, email, logo, audio, bumper, duration, width, height) {
 
         let fade = 0;
+        let bumperLength = '';
 
         if (logo === true) {
             logo = this.templater.logos[1].fileLocal;
@@ -524,11 +518,12 @@ export default class SubtitlesController {
 
         if (bumper === true) {
             fade = this.templater.bumpers[1].fade;
+            bumperLength = this.templater.bumpers[1].bumperLength;
             bumper = this.templater.bumpers[1].fileLocal;
         }
 
         this.$http({
-            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height},
+            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength},
             method: 'POST',
             url: '/api/movie/burnSubs/'
         }).then((res) => {

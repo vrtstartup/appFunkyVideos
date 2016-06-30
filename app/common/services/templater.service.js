@@ -91,7 +91,8 @@ export default class templaterService {
             'brand': 'deredactie.be',
             'fileLocal': 'assets/bumpers/deredactie_1.mov',
             'fileRemote': this.root + 'bumpers\\deredactie_1.mov',
-            'fade': 2
+            'fade': 2,
+            'bumperLength': 4
         }];
 
 

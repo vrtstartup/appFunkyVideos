@@ -221,6 +221,7 @@ router.post('/burnSubs', function(req, res) {
     var fade = req.body.fade;
     var width = req.body.width;
     var height = req.body.height;
+    var bumperLength = req.body.bumperLength;
     var videoName = time() + '_' + (email.substring(0, email.indexOf("@"))).replace('.', '') + '.mp4';
     var tempVideo = path + videoName;
 
@@ -251,11 +252,11 @@ router.post('/burnSubs', function(req, res) {
             .input(bumper)
             .input(logo)
             .complexFilter([
-                'color=black:' + width + 'x' + height + ':d=' + duration + '[blackVideo]',
+                'color=black:' + width + 'x' + height + ':d=' + (duration + bumperLength - fade) + '[blackVideo]',
                 '[0:v]setpts=PTS-STARTPTS[theMovie]',
                 '[1:v]scale=' + width + ':-1[bumperRescaled]',
                 '[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]',
-                '[2:v]scale=' + width / 5 + ':-1[logoRescaled]', {
+                '[2:v]scale=' + width / 4 + ':-1[logoRescaled]', {
                     filter: 'overlay',
                     options: { x: 0, y: 0 },
                     inputs: ['blackVideo', 'theMovie'],
