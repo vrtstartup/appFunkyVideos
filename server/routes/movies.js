@@ -42,13 +42,21 @@ function time() {
 
 
 
-function sendNotification(email, url) {
+function sendNotification(email, status, url) {
+    if (status === 'finished') {
+        var subject = 'Je video met ondertitels is klaar om te downloaden!';
+        var message = "<p>Beste collega,</p><p>Je video met ondertitels is klaar, je kan hem hier downloaden:<br /> <a href=" + url +
+            ">" + url + "</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>";
+        emailService.sendMail(email, subject, message);
+    } else if (status === 'error') {
+        var subject = 'Er is iets fout gelopen bij het ondertitelen van je video!';
+        var message = "<p>Beste collega,</p><p>Er liep jammergenoeg niets fout bij het ondertitelen van je video.<br /></p>"+
+        "<p>Je neemt best contact op met de Nieuwshub, of mail naar maarten.lauwaert@vrt.be.</p>"
+        +"<p>Onze excuses voor het ongemak!";
+        emailService.sendMail(email, subject, message);
+    }
 
-    // var fullUrl = 'http://nieuwshub.vrt.be/#/download/' + url;
-    var subject = 'Uw video met ondertitels is klaar om te downloaden!';
-    var message = "<p>Beste collega,</p><p>Uw video met ondertitels is klaar, u kan hem hier downloaden:<br /> <a href=" + url +
-        ">" + url + "</a></p><p>Nog een prettige dag verder,</p><p>De Hub Server</p>";
-    emailService.sendMail(email, subject, message);
+
 }
 
 function sendResultToDropbox(video, videoName, ass, email) {
@@ -61,11 +69,12 @@ function sendResultToDropbox(video, videoName, ass, email) {
                 if (error) {
                     console.log('ERROR:', error);
                     return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+                    sendNotification(email, 'error', error);
                 }
                 var fileUrl = 'subtitled/' + videoName;
                 dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
                     console.log('data', data);
-                    sendNotification(email, 'https://www.dropbox.com/sh/cjfyjgupjbsdivh/AAB8zeW3Yc3cATefpKJV1ccha?dl=0');
+                    sendNotification(email, 'finished', 'https://www.dropbox.com/sh/cjfyjgupjbsdivh/AAB8zeW3Yc3cATefpKJV1ccha?dl=0');
                     // Delete the tempVideo and the ass-File
                     fs.unlinkSync(video);
                     fs.unlinkSync(ass);
@@ -103,12 +112,9 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                     dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
                         imageUrl = data.url;
 
-                        console.log(error);
-
                         ffmpeg.ffprobe(imageUrl, function(err, metadata) {
                             if (metadata) {
                                 for (i = 0; i < metadata.streams.length; i++) {
-
                                     if (metadata.streams[i].codec_type === 'video') {
                                         width = metadata.streams[i].width;
                                         height = metadata.streams[i].height;
@@ -279,6 +285,7 @@ router.post('/burnSubs', function(req, res) {
             })
             .on('error', function(err) {
                 console.log('An error occurred: ' + err.message);
+                sendNotification(email, 'error', error);
             })
             .on('end', function() {
                 console.log('Processing finished !');
