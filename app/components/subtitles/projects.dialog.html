@@ -13,7 +13,7 @@
             <div class="md-padding" layout="row">
                 <md-content flex="65" layout="column">
                     <md-list>
-                        <md-list-item class="md-2-line animate-repeat" ng-repeat="(key, m) in vm.movies | reverse" ng-click="vm.openMovie(m.$id)">
+                        <md-list-item class="md-2-line animate-repeat" ng-repeat="(key, m) in vm.movies | reverse" aria-label="Open project" ng-click="vm.openMovie(m.$id)">
                             <div class="md-list-item-text" class="md-list-item-text" >
                                 <h3>{{m.meta.projectId}}</h3>
                                 <p>{{m.meta.email}}</p>

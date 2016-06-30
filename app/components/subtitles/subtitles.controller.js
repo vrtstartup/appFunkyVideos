@@ -90,6 +90,9 @@ export default class SubtitlesController {
             description: 'Einde van ondertitel',
             callback: () => {
                 this.selectedSub.end = this.videogular.api.currentTime / 1000;
+                console.log('hotkey O', this.selectedSub);
+
+                this.goToTime(this.selectedSub.start);
                 let c = this.clips.$getRecord(this.selectedSub.id);
                 c.end = this.selectedSub.end;
                 this.clips.$save(c);
@@ -221,20 +224,14 @@ export default class SubtitlesController {
 
         if (movieDuration) {
             if (this.clips.length > 1) {
-                console.log(lastClip);
+
                 clip = { end: movieDuration, start: (lastClip.end*1 + 0.010)};
             } else {
                 clip = { end: movieDuration, start: 0.001 };
             }
 
-            this.selectedSub = {
-                start: clip.start,
-                end: clip.end,
-                id: 1,
-            };
             this.clips.$add(clip).then((ref) => {
-                this.selectSub(ref.key(), ref.start, ref.end);
-                this.goToTime(ref.start);
+                this.selectSub(ref.key(), clip.start, clip.end);
             });
         }
     }
@@ -251,6 +248,7 @@ export default class SubtitlesController {
             'start': start,
             'end': end
         };
+        console.log('select sub', this.selectedSub);
         this.goToTime(start);
 
     }
