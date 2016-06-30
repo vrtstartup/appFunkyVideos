@@ -53,12 +53,7 @@
                     </md-button>
                 </md-list-item>
                 <div class="videowrapper" ng-if="!vm.uploading && vm.meta.movieUrl != null">
-                    <!-- <vrt-videoplayer source="vm.meta.movieUrl" start="vm.selectedSub.start" end="vm.selectedSub.end" update-time="vm.updateTime($currentTime, $duration)" loop="vm.loop" subs="vm.clips"></vrt-videoplayer> -->
                     <vrt-videoplayer source="vm.meta.movieUrl" start="vm.selectedSub.start" end="vm.selectedSub.end" loop="vm.loop" subs="vm.clips"></vrt-videoplayer>
-
-                    <!-- <div class="subtitles-preview__line" ng-repeat="(key, c) in vm.clips" ng-show="(vm.videogular.api.currentTime/1000) >= c.start && (vm.videogular.api.currentTime/1000) <= (c.start + c.end) && key != 'meta'">
-                        <p id="subtitlePreview">{{c.text}}</p>
-                    </div> -->
                 </div>
                 <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl == null">
                     <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'" ngf-select="vm.upload($file)" type="file">

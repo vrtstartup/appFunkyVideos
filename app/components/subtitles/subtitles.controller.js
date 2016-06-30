@@ -22,12 +22,12 @@ export default class SubtitlesController {
         this.timeSlider = {};
         this.currentSubtitlePreview = '';
         this.numberOfProjects = 20;
-        this.currentTime = '';
+        // this.currentTime = '';
         this.playingVideo = '';
         this.loop = false;
-        this.$scope.$on('currentTime', (event, data) => {
-            this.currentTime = data;
-        });
+        // this.$scope.$on('currentTime', (event, data) => {
+        //     this.currentTime = data;
+        // });
         this.$scope.$on('onUpdateState', (event, data) => {
             if (data === 'play') {
                 this.playingVideo = true;
@@ -78,7 +78,7 @@ export default class SubtitlesController {
             combo: 'i',
             description: 'Begin van ondertitel',
             callback: () => {
-                this.selectedSub.start = this.currentTime;
+                this.selectedSub.start = this.videogular.api.currentTime / 1000;
                 let c = this.clips.$getRecord(this.selectedSub.id);
                 c.start = this.selectedSub.start;
                 this.clips.$save(c);
@@ -89,7 +89,7 @@ export default class SubtitlesController {
             combo: 'o',
             description: 'Einde van ondertitel',
             callback: () => {
-                this.selectedSub.end = this.currentTime;
+                this.selectedSub.end = this.videogular.api.currentTime / 1000;
                 let c = this.clips.$getRecord(this.selectedSub.id);
                 c.end = this.selectedSub.end;
                 this.clips.$save(c);
@@ -101,7 +101,7 @@ export default class SubtitlesController {
             description: 'Frame verder',
             callback: () => {
                 this.videogular.api.pause();
-                this.goToTime(this.currentTime + 0.01);
+                this.goToTime(this.videogular.api.currentTime / 1000 + 0.01);
             }
         });
 
@@ -110,7 +110,7 @@ export default class SubtitlesController {
             description: 'Frame terug',
             callback: () => {
                 this.videogular.api.pause();
-                this.goToTime(this.currentTime - 0.01);
+                this.goToTime(this.videogular.api.currentTime / 1000 - 0.01);
             }
         });
 
@@ -173,24 +173,19 @@ export default class SubtitlesController {
     // Opening movie, after create, of when you click in the list with projects
     openMovie(movieId) {
         this.meta = {};
-
         this.bumper = this.movie.bumper; // Should go away once bumper is add as an option
         this.uploading = false;
-
         this.projectRef = this.ref.child(movieId);
         this.clipsRef = this.projectRef.child('subs').orderByChild('start');
         this.clips = this.$firebaseArray(this.clipsRef);
-
         this.refMeta = this.projectRef.child('meta');
         this.meta = this.$firebaseObject(this.refMeta);
-
         this.clips.$loaded(
             (resp) => {
                 this.movieActive = true;
                 if (this.meta.movieDuration) {
                     this.clip = { end: this.meta.movieDuration, start: 0.001 };
                     this.setClipSlider(this.meta.movieDuration);
-                    // this.setTimeSlider(this.meta.movieDuration);
                 }
                 this.$mdDialog.cancel();
             },
@@ -214,7 +209,6 @@ export default class SubtitlesController {
 
     // Add one clip
     addSubtitle(movieDuration) {
-
         // get last clip
         let lastClip = {};
         this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function(snapshot) {
@@ -250,9 +244,6 @@ export default class SubtitlesController {
         this.videogular.api.seekTime(time);
     }
 
-
-
-
     selectSub(id, start, end) {
         this.loop = true;
         this.selectedSub = {
@@ -277,7 +268,6 @@ export default class SubtitlesController {
 
     }
 
-
     secToTime(millis) {
         var dur = {};
         var units = [
@@ -290,8 +280,6 @@ export default class SubtitlesController {
             millis = (millis - (dur[u.label] = (millis % u.mod))) / u.mod;
         });
 
-
-
         let twoDigits = function(number) {
             if (number < 10) {
                 number = '0' + number;
@@ -300,7 +288,6 @@ export default class SubtitlesController {
                 return number;
             }
         };
-
 
         let round = function(number) {
 
@@ -313,14 +300,9 @@ export default class SubtitlesController {
             }
         };
 
-
         let time = twoDigits(dur.minutes) + ':' + twoDigits(dur.seconds) + '.' + round(dur.millis);
         return time;
     }
-
-    // playPausePlayer() {
-    //     this.videogular.api.playPause();
-    // }
 
     setClipSlider(movieDuration) {
         let c;

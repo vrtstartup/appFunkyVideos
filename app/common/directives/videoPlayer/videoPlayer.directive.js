@@ -9,9 +9,7 @@ class VideoPlayerDirectiveController {
 
         $scope.$watch('source', (value) => {
             if (!value) return;
-
             let videoSource = this.$sce.trustAsResourceUrl(value);
-
             this.config = {
                 sources: [{ src: videoSource, type: 'video/mp4' }],
                 cuePoints: {
@@ -22,8 +20,6 @@ class VideoPlayerDirectiveController {
                         },
                         onComplete: this.onCompleteRangeCuepoint.bind(this),
                         onProgress: this.changeTime.bind(this),
-
-
                     }]
                 }
             };
@@ -34,23 +30,17 @@ class VideoPlayerDirectiveController {
             this.looping = value;
         });
 
-
         $scope.$watch('subs', (value) => {
             this.subs = value;
         });
 
         $scope.$watchCollection('[start, end]', (values, oldValues) => {
-            console.log(values);
             if (!values) return;
-
             let startChanged = values[0] !== oldValues[0];
-
             if (startChanged && this.videogular.api) {
-
                 this.videogular.api.seekTime(values[0]);
                 this.videogular.api.play();
             }
-
             if (values[0] && values[1]) {
                 this.config.cuePoints = {
                     range: [{
@@ -64,30 +54,18 @@ class VideoPlayerDirectiveController {
             } else {
                 this.config.cuePoints = {};
             }
-
-
         });
 
     }
 
-    setTimes(currentTime) {
-        // let timeInSeconds = currentTime / 1000;
-        // ng-show="(currentTime/1000) >= c.start && (currentTime/1000) <= (c.start + c.end) && key != 'meta'"
+    updateTime(currentTime) {
         angular.forEach(this.subs, (value, key) => {
-
             if (value.start && currentTime >= value.start && currentTime <= value.end) {
-
                 this.activeSub = value.text;
             }
-
             if(this.loop === true) {
-
             }
-
         });
-
-
-        this.$scope.$emit('currentTime', currentTime);
     }
 
     onUpdateState(state) {
@@ -99,18 +77,10 @@ class VideoPlayerDirectiveController {
     }
 
     onCompleteRangeCuepoint(currentTime, timeLapse) {
-        console.log(this.looping);
         if (this.looping === true) {
             this.videogular.api.seekTime(timeLapse.start);
         }
     }
-
-    changeTime(currentTime) {
-
-
-    }
-
-
 }
 
 export const videoPlayerDirective = function() {
