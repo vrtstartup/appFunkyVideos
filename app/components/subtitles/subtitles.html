@@ -11,7 +11,7 @@
                 </div>
             </md-toolbar>
             <md-list style="overflow-y: scroll;">
-                <md-list-item class="md-2-line animate-repeat" ng-click="vm.selectSub(c.$id, c.start, c.end);vm.loop = true" ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" ng-repeat="(key, c) in vm.clips | orderBy: 'start'" ng-if="c.$id != 'meta'">
+                <md-list-item class="md-2-line animate-repeat" ng-click="vm.selectSub(c.$id, c.start, c.end); vm.loop = true" ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" ng-repeat="(key, c) in vm.clips | orderBy: 'start'">
                     <div class="md-list-item-text">
                         <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
                         <p>{{ c.text | limitTo: 20 }}{{c.text.length > 20 ? '...' : ''}}

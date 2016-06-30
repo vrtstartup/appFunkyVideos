@@ -1,11 +1,12 @@
 // TODO: refactoring that=this bullshit
 
 export default class templaterService {
-    constructor($log, $q, $http, toast) {
+    constructor($log, $q, $http, toast, $sce) {
         this.$log = $log;
         this.$q = $q;
         this.$http = $http;
         this.toast = toast;
+        this.$sce = $sce;
 
 
         this.root = 'D:\\videoTemplater\\dropbox\\';
@@ -327,9 +328,11 @@ export default class templaterService {
         string = string + 'Style: Default,arial,24,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,10,10,30,1\n\n';
         string = string + '[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
         angular.forEach(json, (line) => {
-            if (line.$id !== 'meta') {
-                string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',Default,,0,0,0,,' + line.text + '\n';
-            }
+            console.log(line.text);
+            let text = line.text.replace(/\n/g, '\\N');
+            console.log(text);
+            // return $sce.trustAsHtml(text);
+            string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',Default,,0,0,0,,' + text + '\n';
         });
         deferred.resolve(string);
         return deferred.promise;
@@ -337,4 +340,4 @@ export default class templaterService {
 
 }
 
-templaterService.$inject = ['$log', '$q', '$http', 'toast'];
+templaterService.$inject = ['$log', '$q', '$http', 'toast', '$sce'];
