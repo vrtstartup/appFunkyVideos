@@ -22,9 +22,11 @@ export default class SubtitlesController {
         this.timeSlider = {};
         this.currentSubtitlePreview = '';
         this.numberOfProjects = 20;
+        this.movieSend = false;
         // this.currentTime = '';
         this.playingVideo = '';
         this.loop = false;
+        this.projectsLoaded = false;
         // this.$scope.$on('currentTime', (event, data) => {
         //     this.currentTime = data;
         // });
@@ -56,6 +58,13 @@ export default class SubtitlesController {
         this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/subtitles/');
         this.query = this.ref.limitToLast(this.numberOfProjects);
         this.movies = this.$firebaseArray(this.query);
+        this.movies.$loaded()
+            .then((x) => {
+                this.projectsLoaded = true;
+            })
+            .catch((error) => {
+                console.log("Error:", error);
+            });
 
 
         // Authenticate the user
@@ -120,9 +129,9 @@ export default class SubtitlesController {
 
         this.hotkeys.add({
             combo: 'l',
-            description: 'Loop aan / uit',
+            description: 'Preview filmpje',
             callback: () => {
-                this.toggleLoop();
+                this.preview();
             }
         });
 
@@ -197,13 +206,9 @@ export default class SubtitlesController {
             });
     }
 
-    toggleLoop() {
-        this.loop = !this.loop;
+    preview() {
+        this.loop = false;
         this.selectedSub.id = null;
-
-        this.goToTime(0);
-        this.videogular.api.play();
-
     }
 
     closeModal() {
@@ -225,7 +230,7 @@ export default class SubtitlesController {
         if (movieDuration) {
             if (this.clips.length > 1) {
 
-                clip = { end: movieDuration, start: (lastClip.end*1 + 0.010)};
+                clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010) };
             } else {
                 clip = { end: movieDuration, start: 0.001 };
             }
@@ -521,12 +526,13 @@ export default class SubtitlesController {
             bumperLength = this.templater.bumpers[1].bumperLength;
             bumper = this.templater.bumpers[1].fileLocal;
         }
-
+        this.movieSend = true;
         this.$http({
-            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength},
+            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength },
             method: 'POST',
             url: '/api/movie/burnSubs/'
         }).then((res) => {
+
             console.log(res);
             // this.url = res.data.video_url;
             // return this.url;

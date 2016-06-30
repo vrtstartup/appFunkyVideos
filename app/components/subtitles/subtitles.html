@@ -66,9 +66,8 @@
             </md-list>
             <md-toolbar ng-if="vm.meta.movieUrl != null">
                 <div class="md-toolbar-tools">
-                    <md-button class="md-raised" aria-label="Bekijk filmpje" ng-click="vm.toggleLoop()">
-                        <span ng-if="vm.loop">Preview filmpje</span>
-                        <span ng-if="!vm.loop">Stop Preview</span>
+                    <md-button class="md-raised" aria-label="Bekijk filmpje" ng-click="vm.preview()" ng-disabled="!vm.loop">
+                        Preview filmpje
                     </md-button>
                     <span flex></span>
                     <md-button class="md-raised" aria-label="Maak filmpje" ng-click="vm.finishMovie()">

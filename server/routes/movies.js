@@ -55,8 +55,6 @@ function sendNotification(email, status, url) {
         +"<p>Onze excuses voor het ongemak!";
         emailService.sendMail(email, subject, message);
     }
-
-
 }
 
 function sendResultToDropbox(video, videoName, ass, email) {
@@ -73,8 +71,8 @@ function sendResultToDropbox(video, videoName, ass, email) {
                 }
                 var fileUrl = 'subtitled/' + videoName;
                 dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
-                    console.log('data', data);
-                    sendNotification(email, 'finished', 'https://www.dropbox.com/sh/cjfyjgupjbsdivh/AAB8zeW3Yc3cATefpKJV1ccha?dl=0');
+                    console.log('data', data.url);
+                    sendNotification(email, 'finished', data.url);
                     // Delete the tempVideo and the ass-File
                     fs.unlinkSync(video);
                     fs.unlinkSync(ass);
@@ -331,7 +329,7 @@ router.post('/burnSubs', function(req, res) {
             .input(movie)
             .input(logo)
             .complexFilter([
-                '[1:v]scale=' + width / 5 + ':-1[logoRescaled]', {
+                '[1:v]scale=' + width / 6 + ':-1[logoRescaled]', {
                     filter: 'overlay',
                     options: { x: 10, y: 10 },
                     inputs: ['[0]', 'logoRescaled'],

@@ -35,18 +35,16 @@ md-toolbar.vrt-sub-toolbar {
 
 #subtitlePreview {
     margin: 0;
-    bottom: 25px;
-    left: 0;
     display: block;
     z-index: 70;
-    width: 100%;
-    padding: 1vw;
+    // width: 100%;
+    // padding: 1vw;
     line-height: 1.12em;
     text-align: center;
     color: white;
     font-weight: 600;
-    font-size: 2vw;
-    -webkit-text-stroke: 0.1vw black;
+    font-size: 1.68vw;
+    -webkit-text-stroke: 0.07vw black;
     white-space: pre;
 }
 

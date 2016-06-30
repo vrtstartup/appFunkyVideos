@@ -28,6 +28,11 @@ class VideoPlayerDirectiveController {
 
         $scope.$watch('loop', (value) => {
             this.looping = value;
+            if (value === false && this.videogular.api) {
+                this.activeSub = '';
+                this.videogular.api.seekTime(0.001);
+                this.videogular.api.play();
+            }
         });
 
         $scope.$watch('subs', (value) => {
@@ -56,8 +61,7 @@ class VideoPlayerDirectiveController {
         angular.forEach(this.subs, (value, key) => {
             if (value.start && currentTime >= value.start && currentTime <= value.end) {
                 this.activeSub = value.text;
-            }
-            if(this.loop === true) {
+                console.log(value);
             }
         });
     }

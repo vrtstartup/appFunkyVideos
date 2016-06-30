@@ -1,24 +1,22 @@
-
-
-<md-dialog aria-label="Finish" flex="70" style="max-height:120vh;">
-    <form>
+<md-dialog aria-label="Finish" flex="70" style="max-height:90vh; min-height: 30vh; max-width: 80vw; min-width: 50vw">
+    <form ng-if="!vm.movieSend">
         <md-dialog-content layout="row">
-            <section flex="33" layout="column">
+            <section flex="50" layout="column">
                 <md-toolbar class="vrt-toolbar">
                     <div class="md-toolbar-tools">
                         <h2>Kies logo en bumper</h2>
                     </div>
                 </md-toolbar>
                 <div layout-padding layout="column">
-                    <md-checkbox ng-model="vm.meta.bumper" aria-label="Finished?">
+                    <md-checkbox ng-model="vm.meta.bumper" aria-label="Bumper">
                         Bumper
                     </md-checkbox>
-                    <md-checkbox ng-model="vm.meta.logo" aria-label="Finished?">
+                    <md-checkbox ng-model="vm.meta.logo" aria-label="Logo">
                         Logo
                     </md-checkbox>
                 </div>
             </section>
-<!--             <section flex="33" layout="column">
+            <!--             <section flex="33" layout="column">
                 <md-toolbar class="vrt-toolbar">
                     <div class="md-toolbar-tools">
                         <h2>Kies audio</h2>
@@ -37,12 +35,12 @@
                     <vrt-audioplayer source="vm.audioTrackUrl" class="audioplayer"></vrt-audioplayer>
                 </div>
             </section> -->
-            <section flex="33" layout="column">
+            <section flex="50" layout="column">
                 <md-toolbar class="vrt-toolbar">
                     <div class="md-toolbar-tools">
                         <h2>kies mailadres</h2>
                         <span flex></span>
-                        <md-button class="md-icon-button" ng-click="vm.closeModal()">
+                        <md-button class="md-icon-button" ng-click="vm.closeModal();vm.movieSend = false">
                             <i class="material-icons">close</i>
                         </md-button>
                     </div>
@@ -65,7 +63,7 @@
             </md-input-container>
             <img src="{{vm.logoUrl}}"> -->
         </md-dialog-content>
-         <md-dialog-actions layout="row" class="form-footer">
+        <md-dialog-actions layout="row" class="form-footer">
             <span flex></span>
             <md-button class="md-raised" aria-label="Film maken" ng-click="vm.renderSubtitles(vm.clips)">
                 Maak filmpje
@@ -73,4 +71,17 @@
             <span flex></span>
         </md-dialog-actions>
     </form>
+    <div ng-if="vm.movieSend">
+        <md-toolbar class="vrt-toolbar">
+            <div class="md-toolbar-tools">
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.closeModal();vm.movieSend = false">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <div  layout="row" layout-align="center center" style="height: 30vh">
+            <p>Je filmpje wordt verwerkt. Je krijgt een mail zodra deze klaar is.</p>
+        </div>
+    </div>
 </md-dialog>
