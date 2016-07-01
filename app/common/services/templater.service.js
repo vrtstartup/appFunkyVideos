@@ -333,7 +333,7 @@ export default class templaterService {
                 console.log(line.text);
                 let text = line.text
 
-                if (text.indexOf('\\n') > -1) {
+                if (text.indexOf('\n') > -1) {
                     console.log('found line break');
                     text = text.replace(/\n/g, '\\N');
                 }
