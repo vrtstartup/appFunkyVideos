@@ -40,8 +40,6 @@ function time() {
     return date;
 }
 
-
-
 function sendNotification(email, status, url) {
     if (status === 'finished') {
         var subject = 'Je video met ondertitels is klaar om te downloaden!';
@@ -50,9 +48,8 @@ function sendNotification(email, status, url) {
         emailService.sendMail(email, subject, message);
     } else if (status === 'error') {
         var subject = 'Er is iets fout gelopen bij het ondertitelen van je video!';
-        var message = "<p>Beste collega,</p><p>Er liep jammergenoeg niets fout bij het ondertitelen van je video.<br /></p>"+
-        "<p>Je neemt best contact op met de Nieuwshub, of mail naar maarten.lauwaert@vrt.be.</p>"
-        +"<p>Onze excuses voor het ongemak!";
+        var message = "<p>Beste collega,</p><p>Er liep jammergenoeg niets fout bij het ondertitelen van je video.<br /></p>" +
+            "<p>Je neemt best contact op met de Nieuwshub, of mail naar maarten.lauwaert@vrt.be.</p>" + "<p>Onze excuses voor het ongemak!";
         emailService.sendMail(email, subject, message);
     }
 }
@@ -79,7 +76,6 @@ function sendResultToDropbox(video, videoName, ass, email) {
             });
         }
     });
-
 }
 
 
@@ -133,12 +129,6 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                 }).send();
                             }
                         });
-
-
-
-
-
-
                     });
                 });
             }
@@ -190,127 +180,110 @@ router.post('/burnSubs', function(req, res) {
     var tempVideo = path + videoName;
 
 
+    var ffmpegCommand = '';
+    var complexFilter = [];
+
     if (bumper !== false && logo !== false) {
-        console.log('ffmpegCommandBumperLogo');
-        var ffmpegCommandBumperLogo = ffmpeg()
+        ffmpegCommand = ffmpeg()
             .input(movie)
             .input(bumper)
-            .input(logo)
-            .complexFilter([
-                'color=black:' + width + 'x' + height + ':d=' + (duration + bumperLength - fade) + '[blackVideo]',
-                '[0:v]setpts=PTS-STARTPTS[theMovie]',
-                '[1:v]scale=' + width + ':-1[bumperRescaled]',
-                '[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]',
-                '[2:v]scale=' + width / 7 + ':-1[logoRescaled]', {
-                    filter: 'overlay',
-                    options: { x: 0, y: 0 },
-                    inputs: ['blackVideo', 'theMovie'],
-                    outputs: 'longMovie'
-                }, {
-                    filter: 'overlay',
-                    options: { x: 10, y: 10 },
-                    inputs: ['longMovie', 'logoRescaled'],
-                    outputs: 'longMovieWithLogo'
-                }, {
-                    filter: 'overlay',
-                    options: { x: 0, y: 0 },
-                    inputs: ['longMovieWithLogo', 'theBumper'],
-                    outputs: 'longMovieWithLogoAndBumper'
-                },
-                '[longMovieWithLogoAndBumper]ass=' + ass + '[out]'
-            ], 'out')
-            .on('start', function(commandLine) {
-                console.log('Spawned Ffmpeg with command: ' + commandLine);
-            })
-            .on('error', function(err) {
-                console.log('An error occurred: ' + err.message);
-                sendNotification(email, 'error', error);
-            })
-            .on('end', function() {
-                console.log('Processing finished !');
-                sendResultToDropbox(tempVideo, videoName, ass, email);
-
-            })
-            .save(tempVideo);
+            .input(logo);
+        complexFilter = [
+            'color=black:' + width + 'x' + height + ':d=' + (duration + bumperLength - fade) + '[blackVideo]',
+            '[0:v]setpts=PTS-STARTPTS[theMovie]',
+            '[1:v]scale=' + width + ':-1[bumperRescaled]',
+            '[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]',
+            '[2:v]scale=' + width / 7 + ':-1[logoRescaled]', {
+                filter: 'overlay',
+                options: { x: 0, y: 0 },
+                inputs: ['blackVideo', 'theMovie'],
+                outputs: 'longMovie'
+            }, {
+                filter: 'overlay',
+                options: { x: 10, y: 10 },
+                inputs: ['longMovie', 'logoRescaled'],
+                outputs: 'longMovieWithLogo'
+            }, {
+                filter: 'overlay',
+                options: { x: 0, y: 0 },
+                inputs: ['longMovieWithLogo', 'theBumper'],
+                outputs: 'endMovie'
+            }
+        ];
     } else if (bumper !== false && logo === false) {
-        console.log('ffmpegCommandBumper');
-        var ffmpegCommandBumper = ffmpeg()
+        ffmpegCommand = ffmpeg()
             .input(movie)
-            .input(bumper)
-            .complexFilter([
-                'color=black:' + width + 'x' + height + ':d=' + duration + '[blackVideo]',
-                '[0:v]setpts=PTS-STARTPTS[theMovie]',
-                '[1:v]scale=' + width + ':-1[bumperRescaled]',
-                '[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]', {
-                    filter: 'overlay',
-                    options: { x: 0, y: 0 },
-                    inputs: ['blackVideo', 'theMovie'],
-                    outputs: 'longMovie'
-                }, {
-                    filter: 'overlay',
-                    options: { x: 0, y: 0 },
-                    inputs: ['longMovie', 'theBumper'],
-                    outputs: 'longMovieWithBumper'
-                },
-                '[longMovieWithBumper]ass=' + ass + '[out]'
-            ], 'out')
-            .on('start', function(commandLine) {
-                console.log('Spawned Ffmpeg with command: ' + commandLine);
-            })
-            .on('error', function(err) {
-                console.log('An error occurred: ' + err.message);
-            })
-            .on('end', function() {
-                console.log('Processing finished !');
-                sendResultToDropbox(tempVideo, videoName, ass, email);
-
-            })
-            .save(tempVideo);
+            .input(bumper);
+        complexFilter = [
+            'color=black:' + width + 'x' + height + ':d=' + duration + '[blackVideo]',
+            '[0:v]setpts=PTS-STARTPTS[theMovie]',
+            '[1:v]scale=' + width + ':-1[bumperRescaled]',
+            '[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]', {
+                filter: 'overlay',
+                options: { x: 0, y: 0 },
+                inputs: ['blackVideo', 'theMovie'],
+                outputs: 'longMovie'
+            }, {
+                filter: 'overlay',
+                options: { x: 0, y: 0 },
+                inputs: ['longMovie', 'theBumper'],
+                outputs: 'endMovie'
+            }
+        ];
     } else if (bumper === false && logo !== false) {
-        console.log('ffmpegCommandLogo');
-        var ffmpegCommandLogo = ffmpeg()
+        ffmpegCommand = ffmpeg()
             .input(movie)
-            .input(logo)
-            .complexFilter([
-                '[1:v]scale=' + width / 6 + ':-1[logoRescaled]', {
-                    filter: 'overlay',
-                    options: { x: 10, y: 10 },
-                    inputs: ['[0]', 'logoRescaled'],
-                    outputs: 'movieWithLogo'
-                },
-                '[movieWithLogo]ass=' + ass + '[out]'
-            ], 'out')
-            .on('start', function(commandLine) {
-                console.log('Spawned Ffmpeg with command: ' + commandLine);
-            })
-            .on('error', function(err) {
-                console.log('An error occurred: ' + err.message);
-            })
-            .on('end', function() {
-                console.log('Processing finished !');
-                sendResultToDropbox(tempVideo, videoName, ass, email);
-            })
-            .save(tempVideo);
-
+            .input(logo);
+        complexFilter = [
+            '[1:v]scale=' + width / 6 + ':-1[logoRescaled]', {
+                filter: 'overlay',
+                options: { x: 10, y: 10 },
+                inputs: ['[0]', 'logoRescaled'],
+                outputs: 'endMovie'
+            }
+        ];
     } else if (bumper === false && logo === false) {
-        console.log('ffmpegCommandNoBranding');
-        var ffmpegCommandNoBranding = ffmpeg()
-            .input(movie)
-            .complexFilter([
-                '[0]ass=' + ass + '[out]'
-            ], 'out')
-            .on('start', function(commandLine) {
-                console.log('Spawned Ffmpeg with command: ' + commandLine);
-            })
-            .on('error', function(err) {
-                console.log('An error occurred: ' + err.message);
-            })
-            .on('end', function() {
-                console.log('Processing finished !');
-                sendResultToDropbox(tempVideo, videoName, ass, email);
-            })
-            .save(tempVideo);
+        ffmpegCommand = ffmpeg()
+            .input(movie);
     }
+
+    // Check if we need to mix mulitple audiofiles
+    if (audio !== false) {
+        ffmpegCommand.input(audio);
+        complexFilter.push('amix=inputs=2:duration=first:dropout_transition=3');
+    } else {
+        complexFilter.push('amix=inputs=1:duration=first:dropout_transition=3');
+    }
+
+    // Add the subs (in depends on branding or not)
+    if (bumper === false && logo === false){
+        complexFilter.push('[0]ass=' + ass + '[out]');
+    } else {
+        complexFilter.push('[endMovie]ass=' + ass + '[out]');
+    }
+
+    // run the command, do something when finished and print the
+    ffmpegCommand.complexFilter(complexFilter, 'out')
+        .output(tempVideo)
+        .on('start', function(commandLine) {
+            console.log('Spawned Ffmpeg with command: ' + commandLine);
+            res.send('started');
+        })
+        .on('error', function(err) {
+            console.log('An error occurred: ' + err.message);
+            res.send('error');
+        })
+        .on('progress', function(progress) {
+            console.log('Processing: ' + progress.percent + '% done');
+
+        })
+        .on('end', function() {
+            console.log('Processing finished !');
+            sendResultToDropbox(tempVideo, videoName, ass, email);
+        })
+        .run();
+
+
 });
 
 

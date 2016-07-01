@@ -426,7 +426,9 @@ export default class SubtitlesController {
                 method: 'POST',
             })
             .then((resp) => {
+                console.log('generated subs');
                 if (!resp) return;
+                console.log('sending to ffmpeg');
                 this.sendToFFMPEG(resp.data.url, this.meta.movieUrl, this.meta.sendTo, this.meta.logo, this.meta.audio, this.meta.bumper, this.meta.movieDuration, this.meta.movieWidth, this.meta.movieHeight);
 
             }, (resp) => {
@@ -517,10 +519,13 @@ export default class SubtitlesController {
             logo = this.templater.logos[1].fileLocal;
         }
 
-        if (audio !== 0) {
-            audio = this.templater.audioTracks[audio].fileLocal;
-        }
 
+        if (audio !== false) {
+            audio = this.templater.audioTracks[audio].fileLocal;
+        } else {
+            audio = false;
+        }
+        console.log(audio);
         if (bumper === true) {
             fade = this.templater.bumpers[1].fade;
             bumperLength = this.templater.bumpers[1].bumperLength;
@@ -533,10 +538,7 @@ export default class SubtitlesController {
             method: 'POST',
             url: '/api/movie/burnSubs/'
         }).then((res) => {
-
             console.log(res);
-            // this.url = res.data.video_url;
-            // return this.url;
         }, (err) => {
             console.error('Error', err);
         });

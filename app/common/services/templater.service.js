@@ -18,8 +18,8 @@ export default class templaterService {
             'id': 0,
             'brand': 'deredactie.be',
             'length': 'nvt',
-            'fileLocal': null,
-            'fileRemote': null
+            'fileLocal': false,
+            'fileRemote': false
         }, {
             'name': '1',
             'id': 1,
