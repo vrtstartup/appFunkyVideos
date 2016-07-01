@@ -74,8 +74,8 @@ export default class templaterService {
             'name': 'Deredactie.be simpel',
             'id': 1,
             'brand': 'deredactie.be',
-            'fileLocal': 'assets/logos/deredactie_1.mov',
-            'fileRemote': this.root + 'logos\\deredactie_1.mov'
+            'fileLocal': 'assets/logos/deredactie_2.mov',
+            'fileRemote': this.root + 'logos\\deredactie_2.mov'
         }];
 
 
@@ -326,14 +326,20 @@ export default class templaterService {
         let string = '';
         string = '[Script Info]\nTitle: Nieuwshub subtitles\nScriptType: v4.00\nCollisions: Normal\n\n';
         string = string + '[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n';
-        string = string + 'Style: Default,arial,24,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,10,10,30,1\n\n';
+        string = string + 'Style: Default,arial,24,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,5,5,30,1\n\n';
         string = string + '[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
         angular.forEach(json, (line) => {
-            console.log(line.text);
-            let text = line.text.replace(/\n/g, '\\N');
-            console.log(text);
-            // return $sce.trustAsHtml(text);
-            string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',Default,,0,0,0,,' + text + '\n';
+            if (line.text !== undefined) {
+                console.log(line.text);
+                let text = line.text
+
+                if (text.indexOf('\\n') > -1) {
+                    console.log('found line break');
+                    text = text.replace(/\n/g, '\\N');
+                }
+                // return $sce.trustAsHtml(text);
+                string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',Default,,0,0,0,,' + text + '\n';
+            }
         });
         deferred.resolve(string);
         return deferred.promise;

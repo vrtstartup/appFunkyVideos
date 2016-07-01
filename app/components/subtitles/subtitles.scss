@@ -34,18 +34,18 @@ md-toolbar.vrt-sub-toolbar {
 }
 
 #subtitlePreview {
-    margin: 0;
+margin: 0;
     display: block;
     z-index: 70;
-    // width: 100%;
-    // padding: 1vw;
-    line-height: 1.12em;
+    line-height: 1.1em;
     text-align: center;
     color: white;
     font-weight: 600;
-    font-size: 1.68vw;
+    font-size: 1.69vw;
     -webkit-text-stroke: 0.07vw black;
-    white-space: pre;
+    white-space: pre-line;
+    word-wrap: break-word;
+    max-width: 33.2vw;
 }
 
 .videowrapper {

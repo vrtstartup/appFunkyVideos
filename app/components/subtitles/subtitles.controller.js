@@ -527,6 +527,7 @@ export default class SubtitlesController {
             bumper = this.templater.bumpers[1].fileLocal;
         }
         this.movieSend = true;
+        console.log('sending to ffmpeg');
         this.$http({
             data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength },
             method: 'POST',

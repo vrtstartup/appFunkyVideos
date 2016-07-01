@@ -37,7 +37,9 @@ class VideoPlayerDirectiveController {
 
         $scope.$watch('subs', (value) => {
             this.subs = value;
-        });
+            console.log('changing in subs', this.videogular.api.currentTime);
+            this.findSub(this.videogular.api.currentTime / 1000);
+        }, true);
 
         $scope.$watchCollection('[start, end]', (values, oldValues) => {
             if (!values) return;
@@ -57,13 +59,17 @@ class VideoPlayerDirectiveController {
         });
     }
 
-    updateTime(currentTime) {
+
+    findSub(currentTime) {
         angular.forEach(this.subs, (value, key) => {
             if (value.start && currentTime >= value.start && currentTime <= value.end) {
                 this.activeSub = value.text;
                 console.log(value);
             }
         });
+    }
+    updateTime(currentTime) {
+        this.findSub(currentTime);
     }
 
     onUpdateState(state) {
