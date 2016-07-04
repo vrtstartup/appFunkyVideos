@@ -10,6 +10,7 @@ var exec = require('child_process').exec;
 var Boom = require('boom');
 var dropboxService = require('../services/dropboxService.js');
 var dbClient = dropboxService.getDropboxClient();
+var logger = require('../middleware/logger');
 
 var emailService = require('../services/emailService.js');
 
@@ -137,15 +138,20 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 });
 
 router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
-    console.log('generating sub');
+
+    logger.info('generating sub');
+    // logger.trace('testing');
+    // logger.info('testing');
+    // logger.warn('testing');
+    // logger.crit('testing');
+    // logger.fatal('testing');
+
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
     var url = file.path;
     var email = req.body.email;
-    console.log(req.body);
     var name = (file.path).replace("temp/subtitleVideos/", '');
 
-    // const ext = getExtension(file.name);
     if (file.type === 'ass') {
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
@@ -154,8 +160,9 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
         // burn subtitles
         url = path + videoPath;
         res.json({ url: url, name: videoPath }).send();
-        console.log('done generating sub');
+        logger.info('done generating sub');
     } else {
+        logger.fatal('error generating subs');
         res.json({ url: url, name: videoPath, subtitled: false }).send();
     }
 });
@@ -163,7 +170,7 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 
 
 router.post('/burnSubs', function(req, res) {
-    console.log('burning Subs');
+    logger.info('burning Subs');
     const path = "temp/subtitleVideos/";
     var ass = req.body.ass;
     var movie = req.body.movie;
@@ -256,7 +263,7 @@ router.post('/burnSubs', function(req, res) {
     }
 
     // Add the subs (in depends on branding or not)
-    if (bumper === false && logo === false){
+    if (bumper === false && logo === false) {
         complexFilter.push('[0]ass=' + ass + '[out]');
     } else {
         complexFilter.push('[endMovie]ass=' + ass + '[out]');
@@ -266,19 +273,18 @@ router.post('/burnSubs', function(req, res) {
     ffmpegCommand.complexFilter(complexFilter, 'out')
         .output(tempVideo)
         .on('start', function(commandLine) {
-            console.log('Spawned Ffmpeg with command: ' + commandLine);
+            logger.info('Spawned Ffmpeg with command: ' + commandLine);
             res.send('started');
         })
         .on('error', function(err) {
-            console.log('An error occurred: ' + err.message);
+            logger.crit('An error occurred: ' + err.message);
             res.send('error');
         })
         .on('progress', function(progress) {
-            console.log('Processing: ' + progress.percent + '% done');
-
+            logger.info('Processing: ' + progress.percent + '% done');
         })
         .on('end', function() {
-            console.log('Processing finished !');
+            logger.info('Processing finished !');
             sendResultToDropbox(tempVideo, videoName, ass, email);
         })
         .run();
