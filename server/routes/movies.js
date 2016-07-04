@@ -10,7 +10,7 @@ var exec = require('child_process').exec;
 var Boom = require('boom');
 var dropboxService = require('../services/dropboxService.js');
 var dbClient = dropboxService.getDropboxClient();
-var logger = require('../middleware/logger');
+// var logger = require('../middleware/logger');
 
 var emailService = require('../services/emailService.js');
 
@@ -139,7 +139,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
 router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 
-    logger.info('generating sub');
+    // logger.info('generating sub');
     // logger.trace('testing');
     // logger.info('testing');
     // logger.warn('testing');
@@ -160,9 +160,9 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
         // burn subtitles
         url = path + videoPath;
         res.json({ url: url, name: videoPath }).send();
-        logger.info('done generating sub');
+        // logger.info('done generating sub');
     } else {
-        logger.fatal('error generating subs');
+        // logger.fatal('error generating subs');
         res.json({ url: url, name: videoPath, subtitled: false }).send();
     }
 });
@@ -170,7 +170,7 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 
 
 router.post('/burnSubs', function(req, res) {
-    logger.info('burning Subs');
+    // logger.info('burning Subs');
     const path = "temp/subtitleVideos/";
     var ass = req.body.ass;
     var movie = req.body.movie;
@@ -273,18 +273,18 @@ router.post('/burnSubs', function(req, res) {
     ffmpegCommand.complexFilter(complexFilter, 'out')
         .output(tempVideo)
         .on('start', function(commandLine) {
-            logger.info('Spawned Ffmpeg with command: ' + commandLine);
+            // logger.info('Spawned Ffmpeg with command: ' + commandLine);
             res.send('started');
         })
         .on('error', function(err) {
-            logger.crit('An error occurred: ' + err.message);
+            // logger.crit('An error occurred: ' + err.message);
             res.send('error');
         })
         .on('progress', function(progress) {
-            logger.info('Processing: ' + progress.percent + '% done');
+            // logger.info('Processing: ' + progress.percent + '% done');
         })
         .on('end', function() {
-            logger.info('Processing finished !');
+            // logger.info('Processing finished !');
             sendResultToDropbox(tempVideo, videoName, ass, email);
         })
         .run();

@@ -9,7 +9,7 @@ const mkdirp = require('mkdirp');
 
 
 const errorHandler = require('./middleware/errorHandler');
-const logger = require('./middleware/logger');
+// const logger = require('./middleware/logger');
 const imagesApi = require('./routes/images');
 const subtitlesApi = require('./routes/subtitles');
 const templatesApi = require('./routes/templates');
