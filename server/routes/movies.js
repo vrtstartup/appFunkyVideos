@@ -310,12 +310,13 @@ router.post('/burnSubs', function(req, res) {
         .output(tempVideo)
         .on('start', function(commandLine) {
             console.log(commandLine);
-            var ref = db.ref('logs/' + log + '/status/burningSubs').set(true).catch(function(error) {
+            var ref = db.ref('logs/' + log + '/status').set({
+                burningSubs : true,
+                ffmpegLine : commandLine
+            }).catch(function(error) {
                 console.log('Failed to save to log', error);
             });
-            // var ref = db.ref('logs/' + log + '/status/ffmpegLine').set(commandLine).catch(function(error) {
-            //     console.log('Failed to save to log', error);
-            // });
+
             res.send('started');
         })
         .on('error', function(err) {
