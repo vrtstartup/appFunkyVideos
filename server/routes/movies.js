@@ -196,6 +196,10 @@ router.post('/burnSubs', function(req, res) {
     const path = "temp/subtitleVideos/";
     var ass = req.body.ass;
     var movie = req.body.movie;
+
+    movie = movie.replace("https://","http://");
+    console.log(movie);
+
     var email = req.body.email;
     var logo = req.body.logo;
     var audio = req.body.audio;
