@@ -307,7 +307,7 @@ router.post('/burnSubs', function(req, res) {
 
     // run the command, do something when finished and print the
     ffmpegCommand.complexFilter(complexFilter, 'out')
-        .outputOptions('-strct -2')
+        .outputOptions('-strict -2')
         .output(tempVideo)
         .on('start', function(commandLine) {
             console.log(commandLine);
