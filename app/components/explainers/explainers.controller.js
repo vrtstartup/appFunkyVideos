@@ -1,5 +1,5 @@
 export default class ExplainersController {
-    constructor($scope, $sce, $document, Upload, firebaseAuth, $firebaseArray, $firebaseObject, userManagement, videogular, templater, toast) {
+    constructor($scope, $sce, $document, Upload, $firebaseAuth, $firebaseArray, $firebaseObject, userManagement, videogular, templater, toast) {
 
         this.$scope = $scope;
         this.$sce = $sce;
@@ -27,8 +27,9 @@ export default class ExplainersController {
         };
 
         this.progressPercentage = '';
+        this.ref = firebase.database().ref().child('apps/explainers/');
 
-        this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/explainers/');
+
         this.movies = this.$firebaseArray(this.ref);
 
 
@@ -72,12 +73,12 @@ export default class ExplainersController {
         // -> End service
 
         // Authenticate the user
-        this.firebaseAuth = firebaseAuth;
-        this.firebaseAuth.$onAuth((authData) => {
+        this.firebaseAuth = $firebaseAuth();
+        this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
-                    this.email = authData.password.email;
-                    this.movie.meta.email = authData.password.email;
+                    this.email = authData.email;
+                    this.movie.meta.email = authData.email;
                     this.movie.meta.brand = obj.brand;
                 });
             }
@@ -238,7 +239,7 @@ export default class ExplainersController {
     createMovie() {
         this.movie.createdAt = this.templater.time();
         this.movies.$add(this.movie).then((ref) => {
-            this.openMovie(ref.key());
+            this.openMovie(ref.key);
         });
     }
 
@@ -264,7 +265,6 @@ export default class ExplainersController {
                 this.meta.movieUrl = resp.data.image;
                 this.meta.movieDuration = movieDuration;
                 this.meta.$save().then((ref) => {
-                    // ref.key() === obj.$id; // true
                 }, (error) => {
                     console.log("Error:", error);
                 });
@@ -277,4 +277,4 @@ export default class ExplainersController {
     }
 }
 
-ExplainersController.$inject = ['$scope', '$sce', '$document', 'Upload', 'firebaseAuth', '$firebaseArray', '$firebaseObject', 'userManagement', 'videogular', 'templater', 'toast'];
+ExplainersController.$inject = ['$scope', '$sce', '$document', 'Upload', '$firebaseAuth', '$firebaseArray', '$firebaseObject', 'userManagement', 'videogular', 'templater', 'toast'];

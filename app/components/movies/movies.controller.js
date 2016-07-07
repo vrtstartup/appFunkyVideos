@@ -1,6 +1,6 @@
 //TODO: refactor show functions
 export default class MoviesController {
-    constructor($scope, $document, Upload, $mdDialog, firebaseAuth, $firebaseArray, $firebaseObject, userManagement, templater) {
+    constructor($scope, $document, Upload, $mdDialog, $firebaseAuth, $firebaseArray, $firebaseObject, userManagement, templater) {
         this.$scope = $scope;
         this.$document = $document;
         this.Upload = Upload;
@@ -21,12 +21,12 @@ export default class MoviesController {
 
         this.movieClips = [];
 
-        this.firebaseAuth = firebaseAuth;
+        this.firebaseAuth = $firebaseAuth();
 
-        this.firebaseAuth.$onAuth((authData) => {
+        this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
-                    this.movie.meta.email = authData.password.email;
+                    this.movie.meta.email = authData.email;
                     this.movie.meta.brand = obj.brand;
                 });
             }
@@ -113,7 +113,7 @@ export default class MoviesController {
 
     createMovie(movie) {
         this.movies.$add(movie).then((ref) => {
-            this.openMovie(ref.key());
+            this.openMovie(ref.key);
             let titleTemplate = '';
             angular.forEach(this.clipTemplates, (template) => {
                 if (template.brand === movie.meta.brand && template.name === 'title') {
@@ -299,4 +299,4 @@ export default class MoviesController {
     }
 }
 
-MoviesController.$inject = ['$scope', '$document', 'Upload', '$mdDialog', 'firebaseAuth', '$firebaseArray', '$firebaseObject', 'userManagement', 'templater'];
+MoviesController.$inject = ['$scope', '$document', 'Upload', '$mdDialog', '$firebaseAuth', '$firebaseArray', '$firebaseObject', 'userManagement', 'templater'];

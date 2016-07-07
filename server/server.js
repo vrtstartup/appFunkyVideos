@@ -6,6 +6,8 @@ const cors = require('cors');
 const Boom = require('boom');
 //const httpProxy = require('http-proxy');
 const mkdirp = require('mkdirp');
+// var firebase = require("firebase");
+// Init firebase
 
 
 const errorHandler = require('./middleware/errorHandler');
@@ -144,6 +146,11 @@ function createPath() {
     });
 }
 
+var firebaseService = require('./services/firebaseService.js');
+firebaseService.initFirebase();
+// firebaseService.getRef();
+
+
 //
 //// All other undefined routes should return 404
 app.route('*').all(function(req, res, next) {
@@ -159,3 +166,7 @@ var server = app.listen(port, function() {
     console.log('Express server listening on port: ' + server.address().port);
     console.log('Current environment is: ' + env);
 });
+
+
+
+

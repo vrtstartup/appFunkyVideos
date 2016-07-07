@@ -1,14 +1,14 @@
 export default class DownloadController {
-    constructor($log, $http, $stateParams, firebaseAuth) {
+    constructor($log, $http, $stateParams, $firebaseAuth) {
         this.$log  = $log;
         this.$http = $http;
-        this.firebaseAuth = firebaseAuth;
+        this.firebaseAuth = $firebaseAuth();
 
         this.filename = $stateParams.filename;
         this.url = '';
         this.isStarted = false;
 
-        this.firebaseAuth.$onAuth((authData) => {
+        this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
                 this.email = authData.password.email;
             }
@@ -29,4 +29,4 @@ export default class DownloadController {
     }
 }
 
-DownloadController.$inject = ['$log', '$http', '$stateParams', 'firebaseAuth'];
+DownloadController.$inject = ['$log', '$http', '$stateParams', '$firebaseAuth'];

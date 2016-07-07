@@ -6,11 +6,17 @@ var multiparty = require('multiparty');
 var connectMultiparty = require('connect-multiparty');
 var multipartyMiddleware = connectMultiparty({ uploadDir: 'temp/subtitleVideos/' });
 var exec = require('child_process').exec;
-
+var firebase = require("firebase");
 var Boom = require('boom');
 var dropboxService = require('../services/dropboxService.js');
 var dbClient = dropboxService.getDropboxClient();
+
+// var firebase = require('firebase');
+// var firebaseService = require('../services/firebaseService.js');
+
+
 // var logger = require('../middleware/logger');
+
 
 var emailService = require('../services/emailService.js');
 
@@ -79,26 +85,42 @@ function sendResultToDropbox(video, videoName, ass, email) {
     });
 }
 
+// 0: Project started
+// 1: uploaded video
+// 2: started
+
+
 
 //url /api/movie
 router.post('/upload-to-dropbox', function(req, res, next) {
-    //handle file with multer - read file to convert into binary - save file to dropbox
+
+    var log = req.query.logs;
+    var db = firebase.database().ref('logs/' + log + '/status/startedOriginalVideoUpload').set(true).catch(function(error) {
+        console.log('Failed to save to log', error);
+    });
+
+
+
+
+
     var form = new multiparty.Form();
 
+    // console.log('project', req);
     form.parse(req);
-
+    // console.log('project', req);
     //if form contains file, open fileStream to get binary file
     form.on('file', function(name, file) {
-
         fs.readFile(file.path, function(err, data) {
             var imageUrl = '';
             var fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
 
             if (!dbClient) {
                 console.log('No dbClient');
+
             } else {
                 dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
                     if (error) {
+
                         console.log('ERROR:', error);
                         return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
                     }
@@ -182,6 +204,7 @@ router.post('/burnSubs', function(req, res) {
     var fade = req.body.fade;
     var width = req.body.width;
     var height = req.body.height;
+    var log = req.body.log;
     var bumperLength = req.body.bumperLength;
     var videoName = time() + '_' + (email.substring(0, email.indexOf("@"))).replace('.', '') + '.mp4';
     var tempVideo = path + videoName;
@@ -191,6 +214,10 @@ router.post('/burnSubs', function(req, res) {
     var complexFilter = [];
 
     if (bumper !== false && logo !== false) {
+
+
+
+
         ffmpegCommand = ffmpeg()
             .input(movie)
             .input(bumper)
@@ -269,21 +296,37 @@ router.post('/burnSubs', function(req, res) {
         complexFilter.push('[endMovie]ass=' + ass + '[out]');
     }
 
+    var db = firebase.database();
     // run the command, do something when finished and print the
     ffmpegCommand.complexFilter(complexFilter, 'out')
         .output(tempVideo)
         .on('start', function(commandLine) {
+            var ref = db.ref('logs/' + log + '/status/burningSubs').set(true).catch(function(error) {
+                console.log('Failed to save to log', error);
+            });
             // logger.info('Spawned Ffmpeg with command: ' + commandLine);
             res.send('started');
         })
         .on('error', function(err) {
+            var ref = db.ref('logs/' + log + '/status/errorBurning').set({
+                error: err
+            }).catch(function(error) {
+                console.log('Failed to save to log', error);
+
+            });
             // logger.crit('An error occurred: ' + err.message);
             res.send('error');
         })
         .on('progress', function(progress) {
             // logger.info('Processing: ' + progress.percent + '% done');
+            var ref = db.ref('logs/' + log + '/status/ffmpegProgress').set(progress.percent).catch(function(error) {
+                console.log('Failed to save to log', error);
+            });
         })
         .on('end', function() {
+            var ref = db.ref('logs/' + log + '/status/finishedBurning').set(true).catch(function(error) {
+                console.log('Failed to save to log', error);
+            });
             // logger.info('Processing finished !');
             sendResultToDropbox(tempVideo, videoName, ass, email);
         })
@@ -302,14 +345,13 @@ router.post('/update-movie-json', function(req, res, next) {
         name: 'templater.json',
         data: ''
     };
-    console.log(movieClips);
     //update JSON file on dropbox so AE templater get's triggered
     dbClient.readFile(file.path + file.name, function(error, data) {
         if (error) {
             return next(Boom.badImplementation('unexpected error, couldn\'t read file from dropbox'));
         }
 
-        console.log(data);
+
         file.data = data ? JSON.parse(data) : [];
 
 

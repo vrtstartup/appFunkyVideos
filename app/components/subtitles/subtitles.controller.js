@@ -1,7 +1,7 @@
 import { keys, extend, find, reject } from 'lodash';
 
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys, toast, firebaseAuth, $firebaseObject, $firebaseArray, userManagement, templater, $http, $mdDialog) {
+    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys, toast, $firebaseAuth, $firebaseObject, $firebaseArray, userManagement, templater, $http, $mdDialog) {
         this.$log = $log;
         this.$sce = $sce;
         this.srt = srt;
@@ -40,8 +40,7 @@ export default class SubtitlesController {
 
 
         this.selectedSub = {};
-
-        this.firebaseAuth = firebaseAuth;
+        this.firebaseAuth = $firebaseAuth();
         this.$firebaseObject = $firebaseObject;
         this.$firebaseArray = $firebaseArray;
 
@@ -55,9 +54,13 @@ export default class SubtitlesController {
                 'bumper': true,
             }
         };
-        this.ref = new Firebase('vrtnieuwshub.firebaseio.com/apps/subtitles/');
+        this.ref = firebase.database().ref().child('apps/subtitles/');
+        this.logsRef = firebase.database().ref('logs');
+
         this.query = this.ref.limitToLast(this.numberOfProjects);
         this.movies = this.$firebaseArray(this.query);
+        this.logs = this.$firebaseArray(this.logsRef);
+
         this.movies.$loaded()
             .then((x) => {
                 this.projectsLoaded = true;
@@ -68,12 +71,12 @@ export default class SubtitlesController {
 
 
         // Authenticate the user
-        this.firebaseAuth = firebaseAuth;
-        this.firebaseAuth.$onAuth((authData) => {
+        this.firebaseAuth = $firebaseAuth();
+        this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
-                    this.movie.meta.email = authData.password.email;
-                    this.movie.meta.sendTo = authData.password.email;
+                    this.movie.meta.email = authData.email;
+                    this.movie.meta.sendTo = authData.email;
                     this.movie.meta.brand = obj.brand;
                     this.movie.meta.uid = authData.uid;
                 });
@@ -149,9 +152,8 @@ export default class SubtitlesController {
         let userEmail = this.movie.meta.email;
         this.movie.meta.projectId = this.templater.time() + '_' + (userEmail.substring(0, userEmail.indexOf("@"))).replace('.', '');
         this.movies.$add(this.movie).then((ref) => {
-
-            this.openMovie(ref.key());
-            // this.addSubtitle(0.001, 9999, 9999);
+            this.openMovie(ref.key);
+            this.saveLog(ref.key, 'subtitles', 0);
             this.$mdDialog.cancel();
         });
 
@@ -181,8 +183,21 @@ export default class SubtitlesController {
         });
     }
 
+    saveLog(movieId, type, status) {
+            let log = {
+                ref: movieId,
+                type: type,
+                status: {
+                    startedProject: true
+                }
 
-    // Opening movie, after create, of when you click in the list with projects
+            };
+            this.logs.$add(log).then((ref) => {
+                this.meta.log = ref.key;
+                this.meta.$save();
+            });
+        }
+        // Opening movie, after create, of when you click in the list with projects
     openMovie(movieId) {
         this.meta = {};
         this.bumper = this.movie.bumper; // Should go away once bumper is add as an option
@@ -236,7 +251,8 @@ export default class SubtitlesController {
             }
 
             this.clips.$add(clip).then((ref) => {
-                this.selectSub(ref.key(), clip.start, clip.end);
+                console.log(ref);
+                this.selectSub(ref.key, clip.start, clip.end);
             });
         }
     }
@@ -388,10 +404,14 @@ export default class SubtitlesController {
             movieDuration = Math.round(durationInSeconds * 1000) / 1000;
         });
 
+        console.log(this.meta.log);
         // upload to dropbox
         this.Upload.upload({
                 url: 'api/movie/upload-to-dropbox',
                 data: { file: file },
+                params: {
+                    logs: this.meta.log
+                },
                 method: 'POST'
             })
             .then((resp) => {
@@ -429,7 +449,7 @@ export default class SubtitlesController {
                 console.log('generated subs');
                 if (!resp) return;
                 console.log('sending to ffmpeg');
-                this.sendToFFMPEG(resp.data.url, this.meta.movieUrl, this.meta.sendTo, this.meta.logo, this.meta.audio, this.meta.bumper, this.meta.movieDuration, this.meta.movieWidth, this.meta.movieHeight);
+                this.sendToFFMPEG(resp.data.url, this.meta.movieUrl, this.meta.sendTo, this.meta.logo, this.meta.audio, this.meta.bumper, this.meta.movieDuration, this.meta.movieWidth, this.meta.movieHeight, this.meta.log);
 
             }, (resp) => {
                 console.log('Error: ' + resp.error);
@@ -510,7 +530,7 @@ export default class SubtitlesController {
 
 
 
-    sendToFFMPEG(ass, movie, email, logo, audio, bumper, duration, width, height) {
+    sendToFFMPEG(ass, movie, email, logo, audio, bumper, duration, width, height, log) {
 
         let fade = 0;
         let bumperLength = '';
@@ -534,7 +554,7 @@ export default class SubtitlesController {
         this.movieSend = true;
         console.log('sending to ffmpeg');
         this.$http({
-            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength },
+            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength, log: log},
             method: 'POST',
             url: '/api/movie/burnSubs/'
         }).then((res) => {
@@ -547,4 +567,4 @@ export default class SubtitlesController {
 
 }
 
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast', 'firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$http', '$mdDialog'];
+SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast', '$firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$http', '$mdDialog'];
