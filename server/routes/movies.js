@@ -249,6 +249,7 @@ router.post('/burnSubs', function(req, res) {
         ffmpegCommand = ffmpeg()
             .input(movie)
             .input(bumper)
+
             .input('color=c=black').inputOptions('-f lavfi');
 
         complexFilter = [
@@ -306,7 +307,7 @@ router.post('/burnSubs', function(req, res) {
 
     // run the command, do something when finished and print the
     ffmpegCommand.complexFilter(complexFilter, 'out')
-        .outputOptions('-strict -2')
+        .outputOptions('-strct -2')
         .output(tempVideo)
         .on('start', function(commandLine) {
             console.log(commandLine);
@@ -316,17 +317,17 @@ router.post('/burnSubs', function(req, res) {
             }).catch(function(error) {
                 console.log('Failed to save to log', error);
             });
-
-            res.send('started');
+            // res.send('started');
         })
         .on('error', function(err) {
+            console.log(err.toString('utf8'));
+            res.send(err.toString('utf8'));
             var ref = db.ref('logs/' + log + '/status/errorBurning').set({
-                error: err
+                error: err.toString('utf8')
             }).catch(function(error) {
                 console.log('Failed to save to log', error);
             });
 
-            res.send('error');
         })
         .on('progress', function(progress) {
             var ref = db.ref('logs/' + log + '/status/ffmpegProgress').set(progress.percent).catch(function(error) {
@@ -338,6 +339,7 @@ router.post('/burnSubs', function(req, res) {
                 console.log('Failed to save to log', error);
             });
             sendResultToDropbox(tempVideo, videoName, ass, email);
+            res.send('ended');
         })
         .run();
 
