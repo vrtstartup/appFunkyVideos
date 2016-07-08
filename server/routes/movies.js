@@ -197,8 +197,8 @@ router.post('/burnSubs', function(req, res) {
     var ass = req.body.ass;
     var movie = req.body.movie;
 
-    movie = movie.replace("https://","http://");
-    console.log(movie);
+    // movie = movie.replace("https://","http://");
+    // console.log(movie);
 
     var email = req.body.email;
     var logo = req.body.logo;
@@ -325,7 +325,7 @@ router.post('/burnSubs', function(req, res) {
         })
         .on('error', function(err) {
             console.log(err.toString('utf8'));
-            // res.send(err.toString('utf8'));
+            res.send(err.toString('utf8'));
             // var ref = db.ref('logs/' + log + '/status/errorBurning').set({
             //     error: err.toString('utf8')
             // }).catch(function(error) {
@@ -334,6 +334,7 @@ router.post('/burnSubs', function(req, res) {
 
         })
         .on('progress', function(progress) {
+            console.log(progress.percent);
             // var ref = db.ref('logs/' + log + '/status/ffmpegProgress').set(progress.percent).catch(function(error) {
             //     console.log('Failed to save to log', error);
             // });
