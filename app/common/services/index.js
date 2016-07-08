@@ -9,7 +9,7 @@ import audioTrack from './audioTrack.service.js';
 import firebaseAuth from './firebaseAuth.service.js';
 import userManagement from './userManagement.service.js';
 import canvasUtil from './canvasUtil.service.js';
-import ffmpegLine from './ffmpegLine.service.js';
+import templater from './templater.service.js';
 
 const module = angular.module('app.common.services', []);
 
@@ -23,6 +23,6 @@ module.service('audioTrack', audioTrack);
 module.service('firebaseAuth', firebaseAuth);
 module.service('userManagement', userManagement);
 module.service('canvasUtil', canvasUtil);
-module.service('ffmpegLine', ffmpegLine);
+module.service('templater', templater);
 
 export default module.name;
