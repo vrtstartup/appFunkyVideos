@@ -16,20 +16,34 @@ export default class SubtitlesController {
         this.templater = templater;
         this.$http = $http;
         this.$mdDialog = $mdDialog;
+
         this.movieDuration = 0;
-        this.progressPercentage = '';
+        this.numberOfProjects = 20;
+
         this.clipSlider = {};
         this.timeSlider = {};
+        this.selectedSub = {};
+
         this.currentSubtitlePreview = '';
-        this.numberOfProjects = 20;
-        this.movieSend = false;
-        // this.currentTime = '';
+        this.progressPercentage = '';
         this.playingVideo = '';
+        this.clips = '';
+
+        this.movieSend = false;
         this.loop = false;
         this.projectsLoaded = false;
-        // this.$scope.$on('currentTime', (event, data) => {
-        //     this.currentTime = data;
-        // });
+        this.movieActive = false;
+        this.uploading = false;
+
+        this.movie = {
+            meta: {
+                'audio': 0,
+                'logo': true,
+                'bumper': true,
+            }
+        };
+
+        // Emit coming from video directive
         this.$scope.$on('onUpdateState', (event, data) => {
             if (data === 'play') {
                 this.playingVideo = true;
@@ -38,29 +52,14 @@ export default class SubtitlesController {
             }
         });
 
-
-        this.selectedSub = {};
-        this.firebaseAuth = $firebaseAuth();
+        // Initiate Firebase
         this.$firebaseObject = $firebaseObject;
         this.$firebaseArray = $firebaseArray;
-
-        this.movieActive = false;
-        this.uploading = false;
-        this.clips = '';
-        this.movie = {
-            meta: {
-                'audio': 0,
-                'logo': true,
-                'bumper': true,
-            }
-        };
         this.ref = firebase.database().ref().child('apps/subtitles/');
         this.logsRef = firebase.database().ref('logs');
-
         this.query = this.ref.limitToLast(this.numberOfProjects);
         this.movies = this.$firebaseArray(this.query);
         this.logs = this.$firebaseArray(this.logsRef);
-
         this.movies.$loaded()
             .then((x) => {
                 this.projectsLoaded = true;
@@ -68,7 +67,6 @@ export default class SubtitlesController {
             .catch((error) => {
                 console.log("Error:", error);
             });
-
 
         // Authenticate the user
         this.firebaseAuth = $firebaseAuth();
@@ -80,10 +78,8 @@ export default class SubtitlesController {
                     this.movie.meta.brand = obj.brand;
                     this.movie.meta.uid = authData.uid;
                 });
-
             }
         });
-
 
         // Hotkeys to make editing superfast and smooth. Using angular-hotkeys (http://chieffancypants.github.io/angular-hotkeys/)
         this.hotkeys.add({
@@ -128,7 +124,6 @@ export default class SubtitlesController {
                 this.goToTime(this.videogular.api.currentTime / 1000 - 0.01);
             }
         });
-
 
         this.hotkeys.add({
             combo: 'l',
@@ -197,7 +192,7 @@ export default class SubtitlesController {
                 this.meta.$save();
             });
         }
-        // Opening movie, after create, of when you click in the list with projects
+    // Opening movie, after create, of when you click in the list with projects
     openMovie(movieId) {
         this.meta = {};
         this.bumper = this.movie.bumper; // Should go away once bumper is add as an option
@@ -374,10 +369,6 @@ export default class SubtitlesController {
             min: 0.001,
             max: movieDuration,
             options: {
-                // translate: (value) => {
-                //     return this.secToTime(value);
-                // },
-
                 noSwitching: true,
                 disabled: true,
 
@@ -390,8 +381,6 @@ export default class SubtitlesController {
                 keyboardSupport: true
             }
         };
-
-
     }
 
     // Upload the video
@@ -437,7 +426,6 @@ export default class SubtitlesController {
             });
     }
 
-
     // Upload the srt
     uploadSRT(file, name, email) {
         this.Upload.upload({
@@ -450,7 +438,6 @@ export default class SubtitlesController {
                 if (!resp) return;
                 console.log('sending to ffmpeg');
                 this.sendToFFMPEG(resp.data.url, this.meta.movieUrl, this.meta.sendTo, this.meta.logo, this.meta.audio, this.meta.bumper, this.meta.movieDuration, this.meta.movieWidth, this.meta.movieHeight, this.meta.log);
-
             }, (resp) => {
                 console.log('Error: ' + resp.error);
                 console.log('Error status: ' + resp.status);
@@ -458,67 +445,6 @@ export default class SubtitlesController {
                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             });
     }
-
-
-
-
-
-
-
-    // upload(file, name, email) {
-
-
-
-    //     console.log('upload', name);
-    //     if (file.type === "video/mp4" || file.type === "video/quicktime") {
-    //         //set duration of video, init slider values
-    //         this.Upload.mediaDuration(file).then((durationInSeconds) => {
-    //             this.movieDuration = Math.round(durationInSeconds * 1000) / 1000;
-    //             this.meta.movieStart = 0.001;
-    //             this.meta.formEnd = this.meta.;
-
-    //             this.slider = {
-    //                 min: 0.001,
-    //                 max: this.movieDuration,
-    //                 options: {
-    //                     id: 'main',
-    //                     floor: 0.001,
-    //                     ceil: this.movieDuration,
-    //                     precision: 3,
-    //                     step: 0.001,
-    //                     draggableRange: true,
-    //                     keyboardSupport: true
-    //                 }
-    //             };
-    //         });
-    //     }
-
-    //     let subtitled = false;
-    //     if (!subtitled) {
-    //         this.Upload.upload({
-    //                 url: 'api/subtitleVideos',
-    //                 data: { file: file, fileName: name, email: email },
-    //                 method: 'POST',
-    //             })
-    //             .then((resp) => {
-    //                 if (!resp) return;
-
-    //                 subtitled = resp.data.subtitled;
-
-    //                 this.movieUploaded = true;
-    //                 this.file.tempUrl = resp.data.url;
-    //                 this.file.fileName = resp.data.name;
-    //             }, (resp) => {
-    //                 console.log('Error: ' + resp.error);
-    //                 console.log('Error status: ' + resp.status);
-    //             }, (evt) => {
-    //                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-    //             });
-    //     }
-    // }
-
-
-
     setAudio(audioId) {
         this.meta.audio = audioId;
         this.audioTrackUrl = this.templater.audioTracks[audioId].fileLocal;
@@ -527,19 +453,12 @@ export default class SubtitlesController {
         });
     }
 
-
-
-
     sendToFFMPEG(ass, movie, email, logo, audio, bumper, duration, width, height, log) {
-
         let fade = 0;
         let bumperLength = '';
-
         if (logo === true) {
             logo = this.templater.logos[1].fileLocal;
         }
-
-
         if (audio !== false) {
             audio = this.templater.audioTracks[audio].fileLocal;
         } else {
@@ -554,7 +473,7 @@ export default class SubtitlesController {
         this.movieSend = true;
         console.log('sending to ffmpeg');
         this.$http({
-            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength, log: log},
+            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength, log: log },
             method: 'POST',
             url: '/api/movie/burnSubs/'
         }).then((res) => {
@@ -562,9 +481,7 @@ export default class SubtitlesController {
         }, (err) => {
             console.error('Error', err);
         });
-
     }
-
 }
 
 SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast', '$firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$http', '$mdDialog'];
