@@ -13,10 +13,14 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
 
     if(!req.files.file) return;
 
+    console.log('~~~~~~~~/convertimage/~~~~~~~~~~~');
+
     var file = req.files.file;
     var type = req.params.type;
 
     if (type === 'grayscale') {
+        console.log('~~~~~~~~/grayscale/~~~~~~~~~~~');
+
         gm(file.path)
             .type('grayscale')
             .write(file.path, (err) => {

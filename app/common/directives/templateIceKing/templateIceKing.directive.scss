@@ -25,7 +25,8 @@
   display: block;
   width: auto;
   height: 180px;
-  margin: -30px auto 20px auto;
+  margin-bottom: 20px;
+  margin-left: -50px;
 }
 
 .r2-wrapper-weather {
@@ -37,4 +38,13 @@
   display: block;
   height: 40px;
   width: auto;
+}
+
+.r2-weather-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  pointer-events: none;
 }

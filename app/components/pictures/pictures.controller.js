@@ -22,6 +22,7 @@ export default class PicturesController {
     }
 
     upload(file, type, numb) {
+        console.log('upload');
         this.Upload.upload({
             url: '/api/convertimage/' + type,
             data: { file: file }

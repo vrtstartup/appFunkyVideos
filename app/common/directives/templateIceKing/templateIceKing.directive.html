@@ -3,13 +3,12 @@
          ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
         <div ng-class="vm.image ? 'overlay' : 'no-overlay'" class="r1-image__draggable--wrap">
             <img class='logo-r2' src="./assets/logor2.svg">
-            <div class="long-quote-wrap">
-                <div class="r2-wrapper-weather">
-                    <img class="r2-weather-image" ng-src="{{'./assets/weersvg/' + vm.weatherImageSrc}}">
-                    <p class='r2-weather'>{{vm.quote}}</p>
-                </div>
+            <div class="r2-weather-footer">
+                <img class="r2-weather-image" ng-src="{{'./assets/weersvg/' + vm.weatherImageSrc}}">
+                <p class='r2-weather'>{{vm.quote}}</p>
+
+                <p class="r2-city">{{vm.city}}</p>
             </div>
-            <p class="r2-city">{{vm.city}}</p>
         </div>
     </div>
 </section>
