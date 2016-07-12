@@ -7,8 +7,15 @@
   top: 15px;
 }
 
+.logo-r2--right {
+  display: block;
+  right: 15px;
+  position: absolute;
+  top: 15px;
+}
+
 .r2-light{
-  background-color: $r2-main-color;
+  background-color: #fff;
 }
 
 .r2-img {
@@ -31,7 +38,7 @@
 
 .r2-author {
   line-height: 6px;
-  color: #fff;
+  color: $r2-main-color;
   width: 492px;
   position: absolute;
   bottom: 25px;
@@ -61,7 +68,7 @@
 
 .r2-quote {
   margin: 0 auto;
-  color: #fff;
+  color: $r2-main-color;
   text-align: center;
   padding: 0 10px;
   font-size: 50px;
@@ -77,4 +84,11 @@
 
 .r2-clip {
   position: absolute;
+  right: 0;
+}
+
+.r2-balls {
+  position: absolute;
+  left: 15px;
+  top: 15px;
 }

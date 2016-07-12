@@ -6,6 +6,12 @@
             <input ng-model="quote.authName" md-maxlength="100">
 
         </md-input-container>
+        <md-input-container class="md-block">
+            <label>Text</label>
+            <!--<input ng-model="quote.question" md-maxlength="130">-->
+            <input ng-model="quote.text" md-maxlength="100">
+
+        </md-input-container>
     </md-content>
 
     <div layout-gt-sm="row">
@@ -25,7 +31,8 @@
     <div class="dir-wrap">
         <vrt-template-peppermint class="dir-wrap"
                                 image-size="quote.imageSize"
-                                text="quote.authName"
+                                name="quote.authName"
+                                text="quote.text"
                                 image="quote.img">
         </vrt-template-peppermint>
     </div>

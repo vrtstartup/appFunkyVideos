@@ -1,7 +1,11 @@
+@import "../../style/variables";
+
 .footer_r2__text {
-  line-height: 1;
-  font-size: 35px;
-  display: inline-block;
-  padding-bottom: 14px;
-  margin: 0;
+  color: $r2-main-color;
+}
+
+.r2-balls--right {
+  top: 15px;
+  position: absolute;
+  right: 13px;
 }
