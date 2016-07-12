@@ -9,3 +9,14 @@
   position: absolute;
   right: 13px;
 }
+
+.footer-r2__content {
+  color: $r2-main-color;
+  text-align: center;
+  align-self: flex-end;
+  width: 100%;
+  z-index: 1;
+  font-size: 38px;
+  font-family: 'markpro-bold';
+  line-height: 0.2em;
+}
