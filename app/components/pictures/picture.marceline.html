@@ -8,16 +8,13 @@
         </md-input-container>
         <md-input-container class="md-block">
             <label>(yyyy - yyyy)</label>
-            <!--<input ng-model="quote.question" md-maxlength="130">-->
             <input ng-model="quote.authDates" md-maxlength="100">
 
         </md-input-container>
     </md-content>
 
     <div layout-gt-sm="row">
-        <!--<input ng-model="quote.img" type="file" name="img"  vrt-image-preview="onFileSelect($files)"/>-->
         <input type="file" name="img" required ngf-select="vm.upload($file, 'grayscale')" />
-
     </div>
     <div layout>
         <div flex="10" layout layout-align="center center">

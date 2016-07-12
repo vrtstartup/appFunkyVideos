@@ -22,7 +22,6 @@ export default class PicturesController {
     }
 
     upload(file, type, numb) {
-        console.log('upload');
         this.Upload.upload({
             url: '/api/convertimage/' + type,
             data: { file: file }
@@ -33,7 +32,7 @@ export default class PicturesController {
             this.image = resp.data.url;
             console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data.url);
         }, function(resp) {
-            console.log('Error status: ' + resp.status);
+            console.log('Error status: ', resp);
         }, function(evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
