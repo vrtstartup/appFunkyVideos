@@ -16,9 +16,12 @@ export default class SubtitlesController {
         this.templater = templater;
         this.$http = $http;
         this.$mdDialog = $mdDialog;
+        this.$firebaseObject = $firebaseObject;
+        this.$firebaseArray = $firebaseArray;
 
+        this.projectFilters = { email: true };
         this.movieDuration = 0;
-        this.numberOfProjects = 20;
+        this.numberOfProjects = 200;
 
         this.clipSlider = {};
         this.timeSlider = {};
@@ -32,16 +35,18 @@ export default class SubtitlesController {
         this.movieSend = false;
         this.loop = false;
         this.projectsLoaded = false;
-        this.movieActive = false;
+        this.projectActive = false;
         this.uploading = false;
 
-        this.movie = {
+        this.project = {
             meta: {
                 'audio': 0,
                 'logo': true,
                 'bumper': true,
             }
         };
+
+
 
         // Emit coming from video directive
         this.$scope.$on('onUpdateState', (event, data) => {
@@ -52,31 +57,21 @@ export default class SubtitlesController {
             }
         });
 
-        // Initiate Firebase
-        this.$firebaseObject = $firebaseObject;
-        this.$firebaseArray = $firebaseArray;
-        this.ref = firebase.database().ref().child('apps/subtitles/');
-        this.logsRef = firebase.database().ref('logs');
-        this.query = this.ref.limitToLast(this.numberOfProjects);
-        this.movies = this.$firebaseArray(this.query);
-        this.logs = this.$firebaseArray(this.logsRef);
-        this.movies.$loaded()
-            .then((x) => {
-                this.projectsLoaded = true;
-            })
-            .catch((error) => {
-                console.log("Error:", error);
-            });
+        this.user = {};
+
 
         // Authenticate the user
         this.firebaseAuth = $firebaseAuth();
         this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
-                    this.movie.meta.email = authData.email;
-                    this.movie.meta.sendTo = authData.email;
-                    this.movie.meta.brand = obj.brand;
-                    this.movie.meta.uid = authData.uid;
+                    this.user = authData;
+                    this.user.brand = obj.brand;
+                    this.project.meta.email = authData.email;
+                    this.project.meta.sendTo = authData.email;
+                    this.project.meta.brand = obj.brand;
+                    this.project.meta.uid = authData.uid;
+                    this.initFirebase('apps/subtitles/', this.user.brand, this.numberOfProjects);
                 });
             }
         });
@@ -98,8 +93,6 @@ export default class SubtitlesController {
             description: 'Einde van ondertitel',
             callback: () => {
                 this.selectedSub.end = this.videogular.api.currentTime / 1000;
-                console.log('hotkey O', this.selectedSub);
-
                 this.goToTime(this.selectedSub.start);
                 let c = this.clips.$getRecord(this.selectedSub.id);
                 c.end = this.selectedSub.end;
@@ -142,13 +135,37 @@ export default class SubtitlesController {
         });
     }
 
+    // Initiate Firebase
+    initFirebase(app, brand, number) {
+
+        this.ref = firebase.database().ref().child(app);
+        this.logsRef = firebase.database().ref('logs');
+        this.query = this.ref.orderByChild('meta/brand').equalTo(brand).limitToLast(number);
+        this.projects = this.$firebaseArray(this.query);
+        this.logs = this.$firebaseArray(this.logsRef);
+        this.projects.$loaded()
+            .then((x) => {
+                this.projectsLoaded = true;
+            })
+            .catch((error) => {
+                console.log("Error:", error);
+            });
+    }
+
+
+    showOnlyYours(email, yours) {
+        if (yours)
+            return (email = email);
+        else
+            return (email = '');
+    }
+
     // Start a new movie
     createMovie() {
-        let userEmail = this.movie.meta.email;
-        this.movie.meta.projectId = this.templater.time() + '_' + (userEmail.substring(0, userEmail.indexOf("@"))).replace('.', '');
-        this.movies.$add(this.movie).then((ref) => {
-            this.openMovie(ref.key);
-            this.saveLog(ref.key, 'subtitles', 0);
+        let userEmail = this.project.meta.email;
+        this.project.meta.projectId = this.templater.time() + '_' + (userEmail.substring(0, userEmail.indexOf("@"))).replace('.', '');
+        this.projects.$add(this.project).then((ref) => {
+            this.openProject(ref.key);
             this.$mdDialog.cancel();
         });
 
@@ -178,33 +195,23 @@ export default class SubtitlesController {
         });
     }
 
-    saveLog(movieId, type, status) {
-            let log = {
-                ref: movieId,
-                type: type,
-                status: {
-                    startedProject: true
-                }
-
-            };
-            this.logs.$add(log).then((ref) => {
-                this.meta.log = ref.key;
-                this.meta.$save();
-            });
-        }
-    // Opening movie, after create, of when you click in the list with projects
-    openMovie(movieId) {
+        // Opening movie, after create, of when you click in the list with projects
+    openProject(projectId) {
         this.meta = {};
-        this.bumper = this.movie.bumper; // Should go away once bumper is add as an option
+        this.bumper = this.project.bumper; // Should go away once bumper is add as an option
         this.uploading = false;
-        this.projectRef = this.ref.child(movieId);
+        this.projectRef = this.ref.child(projectId);
         this.clipsRef = this.projectRef.child('subs').orderByChild('start');
         this.clips = this.$firebaseArray(this.clipsRef);
         this.refMeta = this.projectRef.child('meta');
         this.meta = this.$firebaseObject(this.refMeta);
+        this.refLogs = this.projectRef.child('logs');
+        this.logs = this.$firebaseObject(this.refLogs);
+
+        this.projectId = projectId;
         this.clips.$loaded(
             (resp) => {
-                this.movieActive = true;
+                this.projectActive = true;
                 if (this.meta.movieDuration) {
                     this.clip = { end: this.meta.movieDuration, start: 0.001 };
                     this.setClipSlider(this.meta.movieDuration);
@@ -437,7 +444,8 @@ export default class SubtitlesController {
                 console.log('generated subs');
                 if (!resp) return;
                 console.log('sending to ffmpeg');
-                this.sendToFFMPEG(resp.data.url, this.meta.movieUrl, this.meta.sendTo, this.meta.logo, this.meta.audio, this.meta.bumper, this.meta.movieDuration, this.meta.movieWidth, this.meta.movieHeight, this.meta.log);
+                console.log(this.project);
+                this.sendToFFMPEG(resp.data.url, this.meta.movieUrl, this.meta.sendTo, this.meta.logo, this.meta.audio, this.meta.bumper, this.meta.movieDuration, this.meta.movieWidth, this.meta.movieHeight, this.projectId);
             }, (resp) => {
                 console.log('Error: ' + resp.error);
                 console.log('Error status: ' + resp.status);
@@ -453,7 +461,7 @@ export default class SubtitlesController {
         });
     }
 
-    sendToFFMPEG(ass, movie, email, logo, audio, bumper, duration, width, height, log) {
+    sendToFFMPEG(ass, movie, email, logo, audio, bumper, duration, width, height, projectId) {
         let fade = 0;
         let bumperLength = '';
         if (logo === true) {
@@ -473,7 +481,7 @@ export default class SubtitlesController {
         this.movieSend = true;
         console.log('sending to ffmpeg');
         this.$http({
-            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength, log: log },
+            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength, project: projectId },
             method: 'POST',
             url: '/api/movie/burnSubs/'
         }).then((res) => {

@@ -1,6 +1,6 @@
 <md-content layout="column" style="height:calc(100vh - 4em)">
     <div layout="row" style="height:calc(100% - 3rem)">
-        <section ng-hide="vm.movieId == ''" flex="20" layout="column">
+        <section flex="20" layout="column">
             <md-toolbar>
                 <div class="md-toolbar-tools">
                     <span flex></span>
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </section>
-        <section flex ng-if="vm.movieActive == true" class="subtitles-movie" layout="column" flex="40">
+        <section flex ng-if="vm.projectActive == true" class="subtitles-movie" layout="column" flex="40">
             <md-list>
                 <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl != null">
                     <p>Huidig filmpje: {{vm.meta.movieUrl | limitTo: 30}}{{vm.meta.movieUrl > 30 ? '...' : ''}}</p>
@@ -75,6 +75,10 @@
                     </md-button>
                 </div>
             </md-toolbar>
+            <section>
+                <span ng-if="vm.logs.status">Status: {{vm.logs.status}}</span>
+                <md-progress-linear ng-if="vm.logs.progress" md-mode="determinate" value="{{vm.logs.progress}}"></md-progress-linear>
+            </section>
         </section>
     </div>
     <section ng-if="vm.meta.movieUrl != null" layout="row">

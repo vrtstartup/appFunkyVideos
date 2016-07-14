@@ -57,18 +57,18 @@ module.exports = (function firebaseService() {
             // return firebase;
         },
 
-        getRef: function() {
-            var db = firebase.database().ref('users/1/email');
+        // getRef: function() {
+        //     var db = firebase.database().ref('users/1/email');
 
-            console.log('seriously service');
+        //     console.log('seriously service');
 
-            db.on("value", function(snapshot) {
+        //     db.on("value", function(snapshot) {
 
-                console.log('give me something', snapshot.val());
-            }, function(errorObject) {
-                console.log("The read failed: " + errorObject.code);
-            });
-            return db;
-        }
+        //         console.log('give me something', snapshot.val());
+        //     }, function(errorObject) {
+        //         console.log("The read failed: " + errorObject.code);
+        //     });
+        //     return db;
+        // }
     };
 })();

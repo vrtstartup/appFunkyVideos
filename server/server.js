@@ -148,7 +148,6 @@ function createPath() {
 
 var firebaseService = require('./services/firebaseService.js');
 firebaseService.initFirebase();
-// firebaseService.getRef();
 
 
 //

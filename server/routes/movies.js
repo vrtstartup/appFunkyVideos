@@ -93,16 +93,6 @@ function sendResultToDropbox(video, videoName, ass, email) {
 
 //url /api/movie
 router.post('/upload-to-dropbox', function(req, res, next) {
-
-    var log = req.query.logs;
-    var db = firebase.database().ref('logs/' + log + '/status/startedOriginalVideoUpload').set(true).catch(function(error) {
-        console.log('Failed to save to log', error);
-    });
-
-
-
-
-
     var form = new multiparty.Form();
 
     // console.log('project', req);
@@ -206,10 +196,11 @@ router.post('/burnSubs', function(req, res) {
     var fade = req.body.fade;
     var width = req.body.width;
     var height = req.body.height;
-    var log = req.body.log;
+    var project = req.body.project;
     var bumperLength = req.body.bumperLength;
     var videoName = time() + '_' + (email.substring(0, email.indexOf("@"))).replace('.', '') + '.mp4';
     var tempVideo = path + videoName;
+    console.log(height, width);
 
 
     var ffmpegCommand = '';
@@ -224,7 +215,7 @@ router.post('/burnSubs', function(req, res) {
             .input(movie)
             .input(bumper)
             .input(logo)
-            .input('color=c=black').inputOptions('-f lavfi');
+            .input('color=c=black:s=' + width + 'x' + height).inputOptions('-f lavfi');
         complexFilter = [
             '[0:v]setpts=PTS-STARTPTS[theMovie]',
             '[1:v]scale=' + width + ':-1[bumperRescaled]',
@@ -252,7 +243,7 @@ router.post('/burnSubs', function(req, res) {
             .input(movie)
             .input(bumper)
 
-            .input('color=c=black').inputOptions('-f lavfi');
+        .input('color=c=black').inputOptions('-f lavfi');
 
         complexFilter = [
             // 'color=black:' + width + 'x' + height + ':d=' + duration + '[blackVideo]',
@@ -305,43 +296,46 @@ router.post('/burnSubs', function(req, res) {
 
     var db = firebase.database();
 
-
-
     // run the command, do something when finished and print the
     ffmpegCommand.complexFilter(complexFilter, 'out')
         .outputOptions('-strict -2')
         .output(tempVideo)
         .on('start', function(commandLine) {
             console.log(commandLine);
-            // var ref = db.ref('logs/' + log + '/status').set({
-            //     burningSubs : true,
-            //     ffmpegLine : commandLine
-            // }).catch(function(error) {
-            //     console.log('Failed to save to log', error);
-            // });
-            // res.send('started');
+            db.ref('/apps/subtitles/' + project + '/logs').update({
+                status: 'Ondertitels aan het inbranden',
+                ffmpegLine: commandLine
+            }).catch(function(error) {
+                console.log('Failed to save to log', error);
+            });
         })
         .on('error', function(err) {
             console.log(err.toString('utf8'));
             res.send(err.toString('utf8'));
-            // var ref = db.ref('logs/' + log + '/status/errorBurning').set({
-            //     error: err.toString('utf8')
-            // }).catch(function(error) {
-            //     console.log('Failed to save to log', error);
-            // });
+            db.ref('/apps/subtitles/' + project + '/logs').update({
+                status: 'Er is een fout opgetreden',
+                error: err.toString('utf8')
+            }).catch(function(error) {
+                console.log('Failed to save to log', error);
+            });
+
 
         })
         .on('progress', function(progress) {
             console.log(progress.percent);
-            // var ref = db.ref('logs/' + log + '/status/ffmpegProgress').set(progress.percent).catch(function(error) {
-            //     console.log('Failed to save to log', error);
-            // });
+            db.ref('/apps/subtitles/' + project + '/logs').update({
+                progress: progress.percent,
+            }).catch(function(error) {
+                console.log('Failed to save to log', error);
+            });
         })
         .on('end', function() {
             console.log('end');
-            // var ref = db.ref('logs/' + log + '/status/finishedBurning').set(true).catch(function(error) {
-            //     console.log('Failed to save to log', error);
-            // });
+            db.ref('/apps/subtitles/' + project + '/logs').update({
+                status: 'Klaar met ondertitels inbranden.',
+            }).catch(function(error) {
+                console.log('Failed to save to log', error);
+            });
             sendResultToDropbox(tempVideo, videoName, ass, email);
             res.send('ended');
         })
