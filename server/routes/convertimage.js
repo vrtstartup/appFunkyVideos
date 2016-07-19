@@ -7,11 +7,13 @@ var multipartyMiddleware = multiparty({ uploadDir: 'temp/templates/' });
 
 var exec = require('child_process').exec;
 
-
+router.get('/convertimage', function(req, res, next) {
+    res.json({ message: 'convertimage get api' }).send();
+});
 
 router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next) {
-
     if(!req.files.file) return;
+
 
     var file = req.files.file;
     var type = req.params.type;
@@ -20,7 +22,7 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
         gm(file.path)
             .type('grayscale')
             .write(file.path, (err) => {
-                    if (err) return console.dir('Error is occured', err, arguments);
+                    //if (err) return console.dir('Error is occured', err, arguments);
                     var path = 'http://'+req.headers.host+'/'+file.path;
                     console.log('DONE',  path);
                     res.json({url: path}).send();
@@ -65,12 +67,6 @@ router.post('/convertimage/:type', multipartyMiddleware, function(req, res, next
 
 
 });
-
-//url /api
-router.get('/convertimage', function(req, res) {
-    res.json({ message: 'get convertimage' }).send();
-});
-
 
 
 module.exports = router;

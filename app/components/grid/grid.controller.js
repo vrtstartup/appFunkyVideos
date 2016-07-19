@@ -60,7 +60,8 @@ export default class GridController {
         }];
 
         // The reference to the firebase
-        this.postsRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/grid').child("posts");
+        this.ref = firebase.database().ref();
+        this.postsRef = this.ref.child('apps/grid/posts');
 
         // Start with a single date, instead of a range
         this.range = false;

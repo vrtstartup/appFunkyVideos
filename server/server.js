@@ -1,4 +1,4 @@
-const express = require('express');        // call express
+const express = require('express'); // call express
 const bodyParser = require('body-parser');
 const path = require('path'); //part of node
 const morgan = require('morgan');
@@ -6,8 +6,12 @@ const cors = require('cors');
 const Boom = require('boom');
 //const httpProxy = require('http-proxy');
 const mkdirp = require('mkdirp');
+// var firebase = require("firebase");
+// Init firebase
+
 
 const errorHandler = require('./middleware/errorHandler');
+// const logger = require('./middleware/logger');
 const imagesApi = require('./routes/images');
 const subtitlesApi = require('./routes/subtitles');
 const templatesApi = require('./routes/templates');
@@ -21,13 +25,13 @@ const environmentVarsApi = require('./routes/environment');
 const downloadApi = require('./routes/download');
 
 
-
 //var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
 var app = express(); // define our app using express
 
 app.use(morgan('dev'));
 
 app.use(cors());
+
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -55,6 +59,7 @@ app.use('/api', downloadApi);
 
 
 
+
 // START THE SERVER
 // =============================================================================
 
@@ -78,7 +83,7 @@ if (env === 'development') {
 
     // Any requests to localhost:3000/build is proxied
     // to webpack-dev-server
-    app.all('/build/*', function (req, res) {
+    app.all('/build/*', function(req, res) {
         proxy.web(req, res, {
             target: 'http://localhost:8080'
         });
@@ -99,47 +104,51 @@ function createPath() {
     mkdirp('temp/videos', function(err) {
         console.log('Path is created temp/videos');
         // path was created unless there was error
-        if(err)
-        console.log('Error while creating path:', err);
+        if (err)
+            console.log('Error while creating path:', err);
 
     });
     mkdirp('temp/movies', function(err) {
         console.log('Path is created temp/videos');
         // path was created unless there was error
-        if(err)
+        if (err)
             console.log('Error while creating path:', err);
 
     });
     mkdirp('temp/templates', function(err) {
         console.log('Path is created temp/templates');
         // path was created unless there was error
-        if(err)
-        console.log('Error while creating path:', err);
+        if (err)
+            console.log('Error while creating path:', err);
 
     });
     mkdirp('temp/subtitleVideos', function(err) {
         console.log('Path is created temp/subtitleVideos');
         // path was created unless there was error
-        if(err)
+        if (err)
             console.log('Error while creating path:', err);
 
     });
     mkdirp('temp/templaterVideos', function(err) {
         console.log('Path is created temp/subtitleVideos');
         // path was created unless there was error
-        if(err) console.log('Error while creating path:', err);
+        if (err) console.log('Error while creating path:', err);
     });
     mkdirp('temp/chart', function(err) {
         console.log('Path is created temp/chart');
         // path was created unless there was error
-        if(err) console.log('Error while creating path:', err);
+        if (err) console.log('Error while creating path:', err);
     });
     mkdirp('temp/downloads', function(err) {
         console.log('Path is created temp/downloads');
         // path was created unless there was error
-        if(err) console.log('Error while creating path:', err);
+        if (err) console.log('Error while creating path:', err);
     });
 }
+
+var firebaseService = require('./services/firebaseService.js');
+firebaseService.initFirebase();
+
 
 //
 //// All other undefined routes should return 404
@@ -151,9 +160,12 @@ app.route('*').all(function(req, res, next) {
 app.use(errorHandler());
 
 
-var server = app.listen(port, function(){
-    console.log('Express server listening on port: '
-        + server.address().port);
-    console.log('Current environment is: '
-        + env);
+
+var server = app.listen(port, function() {
+    console.log('Express server listening on port: ' + server.address().port);
+    console.log('Current environment is: ' + env);
 });
+
+
+
+

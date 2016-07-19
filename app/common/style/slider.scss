@@ -1,17 +1,22 @@
-
-// Check with Ksenia for best Practice
-
-
 /*! angularjs-slider - v2.9.0 -
  (c) Rafal Zajac <rzajac@gmail.com>, Valentin Hervieu <valentin@hervieu.me>, Jussi Saarivirta <jusasi@gmail.com>, Angelin Sirbu <angelin.sirbu@gmail.com> -
  https://github.com/angular-slider/angularjs-slider -
  2016-02-18 */
+$sliderColor: $drd-main-color;
+$sliderHeight: 20px;
+$sliderDragWidth: 4px;
+$sliderDragColor: black;
+
+
+
+
 rzslider {
   position: relative;
   display: inline-block;
   width: 100%;
   height: 4px;
-  margin: 35px 0 15px 0;
+  margin: 0;
+  margin: $sliderHeight/2 0;
   vertical-align: middle;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -44,8 +49,8 @@ rzslider .rz-bar-wrapper {
   left: 0;
   z-index: 1;
   width: 100%;
-  height: 32px;
-  padding-top: 16px;
+  height: $sliderHeight;
+  padding-top: 0;
   margin-top: -16px;
   box-sizing: border-box;
 }
@@ -58,44 +63,45 @@ rzslider .rz-bar {
   left: 0;
   z-index: 1;
   width: 100%;
-  height: 4px;
-  background: #d8e0f3;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  height: $sliderHeight;
+  background: $drd-main-bg-color;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 
 rzslider .rz-bar.rz-selection {
   z-index: 2;
-  background: #0db9f0;
+  background: $sliderColor;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
 
 rzslider .rz-pointer {
-  top: -14px;
-  z-index: 3;
-  width: 32px;
-  height: 32px;
+  width: 5px;
+  height: 20px;
   cursor: pointer;
-  background-color: #0db9f0;
-  -webkit-border-radius: 16px;
-  -moz-border-radius: 16px;
-  border-radius: 16px;
+  background-color: $drd-main-color;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  // position: relative;
+    top: -16px;
+    z-index: 10;
 }
 
 rzslider .rz-pointer:after {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 8px;
-  height: 8px;
-  background: #ffffff;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  content: '';
+  // position: absolute;
+  // top: 12px;
+  // left: 12px;
+  // width: 8px;
+  // height: 8px;
+  // background: #ffffff;
+  // -webkit-border-radius: 4px;
+  // -moz-border-radius: 4px;
+  // border-radius: 4px;
+  // content: '';
 }
 
 rzslider .rz-pointer:hover:after {
@@ -111,7 +117,7 @@ rzslider .rz-pointer.rz-active:after {
 }
 
 rzslider .rz-bubble {
-  bottom: 16px;
+  bottom: 20px;
   padding: 1px 3px;
   color: #55637d;
   cursor: default;
@@ -154,7 +160,7 @@ rzslider .rz-ticks .tick {
 }
 
 rzslider .rz-ticks .tick.selected {
-  background: #0db9f0;
+  background: $sliderColor;
 }
 
 rzslider .rz-ticks .tick .tick-value {
@@ -181,7 +187,7 @@ rzslider.vertical .rz-base {
 rzslider.vertical .rz-bar-wrapper {
   top: auto;
   left: 0;
-  width: 32px;
+  width: $sliderHeight;
   height: 100%;
   padding: 0 0 0 16px;
   margin: 0 0 0 -16px;
@@ -231,4 +237,19 @@ rzslider.vertical .rz-ticks .tick .tick-value {
   top: auto;
   right: -30px;
   transform: translate(0, -28%);
+}
+
+
+
+
+
+
+
+// Hack for bottom slider
+.clipSlider rzslider .rz-bubble {
+  // bottom: -$sliderHeight;
+}
+
+.clipSlider .videoLooping {
+  opacity: .2;
 }

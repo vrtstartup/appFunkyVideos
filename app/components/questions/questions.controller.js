@@ -35,7 +35,7 @@ export default class QuestionsController {
     addSession(session) {
         session.timestamp = Firebase.ServerValue.TIMESTAMP;
         this.sessions.$add(session).then((ref) => {
-            this.getSession(ref.key());
+            this.getSession(ref.key);
             this.sessionInput = '';
         });
     }

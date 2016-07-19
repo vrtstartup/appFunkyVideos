@@ -1,29 +1,8 @@
-<style type="text/css">
-    videogular {
-/*        width: 95%;
-        margin: 20px auto 50px;*/
-    }
-
-    videogular vg-scrub-bar-cue-points .cue-point-timeline .cue-point {
-        background-color: #84c803 !important;
-    }
-
-    videogular vg-controls {
-        bottom: -50px;
-    }
-
-    videogular vg-controls .controls-container {
-        background-color: #000000;
-    }
-</style>
-<videogular vg-cue-points="vm.config.cuePoints"
-            vg-update-time="vm.setTimes($currentTime, $duration)"
-            vg-player-ready="vm.onPlayerReady($API)"
-            vg-can-play="vm.readyToPlay()">
+<videogular vg-cue-points="vm.config.cuePoints" vg-update-time="vm.updateTime($currentTime)" vg-player-ready="vm.onPlayerReady($API)" vg-can-play="vm.readyToPlay()" vg-update-state="vm.onUpdateState($state)">
     <vg-media vg-src="vm.config.sources" vg-tracks="vm.config.tracks" id="vrtvideo"></vg-media>
     <vg-controls>
         <vg-play-pause-button></vg-play-pause-button>
-        <vg-time-display >{{ currentTime | date:'mm:ss:sss' }}</vg-time-display>
+        <vg-time-display>{{ currentTime | date:'mm:ss:sss' }}</vg-time-display>
         <vg-scrub-bar>
             <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
             <vg-scrub-bar-cue-points vg-cue-points="vm.config.cuePoints.range"></vg-scrub-bar-cue-points>
@@ -34,4 +13,7 @@
             <vg-volume-bar></vg-volume-bar>
         </vg-volume>
     </vg-controls>
+    <div class="subtitles-preview__line" style="top: -2.8vw;position: relative;width: 100%;height: 0vw;left: 0;" layout="row" layout-align="center end">
+        <p id="subtitlePreview">{{vm.activeSub}}</p>
+    </div>
 </videogular>

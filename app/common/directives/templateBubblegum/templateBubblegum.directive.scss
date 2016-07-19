@@ -1,1 +1,28 @@
 @import "../../style/variables";
+.bblgm-footer__content {
+  height: 135px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bblgm-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  pointer-events: none;
+}
+
+.bblgm-footer__text {
+  margin: 0 auto;
+  color: $r2-main-color;
+  text-align: center;
+  padding: 0 30px;
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1em;
+  font-family: 'markpro-bold', sans-serif;
+  white-space: pre-wrap;
+}

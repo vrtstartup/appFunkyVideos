@@ -84,7 +84,7 @@
     font-family: "proxima", "Roboto Condensed", sans-serif;
   }
 
-  .quote {
+  .quote, .header-bob {
     font-family: "utopia", "Roboto Condensed", sans-serif;
     letter-spacing: 1.5px;
   }
@@ -98,7 +98,6 @@
     font-family: "proxima", "Roboto Condensed", sans-serif;
     height: 125px;
   }
-
 }
 
 .r1 {
@@ -129,12 +128,12 @@
   }
 
   .quote, .sign {
-    font-family: "Calibre-Semibold", sans-serif;
+    font-family: "Calibre-Black", sans-serif;
     font-style: normal;
     //letter-spacing: 2px;
     color: $r1-light-color;
-    font-size: 70px;
-    line-height: 70px;
+    font-size: 65px;
+    line-height: 60px;
   }
 
   .author {

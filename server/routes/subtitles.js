@@ -18,72 +18,31 @@ router.get('/subtitles', function(req, res) {
 
 
 router.post('/subtitleVideos', multipartyMiddleware, function(req, res, next) {
-
-    // ffmpeg -i out.mp4 -vf subtitles=sub.srt:force_style='Fontsize=20' vide.mp4
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
     var url = file.path;
     var email = req.body.email;
+    console.log(req.body);
     var name = (file.path).replace("temp/subtitleVideos/", '').replace('.mp4', '').replace('.MP4', '').replace('.mov', '').replace('.avi', '').replace('.mkv', '');
 
-    const ext = getExtension(file.name);
-
-    if (file.type === 'srt') {
-
+    // const ext = getExtension(file.name);
+    if (file.type === 'ass') {
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
         fs.renameSync(path + name, srtPath);
         var filename = 'gen' + videoPath;
         // burn subtitles
-        url = path + filename;
-
-        var ffmpegCommand = 'ffmpeg -i ' + path + videoPath +' -y -vf subtitles=' + srtPath + ':force_style="FontSize=24" -strict -2 ' + url;
-        var ffmpegProcess = exec(ffmpegCommand);
-
-        ffmpegProcess.stdout.on('data', function(data) {
-
-            console.log('stdout: ' + data);
-        });
-        ffmpegProcess.stderr.on('data', function(data) {
-            console.log('stderr srt: ' + data);
-        });
-        ffmpegProcess.on('close', function(code) {
-            if (code !== 0) {
-                console.log('program exited error code:', code);
-                return;
-            }
-            sendNotification(email, filename);
-            res.json({ name: (req.body.fileName).replace('.srt', ''), subtitled: true }).send();
-
-        });
-
-    } else if(ext === 'mov') {
-        // convert .mov into .mp4
-        var ffmpegCommandConversion = 'ffmpeg -i ' + url + ' -vcodec copy -acodec copy ' + path + name + '.mp4';
-        ffmpegProcess = exec(ffmpegCommandConversion);
-
-        ffmpegProcess.stdout.on('data', function(data) {
-            console.log('stdout: ' + data);
-        });
-        ffmpegProcess.stderr.on('data', function(data) {
-            console.log('stderr mov: ' + data);
-        });
-        ffmpegProcess.on('close', function(code) {
-            if (code !== 0) {
-                console.log('program exited error code:', code);
-                return;
-            }
-            res.json({ url: path + name + '.mp4', name: name, subtitled: false }).send();
-        });
+        url = path + videoPath;
+        res.json({ url: url, name: videoPath}).send();
     } else {
-        res.json({ url: url, name: name, subtitled: false }).send();
+        res.json({ url: url, name: videoPath, subtitled: false }).send();
     }
 });
 
-function getExtension(filename) {
-    var parts = filename.split('.');
-    return parts[parts.length - 1];
-}
+// function getExtension(filename) {
+//     var parts = filename.split('.');
+//     return parts[parts.length - 1];
+// }
 
 function sendNotification(email, url) {
 

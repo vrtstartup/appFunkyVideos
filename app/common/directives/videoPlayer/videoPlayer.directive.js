@@ -9,9 +9,7 @@ class VideoPlayerDirectiveController {
 
         $scope.$watch('source', (value) => {
             if (!value) return;
-
             let videoSource = this.$sce.trustAsResourceUrl(value);
-
             this.config = {
                 sources: [{ src: videoSource, type: 'video/mp4' }],
                 cuePoints: {
@@ -20,24 +18,32 @@ class VideoPlayerDirectiveController {
                             start: 0.001,
                             end: 5.001
                         },
-                        onComplete: this.onCompleteRangeCuepoint.bind(this)
+                        onComplete: this.onCompleteRangeCuepoint.bind(this),
+                        // onProgress: this.changeTime.bind(this),
                     }]
                 }
             };
         });
 
-        $scope.$watchCollection('[start, end]', (values, oldValues) => {
-            if (!values) return;
 
-            let startChanged =  values[0] !== oldValues[0];
-
-            if (startChanged && this.videogular.api) {
-
-                this.videogular.api.seekTime(values[0]);
+        $scope.$watch('loop', (value) => {
+            this.looping = value;
+            if (value === false && this.videogular.api) {
+                this.activeSub = '';
+                this.videogular.api.seekTime(0.001);
                 this.videogular.api.play();
             }
+        });
 
-            if(values[0] && values[1]) {
+        $scope.$watch('subs', (value) => {
+            this.subs = value;
+            console.log('changing in subs', this.videogular.api.currentTime);
+            this.findSub(this.videogular.api.currentTime / 1000);
+        }, true);
+
+        $scope.$watchCollection('[start, end]', (values, oldValues) => {
+            if (!values) return;
+            if (values[0] && values[1]) {
                 this.config.cuePoints = {
                     range: [{
                         timeLapse: {
@@ -47,44 +53,27 @@ class VideoPlayerDirectiveController {
                         onComplete: this.onCompleteRangeCuepoint.bind(this)
                     }]
                 };
-            }
-            else {
+            } else {
                 this.config.cuePoints = {};
             }
         });
-
-        //$scope.$watch('start', (value) => {
-        //    if (!value) return;
-        //    this.videogular.api.seekTime(value);
-        //    this.videogular.api.play();
-        //
-        //    this.config.cuePoints = {
-        //        range: [{
-        //            timeLapse: {
-        //                start: value,
-        //                end: $scope.end
-        //            },
-        //            onComplete: this.onCompleteRangeCuepoint.bind(this)
-        //        }]
-        //    };
-        //});
-        //
-        //$scope.$watch('end', (value) => {
-        //    if (!value) return;
-        //    this.config.cuePoints = {
-        //        range: [{
-        //            timeLapse: {
-        //                start: $scope.start,
-        //                end: value
-        //            },
-        //            onComplete: this.onCompleteRangeCuepoint.bind(this)
-        //        }]
-        //    };
-        //});
     }
 
-    setTimes(currentTime) {
-        this.$scope.$emit('currentTime', currentTime);
+
+    findSub(currentTime) {
+        angular.forEach(this.subs, (value, key) => {
+            if (value.start && currentTime >= value.start && currentTime <= value.end) {
+                this.activeSub = value.text;
+                console.log(value);
+            }
+        });
+    }
+    updateTime(currentTime) {
+        this.findSub(currentTime);
+    }
+
+    onUpdateState(state) {
+        this.$scope.$emit('onUpdateState', state);
     }
 
     onPlayerReady(API) {
@@ -92,7 +81,9 @@ class VideoPlayerDirectiveController {
     }
 
     onCompleteRangeCuepoint(currentTime, timeLapse) {
-        this.videogular.api.seekTime(timeLapse.start - 2);
+        if (this.looping === true) {
+            this.videogular.api.seekTime(timeLapse.start);
+        }
     }
 }
 
@@ -104,8 +95,8 @@ export const videoPlayerDirective = function() {
             source: '=',
             start: '=',
             end: '=',
-            currentTime: '=',
-            updateTime: '&'
+            loop: '=',
+            subs: '=',
         },
         controller: VideoPlayerDirectiveController,
         controllerAs: 'vm',

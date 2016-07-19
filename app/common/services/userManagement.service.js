@@ -1,7 +1,8 @@
 export default class UserManagemeService {
-    constructor($q, firebaseAuth) {
+    constructor($q, firebaseDB, $firebaseAuth) {
         this.$q = $q;
-        this.firebaseAuth = firebaseAuth;
+        this.firebaseAuth = $firebaseAuth();
+        this.ref = firebase.database().ref();
     }
 
 
@@ -18,7 +19,7 @@ export default class UserManagemeService {
     checkAuth() {
         const deferred = this.$q.defer();
         let message = '';
-        this.firebaseAuth.$onAuth((authData) => {
+        this.firebaseAuth.$onAuthStateChanged((authData) => {
             //console.log(authData);
             if (authData !== null) {
                 deferred.resolve(authData.uid);
@@ -32,10 +33,7 @@ export default class UserManagemeService {
     logIn(email, password) {
         const deferred = this.$q.defer();
         let message = '';
-        this.firebaseAuth.$authWithPassword({
-            email: email,
-            password: password
-        }).then((authData) => {
+        this.firebaseAuth.$signInWithEmailAndPassword(email, password).then((authData) => {
             message = 'Je bent ingelogd met het email adres ' + email;
             deferred.resolve(authData.uid, message);
 
@@ -64,7 +62,7 @@ export default class UserManagemeService {
 
     logOut() {
         const deferred = this.$q.defer();
-        this.firebaseAuth.$unauth();
+        this.firebaseAuth.$signOut();
         deferred.resolve();
         return deferred.promise;
     }
@@ -74,10 +72,7 @@ export default class UserManagemeService {
     authenticate(email, oldPassword) {
         const deferred = this.$q.defer();
         let message = '';
-        this.firebaseAuth.$authWithPassword({
-            email: email,
-            password: oldPassword
-        }).then((authData) => {
+        this.firebaseAuth.$signInWithEmailAndPassword(email, oldPassword).then((authData) => {
             message = 'Je account is geactiveerd';
             console.log(authData, message);
             deferred.resolve(authData, message);
@@ -93,11 +88,7 @@ export default class UserManagemeService {
     changePassword(email, oldPassword, newPassword) {
         const deferred = this.$q.defer();
         let message = '';
-        this.firebaseAuth.$changePassword({
-            email: email,
-            oldPassword: oldPassword,
-            newPassword: newPassword
-        }).then((data) => {
+        this.firebaseAuth.$updatePassword(newPassword).then((data) => {
             message = 'Het paswoord is opgeslagen.';
             deferred.resolve(data, message);
         }).catch(function(error) {
@@ -110,8 +101,9 @@ export default class UserManagemeService {
     getUserIdFromEmail(email) {
         const deferred = this.$q.defer();
         let message = '';
-        let ref = new Firebase('https://vrtnieuwshub.firebaseio.com/users/');
-        let query = ref.orderByChild('email').equalTo(email).on('value', (snapshot) => {
+
+
+        let query = this.ref.child('users').orderByChild('email').equalTo(email).on('value', (snapshot) => {
             if (snapshot.val() !== null) {
                 let data = snapshot.val();
                 let userId = Object.keys(data)[0];
@@ -123,13 +115,10 @@ export default class UserManagemeService {
         return deferred.promise;
     }
 
-
     resetPassword(email) {
         const deferred = this.$q.defer();
         let message = '';
-        this.firebaseAuth.$resetPassword({
-            email: email
-        }).then(() => {
+        this.firebaseAuth.$sendPasswordResetEmail(email).then(() => {
             message = 'Password reset email sent successfully!';
             deferred.resolve('success', message);
         }).catch(function(error) {
@@ -142,8 +131,7 @@ export default class UserManagemeService {
 
     setBrand(brand, userId) {
         const deferred = this.$q.defer();
-        let ref = new Firebase('https://vrtnieuwshub.firebaseio.com/users/' + userId);
-        ref.child('brand').set(brand);
+        this.ref.child('users/' + userId + '/brand').set(brand);
         deferred.resolve();
         return deferred.promise;
     }
@@ -153,14 +141,13 @@ export default class UserManagemeService {
     setVerificationStatus(userId, email, brand, status) {
         console.log(userId, email, brand, status);
         const deferred = this.$q.defer();
-        let ref = new Firebase('https://vrtnieuwshub.firebaseio.com/users/' + userId);
-        ref.child('verificationStatus').set(status);
+        this.ref.child('users/' + userId + 'verificationStatus').set(status);
         if (email) {
-            ref.child('email').set(email);
+            ref.child('users/' + userId + '/email').set(email);
         }
 
         if (brand) {
-            ref.child('brand').set(brand);
+            ref.child('users/' + userId + '/brand').set(brand);
         }
         deferred.resolve();
         return deferred.promise;
@@ -171,10 +158,7 @@ export default class UserManagemeService {
         const deferred = this.$q.defer();
         let message = '';
         console.log(email);
-        this.firebaseAuth.$createUser({
-            email: email,
-            password: this._generatePassword()
-        }).then((userData) => {
+        this.firebaseAuth.$createUserWithEmailAndPassword(email, this._generatePassword()).then((userData) => {
 
             message = 'User created';
             console.log(userData);
@@ -191,8 +175,7 @@ export default class UserManagemeService {
         const deferred = this.$q.defer();
         let message = '';
         console.log(userId);
-        let ref = new Firebase('https://vrtnieuwshub.firebaseio.com/users/' + userId);
-        ref.on("value", function(snapshot) {
+        this.ref.child('users/' + userId).on("value", function(snapshot) {
             console.log(snapshot.val());
             deferred.resolve(snapshot.val(), 'success');
         }, function(errorObject) {
@@ -212,4 +195,4 @@ export default class UserManagemeService {
 
 }
 
-UserManagemeService.$inject = ['$q', 'firebaseAuth'];
+UserManagemeService.$inject = ['$q', 'firebaseDB', '$firebaseAuth'];

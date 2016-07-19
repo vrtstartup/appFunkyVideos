@@ -2,7 +2,7 @@ import template from './feedback.directive.html';
 import './feedback.directive.scss';
 
 class FeedbackDirectiveController {
-    constructor($scope, $log, $element, $mdSidenav, $http, toast, $window, $location, firebaseAuth) {
+    constructor($scope, $log, $element, $mdSidenav, $http, toast, $window, $location, firebaseDB, $firebaseAuth) {
         this.$log = $log;
         this.$element = $element;
         this.$scope = $scope;
@@ -12,13 +12,18 @@ class FeedbackDirectiveController {
         this.$window = $window;
         this.$location = $location;
         this.feedback = {};
-        this.firebaseAuth = firebaseAuth;
+        this.firebaseDB = firebaseDB;
+        this.firebaseDB.initialize();
+        this.firebaseAuth = $firebaseAuth();
+
 
         this.toggleRight = this.buildToggler('right');
 
-        this.firebaseAuth.$onAuth((authData) => {
+        this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
-                this.feedback.name = authData.password.email;
+                console.log(authData);
+
+                this.feedback.name = authData.email;
             }
         });
 
@@ -108,4 +113,4 @@ export const feedbackDirective = function() {
     };
 };
 
-FeedbackDirectiveController.$inject = ['$scope', '$log', '$element', '$mdSidenav', '$http', 'toast', '$window', '$location', 'firebaseAuth'];
+FeedbackDirectiveController.$inject = ['$scope', '$log', '$element', '$mdSidenav', '$http', 'toast', '$window', '$location', 'firebaseDB', '$firebaseAuth'];

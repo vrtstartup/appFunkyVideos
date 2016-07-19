@@ -1,5 +1,5 @@
 export default class PicturesController {
-    constructor(Upload, firebaseAuth, userManagement, videoGeneration) {
+    constructor(Upload, $firebaseAuth, userManagement, videoGeneration) {
 
         this.Upload = Upload;
         this.videoGeneration = videoGeneration;
@@ -8,13 +8,14 @@ export default class PicturesController {
         this.image = '';
 
         this.userManagement = userManagement;
-        this.firebaseAuth = firebaseAuth;
-        this.firebaseAuth.$onAuth((authData) => {
+        this.firebaseAuth = $firebaseAuth();
+        this.firebaseAuth.$onAuthStateChanged((authData) => {
+            console.log(authData);
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
                     this.userBrand = obj.brand;
                 });
-                this.userEmail = authData.password.email;
+                this.userEmail = authData.email;
             }
         });
 
@@ -31,7 +32,7 @@ export default class PicturesController {
             this.image = resp.data.url;
             console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data.url);
         }, function(resp) {
-            console.log('Error status: ' + resp.status);
+            console.log('Error status: ', resp);
         }, function(evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
@@ -78,4 +79,4 @@ export default class PicturesController {
 
 }
 
-PicturesController.$inject = ['Upload', 'firebaseAuth', 'userManagement', 'videoGeneration'];
+PicturesController.$inject = ['Upload', '$firebaseAuth', 'userManagement', 'videoGeneration'];

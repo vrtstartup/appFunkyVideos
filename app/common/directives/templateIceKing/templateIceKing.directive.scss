@@ -1,20 +1,24 @@
 @import "../../style/variables";
 
 .r2-city {
-  position: absolute;
-  bottom: -20px;
-  right: 15px;
   color: $white;
   font-size: 30px;
   font-family: 'Lato', sans-serif;
   font-weight: 700;
+  margin: 0;
+  display: inline-block;
+  width: auto;
+  box-sizing: border-box;
+  padding-bottom: 5px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #fff;
 }
 
 .r2-weather {
-  margin: 0 auto;
+  margin: 0;
   color: #fff;
-  text-align: center;
-  padding: 0 10px;
+  text-align: left;
   font-size: 60px;
   line-height: 1em;
   font-family: 'markpro-bold', sans-serif;
@@ -24,8 +28,8 @@
 .r2-weather-image {
   display: block;
   width: auto;
-  height: 180px;
-  margin: -30px auto 20px auto;
+  height: 200px;
+  padding: 20px;
 }
 
 .r2-wrapper-weather {
@@ -37,4 +41,16 @@
   display: block;
   height: 40px;
   width: auto;
+}
+
+.r2-weather-footer {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  position: relative;
+  pointer-events: none;
+}
+
+.r2-weather-content {
+  padding: 20px 0;
 }

@@ -1,0 +1,59 @@
+<md-dialog aria-label="Open project of start nieuw" flex="70" style="max-height:80vh;">
+    <form>
+        <md-toolbar class="vrt-toolbar">
+            <div class="md-toolbar-tools">
+                <h2>Projecten</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.closeModal()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-padding" layout="row">
+                <md-content flex="65" layout="column" layout-align="space-around">
+                    <md-checkbox ng-model="vm.projectFilters.email" aria-label="Jouw projecten">
+                        Toon enkel jouw projecten
+                    </md-checkbox>
+                    <md-progress-circular md-mode="indeterminate" ng-if="!vm.projectsLoaded"></md-progress-circular>
+                    <md-list ng-if="vm.projectsLoaded">
+                        <md-list-item class="md-2-line animate-repeat" ng-repeat="(key, m) in vm.projects | reverse | filter:vm.showOnlyYours(user.email, vm.projectFilters.email)" aria-label="Open project" ng-click="vm.openProject(m.$id)" >
+                            <div class="md-list-item-text" class="md-list-item-text">
+                                <h3>{{m.meta.projectId}}</h3>
+                                <p>{{m.meta.email}}</p>
+                            </div>
+                            <md-button class="md-secondary md-icon-button" ng-click="vm.projects.$remove(m)" aria-label="remove clip">
+                                <i class="material-icons" ng-click="vm.projects.$remove(c)">close</i>
+                            </md-button>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+                <!-- </div> -->
+                <div layout="column" layout-align="start center" layout-wrap flex="35">
+                    <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.createMovie()">
+                        Start nieuw project
+                    </md-button>
+                </div>
+            </div>
+        </md-dialog-content>
+        <!--  <md-dialog-actions layout="row" class="form-footer">
+            <span flex ng-if="vm.accountStatus != 'loggedIn'"></span>
+            <md-button ng-click="vm.logIn(vm.userForm)" class="vrt-button" ng-if="vm.accountStatus == 'authenticated'">
+                Log in
+            </md-button>
+            <md-button ng-click="vm.activateUser(vm.userForm)" class="vrt-button" ng-if="vm.accountStatus == 'pendingVerification'">
+                Sla paswoord op en log in
+            </md-button>
+            <md-button ng-click="vm.createUser(vm.userForm)" class="vrt-button" ng-if="vm.accountStatus == 'existsFalse'">
+                Maak een account aan
+            </md-button>
+            <md-button ng-click="vm.logOut()" class="vrt-button" ng-if="vm.accountStatus == 'loggedIn'">
+                Log uit
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="vm.closePopup()" ng-if="vm.accountStatus == 'loggedIn'">
+                Ok
+            </md-button>
+        </md-dialog-actions> -->
+    </form>
+</md-dialog>

@@ -1,11 +1,12 @@
 // TODO: refactoring that=this bullshit
 
 export default class templaterService {
-    constructor($log, $q, $http, toast) {
+    constructor($log, $q, $http, toast, $sce) {
         this.$log = $log;
         this.$q = $q;
         this.$http = $http;
         this.toast = toast;
+        this.$sce = $sce;
 
 
         this.root = 'D:\\videoTemplater\\dropbox\\';
@@ -17,8 +18,8 @@ export default class templaterService {
             'id': 0,
             'brand': 'deredactie.be',
             'length': 'nvt',
-            'fileLocal': null,
-            'fileRemote': null
+            'fileLocal': false,
+            'fileRemote': false
         }, {
             'name': '1',
             'id': 1,
@@ -73,8 +74,8 @@ export default class templaterService {
             'name': 'Deredactie.be simpel',
             'id': 1,
             'brand': 'deredactie.be',
-            'fileLocal': 'assets/logos/deredactie1.png',
-            'fileRemote': this.root + 'logos\\deredactie_1.mov'
+            'fileLocal': 'assets/logos/deredactie_2.mov',
+            'fileRemote': this.root + 'logos\\deredactie_2.mov'
         }];
 
 
@@ -88,9 +89,10 @@ export default class templaterService {
             'name': 'Deredactie.be simpel',
             'id': 1,
             'brand': 'deredactie.be',
-            'fileLocal': 'assets/bumpers/deredactie1.png',
+            'fileLocal': 'assets/bumpers/deredactie_1.mov',
             'fileRemote': this.root + 'bumpers\\deredactie_1.mov',
-            'fade': 2
+            'fade': 2,
+            'bumperLength': 4
         }];
 
 
@@ -110,6 +112,12 @@ export default class templaterService {
                 state: state
             };
             deferred.resolve(resp);
+        } else {
+            let resp = {
+                ffmpeg: ffmpeg,
+                state: state
+            };
+            deferred.resolve(resp);
         }
         return deferred.promise;
     }
@@ -117,9 +125,16 @@ export default class templaterService {
     addLogo(ffmpeg, logo, project, state) {
         const deferred = this.$q.defer();
         const folder = this.root + 'out\\' + project + '\\';
+        console.log(logo);
         if (logo !== 0) {
             ffmpeg = ffmpeg + ' && ffmpeg -i ' + folder + project + '_clean.mp4' + ' -i ' + this.logos[logo].fileRemote + ' -filter_complex overlay=10:10 ' + folder + project + state + '_logo.mp4';
             state = state + '_logo';
+            let resp = {
+                ffmpeg: ffmpeg,
+                state: state
+            };
+
+        } else {
             let resp = {
                 ffmpeg: ffmpeg,
                 state: state
@@ -140,14 +155,19 @@ export default class templaterService {
                 state: state
             };
             deferred.resolve(resp);
+        } else {
+            let resp = {
+                ffmpeg: ffmpeg,
+                state: state
+            };
+            deferred.resolve(resp);
         }
-
-
         return deferred.promise;
     }
 
     overlays(clips, meta, project) {
         const deferred = this.$q.defer();
+        console.log(project);
         const folder = this.root + 'out\\' + project + '\\';
         let state = '';
         let resp = '';
@@ -175,8 +195,6 @@ export default class templaterService {
         return deferred.promise;
     }
 
-
-
     stitcher(clips) {
         const deferred = this.$q.defer();
         const folder = this.root + 'out\\' + project + '\\';
@@ -197,20 +215,29 @@ export default class templaterService {
             listClips = listClips + '[' + clipMinusOne + '] ';
             if (clipId === total) {
                 ffmpegLine = 'ffmpeg' + clipsToConcat + ' -filter_complex \"\"' + listClips + 'concat=n=' + total + ':v=1[out]\"\" -map [out] ' + folder + project + '_clean.mp4';
-                console.log(ffmpegLine);
-                // deferred.resolve(ffmpegLine);
-            i}
+                deferred.resolve(ffmpegLine);
+
+            } else {
+                let resp = {
+                    ffmpeg: ffmpeg,
+                    state: state
+                };
+                deferred.resolve(resp);
+            }
         });
         return deferred.promise;
     }
 
 
     send(clips) {
+        console.log('clips');
         let params = {
             movieClips: clips
         };
+        console.log('send');
         this.$http.post('api/movie/update-movie-json', params)
             .then(() => {
+                console.log('send');
                 this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
             });
     }
@@ -242,6 +269,82 @@ export default class templaterService {
         return date;
     }
 
+
+
+
+
+
+
+    msToTime(millis) {
+        var dur = {};
+        millis = millis * 1000;
+
+        var units = [
+            { label: 'millis', mod: 1000 },
+            { label: 'seconds', mod: 60 },
+            { label: 'minutes', mod: 60 },
+            { label: 'hours', mod: 24 },
+        ];
+        // calculate the individual unit values...
+        units.forEach(function(u) {
+            millis = (millis - (dur[u.label] = (millis % u.mod))) / u.mod;
+        });
+
+
+
+        let twoDigits = function(number) {
+            if (number < 10) {
+                number = '0' + number;
+                return number;
+            } else {
+                return number;
+            }
+        };
+
+
+        let round = function(number) {
+
+            if (number < 99) {
+                return number;
+
+            } else {
+                number = Math.round((number / 10));
+                return number;
+            }
+        };
+
+
+        let time = dur.hours + ':' + twoDigits(dur.minutes) + ':' + twoDigits(dur.seconds) + '.' + round(dur.millis);
+        console.log(time);
+
+        return time;
+    }
+
+
+    createAss(json) {
+        const deferred = this.$q.defer();
+        let string = '';
+        string = '[Script Info]\nTitle: Nieuwshub subtitles\nScriptType: v4.00\nCollisions: Normal\n\n';
+        string = string + '[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n';
+        string = string + 'Style: Default,arial,24,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,5,5,30,1\n\n';
+        string = string + '[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
+        angular.forEach(json, (line) => {
+            if (line.text !== undefined) {
+                console.log(line.text);
+                let text = line.text
+
+                if (text.indexOf('\n') > -1) {
+                    console.log('found line break');
+                    text = text.replace(/\n/g, '\\N');
+                }
+                // return $sce.trustAsHtml(text);
+                string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',Default,,0,0,0,,' + text + '\n';
+            }
+        });
+        deferred.resolve(string);
+        return deferred.promise;
+    }
+
 }
 
-templaterService.$inject = ['$log', '$q', '$http', 'toast'];
+templaterService.$inject = ['$log', '$q', '$http', 'toast', '$sce'];

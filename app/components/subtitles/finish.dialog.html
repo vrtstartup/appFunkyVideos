@@ -1,0 +1,88 @@
+<md-dialog aria-label="Finish" flex="70" style="max-height:90vh; min-height: 30vh; max-width: 80vw; min-width: 50vw">
+    <form ng-if="!vm.movieSend">
+        <md-dialog-content layout="row">
+            <section flex="50" layout="column">
+                <md-toolbar class="vrt-toolbar">
+                    <div class="md-toolbar-tools">
+                        <h2>Kies logo en bumper</h2>
+                    </div>
+                </md-toolbar>
+                <div layout-padding layout="column">
+                    <md-checkbox ng-model="vm.meta.bumper" aria-label="Bumper">
+                        Bumper
+                    </md-checkbox>
+                    <md-checkbox ng-model="vm.meta.logo" aria-label="Logo">
+                        Logo
+                    </md-checkbox>
+                </div>
+            </section>
+<!--             <section flex="33" layout="column">
+                <md-toolbar class="vrt-toolbar">
+                    <div class="md-toolbar-tools">
+                        <h2>Kies audio</h2>
+                    </div>
+                </md-toolbar>
+                <div layout-padding layout="column">
+                    <md-input-container>
+                        <label>Kies een audiotrack</label>
+                        <md-select ng-model="vm.meta.audio" ng-change="vm.setAudio(vm.meta.audio)">
+                            <md-option ng-repeat="(key, a) in vm.templater.audioTracks" value="{{a.id}}">
+                                {{a.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    {{vm.audioTrackUrl}}
+                    <vrt-audioplayer source="vm.audioTrackUrl" class="audioplayer"></vrt-audioplayer>
+                </div>
+            </section> -->
+            <section flex="50" layout="column">
+                <md-toolbar class="vrt-toolbar">
+                    <div class="md-toolbar-tools">
+                        <h2>kies mailadres</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="vm.closeModal();vm.movieSend = false">
+                            <i class="material-icons">close</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <div layout-padding layout="column">
+                    <p>Deze video zal verstuurd worden naar:</p>
+                    <md-input-container>
+                        <label>Email adres</label>
+                        <input type="text" ng-model="vm.meta.sendTo" ng-change="vm.meta.$save()">
+                    </md-input-container>
+                </div>
+            </section>
+            <!-- <md-input-container>
+                <label>Kies een logo</label>
+                <md-select ng-model="vm.logo" ng-change="vm.setLogo(vm.meta.logo)">
+                    <md-option ng-repeat="(key, l) in vm.logos" value="{{l.id}}">
+                        {{l.name}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <img src="{{vm.logoUrl}}"> -->
+        </md-dialog-content>
+        <md-dialog-actions layout="row" class="form-footer">
+            <span flex></span>
+            <md-button class="md-raised" aria-label="Film maken" ng-click="vm.renderSubtitles(vm.clips)">
+                Maak filmpje
+            </md-button>
+            <span flex></span>
+        </md-dialog-actions>
+    </form>
+    <div ng-if="vm.movieSend">
+        <md-toolbar class="vrt-toolbar">
+            <div class="md-toolbar-tools">
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.closeModal();vm.movieSend = false">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <div layout="column" layout-align="center center" style="height: 30vh">
+            <p>Je filmpje wordt verwerkt. Je krijgt een mail zodra deze klaar is.</p>
+            <p>- Je mag dit scherm sluiten, wij nemen het van hier wel over! -</p>
+        </div>
+    </div>
+</md-dialog>
