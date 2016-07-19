@@ -20,33 +20,6 @@ var dbClient = dropboxService.getDropboxClient();
 
 var emailService = require('../services/emailService.js');
 
-function time() {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1;
-    var hours = today.getHours();
-    var minutes = today.getMinutes();
-    var seconds = today.getSeconds();
-    var yyyy = today.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
-    if (hours < 10) {
-        hours = '0' + hours;
-    }
-    if (seconds < 10) {
-        seconds = '0' + seconds;
-    }
-    if (minutes < 10) {
-        minutes = '0' + minutes;
-    }
-    var date = yyyy + mm + dd + '_' + hours + minutes + seconds;
-    return date;
-}
-
 function sendNotification(email, status, url) {
     if (status === 'finished') {
         var subject = 'Je video met ondertitels is klaar om te downloaden!';
@@ -182,12 +155,13 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 
 
 router.post('/burnSubs', function(req, res) {
-    // logger.info('burning Subs');
+
+
+
     const path = "temp/subtitleVideos/";
+
     var ass = req.body.ass;
     var movie = req.body.movie;
-
-
     var email = req.body.email;
     var logo = req.body.logo;
     var audio = req.body.audio;
@@ -198,7 +172,9 @@ router.post('/burnSubs', function(req, res) {
     var height = req.body.height;
     var project = req.body.project;
     var bumperLength = req.body.bumperLength;
-    var videoName = time() + '_' + (email.substring(0, email.indexOf("@"))).replace('.', '') + '.mp4';
+    var visualClips = req.body.visualClips;
+
+    var videoName = req.body.videoName;
     var tempVideo = path + videoName;
     console.log(height, width);
 
@@ -207,10 +183,6 @@ router.post('/burnSubs', function(req, res) {
     var complexFilter = [];
 
     if (bumper !== false && logo !== false) {
-
-
-
-
         ffmpegCommand = ffmpeg()
             .input(movie)
             .input(bumper)
@@ -323,11 +295,13 @@ router.post('/burnSubs', function(req, res) {
         })
         .on('progress', function(progress) {
             console.log(progress.percent);
-            db.ref('/apps/subtitles/' + project + '/logs').update({
-                progress: progress.percent,
-            }).catch(function(error) {
-                console.log('Failed to save to log', error);
-            });
+            if (progress.percent) {
+                db.ref('/apps/subtitles/' + project + '/logs').update({
+                    progress: progress.percent,
+                }).catch(function(error) {
+                    console.log('Failed to save to log', error);
+                });
+            }
         })
         .on('end', function() {
             console.log('end');

@@ -64,7 +64,6 @@ class VideoPlayerDirectiveController {
         angular.forEach(this.subs, (value, key) => {
             if (value.start && currentTime >= value.start && currentTime <= value.end) {
                 this.activeSub = value.text;
-                console.log(value);
             }
         });
     }

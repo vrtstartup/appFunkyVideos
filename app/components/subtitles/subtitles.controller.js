@@ -1,14 +1,14 @@
 import { keys, extend, find, reject } from 'lodash';
 
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, hotkeys, toast, $firebaseAuth, $firebaseObject, $firebaseArray, userManagement, templater, $http, $mdDialog) {
+    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, toast, $firebaseAuth, $firebaseObject, $firebaseArray, userManagement, templater, $http, $mdDialog, hotkeysService) {
         this.$log = $log;
         this.$sce = $sce;
         this.srt = srt;
         this.$scope = $scope;
         this.FileSaver = FileSaver;
         this.videogular = videogular;
-        this.hotkeys = hotkeys;
+        this.hotkeys = hotkeysService;
         this.Upload = Upload;
         this.$timeout = $timeout;
         this.toast = toast;
@@ -19,25 +19,25 @@ export default class SubtitlesController {
         this.$firebaseObject = $firebaseObject;
         this.$firebaseArray = $firebaseArray;
 
+
+        // Interface Vars
         this.projectFilters = { email: true };
-        this.movieDuration = 0;
         this.numberOfProjects = 200;
-
-        this.clipSlider = {};
-        this.timeSlider = {};
-        this.selectedSub = {};
-
-        this.currentSubtitlePreview = '';
-        this.progressPercentage = '';
         this.playingVideo = '';
-        this.clips = '';
-
-        this.movieSend = false;
         this.loop = false;
         this.projectsLoaded = false;
+        this.movieSend = false;
         this.projectActive = false;
         this.uploading = false;
 
+        // User Vars
+        this.user = {};
+
+        // Project Vars
+        this.movieDuration = 0;
+        this.selectedSub = {};
+        this.progressPercentage = '';
+        this.onlyDragRange = false;
         this.project = {
             meta: {
                 'audio': 0,
@@ -46,18 +46,16 @@ export default class SubtitlesController {
             }
         };
 
+        // Subtitle Vars
+        this.subs = '';
+        this.subSlider = {};
+
+        // Visual Vars
+        this.visuals = '';
+        this.visualSlider = {};
+        this.clipTemplates = this.templater.clipTemplates;
 
 
-        // Emit coming from video directive
-        this.$scope.$on('onUpdateState', (event, data) => {
-            if (data === 'play') {
-                this.playingVideo = true;
-            } else if (data === 'pause') {
-                this.playingVideo = false;
-            }
-        });
-
-        this.user = {};
 
 
         // Authenticate the user
@@ -76,68 +74,41 @@ export default class SubtitlesController {
             }
         });
 
-        // Hotkeys to make editing superfast and smooth. Using angular-hotkeys (http://chieffancypants.github.io/angular-hotkeys/)
-        this.hotkeys.add({
-            combo: 'i',
-            description: 'Begin van ondertitel',
-            callback: () => {
-                this.selectedSub.start = this.videogular.api.currentTime / 1000;
-                let c = this.clips.$getRecord(this.selectedSub.id);
-                c.start = this.selectedSub.start;
-                this.clips.$save(c);
-            }
-        });
 
-        this.hotkeys.add({
-            combo: 'o',
-            description: 'Einde van ondertitel',
-            callback: () => {
-                this.selectedSub.end = this.videogular.api.currentTime / 1000;
-                this.goToTime(this.selectedSub.start);
-                let c = this.clips.$getRecord(this.selectedSub.id);
-                c.end = this.selectedSub.end;
-                this.clips.$save(c);
-            }
+        // Ad Hotkeys
+        this.hotkeys.addHotkey('i', 'Begin van ondertitel').then(() => {
+            this.selectedSub.start = this.videogular.api.currentTime / 1000;
+            let c = this.subs.$getRecord(this.selectedSub.id);
+            c.start = this.selectedSub.start;
+            this.subs.$save(c);
         });
-
-        this.hotkeys.add({
-            combo: 'k',
-            description: 'Frame verder',
-            callback: () => {
-                this.videogular.api.pause();
-                this.goToTime(this.videogular.api.currentTime / 1000 + 0.01);
-            }
+        this.hotkeys.addHotkey('o', 'Einde van ondertitel').then(() => {
+            this.selectedSub.end = this.videogular.api.currentTime / 1000;
+            this.goToTime(this.selectedSub.start);
+            let c = this.subs.$getRecord(this.selectedSub.id);
+            c.end = this.selectedSub.end;
+            this.subs.$save(c);
         });
-
-        this.hotkeys.add({
-            combo: 'j',
-            description: 'Frame terug',
-            callback: () => {
-                this.videogular.api.pause();
-                this.goToTime(this.videogular.api.currentTime / 1000 - 0.01);
-            }
+        this.hotkeys.addHotkey('k', 'Frame verder').then(() => {
+            this.videogular.api.pause();
+            this.goToTime(this.videogular.api.currentTime / 1000 + 0.01);
         });
-
-        this.hotkeys.add({
-            combo: 'l',
-            description: 'Preview filmpje',
-            callback: () => {
-                this.preview();
-            }
+        this.hotkeys.addHotkey('j', 'Frame terug').then(() => {
+            this.videogular.api.pause();
+            this.goToTime(this.videogular.api.currentTime / 1000 - 0.01);
         });
-
-        this.hotkeys.add({
-            combo: 'u',
-            description: 'Nieuwe ondertitel',
-            callback: () => {
-                this.addSubtitle(this.meta.movieDuration);
-            }
+        this.hotkeys.addHotkey('l', 'Preview filmpje').then(() => {
+            this.preview();
+        });
+        this.hotkeys.addHotkey('u', 'Nieuwe ondertitel').then(() => {
+            this.addSubtitle(this.meta.movieDuration);
         });
     }
 
+
+
     // Initiate Firebase
     initFirebase(app, brand, number) {
-
         this.ref = firebase.database().ref().child(app);
         this.logsRef = firebase.database().ref('logs');
         this.query = this.ref.orderByChild('meta/brand').equalTo(brand).limitToLast(number);
@@ -153,24 +124,34 @@ export default class SubtitlesController {
     }
 
 
+    /*
+        ____      __            ____                   ____                 __  _
+       /  _/___  / /____  _____/ __/___ _________     / __/_  ______  _____/ /_(_)___  ____  _____
+       / // __ \/ __/ _ \/ ___/ /_/ __ `/ ___/ _ \   / /_/ / / / __ \/ ___/ __/ / __ \/ __ \/ ___/
+     _/ // / / / /_/  __/ /  / __/ /_/ / /__/  __/  / __/ /_/ / / / / /__/ /_/ / /_/ / / / (__  )
+    /___/_/ /_/\__/\___/_/  /_/  \__,_/\___/\___/  /_/  \__,_/_/ /_/\___/\__/_/\____/_/ /_/____/
+
+    */
+
+
     showOnlyYours(email, yours) {
         if (yours)
+
             return (email = email);
         else
             return (email = '');
     }
 
-    // Start a new movie
-    createMovie() {
-        let userEmail = this.project.meta.email;
-        this.project.meta.projectId = this.templater.time() + '_' + (userEmail.substring(0, userEmail.indexOf("@"))).replace('.', '');
-        this.projects.$add(this.project).then((ref) => {
-            this.openProject(ref.key);
-            this.$mdDialog.cancel();
-        });
-
+    preview() {
+        this.loop = false;
+        this.selectedSub.id = null;
     }
 
+    closeModal() {
+        this.$mdDialog.cancel();
+    }
+
+    // Show the dialog to finish the movie
     finishMovie(ev) {
         this.$mdDialog.show({
             templateUrl: '/components/subtitles/finish.dialog.html',
@@ -183,6 +164,7 @@ export default class SubtitlesController {
         });
     }
 
+    // Show the dialog to open a project
     openProjects(ev) {
         this.$mdDialog.show({
             templateUrl: '/components/subtitles/projects.dialog.html',
@@ -195,26 +177,50 @@ export default class SubtitlesController {
         });
     }
 
-        // Opening movie, after create, of when you click in the list with projects
+
+    /*
+
+        ____               _           __     ______            __  _
+       / __ \_________    (_)__  _____/ /_   / ____/_  ______  / /_(_)___  ____  _____
+      / /_/ / ___/ __ \  / / _ \/ ___/ __/  / /_  / / / / __ \/ __/ / __ \/ __ \/ ___/
+     / ____/ /  / /_/ / / /  __/ /__/ /_   / __/ / /_/ / / / / /_/ / /_/ / / / (__  )
+    /_/   /_/   \____/_/ /\___/\___/\__/  /_/    \__,_/_/ /_/\__/_/\____/_/ /_/____/
+                    /___/
+
+    */
+
+
+    // Start a new movie
+    createMovie() {
+        let userEmail = this.project.meta.email;
+        this.project.meta.projectId = this.templater.time() + '_' + (userEmail.substring(0, userEmail.indexOf("@"))).replace('.', '');
+        this.projects.$add(this.project).then((ref) => {
+            this.openProject(ref.key);
+            this.$mdDialog.cancel();
+        });
+
+    }
+
+    // Opening movie, after create, of when you click in the list with projects
     openProject(projectId) {
         this.meta = {};
         this.bumper = this.project.bumper; // Should go away once bumper is add as an option
         this.uploading = false;
         this.projectRef = this.ref.child(projectId);
-        this.clipsRef = this.projectRef.child('subs').orderByChild('start');
-        this.clips = this.$firebaseArray(this.clipsRef);
+        this.subsRef = this.projectRef.child('subs').orderByChild('start');
+        this.subs = this.$firebaseArray(this.subsRef);
         this.refMeta = this.projectRef.child('meta');
         this.meta = this.$firebaseObject(this.refMeta);
         this.refLogs = this.projectRef.child('logs');
         this.logs = this.$firebaseObject(this.refLogs);
 
         this.projectId = projectId;
-        this.clips.$loaded(
+        this.subs.$loaded(
             (resp) => {
                 this.projectActive = true;
                 if (this.meta.movieDuration) {
                     this.clip = { end: this.meta.movieDuration, start: 0.001 };
-                    this.setClipSlider(this.meta.movieDuration);
+                    this.setSubSlider(this.meta.movieDuration);
                 }
                 this.$mdDialog.cancel();
             },
@@ -223,18 +229,20 @@ export default class SubtitlesController {
             });
     }
 
-    preview() {
-        this.loop = false;
-        this.selectedSub.id = null;
+    // get the html form that belongs with this template
+    getTemplate(type, template) {
+        angular.forEach(this.clipTemplates, (value, key) => {
+            if (value.name === template && type === 'form') {
+                this.selectedTemplate = value.form;
+            } else if (value.name === template && type === 'view') {
+                this.selectedTemplate = value.form;
+            }
+        });
     }
 
-    closeModal() {
-        this.$mdDialog.cancel();
-    }
-
-    // Add one clip
+    // Add one subtitle
     addSubtitle(movieDuration) {
-        // get last clip
+        // get last subtitle
         let lastClip = {};
         this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function(snapshot) {
             snapshot.forEach(function(data) {
@@ -243,20 +251,24 @@ export default class SubtitlesController {
         });
 
         var clip = {};
-
         if (movieDuration) {
-            if (this.clips.length > 1) {
-
-                clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010) };
+            if (this.subs.length > 1) {
+                clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: 'normalSub', type: 'sub' };
             } else {
-                clip = { end: movieDuration, start: 0.001 };
+                clip = { end: movieDuration, start: 0.001, template: 'normalSub', type: 'sub' };
             }
-
-            this.clips.$add(clip).then((ref) => {
-                console.log(ref);
-                this.selectSub(ref.key, clip.start, clip.end);
+            this.subs.$add(clip).then((ref) => {
+                this.selectClip(ref.key, clip.start, clip.end, clip.type, clip.template, 'form');
             });
         }
+    }
+
+    addVisual() {
+        var clip = {};
+        clip = { end: 7, start: 0.010, type: 'visual', template: 'title' };
+        this.subs.$add(clip).then((ref) => {
+            this.selectClip(ref.key, clip.start, clip.end, clip.type, clip.template, 'form');
+        });
     }
 
     // Make the video follow when the range gets dragged
@@ -264,34 +276,26 @@ export default class SubtitlesController {
         this.videogular.api.seekTime(time);
     }
 
-    selectSub(id, start, end) {
+    selectClip(id, start, end, type, template, context) {
+        if (type === 'visual') {
+            this.subSlider.options.draggableRangeOnly = true;
+        } else {
+            this.subSlider.options.draggableRangeOnly = false;
+        }
+        this.getTemplate(context, template);
+
         this.loop = true;
         this.selectedSub = {
             'id': id,
             'start': start,
             'end': end
         };
-        console.log('select sub', this.selectedSub);
         this.goToTime(start);
-
-    }
-
-    renderSubtitles(clips) {
-
-        this.templater.createAss(clips).then((ass) => {
-            let assFile = new Blob([ass], {
-                type: 'ass'
-            });
-            let assFileName = this.meta.projectId + '.ass';
-            this.uploadSRT(assFile, assFileName, this.meta.email);
-        });
-
-
     }
 
     secToTime(millis) {
-        var dur = {};
-        var units = [
+        let dur = {};
+        let units = [
             { label: 'millis', mod: 1000 },
             { label: 'seconds', mod: 60 },
             { label: 'minutes', mod: 60 },
@@ -309,31 +313,32 @@ export default class SubtitlesController {
                 return number;
             }
         };
-
         let round = function(number) {
-
             if (number < 99) {
                 return number;
-
             } else {
                 number = Math.round((number / 10));
                 return number;
             }
         };
-
         let time = twoDigits(dur.minutes) + ':' + twoDigits(dur.seconds) + '.' + round(dur.millis);
         return time;
     }
 
-    setClipSlider(movieDuration) {
+    // setAudio(audioId) {
+    //     this.meta.audio = audioId;
+    //     this.audioTrackUrl = this.templater.audioTracks[audioId].fileLocal;
+    //     this.meta.$save().then(function(ref) {}, function(error) {
+    //         console.log("Error:", error);
+    //     });
+    // }
+
+    setSubSlider(movieDuration) {
         let c;
-        this.clipSlider = {
+        this.subSlider = {
             min: 0.001,
             max: movieDuration,
             options: {
-                // translate: (value) => {
-                //     return this.secToTime(value);
-                // },
                 onStart: () => {
                     this.videogular.api.pause();
                 },
@@ -343,23 +348,15 @@ export default class SubtitlesController {
                 },
                 noSwitching: true,
                 onChange: (id, newValue, highValue) => {
-
                     if (newValue && newValue) {
-                        // Jump to this point in time in the video
-                        // this.goToTime(newValue, 'start');
-                        // Set the IN-point of the videoloop
                         this.selectedSub.start = newValue;
-                        c = this.clips.$getRecord(this.selectedSub.id);
-                        this.clips.$save(c);
-
+                        c = this.subs.$getRecord(this.selectedSub.id);
+                        this.subs.$save(c);
                     }
                     if (highValue) {
-                        // Jump to this point in time in the video
-                        // this.goToTime(highValue, 'end');
-                        // Set the OUT-point of the videoloop
                         this.selectedSub.end = highValue;
-                        c = this.clips.$getRecord(this.selectedSub.id);
-                        this.clips.$save(c);
+                        c = this.subs.$getRecord(this.selectedSub.id);
+                        this.subs.$save(c);
                     }
                 },
                 hideLimitLabels: true,
@@ -367,24 +364,8 @@ export default class SubtitlesController {
                 ceil: movieDuration,
                 precision: 3,
                 step: 0.001,
+                draggableRangeOnly: this.onlyDragRange,
                 draggableRange: true,
-                keyboardSupport: true
-            }
-        };
-
-        this.clipsSlider = {
-            min: 0.001,
-            max: movieDuration,
-            options: {
-                noSwitching: true,
-                disabled: true,
-
-                hideLimitLabels: true,
-                floor: 0.001,
-                ceil: movieDuration,
-                precision: 3,
-                step: 0.001,
-                // draggableRange: true,
                 keyboardSupport: true
             }
         };
@@ -399,8 +380,6 @@ export default class SubtitlesController {
         this.Upload.mediaDuration(file).then((durationInSeconds) => {
             movieDuration = Math.round(durationInSeconds * 1000) / 1000;
         });
-
-        console.log(this.meta.log);
         // upload to dropbox
         this.Upload.upload({
                 url: 'api/movie/upload-to-dropbox',
@@ -420,7 +399,7 @@ export default class SubtitlesController {
                 this.uploading = false;
                 this.meta.$save().then((ref) => {
                     // Set slider options
-                    this.setClipSlider(movieDuration);
+                    this.setSubSlider(movieDuration);
                     // this.setTimeSlider(movieDuration);
                 }, (error) => {
                     console.log("Error:", error);
@@ -433,63 +412,44 @@ export default class SubtitlesController {
             });
     }
 
-    // Upload the srt
-    uploadSRT(file, name, email) {
-        this.Upload.upload({
-                url: 'api/movie/generateSub',
-                data: { file: file, fileName: name, email: email },
-                method: 'POST',
-            })
-            .then((resp) => {
-                console.log('generated subs');
-                if (!resp) return;
-                console.log('sending to ffmpeg');
-                console.log(this.project);
-                this.sendToFFMPEG(resp.data.url, this.meta.movieUrl, this.meta.sendTo, this.meta.logo, this.meta.audio, this.meta.bumper, this.meta.movieDuration, this.meta.movieWidth, this.meta.movieHeight, this.projectId);
-            }, (resp) => {
-                console.log('Error: ' + resp.error);
-                console.log('Error status: ' + resp.status);
-            }, (evt) => {
-                this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            });
-    }
-    setAudio(audioId) {
-        this.meta.audio = audioId;
-        this.audioTrackUrl = this.templater.audioTracks[audioId].fileLocal;
-        this.meta.$save().then(function(ref) {}, function(error) {
-            console.log("Error:", error);
+    /*
+
+       _____ _______   ______     ________  ________   __  _______ _    ____________
+      / ___// ____/ | / / __ \   /_  __/ / / / ____/  /  |/  / __ \ |  / /  _/ ____/
+      \__ \/ __/ /  |/ / / / /    / / / /_/ / __/    / /|_/ / / / / | / // // __/
+     ___/ / /___/ /|  / /_/ /    / / / __  / /___   / /  / / /_/ /| |/ // // /___
+    /____/_____/_/ |_/_____/    /_/ /_/ /_/_____/  /_/  /_/\____/ |___/___/_____/
+
+
+    */
+
+    renderMovie(clips) {
+        // Filter subs from visuals
+        let subs = [];
+        let visuals = [];
+        angular.forEach(clips, (value, key) => {
+            if (value.type === 'sub') {
+                subs.push(value);
+            } else if (value.type === 'visual') {
+                visuals.push(value);
+            }
+        });
+
+        this.templater.renderMovie(subs, visuals, this.meta, this.projectId).then((resp) => {
+            this.movieSend = true;
         });
     }
 
-    sendToFFMPEG(ass, movie, email, logo, audio, bumper, duration, width, height, projectId) {
-        let fade = 0;
-        let bumperLength = '';
-        if (logo === true) {
-            logo = this.templater.logos[1].fileLocal;
-        }
-        if (audio !== false) {
-            audio = this.templater.audioTracks[audio].fileLocal;
-        } else {
-            audio = false;
-        }
-        console.log(audio);
-        if (bumper === true) {
-            fade = this.templater.bumpers[1].fade;
-            bumperLength = this.templater.bumpers[1].bumperLength;
-            bumper = this.templater.bumpers[1].fileLocal;
-        }
-        this.movieSend = true;
-        console.log('sending to ffmpeg');
-        this.$http({
-            data: { ass: ass, movie: movie, email: email, logo: logo, audio: audio, bumper: bumper, duration: duration, fade: fade, width: width, height: height, bumperLength: bumperLength, project: projectId },
-            method: 'POST',
-            url: '/api/movie/burnSubs/'
-        }).then((res) => {
-            console.log(res);
-        }, (err) => {
-            console.error('Error', err);
-        });
-    }
+
+
+
+
+
+
+
+
 }
 
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'hotkeys', 'toast', '$firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$http', '$mdDialog'];
+
+
+SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'toast', '$firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$http', '$mdDialog', 'hotkeysService'];

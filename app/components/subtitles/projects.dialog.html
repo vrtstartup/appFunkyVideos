@@ -17,7 +17,9 @@
                     </md-checkbox>
                     <md-progress-circular md-mode="indeterminate" ng-if="!vm.projectsLoaded"></md-progress-circular>
                     <md-list ng-if="vm.projectsLoaded">
-                        <md-list-item class="md-2-line animate-repeat" ng-repeat="(key, m) in vm.projects | reverse | filter:vm.showOnlyYours(user.email, vm.projectFilters.email)" aria-label="Open project" ng-click="vm.openProject(m.$id)" >
+
+
+                        <md-list-item class="md-2-line animate-repeat" ng-repeat="(key, m) in vm.projects | reverse | filter:vm.showOnlyYours(vm.user.email, vm.projectFilters.email)" aria-label="Open project" ng-click="vm.openProject(m.$id)" >
                             <div class="md-list-item-text" class="md-list-item-text">
                                 <h3>{{m.meta.projectId}}</h3>
                                 <p>{{m.meta.email}}</p>
