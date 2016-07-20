@@ -8,15 +8,28 @@
                     </div>
                 </md-toolbar>
                 <div layout-padding layout="column">
-                    <md-checkbox ng-model="vm.meta.bumper" aria-label="Bumper">
-                        Bumper
-                    </md-checkbox>
-                    <md-checkbox ng-model="vm.meta.logo" aria-label="Logo">
-                        Logo
-                    </md-checkbox>
+                    Bumper:
+                    <div layout="row">
+
+                        <div layout-padding ng-repeat="b in vm.bumpers" ng-if="b.brand.indexOf(vm.project.meta.brand) > -1 || b.brand == 'all'" ng-click="vm.meta.bumper = b.id; vm.meta.$save()">
+                            <div class="subtitles-assets__images" ng-class="b.id == vm.meta.bumper? 'assetsSelected' : ''">
+                                <img ng-if="b.fileLocal" src="{{b.fileLocal}}">
+                                <span ng-if="b.fileLocal == null">Geen</span>
+                            </div>
+                        </div>
+                    </div>
+                    Logo:
+                    <div layout="row">
+                        <div layout-padding ng-repeat="l in vm.logos" ng-if="l.brand.indexOf(vm.project.meta.brand) > -1 || l.brand == 'all'" ng-click="vm.meta.logo = l.id; vm.meta.$save()">
+                            <div class="subtitles-assets__images" ng-class="l.id == vm.meta.logo? 'assetsSelected' : ''">
+                                <img ng-if="l.fileLocal" src="{{l.fileLocal}}">
+                                <span ng-if="l.fileLocal == null">Geen</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
-<!--             <section flex="33" layout="column">
+            <!--             <section flex="33" layout="column">
                 <md-toolbar class="vrt-toolbar">
                     <div class="md-toolbar-tools">
                         <h2>Kies audio</h2>

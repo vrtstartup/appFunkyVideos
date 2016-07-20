@@ -35,6 +35,18 @@ md-toolbar.vrt-sub-toolbar {
     }
 }
 
+.subtitles-assets {
+    &__images {
+        background-color: lightgrey;
+        height: 100%;
+        color: #fff;
+
+        &.assetsSelected {
+            background-color: red;
+        }
+    }
+}
+
 .subtitles-clips__list {
     &--visual {
         &a.md-button.md-default-theme:not([disabled]):hover,

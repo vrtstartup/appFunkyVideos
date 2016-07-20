@@ -37,12 +37,11 @@ export default class SubtitlesController {
         this.movieDuration = 0;
         this.selectedSub = {};
         this.progressPercentage = '';
-        this.onlyDragRange = false;
         this.project = {
             meta: {
                 'audio': 0,
-                'logo': true,
-                'bumper': true,
+                'logo': 0,
+                'bumper': 0,
             }
         };
 
@@ -54,6 +53,8 @@ export default class SubtitlesController {
         this.visuals = '';
         this.visualSlider = {};
         this.clipTemplates = this.templater.clipTemplates;
+        this.bumpers = this.templater.bumpers;
+        this.logos = this.templater.logos;
 
 
 
@@ -107,6 +108,7 @@ export default class SubtitlesController {
 
 
 
+
     // Initiate Firebase
     initFirebase(app, brand, number) {
         this.ref = firebase.database().ref().child(app);
@@ -122,6 +124,17 @@ export default class SubtitlesController {
                 console.log("Error:", error);
             });
     }
+
+
+    /*
+
+    __  __________    ____  __________     ________  ___   ______________________  _   _______
+   / / / / ____/ /   / __ \/ ____/ __ \   / ____/ / / / | / / ____/_  __/  _/ __ \/ | / / ___/
+  / /_/ / __/ / /   / /_/ / __/ / /_/ /  / /_  / / / /  |/ / /     / /  / // / / /  |/ /\__ \
+ / __  / /___/ /___/ ____/ /___/ _, _/  / __/ / /_/ / /|  / /___  / / _/ // /_/ / /|  /___/ /
+/_/ /_/_____/_____/_/   /_____/_/ |_|  /_/    \____/_/ |_/\____/ /_/ /___/\____/_/ |_//____/
+
+
 
 
     /*
@@ -229,49 +242,50 @@ export default class SubtitlesController {
             });
     }
 
+    removeProject(projectId, owner) {
+        if (this.user.email === owner) {
+            var project = this.projects.$getRecord(projectId);
+            this.projects.$remove(project).then((ref) => {});
+        } else {
+            this.toast.showToast('error', 'Dit is niet jouw filmpje, dus kan je het ook niet verwijderen.');
+        }
+    }
+
     // get the html form that belongs with this template
     getTemplate(type, template) {
+        console.log(type, template);
         angular.forEach(this.clipTemplates, (value, key) => {
-            if (value.name === template && type === 'form') {
-                this.selectedTemplate = value.form;
-            } else if (value.name === template && type === 'view') {
-                this.selectedTemplate = value.form;
+            if (value.meta.id === template && type === 'form') {
+                this.selectedTemplate = value.meta.form;
+            } else if (value.meta.id === template && type === 'view') {
+                this.selectedTemplate = value.meta.form;
             }
         });
     }
 
     // Add one subtitle
     addSubtitle(movieDuration) {
-        // get last subtitle
-        let lastClip = {};
-        this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function(snapshot) {
-            snapshot.forEach(function(data) {
-                lastClip = data.val();
+            // get last subtitle
+            let lastClip = {};
+            this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function(snapshot) {
+                snapshot.forEach(function(data) {
+                    lastClip = data.val();
+                });
             });
-        });
 
-        var clip = {};
-        if (movieDuration) {
-            if (this.subs.length > 1) {
-                clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: 'normalSub', type: 'sub' };
-            } else {
-                clip = { end: movieDuration, start: 0.001, template: 'normalSub', type: 'sub' };
+            var clip = {};
+            if (movieDuration) {
+                if (this.subs.length > 1) {
+                    clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: this.clipTemplates[0].meta.id, type: 'sub' };
+                } else {
+                    clip = { end: movieDuration, start: 0.001, template: this.clipTemplates[0].meta.id, type: 'sub' };
+                }
+                this.subs.$add(clip).then((ref) => {
+                    this.selectClip(ref.key, clip.start, clip.end, clip.type, clip.template, 'form');
+                });
             }
-            this.subs.$add(clip).then((ref) => {
-                this.selectClip(ref.key, clip.start, clip.end, clip.type, clip.template, 'form');
-            });
         }
-    }
-
-    addVisual() {
-        var clip = {};
-        clip = { end: 7, start: 0.010, type: 'visual', template: 'title' };
-        this.subs.$add(clip).then((ref) => {
-            this.selectClip(ref.key, clip.start, clip.end, clip.type, clip.template, 'form');
-        });
-    }
-
-    // Make the video follow when the range gets dragged
+        // Make the video follow when the range gets dragged
     goToTime(time) {
         this.videogular.api.seekTime(time);
     }
@@ -333,6 +347,19 @@ export default class SubtitlesController {
     //     });
     // }
 
+    setTemplate(template) {
+        let c = this.subs.$getRecord(this.selectedSub.id);
+        c.template = template.meta.id;
+        c.type = template.meta.type;
+        this.subSlider.options.draggableRangeOnly = false;
+        if (template.meta.type === 'visual') {
+            this.subSlider.options.draggableRangeOnly = true;
+            c.end = c.start + template.meta.length;
+        }
+        this.subs.$save(c);
+        this.getTemplate('form', template.meta.id);
+    }
+
     setSubSlider(movieDuration) {
         let c;
         this.subSlider = {
@@ -348,7 +375,7 @@ export default class SubtitlesController {
                 },
                 noSwitching: true,
                 onChange: (id, newValue, highValue) => {
-                    if (newValue && newValue) {
+                    if (newValue) {
                         this.selectedSub.start = newValue;
                         c = this.subs.$getRecord(this.selectedSub.id);
                         this.subs.$save(c);
@@ -364,7 +391,7 @@ export default class SubtitlesController {
                 ceil: movieDuration,
                 precision: 3,
                 step: 0.001,
-                draggableRangeOnly: this.onlyDragRange,
+                draggableRangeOnly: false,
                 draggableRange: true,
                 keyboardSupport: true
             }
@@ -431,10 +458,11 @@ export default class SubtitlesController {
             if (value.type === 'sub') {
                 subs.push(value);
             } else if (value.type === 'visual') {
+
                 visuals.push(value);
             }
         });
-
+        console.log(this.visuals);
         this.templater.renderMovie(subs, visuals, this.meta, this.projectId).then((resp) => {
             this.movieSend = true;
         });

@@ -14,8 +14,8 @@
                 <md-list-item class="md-2-line animate-repeat subtitles-clips__list--{{c.type}}" ng-click="vm.selectClip(c.$id, c.start, c.end, c.type, c.template, 'form'); vm.loop = true" ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" ng-repeat="(key, c) in vm.subs | orderBy: 'start'">
                     <div class="md-list-item-text">
                         <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
-                        <p>{{ c.text | limitTo: 20 }}{{c.text.length > 20 ? '...' : ''}}
-                        </p>
+                        <!-- <p>{{ c.text | limitTo: 20 }}{{c.text.length > 20 ? '...' : ''}}</p> -->
+                        <p>{{ c.text }}</p>
                     </div>
                     <md-button class="md-secondary md-icon-button" ng-click="vm.subs.$remove(c)" aria-label="remove clip">
                         <i class="material-icons" ng-click="vm.subs.$remove(c)">close</i>
@@ -29,19 +29,17 @@
                 Nieuwe Visual
             </md-button>
         </section>
-        <section ng-if="vm.meta.movieUrl != null" layout-padding flex="40">
+        <section>
+            <div ng-if="vm.meta.movieUrl != null" layout-padding flex="20">
+                <div ng-repeat="t in vm.clipTemplates" ng-click="vm.setTemplate(t)">
+                    <div>{{t.meta.id}}</div>
+                </div>
+            </div>
+        </section>
+        <section ng-if="vm.meta.movieUrl != null" layout-padding flex="20">
             <div ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id">
-                <!-- Should become a FILTER!!!! -->
                 <div layout="row">
-                    <div layout="column">
-                        <div ng-repeat="t in vm.clipTemplates" ng-if="t.type === c.type" ng-click="c.template = t.name; vm.getTemplate('form', c.template); vm.subs.$save(c); ">
-                            <div>{{t.name}}</div>
-                        </div>
-                    </div>
-                    <div>
-                            {{c.template}}
-                        <div ng-include="vm.selectedTemplate"></div>
-                    </div>
+                    <div ng-include="vm.selectedTemplate"></div>
                 </div>
             </div>
         </section>

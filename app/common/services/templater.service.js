@@ -15,32 +15,44 @@ export default class templaterService {
 
 
         this.clipTemplates = [{
-            'name': 'normalSub',
-            'brand': 'all',
-            'type': 'sub',
-            'img': 'assets/videoTemplates/Still_title.jpg',
-            'aep': this.aepLocation + 'Template_Text_title.aep',
-            'form': '/components/subtitles/template.subtitle.normalSub.html',
-            'view': '/components/subtitles/explainers.centercenter.view.html',
-            'length': 5
+            meta: {
+                'id': 'defaultSub',
+                'brand': 'all',
+                'type': 'sub',
+                'form': '/components/subtitles/template.subtitle.normalSub.html',
+                'view': '/components/subtitles/explainers.centercenter.view.html',
+            },
+            clip: {
+                'style': 'default'
+            }
+
         }, {
-            'name': 'title',
-            'brand': 'deredactie.be',
-            'type': 'visual',
-            'img': 'assets/videoTemplates/Still_title.jpg',
-            'aep': this.aepLocation + 'Template_Text_title.aep',
-            'form': '/components/subtitles/template.visual.title.html',
-            'view': '/components/explainers/explainers.centercenter.view.html',
-            'length': 5
+            meta: {
+                'id': 'title',
+                'brand': 'deredactie.be',
+                'type': 'visual',
+                'img': 'assets/videoTemplates/Still_title.jpg',
+                'form': '/components/subtitles/template.visual.title.html',
+                'view': '/components/explainers/explainers.centercenter.view.html',
+                'length': 5
+            },
+            clip: {
+                'aep': this.aepLocation + 'Template_Text_title.aep',
+            }
         }, {
-            'name': 'bottomLeft',
-            'brand': 'deredactie.be',
-            'type': 'visual',
-            'img': 'assets/videoTemplates/Still_title.jpg',
-            'aep': this.aepLocation + 'Template_Text_title.aep',
-            'form': '/components/subtitles/template.visual.bottomLeft.html',
-            'view': '/components/explainers/explainers.centercenter.view.html',
-            'length': 5
+            meta: {
+                'id': 'bottomLeft',
+                'brand': 'deredactie.be',
+                'type': 'visual',
+                'img': 'assets/videoTemplates/Still_title.jpg',
+                'form': '/components/subtitles/template.visual.bottomLeft.html',
+                'view': '/components/explainers/explainers.centercenter.view.html',
+                'length': 7
+            },
+            clip: {
+                'aep': this.aepLocation + 'Template_Text_title.aep',
+            }
+
         }];
 
 
@@ -98,38 +110,92 @@ export default class templaterService {
         this.logos = [{
             'name': 'geen',
             'id': 0,
-            'brand': 'deredactie.be',
+            'brand': 'all',
             'fileLocal': null,
             'fileRemote': null
         }, {
             'name': 'Deredactie.be simpel',
             'id': 1,
-            'brand': 'deredactie.be',
-            'fileLocal': 'assets/logos/deredactie_2.mov',
-            'fileRemote': this.root + 'logos\\deredactie_2.mov'
+            'brand': ['deredactie.be', 'amerika kiest'],
+            'fileLocal': 'assets/logos/deredactie_1.gif',
+            'fileServer': 'assets/logos/deredactie_1.gif',
+            'fileRemote': this.root + 'logos\\deredactie_1.mov'
         }];
 
 
         this.bumpers = [{
-            'name': 'geen',
-            'id': 0,
-            'brand': 'deredactie.be',
-            'fileLocal': null,
-            'fileRemote': null
-        }, {
-            'name': 'Deredactie.be simpel',
-            'id': 1,
-            'brand': 'deredactie.be',
-            'fileLocal': 'assets/bumpers/deredactie_1.mov',
-            'fileRemote': this.root + 'bumpers\\deredactie_1.mov',
-            'fade': 2,
-            'bumperLength': 4
-        }];
+                'name': 'geen',
+                'id': 0,
+                'brand': 'all',
+                'fileLocal': null,
+                'fileRemote': null
+            }, {
+                'name': 'Deredactie.be simpel',
+                'id': 1,
+                'brand': ['deredactie.be', 'amerika kiest'],
+                'fileLocal': 'assets/bumpers/deredactie_1.gif',
+                'fileRemote': this.root + 'bumpers\\deredactie_1.mov',
+                'fade': 2,
+                'bumperLength': 4
+            }, {
+                'name': 'Amerika Kiest',
+                'id': 2,
+                'brand': 'amerika kiest',
+                'fileLocal': 'assets/bumpers/amerikakiest_1.gif',
+                'fileRemote': this.root + 'bumpers\\amerikakiest_1.mov',
+                'fade': 2,
+                'bumperLength': 4
+            }, {
+                'name': 'Een Blauw',
+                'id': 3,
+                'brand': 'een',
+                'fileLocal': 'assets/bumpers/een_1.gif',
+                'fileServer': 'assets/bumpers/een_1.mov',
+                'fileRemote': this.root + 'bumpers\\een_1.mov',
+                'fade': 1,
+                'bumperLength': 5
+            }, {
+                'name': 'Een Geel',
+                'id': 4,
+                'brand': 'een',
+                'fileLocal': 'assets/bumpers/een_2.gif',
+                'fileRemote': this.root + 'bumpers\\een_2.mov',
+                'fade': 1,
+                'bumperLength': 5
+            }, {
+                'name': 'Een Groen',
+                'id': 5,
+                'brand': 'een',
+                'fileLocal': 'assets/bumpers/een_3.gif',
+                'fileRemote': this.root + 'bumpers\\een_3.mov',
+                'fade': 1,
+                'bumperLength': 5
+            }, {
+                'name': 'Een Rood',
+                'id': 6,
+                'brand': 'een',
+                'fileLocal': 'assets/bumpers/een_4.gif',
+                'fileRemote': this.root + 'bumpers\\een_4.mov',
+                'fade': 1,
+                'bumperLength': 5
+            }, {
+                'name': 'Een Roze',
+                'id': 7,
+                'brand': 'een',
+                'fileLocal': 'assets/bumpers/een_5.gif',
+                'fileRemote': this.root + 'bumpers\\een_5.mov',
+                'fade': 1,
+                'bumperLength': 5
+            },
+
+
+        ];
 
 
     }
 
     addAudio(ffmpeg, audio, project, state) {
+        console.log(audio);
         const deferred = this.$q.defer();
         const folder = this.root + 'out\\' + project + '\\';
         if (audio !== 0) {
@@ -256,13 +322,10 @@ export default class templaterService {
         return deferred.promise;
     }
 
-
-    send(clips) {
-        console.log('clips');
+    sendToAfterEffects(clips) {
         let params = {
             movieClips: clips
         };
-        console.log('send');
         this.$http.post('api/movie/update-movie-json', params)
             .then(() => {
                 console.log('send');
@@ -296,11 +359,6 @@ export default class templaterService {
         let date = yyyy + mm + dd + '_' + hours + minutes + seconds;
         return date;
     }
-
-
-
-
-
 
 
     msToTime(millis) {
@@ -354,19 +412,19 @@ export default class templaterService {
         let bumperLength = '';
         let logo, audio, bumper;
 
-        if (meta.logo === true) {
-            logo = this.logos[1].fileLocal;
-        }
+        if (meta.logo > 0) {
+            logo = this.logos[meta.logo].fileServer;
+        } else { logo = false };
         if (meta.audio !== false) {
             audio = this.audioTracks[meta.audio].fileLocal;
         } else {
             audio = false;
         }
-        if (meta.bumper === true) {
-            fade = this.bumpers[1].fade;
-            bumperLength = this.bumpers[1].bumperLength;
-            bumper = this.bumpers[1].fileLocal;
-        }
+        if (meta.bumper > 0) {
+            fade = this.bumpers[meta.bumper].fade;
+            bumperLength = this.bumpers[meta.bumper].bumperLength;
+            bumper = this.bumpers[meta.bumper].fileServer;
+        } else { meta.bumper = false };
         let assets = {
             fade: fade,
             bumperLength: bumperLength,
@@ -428,54 +486,68 @@ export default class templaterService {
         return deferred.promise;
     }
 
+    getClipAttributes(template) {
+        const deferred = this.$q.defer();
+        angular.forEach(this.clipTemplates, (t) => {
+            if (t.meta.id === template) {
+                deferred.resolve(t.clip);
+            }
+        });
+        return deferred.promise;
+    }
+
     visualsToJSON(visuals, subs, meta, project) {
         const deferred = this.$q.defer();
-
         if (visuals.length > 0) {
-            let counter = 1;
+
+            let counter = 0;
             let readyClips = [];
             let ffmpeg = '';
             let state = '';
+            let clipAttributes = {};
             angular.forEach(visuals, (clip) => {
-                console.log(clip);
-                clip.id = counter;
-                clip['render-status'] = 'ready';
-                clip.bot = 'render';
-                clip.last = 'false';
-                clip.output = project + '/clips/' + counter;
-                clip.module = 'jpg2000';
-                clip.email = meta.email;
-                readyClips.push(clip);
-                // this is the last one
-                if (counter == visuals.length) {
-                    // Add attributes specific for the last one
-                    clip.last = true;
-                    // Create the ffmpegline
-                    console.log('step 0');
-                    this.overlays(readyClips, meta, project).then((resp) => {
 
-                        ffmpeg = resp.ffmpeg;
-                        state = resp.state;
 
-                        // Logo, bumper etc aren't variable now, just true or false
-                        console.log('step 1');
-                        this.addLogo(ffmpeg, meta.logo, project, state).then((resp) => {
-                            console.log('step 2');
+                this.getClipAttributes(clip.template).then((clipAttributes) => {
+                    counter++;
+                    clip.aep = clipAttributes.aep;
+                    clip.id = counter;
+                    clip['render-status'] = 'ready';
+                    clip.bot = 'render';
+                    clip.last = 'false';
+                    clip.output = project + '/clips/' + counter;
+                    clip.module = 'jpg2000';
+                    clip.email = meta.email;
+
+                    readyClips.push(clip);
+                    // this is the last one
+                    if (counter === visuals.length) {
+                        // Add attributes specific for the last one
+                        clip.last = true;
+                        // Create the ffmpegline
+                        this.overlays(readyClips, meta, project).then((resp) => {
+
                             ffmpeg = resp.ffmpeg;
                             state = resp.state;
-                            this.addBumper(ffmpeg, meta.bumper, meta.movieDuration, project, state).then((resp) => {
-                                console.log('step 3');
+                            // Logo, bumper etc aren't variable now, just true or false
+                            this.addLogo(ffmpeg, meta.logo, project, state).then((resp) => {
                                 ffmpeg = resp.ffmpeg;
                                 state = resp.state;
-                                this.addAudio(ffmpeg, meta.audio, project, state).then((resp) => {
-                                    clip.ffmpeg = ffmpeg;
-                                    deferred.resolve(readyClips);
+                                this.addBumper(ffmpeg, meta.bumper, meta.movieDuration, project, state).then((resp) => {
+                                    ffmpeg = resp.ffmpeg;
+                                    state = resp.state;
+                                    this.addAudio(ffmpeg, meta.audio, project, state).then((resp) => {
+                                        clip.ffmpeg = ffmpeg;
+                                        deferred.resolve(readyClips);
+                                    });
                                 });
                             });
                         });
-                    });
-                }
-                counter++;
+                    }
+                })
+
+
+
             });
         } else {
             deferred.resolve();
@@ -488,15 +560,16 @@ export default class templaterService {
 
     renderMovie(subs, visuals, meta, projectId) {
         const deferred = this.$q.defer();
-        console.log('test');
+        console.log('subs:', subs);
+        console.log('visuals:', visuals);
+        console.log('meta:', meta);
+        console.log('projectId:', projectId);
         let videoName = this.time() + '_' + (meta.email.substring(0, meta.email.indexOf("@"))).replace('.', '') + '.mp4';
-
-
 
         this.$q.all([
             this.getAssets(meta),
             this.CreateSubFile(subs, meta),
-            this.visualsToJSON(visuals, meta, videoName),
+            this.visualsToJSON(visuals, subs, meta, videoName),
 
         ]).then((value) => {
 
@@ -504,12 +577,12 @@ export default class templaterService {
             let assFile = value[1];
             let visualClips = value[2];
 
-
             if (!visualClips && assFile) {
                 console.log('There are no visual clips, and there are subs, so just burn the subs on the server');
                 let assFileName = projectId + '.ass';
                 this.uploadSubFile(assFile, assFileName, meta, projectId).then((res) => {
                     let assFileToBurn = res.data.url;
+                    console.log(assets);
                     this.$http({
                         data: { ass: assFileToBurn, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips },
                         method: 'POST',
@@ -524,8 +597,10 @@ export default class templaterService {
                 })
             } else if (visualClips) {
                 console.log('There are visual clips, so send the complete ffmpeg line to the templater pc');
+                console.log(visualClips);
+                // this.sendToAfterEffects(visualClips)
             } else {
-                console.log('there is nothing');
+                console.log('there is nothing, chillax');
             }
         }, function(error) {
             console.log(error);
