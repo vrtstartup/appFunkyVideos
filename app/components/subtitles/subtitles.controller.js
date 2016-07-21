@@ -19,7 +19,6 @@ export default class SubtitlesController {
         this.$firebaseObject = $firebaseObject;
         this.$firebaseArray = $firebaseArray;
 
-
         // Interface Vars
         this.projectFilters = { email: true };
         this.numberOfProjects = 200;
@@ -124,17 +123,6 @@ export default class SubtitlesController {
                 console.log("Error:", error);
             });
     }
-
-
-    /*
-
-    __  __________    ____  __________     ________  ___   ______________________  _   _______
-   / / / / ____/ /   / __ \/ ____/ __ \   / ____/ / / / | / / ____/_  __/  _/ __ \/ | / / ___/
-  / /_/ / __/ / /   / /_/ / __/ / /_/ /  / /_  / / / /  |/ / /     / /  / // / / /  |/ /\__ \
- / __  / /___/ /___/ ____/ /___/ _, _/  / __/ / /_/ / /|  / /___  / / _/ // /_/ / /|  /___/ /
-/_/ /_/_____/_____/_/   /_____/_/ |_|  /_/    \____/_/ |_/\____/ /_/ /___/\____/_/ |_//____/
-
-
 
 
     /*
@@ -252,15 +240,15 @@ export default class SubtitlesController {
     }
 
     // get the html form that belongs with this template
-    getTemplate(type, template) {
-        console.log(type, template);
-        angular.forEach(this.clipTemplates, (value, key) => {
-            if (value.meta.id === template && type === 'form') {
-                this.selectedTemplate = value.meta.form;
-            } else if (value.meta.id === template && type === 'view') {
-                this.selectedTemplate = value.meta.form;
-            }
-        });
+    getTemplate(type, key) {
+        console.log(type, key);
+        let template = this.clipTemplates[key];
+        console.log(template);
+        if (type === 'form') {
+            this.selectedTemplate = template.meta.form;
+        } else if (type === 'view') {
+            this.selectedTemplate = template.meta.view;
+        }
     }
 
     // Add one subtitle
@@ -276,12 +264,12 @@ export default class SubtitlesController {
             var clip = {};
             if (movieDuration) {
                 if (this.subs.length > 1) {
-                    clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: this.clipTemplates[0].meta.id, type: 'sub' };
+                    clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: 0, type: 'sub' };
                 } else {
-                    clip = { end: movieDuration, start: 0.001, template: this.clipTemplates[0].meta.id, type: 'sub' };
+                    clip = { end: movieDuration, start: 0.001, template: 0, type: 'sub' };
                 }
                 this.subs.$add(clip).then((ref) => {
-                    this.selectClip(ref.key, clip.start, clip.end, clip.type, clip.template, 'form');
+                    this.selectClip(ref.key, clip.start, clip.end, clip.type, 0, 'form');
                 });
             }
         }
@@ -347,17 +335,18 @@ export default class SubtitlesController {
     //     });
     // }
 
-    setTemplate(template) {
+    setTemplate(type, key) {
+        console.log(key);
         let c = this.subs.$getRecord(this.selectedSub.id);
-        c.template = template.meta.id;
-        c.type = template.meta.type;
+        c.template = key;
+        c.type = type;
         this.subSlider.options.draggableRangeOnly = false;
-        if (template.meta.type === 'visual') {
+        if (type === 'visual') {
             this.subSlider.options.draggableRangeOnly = true;
-            c.end = c.start + template.meta.length;
+            c.end = c.start + this.clipTemplates[key].meta.length;
         }
         this.subs.$save(c);
-        this.getTemplate('form', template.meta.id);
+        this.getTemplate('form', key);
     }
 
     setSubSlider(movieDuration) {

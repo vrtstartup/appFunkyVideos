@@ -31,8 +31,11 @@
         </section>
         <section>
             <div ng-if="vm.meta.movieUrl != null" layout-padding flex="20">
-                <div ng-repeat="t in vm.clipTemplates" ng-click="vm.setTemplate(t)">
+                <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)">
+
                     <div>{{t.meta.id}}</div>
+
+
                 </div>
             </div>
         </section>

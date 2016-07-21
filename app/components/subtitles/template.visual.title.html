@@ -1,4 +1,4 @@
 <md-input-container>
     <label>Tekst</label>
-    <textarea ng-model="c.text" ng-change="vm.clips.$save(c)"></textarea>
+        <textarea vrt-maxlines="2" maxlines-prevent-enter="true" id="subtitleText" name="title" ng-model="c.text" ng-change="vm.subs.$save(c)"></textarea>
 </md-input-container>
