@@ -22,7 +22,19 @@ export default class templaterService {
                 'view': '/components/subtitles/explainers.centercenter.view.html',
             },
             clip: {
-                'style': 'default'
+                'style': 'Default'
+
+            }
+        }, {
+            meta: {
+                'id': 'testSub',
+                'brand': 'all',
+                'type': 'sub',
+                'form': '/components/subtitles/template.subtitle.normalSub.html',
+                'view': '/components/subtitles/explainers.centercenter.view.html',
+            },
+            clip: {
+                'style': 'Test'
 
             }
         }, {
@@ -72,7 +84,6 @@ export default class templaterService {
                 'aep': this.aepLocation + 'Template_Text_title.aep',
             }
         }];
-
 
         this.audioTracks = [{
             'name': 'geen',
@@ -214,7 +225,6 @@ export default class templaterService {
         }, ];
     }
 
-
     /*
 
         __  __     __                   ______                 __  _
@@ -225,8 +235,6 @@ export default class templaterService {
                 /_/
 
     */
-
-
 
     time() {
         let today = new Date();
@@ -255,11 +263,9 @@ export default class templaterService {
         return date;
     }
 
-
     msToTime(millis) {
         var dur = {};
         millis = millis * 1000;
-
         var units = [
             { label: 'millis', mod: 1000 },
             { label: 'seconds', mod: 60 },
@@ -270,7 +276,6 @@ export default class templaterService {
         units.forEach(function(u) {
             millis = (millis - (dur[u.label] = (millis % u.mod))) / u.mod;
         });
-
         let twoDigits = function(number) {
             if (number < 10) {
                 number = '0' + number;
@@ -279,7 +284,6 @@ export default class templaterService {
                 return number;
             }
         };
-
         let round = function(number) {
 
             if (number < 99) {
@@ -294,8 +298,6 @@ export default class templaterService {
         return time;
     }
 
-
-
     /*
 
         ___    ______   ________  ___   ______________________  _   _______
@@ -307,105 +309,7 @@ export default class templaterService {
 
     */
 
-
-    // addAudio(ffmpeg, audio, project, state) {
-    //     const deferred = this.$q.defer();
-    //     const folder = this.root + 'out\\' + project + '\\';
-    //     if (audio > 0) {
-    //         ffmpeg = ffmpeg + ' && ffmpeg -i ' + folder + project + state + '.mp4' + ' ' + folder + project + '_audioTrack.mp3 && ffmpeg -i ' + folder + project + 'audioTrack.mp3 -i ' + this.audioTracks[audio].fileRemote + ' -filter_complex amerge -c:a libmp3lame -q:a 4 ' + folder + project + 'audioMix.mp3 && ffmpeg -i ' + folder + project + state + '.mp4' + ' -i ' + folder + project + 'audioMix.mp3 -c:v copy -c:a aac -strict experimental -map 0:v:0 -map 1:a:0 ' + folder + project + state + '_audio.mp4';
-    //         state = state + '_bumper';
-    //         let resp = {
-    //             ffmpeg: ffmpeg,
-    //             state: state
-    //         };
-    //         deferred.resolve(resp);
-    //     } else {
-    //         let resp = {
-    //             ffmpeg: ffmpeg,
-    //             state: state
-    //         };
-    //         deferred.resolve(resp);
-    //     }
-    //     return deferred.promise;
-    // }
-
-    // addLogo(ffmpeg, logo, project, state) {
-    //     const deferred = this.$q.defer();
-    //     const folder = this.root + 'out\\' + project + '\\';
-    //     console.log(logo);
-    //     if (logo > 0) {
-    //         ffmpeg = ffmpeg + ' && ffmpeg -i ' + folder + project + '_clean.mp4' + ' -i ' + this.logos[logo].fileRemote + ' -filter_complex overlay=10:10 ' + folder + project + state + '_logo.mp4';
-    //         state = state + '_logo';
-    //         let resp = {
-    //             ffmpeg: ffmpeg,
-    //             state: state
-    //         };
-    //         deferred.resolve(resp);
-
-    //     } else {
-    //         let resp = {
-    //             ffmpeg: ffmpeg,
-    //             state: state
-    //         };
-    //         deferred.resolve(resp);
-    //     }
-    //     return deferred.promise;
-    // }
-
-    // addBumper(ffmpeg, bumper, duration, project, state) {
-    //     const deferred = this.$q.defer();
-    //     const folder = this.root + 'out\\' + project + '\\';
-    //     if (bumper > 0) {
-    //         ffmpeg = ffmpeg + ' && ffmpeg -i ' + folder + project + state + '.mp4' + ' -i ' + this.bumpers[bumper].fileRemote + ' -filter_complex \"\"color=black:1920x1080:d=' + duration + '[base];[0:v]setpts=PTS-STARTPTS[v0];[1:v]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - this.bumpers[bumper].fade) + ')/TB)[v1];[base][v0]overlay[tmp];[tmp][v1]overlay,format=yuv420p[fv]\"\" -map [fv] -c copy -c:v libx264 -b:v 1000k ' + folder + project + state + '_bumper.mp4';
-    //         state = state + '_bumper';
-    //         let resp = {
-    //             ffmpeg: ffmpeg,
-    //             state: state
-    //         };
-    //         deferred.resolve(resp);
-    //     } else {
-    //         let resp = {
-    //             ffmpeg: ffmpeg,
-    //             state: state
-    //         };
-    //         deferred.resolve(resp);
-    //     }
-    //     return deferred.promise;
-    // }
-
-    // overlays(clips, meta, project) {
-    //     const deferred = this.$q.defer();
-    //     const folder = this.root + 'out\\' + project + '\\';
-    //     let state = '';
-    //     let resp = '';
-    //     let ffmpeg = '';
-    //     let clipsToOverlay = '';
-    //     let clipsTiming = '';
-    //     let clipOverlaying = '';
-    //     angular.forEach(clips, (clip) => {
-    //         let clipId = parseInt(clip.id);
-    //         let clipMinusOne = clipId - 1;
-    //         let total = parseInt(clips.length);
-    //         clipsToOverlay = clipsToOverlay + ' -i ' + folder + 'clips\\' + clip.id + '.mov';
-    //         clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
-    //         clipOverlaying = clipOverlaying + ';[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + ']';
-    //         if (clipId === total) {
-
-    //             ffmpeg = 'ffmpeg -i ' + meta.movieUrl + clipsToOverlay + ' -filter_complex \"\"[0:v]setpts=PTS-STARTPTS[v0];' + clipsTiming + '[v0]scale=1920:1080 [c0]' + clipOverlaying + '\"\" -map [c' + clipId + '] -map 0:1? ' + folder + project + '_clean.mp4';
-    //             state = '_clean';
-    //             resp = {
-    //                 ffmpeg: ffmpeg,
-    //                 state: '_clean'
-    //             };
-    //             deferred.resolve(resp);
-    //         }
-    //     });
-    //     return deferred.promise;
-    // }
-
-
     overlays(clips, meta, project, subs) {
-        console.log('creating FFMPEGline');
 
         const deferred = this.$q.defer();
         const folder = this.root + 'out\\' + project + '\\';
@@ -423,11 +327,8 @@ export default class templaterService {
         let ffmpegCommand = '';
         let res = {};
 
-
-console.log('going into clips loop');
         for (var key in clips) {
             if (!clips.hasOwnProperty(key)) continue;
-
             let clip = clips[key];
             let clipId = parseInt(clip.id);
             let clipMinusOne = clipId - 1;
@@ -435,31 +336,20 @@ console.log('going into clips loop');
             let clipPlusTwo = clipId + 2;
             let clipPlusThree = clipId + 3;
             let totalClips = parseInt(clips.length);
-
-
-            // Input Original Movie
-
             // Input Overlays
             input = input + ' -i ' + folder + 'clips\\' + clip.id + '.mov';
-
             // Create the overlay command
             clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
-            if(clip.id === 1){
+            if (clip.id === 1) {
                 clipOverlaying = clipOverlaying + '[0:v][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
             } else {
                 clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
             }
-
-
-            console.log('going into last one');
-            console.log(clip.id === totalClips, key, totalClips);
             if (clip.id === totalClips) {
-                console.log('last one');
-
 
                 if (meta.bumper > 0) {
                     totalDuration = meta.movieDuration + this.bumpers[meta.bumper].bumperLength - this.bumpers[meta.bumper].fade;
-                    input = input + ' i- '+ this.bumpers[meta.bumper].fileRemote+' -f lavfi -i color=c=black:s=' + meta.movieWidth + 'x' + meta.movieHeight;
+                    input = input + ' i- ' + this.bumpers[meta.bumper].fileRemote + ' -f lavfi -i color=c=black:s=' + meta.movieWidth + 'x' + meta.movieHeight;
 
                     if (meta.logo > 0) {
                         bumperCommand = '[' + clipPlusOne + ':v]scale=' + meta.movieWidth + ':-1[bumperRescaled];[' + clipPlusTwo + ':v]scale=' + meta.movieWidth + 'x' + meta.movieHeight + ',trim=duration=' + totalDuration + '[blackVideo];[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((13.337)/TB)[theBumper];[blackVideo][c' + clipId + ']overlay=x=0:y=0[longMovie];[longMovie][theBumper]overlay=x=0:y=0[longMovieBumper];';
@@ -489,23 +379,14 @@ console.log('going into clips loop');
                     ffmpegCommand = 'ffmpeg' + input + ' -y -filter_complex \"\"' + clipsTiming + clipOverlaying + bumperCommand + logoCommand + audioCommand;
 
                 }
-                console.log(ffmpegCommand);
-
                 res = {
                     ffmpeg: ffmpegCommand
                 };
-                 deferred.resolve(res);
-
-
+                deferred.resolve(res);
             }
         }
         return deferred.promise;
     }
-
-
-
-
-
 
     sendToAfterEffects(clips) {
         let params = {
@@ -518,95 +399,13 @@ console.log('going into clips loop');
             });
     }
 
-
-
-    // sesdtAttributes() {
-    //     clip = clipAttributes;
-    //     clip.id = key++;
-
-
-    //     clip['render-status'] = 'ready';
-    //     clip.bot = 'render';
-    //     clip.last = 'false';
-    //     clip.module = 'jpg2000';
-
-    //     clip.email = meta.email;
-    //     clip.output = project + '/clips/' + key++;
-
-    //     clip.TextDeRedactie = originalClip.text;
-    //     clip.start = originalClip.start;
-    //     readyClips.push(clip);
-    //     // this is the last one
-    //     console.log('This is the last one?', key++ === visuals.length);
-    //     if (key++ === visuals.length) {
-    //         // Add attributes specific for the last one
-    //         clip.last = true;
-    //         // Create the ffmpegline
-    //         this.overlays(readyClips, meta, project, subs).then((resp) => {
-    //             ffmpeg = resp.ffmpeg;
-    //             clip.ffmpeg = ffmpeg;
-    //             console.log(ffmpeg);
-    //             deferred.resolve(readyClips);
-
-
-    //             // state = resp.state;
-
-    //             // // Logo, bumper etc aren't variable now, just true or false
-    //             // this.addLogo(ffmpeg, meta.logo, project, state).then((resp) => {
-    //             //     ffmpeg = resp.ffmpeg;
-    //             //     state = resp.state;
-    //             //     this.addBumper(ffmpeg, meta.bumper, meta.movieDuration, project, state).then((resp) => {
-    //             //         ffmpeg = resp.ffmpeg;
-    //             //         state = resp.state;
-    //             //         this.addAudio(ffmpeg, meta.audio, project, state).then((resp) => {
-    //             //             clip.ffmpeg = ffmpeg;
-    //             //             console.log('done with creating clips');
-    //             //             deferred.resolve(readyClips);
-    //             //         });
-    //             //     });
-    //             // });
-    //         });
-    //     }
-
-
-    // }
-
-
-
-    setClipAttributes(originalClip, key, project, email) {
-        for (let i = 0; i < this.clipTemplates.length; i++) {
-            if (this.clipTemplates[i].meta.id === originalClip.template) {
-                let clip = {};
-                clip = this.clipTemplates[i].clip;
-                clip.id = key++;
-                clip['render-status'] = 'ready';
-                clip.bot = 'render';
-                clip.last = 'false';
-                clip.module = 'jpg2000';
-                clip.email = email;
-                clip.output = project + '/clips/' + key++;
-                console.log(originalClip.text);
-                clip.TextDeRedactie = originalClip.text;
-                console.log(clip.TextDeRedactie);
-                clip.start = originalClip.start;
-                console.log(clip);
-                return clip;
-            }
-        }
-    }
-
-
     visualsToJSON(visuals, subs, meta, project) {
-
         const deferred = this.$q.defer();
         if (visuals.length > 0) {
-
             let ffmpeg = '';
             let newClips = [];
             let template = '';
-
             for (var x = 0, ln = visuals.length; x < ln; x++) {
-
                 template = visuals[x].template;
                 let clip = [];
                 let attributes = {};
@@ -615,7 +414,6 @@ console.log('going into clips loop');
                     if (!attributes.hasOwnProperty(key)) continue;
                     clip[key] = attributes[key];
                 }
-
                 clip['render-status'] = 'ready';
                 clip.bot = 'render';
                 clip.last = 'false';
@@ -625,14 +423,12 @@ console.log('going into clips loop');
                 clip.id = x + 1;
                 clip.start = visuals[x].start;
                 clip.TextDeRedactie = visuals[x].text;
-
                 if (visuals.length === x + 1) {
                     clip.last = true;
                     newClips.push(clip);
                     this.overlays(newClips, meta, project, subs).then((resp) => {
                         ffmpeg = resp.ffmpeg;
                         clip.ffmpeg = ffmpeg;
-                        console.log(ffmpeg);
                         newClips.push(clip);
                         deferred.resolve(newClips);
                     });
@@ -645,7 +441,6 @@ console.log('going into clips loop');
         }
         return deferred.promise;
     }
-
 
     /*
 
@@ -663,18 +458,14 @@ console.log('going into clips loop');
         const folder = this.root + 'out\\' + project + '\\';
         const fin = this.root + 'finished\\' + this.movieId + '.mp4';
         const input = this.inFolder + this.clips[0].movieName;
-
         let ffmpegLine = '';
         let total = parseInt(clips.length);
         let clipsToConcat = '';
         let listClips = '';
-
         angular.forEach(clips, (clip) => {
             let clipId = parseInt(clip.id);
             let clipMinusOne = clipId - 1;
-
             clipsToConcat = clipsToConcat + ' -i ' + this.inFolder + clip.id + '.avi';
-
             listClips = listClips + '[' + clipMinusOne + '] ';
             if (clipId === total) {
                 ffmpegLine = 'ffmpeg' + clipsToConcat + ' -filter_complex \"\"' + listClips + 'concat=n=' + total + ':v=1[out]\"\" -map [out] ' + folder + project + '_clean.mp4';
@@ -725,38 +516,15 @@ console.log('going into clips loop');
         return deferred.promise;
     }
 
-    // Upload the ASS to dropbox (if visuals)
-    // uploadSubFileToDropbox(file, name) {
-    //     console.log(file, name);
-    //     const deferred = this.$q.defer();
-    //     this.Upload.upload({
-    //             url: 'api/movie/subToDropbox',
-    //             data: { file: file, fileName: name },
-    //             method: 'POST',
-    //         })
-    //         .then((res) => {
-    //             if (!res) return;
-    //             deferred.resolve(res);
-    //         }, (err) => {
-    //             deferred.reject(err);
-    //             console.log('Error: ' + JSON.stringify(err));
-    //         }, (evt) => {
-    //             // this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-    //         });
-    //     return deferred.promise;
-    // }
-
-
-
     CreateSubFile(subs, email, projectId) {
         const deferred = this.$q.defer();
         if (subs) {
             let fileName = projectId + '.ass';
-
             let string = '';
             string = '[Script Info]\nTitle: Nieuwshub subtitles\nScriptType: v4.00\nCollisions: Normal\n\n';
             string = string + '[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n';
-            string = string + 'Style: Default,arial,24,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,5,5,30,1\n\n';
+            string = string + 'Style: Default,arial,24,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,5,5,30,1\n';
+            string = string + 'Style: Test,arial,100,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,5,5,30,1\n\n';
             string = string + '[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
             angular.forEach(subs, (line) => {
                 if (line.text !== undefined) {
@@ -764,31 +532,18 @@ console.log('going into clips loop');
                     if (text.indexOf('\n') > -1) {
                         text = text.replace(/\n/g, '\\N');
                     }
-                    // return $sce.trustAsHtml(text);
-                    string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',Default,,0,0,0,,' + text + '\n';
+                    string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ','+this.clipTemplates[line.template].clip.style+',,0,0,0,,{\fad(250,250),\move(100,150,300,350,0,250)}' + text + '\n';
                 }
             });
-
             let file = new Blob([string], {
                 type: 'ass'
             });
-
-            console.log('starting upload');
             this.uploadSubFileToServer(file, fileName, email).then((res) => {
-                console.log('done with subs');
                 deferred.resolve(res);
-
-
             })
-
-            // this.uploadSubFileToDropbox(file, assFileName).then((res) => {
-            //     console.log(res);
-            //     // deferred.resolve(file);
-            // });
         } else {
             deferred.resolve();
         }
-
         return deferred.promise;
     }
 
@@ -829,11 +584,9 @@ console.log('going into clips loop');
             audio: audio,
             bumper: bumper
         }
-        console.log('done with getting assets');
         deferred.resolve(assets);
         return deferred.promise;
     }
-
 
     renderMovie(subs, visuals, meta, projectId) {
         const deferred = this.$q.defer();
@@ -843,24 +596,15 @@ console.log('going into clips loop');
         console.log('projectId:', projectId);
         let uniqueProjectName = this.time() + '_' + (meta.email.substring(0, meta.email.indexOf("@"))).replace('.', '');
         let videoName = uniqueProjectName + '.mp4';
-
-
         this.$q.all([
             this.getAssets(meta),
             this.CreateSubFile(subs, meta.email, uniqueProjectName),
             this.visualsToJSON(visuals, subs, meta, uniqueProjectName),
-
         ]).then((value) => {
-            console.log('done with everything');
             let assets = value[0];
             let assFile = value[1];
             let visualClips = value[2];
-
-            console.log(visualClips, assFile);
-
             if (!visualClips && assFile) {
-                console.log('There are no visual clips, and there are subs, so just burn the subs on the server');
-
                 this.$http({
                     data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips },
                     method: 'POST',
@@ -875,13 +619,8 @@ console.log('going into clips loop');
             } else if (visualClips && !assFile) {
                 console.log('There are visual clips but no subs, so send the complete ffmpeg line to the templater pc');
                 this.sendToAfterEffects(visualClips)
-
             } else if (visualClips && assFile) {
-
-
-
                 this.sendToAfterEffects(visualClips)
-
             } else {
                 console.log('there is nothing, chillax');
             }
@@ -890,11 +629,5 @@ console.log('going into clips loop');
         });
         return deferred.promise;
     }
-
-
-
-
-
 }
-
 templaterService.$inject = ['$log', '$q', '$http', 'toast', '$sce', 'Upload'];
