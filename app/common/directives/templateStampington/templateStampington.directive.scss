@@ -1,0 +1,21 @@
+@import "../../style/variables";
+
+
+
+.rio__text {
+    background-color: #f47920;
+    font-size: 60px;
+    color: #fff;
+    font-family: 'din-cndbold';
+    padding: 7px;
+    margin: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+}
+
+
+.rio-image__draggable--wrap {
+  pointer-events: none;
+}

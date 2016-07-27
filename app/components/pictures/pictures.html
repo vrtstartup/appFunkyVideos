@@ -51,6 +51,10 @@
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('dethklok', 'drd', 'update', 'Opinie')">
                         <img src="./../assets/templates/hub_Opinie.jpg" alt="" width="100%">
                     </md-list-item>
+                    <md-subheader class="">Rio</md-subheader>
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('stampington', 'drd')">
+                        <img src="./../assets/templates/rio.png" alt="" width="100%">
+                    </md-list-item>
                 </md-content>
                 <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'amerika kiest'">
                     <div class="md-toolbar-tools" ng-init="vm.showTempltesAK = false" ng-click="vm.getScheme('ak')">
@@ -217,6 +221,8 @@
                 <ng-include src="'components/pictures/picture.marceline.html'"></ng-include>
 
                 <ng-include src="'components/pictures/picture.peppermint.html'"></ng-include>
+
+                <ng-include src="'components/pictures/picture.stampington.html'"></ng-include>
 
 
 

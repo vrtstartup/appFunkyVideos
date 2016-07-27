@@ -1,0 +1,11 @@
+<section class='wrap container-screenshot'>
+    <div class='r1-image__draggable' vrt-movable
+             ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
+
+    <!-- <div class='image' style="background-image: url('{{vm.image}}')"> -->
+        <div class="r1-image__draggable--wrap" ng-class="vm.image ? 'overlay' : 'no-overlay'">
+            <img class='logo logo-drd' src="./assets/deredactie.svg">
+            <div class="rio__text">BOM DIA RIO</div>
+        </div>
+    </div>
+</section>

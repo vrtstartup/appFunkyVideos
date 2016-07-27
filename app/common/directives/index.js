@@ -30,7 +30,7 @@ import audioPlayer from './audioPlayer';
 import templateGiantBomb from './templateGiantBomb';
 import movable from './movable';
 import templateBmo from './templateBmo';
-import templateLumpy from './templateLumpy'
+import templateLumpy from './templateLumpy';
 import artistBlock from './artistBlock';
 import templateCinnabon from './templateCinnabon';
 import templateBubblegum from './templateBubblegum';
@@ -38,6 +38,7 @@ import templateTrunk from './templateTrunk';
 import templateIceKing from './templateIceKing';
 import templateMarceline from './templateMarceline';
 import templatePeppermint from './templatePeppermint';
+import templateStampington from './templateStampington';
 import videoSlider from './videoSlider';
 
 
@@ -49,7 +50,7 @@ const module = angular.module('app.common.directives', [
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
     userLogin, draggable, templateFinn, templateJake, templateGiantBomb, movable, templateBmo, templateLumpy,
     artistBlock, templateCinnabon, templateBubblegum, templateTrunk, templateIceKing, templateMarceline,
-    audioPlayer, templatePeppermint, videoSlider
+    audioPlayer, templatePeppermint, templateStampington, videoSlider
 ]);
 
 export default module.name;
