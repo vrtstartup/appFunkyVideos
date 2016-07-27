@@ -46,43 +46,49 @@ export default class templaterService {
                 'img': 'assets/videoTemplates/Still_title.jpg',
                 'form': '/components/subtitles/template.visual.title.html',
                 'view': '/components/explainers/explainers.centercenter.view.html',
+                'length': 8
+            },
+            clip: {
+                'aep': this.aepLocation + 'template.aep',
+                "color1": "1B2A36",
+                "color2": "4CBF23",
+                "Text1": "{{off}}",
+                "LowText": "{{off}}",
+                "HighText": "{{off}}",
+                "BigText": "",
+                "HighlightText": "{{off}}",
+                "Text1": "",
+                "Text2DR": "",
+                "Text2AK": "{{off}}",
+                "Text4AK": "{{off}}",
+                "TextAmerikaKiest": "{{off}}",
+                "TextDeRedactie": "{{off}}",
+            }
+        }, {
+            meta: {
+                'id': 'BottomLeft',
+                'brand': 'deredactie.be',
+                'type': 'visual',
+                'img': 'assets/videoTemplates/Still_title.jpg',
+                'form': '/components/subtitles/template.visual.title.html',
+                'view': '/components/explainers/explainers.centercenter.view.html',
                 'length': 5
             },
             clip: {
                 'aep': this.aepLocation + 'template.aep',
                 "color1": "1B2A36",
                 "color2": "4CBF23",
+                "Text1": "{{off}}",
+                "LowText": "{{off}}",
+                "HighText": "{{off}}",
+                "BigText": "{{off}}",
+                "HighlightText": "{{off}}",
+                "Text1": "Titel",
+                "Text2DR": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa",
+                "Text2AK": "{{off}}",
+                "Text4AK": "{{off}}",
                 "TextAmerikaKiest": "{{off}}",
                 "TextDeRedactie": "{{off}}",
-                "TextLow": "",
-                "TextLongLow": "{{off}}",
-                "TextUp": "{{off}}",
-                "TextLongUp": "{{off}}",
-                "Number": "{{off}}",
-                "DigitNumber": "{{off}}",
-                "Quote": "{{off}}",
-                "QuoteName": "{{off}}",
-                "Date": "{{off}}",
-                "City": "{{off}}",
-                "LowerThird": "{{off}}",
-                "Title": "{{off}}",
-                "Twitter": "{{off}}",
-                "TweetHandle": "{{off}}",
-                "TweetName": "{{off}}",
-                "TweetProfile": "{{off}}"
-            }
-        }, {
-            meta: {
-                'id': 'bottomLeft',
-                'brand': 'deredactie.be',
-                'type': 'visual',
-                'img': 'assets/videoTemplates/Still_title.jpg',
-                'form': '/components/subtitles/template.visual.bottomLeft.html',
-                'view': '/components/explainers/explainers.centercenter.view.html',
-                'length': 7
-            },
-            clip: {
-                'aep': this.aepLocation + 'Template_Text_title.aep',
             }
         }];
 
@@ -330,7 +336,7 @@ export default class templaterService {
         let res = {};
         let totalClips = parseInt(clips.length);
 
-console.log(clips);
+        console.log(clips);
         for (var key in clips) {
             console.log(key);
             if (!clips.hasOwnProperty(key)) continue;
@@ -346,7 +352,7 @@ console.log(clips);
             input = input + ' -i ' + folder + 'clips\\' + clip.id + '.mov';
 
             // Create the overlay command
-            clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
+            clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB,scale=' + '-1:' + meta.movieHeight + '[v' + clipId + '];';
             if (clip.id === 1) {
                 clipOverlaying = clipOverlaying + '[0:v][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
             } else {
@@ -375,16 +381,16 @@ console.log(clips);
                 }
 
                 if (meta.audio > 0) {
-                    audioCommand = 'amix=inputs=2:duration=first:dropout_transition=3;';
+                    audioCommand = 'amix=inputs=2:duration=first:dropout_transition=3';
                 } else {
-                    audioCommand = 'amix=inputs=1:duration=first:dropout_transition=3;';
+                    audioCommand = 'amix=inputs=1:duration=first:dropout_transition=3';
                 }
 
                 if (subs.length > 0) {
-                    subsCommand = '[endMovie]ass=' + subsFolder + '[out]';
-                    ffmpegCommand = 'ffmpeg' + input + ' -y -filter_complex \"\"' + clipsTiming + clipOverlaying + bumperCommand + logoCommand + audioCommand + subsCommand + '\"\" -map [out] -strict -2 -t '+ totalDuration + ' ' + folder + project + '.mp4';
+                    subsCommand = ';[endMovie]ass=' + subsFolder + '[out]';
+                    ffmpegCommand = 'ffmpeg' + input + ' -y -filter_complex \"\"' + clipsTiming + clipOverlaying + bumperCommand + logoCommand + audioCommand + subsCommand + '\"\" -map [out] -strict -2 -t ' + totalDuration + ' ' + folder + project + '.mp4';
                 } else {
-                    ffmpegCommand = 'ffmpeg' + input + ' -y -filter_complex \"\"' + clipsTiming + clipOverlaying + bumperCommand + logoCommand + audioCommand + '\"\" -map [out] -strict -2 -t '+ totalDuration + ' ' + folder + project + '.mp4';
+                    ffmpegCommand = 'ffmpeg' + input + ' -y -filter_complex \"\"' + clipsTiming + clipOverlaying + bumperCommand + logoCommand + audioCommand + '\"\" -map [endMovie] -strict -2 -t ' + totalDuration + ' ' + folder + project + '.mp4';
 
                 }
                 res = {
@@ -429,10 +435,13 @@ console.log(clips);
                 clip.last = 'false';
                 clip.module = 'jpg2000';
                 clip.email = meta.email;
-                clip.output = project + '/clips/' + (x*1 + 1);
+                clip.output = project + '/clips/' + (x * 1 + 1);
                 clip.id = x + 1;
                 clip.start = visuals[x].start;
-                clip.TextDeRedactie = visuals[x].text;
+                clip.Text1 = visuals[x].Text1 || '';
+                clip.Text2DR = visuals[x].Text2DR || '';
+
+
                 console.log(visuals.length, x, visuals.length === x + 1);
                 if (visuals.length === x + 1) {
                     clip.last = true;
@@ -441,7 +450,7 @@ console.log(clips);
                         ffmpeg = resp.ffmpeg;
                         console.log(x);
                         console.log(newClips);
-                        newClips[(visuals.length)*1-1].ffmpeg = ffmpeg;
+                        newClips[(visuals.length) * 1 - 1].ffmpeg = ffmpeg;
                         deferred.resolve(newClips);
                     });
                 } else {
@@ -544,7 +553,7 @@ console.log(clips);
                     if (text.indexOf('\n') > -1) {
                         text = text.replace(/\n/g, '\\N');
                     }
-                    string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ','+this.clipTemplates[line.template].clip.style+',,0,0,0,,{\fad(250,250),\move(100,150,300,350,0,250)}' + text + '\n';
+                    string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',' + this.clipTemplates[line.template].clip.style + ',,0,0,0,,{\fad(250,250),\move(100,150,300,350,0,250)}' + text + '\n';
                 }
             });
             let file = new Blob([string], {

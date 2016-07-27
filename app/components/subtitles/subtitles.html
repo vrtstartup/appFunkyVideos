@@ -23,19 +23,13 @@
                 </md-list-item>
             </md-list>
             <md-button ng-if="vm.meta.movieUrl != null" class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.meta.movieDuration)">
-                Nieuwe ondertitel
-            </md-button>
-            <md-button ng-if="vm.meta.movieUrl != null" class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addVisual()">
-                Nieuwe Visual
+                Voeg toe
             </md-button>
         </section>
         <section>
             <div ng-if="vm.meta.movieUrl != null" layout-padding flex="20">
                 <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)">
-
                     <div>{{t.meta.id}}</div>
-
-
                 </div>
             </div>
         </section>
