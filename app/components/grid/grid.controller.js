@@ -5,42 +5,57 @@ export default class GridController {
         this.post = '';
         this.totalDay = 30;
 
+
+
         this.categories = [{
             'name': 'hard',
-            'descr': 'Hard Nieuws',
-            'max': 10,
+            'descr': '1. Hard Nieuws',
+            'max': 8,
             'value': 0
         }, {
-            'name': 'wetteclife',
-            'descr': 'Wetenschap, Tech, Lifestyle',
-            'max': 6,
+            'name': 'lokaal',
+            'descr': '2. Lokaal nieuws',
+            'max': 4,
+            'value': 0
+        }, {
+            'name': 'sport',
+            'descr': '3. Sport',
+            'max': 2,
+            'value': 0
+        }, {
+            'name': 'techwet',
+            'descr': '4. Technologie & Wetenschap',
+            'max': 4,
+            'value': 0
+        }, {
+            'name': 'lifeontsp',
+            'descr': '5. Lifestyle & Ontspanning',
+            'max': 4,
+            'value': 0
+        }, {
+            'name': 'cultmedia',
+            'descr': '6. Cultuur en Media',
+            'max': 4,
             'value': 0
         }, {
             'name': 'ookdatnog',
-            'descr': 'Ook dat nog',
+            'descr': '7. Ook dat nog',
             'max': 4,
-            'value': 0
-        }, {
-            'name': 'cultuurmedia',
-            'descr': 'Cultuur en Media',
-            'max': 4,
-            'value': 0
-        }, {
-            'name': 'opinie',
-            'descr': 'Opinie',
-            'max': 3,
-            'value': 0
-        }, {
-            'name': 'vrtmerk',
-            'descr': 'Vrt als merk',
-            'max': 3,
             'value': 0
         }];
 
+// vormelijk:  traditionele link, fotoreeks, native video, social templates, poll en share
+
+
         this.types = [{
             'name': 'traditioneel',
-            'descr': 'Traditioneel',
+            'descr': 'Traditionele link',
             'max': 13,
+            'value': 0
+        },{
+            'name': 'fotoreeks',
+            'descr': 'Fotoreeks',
+            'max': 3,
             'value': 0
         }, {
             'name': 'nativevideo',
@@ -48,14 +63,19 @@ export default class GridController {
             'max': 6,
             'value': 0
         }, {
-            'name': 'socialtemplates',
-            'descr': 'Social templates of poll',
+            'name': 'socialtemplate',
+            'descr': 'Social templates',
             'max': 7,
             'value': 0
         }, {
-            'name': 'shares',
-            'descr': 'Shares',
+            'name': 'share',
+            'descr': 'Share',
             'max': 4,
+            'value': 0
+        }, {
+            'name': 'poll',
+            'descr': 'Poll',
+            'max': 1,
             'value': 0
         }];
 
