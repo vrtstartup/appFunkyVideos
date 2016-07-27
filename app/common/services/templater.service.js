@@ -10,6 +10,7 @@ export default class templaterService {
         this.Upload = Upload;
 
         this.root = 'D:\\videoTemplater\\dropbox\\';
+        this.rootSub = 'D\\\\:/videoTemplater/dropbox/subs/';
         this.inFolder = this.root + 'in\\';
         this.aepLocation = this.root + 'ae\\Templater\\';
         this.visualsToSend = [];
@@ -158,6 +159,7 @@ export default class templaterService {
             'id': 0,
             'brand': 'all',
             'fileLocal': null,
+            'fileServer': null,
             'fileRemote': null
         }, {
             'name': 'Deredactie.be simpel',
@@ -313,7 +315,7 @@ export default class templaterService {
 
         const deferred = this.$q.defer();
         const folder = this.root + 'out\\' + project + '\\';
-        const subsFolder = this.root + 'subs\\' + project + '.ass';
+        const subsFolder = this.rootSub + project + '.ass';
 
         let input = ' -i ' + meta.movieUrl;
         let clipsTiming = '';
@@ -326,18 +328,23 @@ export default class templaterService {
         let totalDuration = '';
         let ffmpegCommand = '';
         let res = {};
+        let totalClips = parseInt(clips.length);
 
+console.log(clips);
         for (var key in clips) {
+            console.log(key);
             if (!clips.hasOwnProperty(key)) continue;
+
             let clip = clips[key];
             let clipId = parseInt(clip.id);
             let clipMinusOne = clipId - 1;
             let clipPlusOne = clipId + 1;
             let clipPlusTwo = clipId + 2;
             let clipPlusThree = clipId + 3;
-            let totalClips = parseInt(clips.length);
+
             // Input Overlays
             input = input + ' -i ' + folder + 'clips\\' + clip.id + '.mov';
+
             // Create the overlay command
             clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB[v' + clipId + '];';
             if (clip.id === 1) {
@@ -349,11 +356,12 @@ export default class templaterService {
 
                 if (meta.bumper > 0) {
                     totalDuration = meta.movieDuration + this.bumpers[meta.bumper].bumperLength - this.bumpers[meta.bumper].fade;
-                    input = input + ' i- ' + this.bumpers[meta.bumper].fileRemote + ' -f lavfi -i color=c=black:s=' + meta.movieWidth + 'x' + meta.movieHeight;
+                    input = input + ' -i ' + this.bumpers[meta.bumper].fileRemote + ' -f lavfi -i color=c=black:s=' + meta.movieWidth + 'x' + meta.movieHeight;
 
                     if (meta.logo > 0) {
                         bumperCommand = '[' + clipPlusOne + ':v]scale=' + meta.movieWidth + ':-1[bumperRescaled];[' + clipPlusTwo + ':v]scale=' + meta.movieWidth + 'x' + meta.movieHeight + ',trim=duration=' + totalDuration + '[blackVideo];[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((13.337)/TB)[theBumper];[blackVideo][c' + clipId + ']overlay=x=0:y=0[longMovie];[longMovie][theBumper]overlay=x=0:y=0[longMovieBumper];';
                     } else {
+                        totalDuration = meta.movieDuration;
                         bumperCommand = '[' + clipPlusOne + ':v]scale=' + meta.movieWidth + ':-1[bumperRescaled];[' + clipPlusTwo + ':v]scale=' + meta.movieWidth + 'x' + meta.movieHeight + ',trim=duration=' + totalDuration + '[blackVideo];[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((13.337)/TB)[theBumper];[blackVideo][c' + clipId + ']overlay=x=0:y=0[endMovie];[longMovie][theBumper]overlay=x=0:y=0[endMovie];';
                     }
                 }
@@ -374,9 +382,9 @@ export default class templaterService {
 
                 if (subs.length > 0) {
                     subsCommand = '[endMovie]ass=' + subsFolder + '[out]';
-                    ffmpegCommand = 'ffmpeg' + input + ' -y -filter_complex \"\"' + clipsTiming + clipOverlaying + bumperCommand + logoCommand + audioCommand + subsCommand + '\"\" -map [out] -strict -2 ' + folder + project + '.mp4';
+                    ffmpegCommand = 'ffmpeg' + input + ' -y -filter_complex \"\"' + clipsTiming + clipOverlaying + bumperCommand + logoCommand + audioCommand + subsCommand + '\"\" -map [out] -strict -2 -t '+ totalDuration + ' ' + folder + project + '.mp4';
                 } else {
-                    ffmpegCommand = 'ffmpeg' + input + ' -y -filter_complex \"\"' + clipsTiming + clipOverlaying + bumperCommand + logoCommand + audioCommand;
+                    ffmpegCommand = 'ffmpeg' + input + ' -y -filter_complex \"\"' + clipsTiming + clipOverlaying + bumperCommand + logoCommand + audioCommand + '\"\" -map [out] -strict -2 -t '+ totalDuration + ' ' + folder + project + '.mp4';
 
                 }
                 res = {
@@ -389,6 +397,7 @@ export default class templaterService {
     }
 
     sendToAfterEffects(clips) {
+
         let params = {
             movieClips: clips
         };
@@ -402,12 +411,13 @@ export default class templaterService {
     visualsToJSON(visuals, subs, meta, project) {
         const deferred = this.$q.defer();
         if (visuals.length > 0) {
+
             let ffmpeg = '';
             let newClips = [];
             let template = '';
             for (var x = 0, ln = visuals.length; x < ln; x++) {
                 template = visuals[x].template;
-                let clip = [];
+                let clip = {};
                 let attributes = {};
                 attributes = this.clipTemplates[template].clip;
                 for (var key in attributes) {
@@ -419,17 +429,19 @@ export default class templaterService {
                 clip.last = 'false';
                 clip.module = 'jpg2000';
                 clip.email = meta.email;
-                clip.output = project + '/clips/' + x + 1;
+                clip.output = project + '/clips/' + (x*1 + 1);
                 clip.id = x + 1;
                 clip.start = visuals[x].start;
                 clip.TextDeRedactie = visuals[x].text;
+                console.log(visuals.length, x, visuals.length === x + 1);
                 if (visuals.length === x + 1) {
                     clip.last = true;
                     newClips.push(clip);
                     this.overlays(newClips, meta, project, subs).then((resp) => {
                         ffmpeg = resp.ffmpeg;
-                        clip.ffmpeg = ffmpeg;
-                        newClips.push(clip);
+                        console.log(x);
+                        console.log(newClips);
+                        newClips[(visuals.length)*1-1].ffmpeg = ffmpeg;
                         deferred.resolve(newClips);
                     });
                 } else {
@@ -604,6 +616,7 @@ export default class templaterService {
             let assets = value[0];
             let assFile = value[1];
             let visualClips = value[2];
+            console.log(visualClips);
             if (!visualClips && assFile) {
                 this.$http({
                     data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips },

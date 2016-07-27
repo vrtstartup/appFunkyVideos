@@ -353,6 +353,7 @@ router.post('/burnSubs', function(req, res) {
 
 
 router.post('/update-movie-json', function(req, res, next) {
+    console.log(req);
     var movieClips = req.body.movieClips;
 
     //update dropbox json
