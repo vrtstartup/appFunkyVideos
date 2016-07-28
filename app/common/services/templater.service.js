@@ -305,7 +305,9 @@ export default class templaterService {
         let round = function(number) {
 
             if (number < 99) {
-                return number;
+                return '0' + Math.round((number / 10));
+
+
 
             } else {
                 number = Math.round((number / 10));
