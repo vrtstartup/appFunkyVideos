@@ -20,33 +20,6 @@ var dbClient = dropboxService.getDropboxClient();
 
 var emailService = require('../services/emailService.js');
 
-function time() {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1;
-    var hours = today.getHours();
-    var minutes = today.getMinutes();
-    var seconds = today.getSeconds();
-    var yyyy = today.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
-    if (hours < 10) {
-        hours = '0' + hours;
-    }
-    if (seconds < 10) {
-        seconds = '0' + seconds;
-    }
-    if (minutes < 10) {
-        minutes = '0' + minutes;
-    }
-    var date = yyyy + mm + dd + '_' + hours + minutes + seconds;
-    return date;
-}
-
 function sendNotification(email, status, url) {
     if (status === 'finished') {
         var subject = 'Je video met ondertitels is klaar om te downloaden!';
@@ -85,32 +58,20 @@ function sendResultToDropbox(video, videoName, ass, email) {
     });
 }
 
-// 0: Project started
-// 1: uploaded video
-// 2: started
-
-
-
 //url /api/movie
 router.post('/upload-to-dropbox', function(req, res, next) {
     var form = new multiparty.Form();
-
-    // console.log('project', req);
     form.parse(req);
-    // console.log('project', req);
     //if form contains file, open fileStream to get binary file
     form.on('file', function(name, file) {
         fs.readFile(file.path, function(err, data) {
             var imageUrl = '';
             var fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
-
             if (!dbClient) {
                 console.log('No dbClient');
-
             } else {
                 dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
                     if (error) {
-
                         console.log('ERROR:', error);
                         return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
                     }
@@ -131,7 +92,6 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                             filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
                                             filenameIn: file.originalFilename
                                         }).send();
-
                                     }
                                 }
                             } else {
@@ -149,14 +109,43 @@ router.post('/upload-to-dropbox', function(req, res, next) {
     });
 });
 
-router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 
-    // logger.info('generating sub');
-    // logger.trace('testing');
-    // logger.info('testing');
-    // logger.warn('testing');
-    // logger.crit('testing');
-    // logger.fatal('testing');
+
+
+// router.post('/subToDropbox', multipartyMiddleware, function(req, res, next) {
+
+
+//     var file = req.files.file;
+//     var name = req.name;
+//     console.log(file, name);
+
+//     if (file.type === 'ass') {
+//         if (!dbClient) {
+//             console.log('No dbClient');
+//         } else {
+//             dbClient.writeFile('subs/' + name, data, function(error, stat) {
+//                 if (error) {
+//                     console.log('ERROR:', error);
+//                     return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+//                 }
+//                 var fileUrl = 'subs/' + name;
+//                 dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
+//                     dropboxUrl = data.url;
+//                     res.json({
+//                         url: dropboxUrl
+//                     }).send();
+//                 });
+//             });
+//         }
+
+//     } else {
+//         // logger.fatal('error generating subs');
+//         res.json({ url: url, name: videoPath, subtitled: false }).send();
+//     }
+// });
+
+
+router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
@@ -164,17 +153,39 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
     var email = req.body.email;
     var name = (file.path).replace("temp/subtitleVideos/", '');
 
+    console.log(file);
+    console.log();
     if (file.type === 'ass') {
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
         fs.renameSync(path + name, srtPath);
         var filename = 'gen' + videoPath;
+
         // burn subtitles
         url = path + videoPath;
-        res.json({ url: url, name: videoPath }).send();
-        // logger.info('done generating sub');
+
+        // Upload it to dropbox, for backup, and if needed for templater
+        fs.readFile(url, function(err, data) {
+            console.log(data, err);
+            if (!dbClient) {
+                console.log('No dbClient');
+            } else {
+                console.log('uploading to dropbox');
+                dbClient.writeFile('subs/' + req.body.fileName, data, function(error, stat) {
+                    if (error) {
+                        console.log('ERROR:', error);
+                        return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+                    }
+                    var fileUrl = 'subs/' + req.body.fileName;
+                    dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
+                        dropboxUrl = data.url;
+                        res.json({ url: url, name: videoPath, dropboxUrl: dropboxUrl }).send();
+                    });
+                });
+            }
+        });
     } else {
-        // logger.fatal('error generating subs');
+
         res.json({ url: url, name: videoPath, subtitled: false }).send();
     }
 });
@@ -182,12 +193,13 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 
 
 router.post('/burnSubs', function(req, res) {
-    // logger.info('burning Subs');
+
+
+
     const path = "temp/subtitleVideos/";
+
     var ass = req.body.ass;
     var movie = req.body.movie;
-
-
     var email = req.body.email;
     var logo = req.body.logo;
     var audio = req.body.audio;
@@ -198,19 +210,15 @@ router.post('/burnSubs', function(req, res) {
     var height = req.body.height;
     var project = req.body.project;
     var bumperLength = req.body.bumperLength;
-    var videoName = time() + '_' + (email.substring(0, email.indexOf("@"))).replace('.', '') + '.mp4';
+    var visualClips = req.body.visualClips;
+
+    var videoName = req.body.videoName;
     var tempVideo = path + videoName;
-    console.log(height, width);
-
-
     var ffmpegCommand = '';
     var complexFilter = [];
 
+    console.log(bumper, logo);
     if (bumper !== false && logo !== false) {
-
-
-
-
         ffmpegCommand = ffmpeg()
             .input(movie)
             .input(bumper)
@@ -310,7 +318,6 @@ router.post('/burnSubs', function(req, res) {
             });
         })
         .on('error', function(err) {
-            console.log(err.toString('utf8'));
             res.send(err.toString('utf8'));
             db.ref('/apps/subtitles/' + project + '/logs').update({
                 status: 'Er is een fout opgetreden',
@@ -322,15 +329,15 @@ router.post('/burnSubs', function(req, res) {
 
         })
         .on('progress', function(progress) {
-            console.log(progress.percent);
-            db.ref('/apps/subtitles/' + project + '/logs').update({
-                progress: progress.percent,
-            }).catch(function(error) {
-                console.log('Failed to save to log', error);
-            });
+            if (progress.percent) {
+                db.ref('/apps/subtitles/' + project + '/logs').update({
+                    progress: progress.percent,
+                }).catch(function(error) {
+                    console.log('Failed to save to log', error);
+                });
+            }
         })
         .on('end', function() {
-            console.log('end');
             db.ref('/apps/subtitles/' + project + '/logs').update({
                 status: 'Klaar met ondertitels inbranden.',
             }).catch(function(error) {
@@ -346,6 +353,7 @@ router.post('/burnSubs', function(req, res) {
 
 
 router.post('/update-movie-json', function(req, res, next) {
+    console.log(req);
     var movieClips = req.body.movieClips;
 
     //update dropbox json

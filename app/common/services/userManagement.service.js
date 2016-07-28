@@ -143,11 +143,11 @@ export default class UserManagemeService {
         const deferred = this.$q.defer();
         this.ref.child('users/' + userId + 'verificationStatus').set(status);
         if (email) {
-            ref.child('users/' + userId + '/email').set(email);
+            this.ref.child('users/' + userId + '/email').set(email);
         }
 
         if (brand) {
-            ref.child('users/' + userId + '/brand').set(brand);
+            this.ref.child('users/' + userId + '/brand').set(brand);
         }
         deferred.resolve();
         return deferred.promise;

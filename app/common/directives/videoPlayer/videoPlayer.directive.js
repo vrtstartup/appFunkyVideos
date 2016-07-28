@@ -1,11 +1,14 @@
 import template from './videoPlayer.directive.html';
 
 class VideoPlayerDirectiveController {
-    constructor($scope, $sce, videogular) {
+    constructor($scope, $sce, videogular, templater) {
         this.$sce = $sce;
         this.$scope = $scope;
         this.videogular = videogular;
+        this.templater = templater;
+        this.activeTemplate = '';
         this.config = {};
+
 
         $scope.$watch('source', (value) => {
             if (!value) return;
@@ -63,8 +66,17 @@ class VideoPlayerDirectiveController {
     findSub(currentTime) {
         angular.forEach(this.subs, (value, key) => {
             if (value.start && currentTime >= value.start && currentTime <= value.end) {
-                this.activeSub = value.text;
-                console.log(value);
+
+                if(value === this.activeTemplate){
+                    console.log('same, do nothing');
+                } else {
+                    this.activeTemplate = value;
+                    // Get the template for the include
+                    this.selectedTemplate = this.templater.clipTemplates[value.template].meta.view;
+
+
+                }
+
             }
         });
     }
@@ -103,4 +115,4 @@ export const videoPlayerDirective = function() {
     };
 };
 
-VideoPlayerDirectiveController.$inject = ['$scope', '$sce', 'videogular'];
+VideoPlayerDirectiveController.$inject = ['$scope', '$sce', 'videogular', 'templater'];

@@ -40,6 +40,10 @@ class UserLoginDirectiveController {
         {
             'name': 'amerika kiest',
             'logo': 'assets/logos/amerikakiest.png'
+        },
+                {
+            'name': 'een',
+            'logo': 'assets/logos/een.png'
         }];
 
 

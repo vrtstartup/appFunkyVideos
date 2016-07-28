@@ -107,13 +107,13 @@ export default class GridController {
     }
 
     addPost(post) {
-        post.timestamp = {};
         post.timestamp = firebase.database.ServerValue.TIMESTAMP;
         post.addedDate = this.rewriteDate(this.minDate);
         this.posts.$add(post).then(function(ref) {
             console.log(ref);
         });
     }
+
 
 
 
