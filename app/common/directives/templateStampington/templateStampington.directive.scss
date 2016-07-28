@@ -1,21 +1,19 @@
 @import "../../style/variables";
-
-
-
 .rio__text {
     background-color: #f47920;
-    font-size: 60px;
+    font-size: 44px;
     color: #fff;
-    font-family: 'din-cndbold';
-    padding: 7px;
-    margin: 10px;
+    font-family: 'proxima-extrabold';
+    padding: 5px;
+    margin: 15px;
     position: absolute;
     right: 0;
     top: 0;
-
+    padding-bottom: 0;
+    line-height: 39px;
+    margin-right: 17px;
 }
 
-
 .rio-image__draggable--wrap {
-  pointer-events: none;
+    pointer-events: none;
 }

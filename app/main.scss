@@ -38,6 +38,12 @@
 }
 
 @font-face {
+  font-family: 'proxima-extrabold';
+  src: url('./fonts/proxima-extrabold.ttf')  format('truetype'), /* Safari, Android, iOS */
+  url('./fonts/proxima-extrabold.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
   font-family: 'Calibre-Black';
   src: url('./fonts/Calibre-Black.woff') format('woff'); /* Pretty Modern Browsers */
 }
