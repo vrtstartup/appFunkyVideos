@@ -43,17 +43,6 @@ class UserLoginDirectiveController {
         }];
 
 
-        /**
-        notChecked
-        notAuthenticated
-        pendingVerification
-        lostPassword
-        authenticated
-        loggedIn
-        loggedOut
-        **/
-
-
         this.userManagement.checkAuth().then((userId) => {
             if (userId !== null) {
 
@@ -98,8 +87,9 @@ class UserLoginDirectiveController {
             this.userId = userId;
             this.accountStatus = 'loggedIn';
             this.closePopup();
-        }, (reason) => {
-            console.log('Failed: ' + reason);
+        }, (error) => {
+            this.message = error.message;
+
         });
     }
 

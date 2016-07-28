@@ -38,22 +38,23 @@ export default class UserManagemeService {
             deferred.resolve(authData.uid, message);
 
         }).catch((error) => {
+            console.log(error.code);
             switch (error.code) {
                 case "INVALID_EMAIL":
-                    message = 'Dit email adres is niet geregistreerd.';
-                    deferred.reject('', message);
+                    error.message = 'Dit email adres is niet geregistreerd.';
+                    deferred.reject(error);
                     break;
-                case "INVALID_PASSWORD":
-                    message = 'Het paswoord is niet correct.';
-                    deferred.reject('', message);
+                case "auth/wrong-password":
+                    error.message = 'Het paswoord is niet correct.';
+                    deferred.reject(error);
                     break;
                 case "INVALID_USER":
-                    message = 'Deze gebruiker is niet geregistreerd';
-                    deferred.reject('', message);
+                    error.message = 'Deze gebruiker is niet geregistreerd';
+                    deferred.reject(error);
                     break;
                 default:
-                    message = 'Error logging user in: ' + error;
-                    deferred.reject('', message);
+                    error.message = 'Error logging user in: ' + error;
+                    deferred.reject(error);
             }
         });
         return deferred.promise;
