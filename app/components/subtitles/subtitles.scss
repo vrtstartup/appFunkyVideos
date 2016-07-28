@@ -40,7 +40,6 @@ md-toolbar.vrt-sub-toolbar {
         background-color: lightgrey;
         height: 100%;
         color: #fff;
-
         &.assetsSelected {
             background-color: red;
         }
@@ -154,5 +153,114 @@ md-toolbar.vrt-sub-toolbar {
         fill: $drd-main-color;
         height: 100%;
         width: 100%;
+    }
+}
+
+.videoplayer-container {
+    &__player {
+        position: relative;
+    }
+    &__template {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
+}
+
+.templates {
+    &-dr {
+        &-title {
+            &__container {
+                top: -2.5vw;
+                position: relative;
+            }
+            &__title {
+                color: #fff;
+                font-family: proxima;
+                font-size: 2.8vw;
+                line-height: 1.2vw;
+                white-space: pre-line;
+                word-wrap: break-word;
+                &::after {
+                    content: '';
+                    width: 4rem;
+                    height: .8vw;
+                    background-color: #46D823;
+                    display: block;
+                    margin-top: 2vw;
+                }
+            }
+            &__sub {
+                color: #fff;
+                font-family: utopia;
+                font-size: 2vw;
+                line-height: 1.5vw;
+                white-space: pre-line;
+                word-wrap: break-word;
+            }
+        }
+        &-bottomLeft {
+            &__container {
+                top: -1.5vw;
+                position: relative;
+            }
+            &__title {
+                color: #fff;
+                font-family: proxima;
+                font-size: 2.8vw;
+                line-height: 1.2vw;
+                white-space: pre-line;
+                word-wrap: break-word;
+
+            }
+            &__sub {
+                color: #fff;
+                font-family: utopia;
+                font-size: 2vw;
+                line-height: 1.5vw;
+                white-space: pre-line;
+                word-wrap: break-word;
+                     &::after {
+                    content: '';
+                    width: 4rem;
+                    height: .8vw;
+                    background-color: #46D823;
+                    display: block;
+                    margin-top: 1vw;
+                }
+            }
+        }
+        &-topLeft {
+            &__container {
+                top: 1vw;
+                position: relative;
+            }
+            &__title {
+                color: #fff;
+                font-family: proxima;
+                font-size: 2.8vw;
+                line-height: 1.2vw;
+                white-space: pre-line;
+                word-wrap: break-word;
+            }
+            &__sub {
+                color: #fff;
+                font-family: utopia;
+                font-size: 2vw;
+                line-height: 1.5vw;
+                white-space: pre-line;
+                word-wrap: break-word;
+                &::after {
+                    content: '';
+                    width: 4rem;
+                    height: .8vw;
+                    background-color: #46D823;
+                    display: block;
+                    margin-top: 1vw;
+                }
+            }
+        }
     }
 }

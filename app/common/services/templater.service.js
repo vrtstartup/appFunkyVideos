@@ -15,82 +15,113 @@ export default class templaterService {
         this.aepLocation = this.root + 'ae\\Templater\\';
         this.visualsToSend = [];
         this.clipTemplates = [{
-            meta: {
-                'id': 'defaultSub',
-                'brand': 'all',
-                'type': 'sub',
-                'form': '/components/subtitles/template.subtitle.normalSub.html',
-                'view': '/components/subtitles/explainers.centercenter.view.html',
-            },
-            clip: {
-                'style': 'Default'
+                meta: {
+                    'id': 'defaultSub',
+                    'brand': 'all',
+                    'type': 'sub',
+                    'img': 'assets/videoTemplates/dr_defaultSub.png',
+                    'form': '/components/subtitles/template.subtitle.normalSub.form.html',
+                    'view': '/components/subtitles/template.subtitle.normalSub.view.html',
+                },
+                clip: {
+                    'style': 'Default'
 
-            }
-        }, {
-            meta: {
-                'id': 'testSub',
-                'brand': 'all',
-                'type': 'sub',
-                'form': '/components/subtitles/template.subtitle.normalSub.html',
-                'view': '/components/subtitles/explainers.centercenter.view.html',
+                }
             },
-            clip: {
-                'style': 'Test'
+            // {
+            //     meta: {
+            //         'id': 'testSub',
+            //         'brand': 'all',
+            //         'type': 'sub',
+            //         'form': '/components/subtitles/template.subtitle.normalSub.html',
+            //         'view': '/components/subtitles/explainers.centercenter.view.html',
+            //     },
+            //     clip: {
+            //         'style': 'Test'
 
-            }
-        }, {
-            meta: {
-                'id': 'title',
-                'brand': 'deredactie.be',
-                'type': 'visual',
-                'img': 'assets/videoTemplates/Still_title.jpg',
-                'form': '/components/subtitles/template.visual.title.form.html',
-                'view': '/components/subtitles/template.visual.title.view.html',
-                'length': 8
+            //     }
+            // },
+            {
+                meta: {
+                    'id': 'title',
+                    'brand': 'deredactie.be',
+                    'type': 'visual',
+                    'img': 'assets/videoTemplates/dr_title.gif',
+                    'form': '/components/subtitles/template.visual.title.form.html',
+                    'view': '/components/subtitles/template.visual.title.view.html',
+                    'length': 8
+                },
+                clip: {
+                    'aep': this.aepLocation + 'template.aep',
+                    "color1": "1B2A36",
+                    "color2": "4CBF23",
+                    "Text1": "{{off}}",
+                    "LowText": "{{off}}",
+                    "HighText": "{{off}}",
+                    "BigText": "",
+                    "HighlightText": "{{off}}",
+                    "Text1": "",
+                    "Text2DR": "",
+                    "Text2AK": "{{off}}",
+                    "Text4AK": "{{off}}",
+                    "Text5": ""
+                }
             },
-            clip: {
-                'aep': this.aepLocation + 'template.aep',
-                "color1": "1B2A36",
-                "color2": "4CBF23",
-                "Text1": "{{off}}",
-                "LowText": "{{off}}",
-                "HighText": "{{off}}",
-                "BigText": "",
-                "HighlightText": "{{off}}",
-                "Text1": "",
-                "Text2DR": "",
-                "Text2AK": "{{off}}",
-                "Text4AK": "{{off}}",
-                "TextAmerikaKiest": "{{off}}",
-                "TextDeRedactie": "{{off}}",
-            }
-        }, {
-            meta: {
-                'id': 'BottomLeft',
-                'brand': 'deredactie.be',
-                'type': 'visual',
-                'img': 'assets/videoTemplates/Still_title.jpg',
-                'form': '/components/subtitles/template.visual.title.html',
-                'view': '/components/explainers/explainers.centercenter.view.html',
-                'length': 5
+
+            {
+                meta: {
+                    'id': 'topLeft',
+                    'brand': 'deredactie.be',
+                    'type': 'visual',
+                    'img': 'assets/videoTemplates/dr_high.gif',
+                    'form': '/components/subtitles/template.visual.topLeft.form.html',
+                    'view': '/components/subtitles/template.visual.topLeft.view.html',
+                    'length': 8
+                },
+                clip: {
+                    'aep': this.aepLocation + 'template.aep',
+                    "color1": "1B2A36",
+                    "color2": "4CBF23",
+                    "Text1": "{{off}}",
+                    "LowText": "{{off}}",
+                    "HighText": "",
+                    "BigText": "{{off}}",
+                    "HighlightText": "{{off}}",
+                    "Text1": "",
+                    "Text2DR": "",
+                    "Text2AK": "{{off}}",
+                    "Text4AK": "{{off}}",
+                    "Text5": ""
+                }
             },
-            clip: {
-                'aep': this.aepLocation + 'template.aep',
-                "color1": "1B2A36",
-                "color2": "4CBF23",
-                "Text1": "{{off}}",
-                "LowText": "{{off}}",
-                "HighText": "{{off}}",
-                "BigText": "{{off}}",
-                "HighlightText": "{{off}}",
-                "Text1": "Titel",
-                "Text2DR": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa",
-                "Text2AK": "{{off}}",
-                "Text4AK": "{{off}}",
-                "TextAmerikaKiest": "{{off}}",
-                "TextDeRedactie": "{{off}}",
-            }
-        }];
+
+            {
+                meta: {
+                    'id': 'bottomLeft',
+                    'brand': 'deredactie.be',
+                    'type': 'visual',
+                    'img': 'assets/videoTemplates/dr_low.gif',
+                    'form': '/components/subtitles/template.visual.bottomLeft.form.html',
+                    'view': '/components/subtitles/template.visual.bottomLeft.view.html',
+                    'length': 8
+                },
+                clip: {
+                    'aep': this.aepLocation + 'template.aep',
+                    "color1": "1B2A36",
+                    "color2": "4CBF23",
+                    "Text1": "{{off}}",
+                    "LowText": "",
+                    "HighText": "{{off}}",
+                    "BigText": "{{off}}",
+                    "HighlightText": "{{off}}",
+                    "Text1": "",
+                    "Text2DR": "",
+                    "Text2AK": "{{off}}",
+                    "Text4AK": "{{off}}",
+                    "Text5": ""
+                }
+            },
+        ];
 
         this.audioTracks = [{
             'name': 'geen',

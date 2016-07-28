@@ -28,6 +28,7 @@ export default class SubtitlesController {
         this.movieSend = false;
         this.projectActive = false;
         this.uploading = false;
+        this.selectedTemplate = '';
 
         // User Vars
         this.user = {};
@@ -243,11 +244,7 @@ export default class SubtitlesController {
     getTemplate(type, key) {
         console.log(type, key);
         let template = this.clipTemplates[key];
-        if (type === 'form') {
-            this.selectedTemplate = template.meta.form;
-        } else if (type === 'view') {
-            this.selectedTemplate = template.meta.view;
-        }
+        this.selectedTemplate = template.meta.form;
     }
 
     // Add one subtitle

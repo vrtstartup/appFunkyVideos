@@ -26,14 +26,13 @@
                 Voeg toe
             </md-button>
         </section>
-        <section>
-            <div ng-if="vm.meta.movieUrl != null" layout-padding flex="20">
-                <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)">
-                    <div>{{t.meta.id}}</div>
+        <section flex="10" layout-padding ng-if="vm.selectedTemplate != ''">
+            <div ng-if="vm.meta.movieUrl != null" >
+                <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)" >
+                        <img src="{{t.meta.img}}" style="width:100%;">
                 </div>
-            </div>
         </section>
-        <section ng-if="vm.meta.movieUrl != null" layout-padding flex="20">
+        <section ng-if="vm.meta.movieUrl != null" layout-padding flex="30">
             <div ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id">
                 <div layout="row">
                     <div ng-include="vm.selectedTemplate"></div>
@@ -76,11 +75,11 @@
                 <md-progress-linear ng-if="vm.logs.progress" md-mode="determinate" value="{{vm.logs.progress}}"></md-progress-linear>
             </section>
         </section>
-    </div>
-    <section ng-if="vm.meta.movieUrl != null" layout="row">
-        <div flex="70" layout-align="center center" ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id" class="clipSlider" style="width: 100%;position: fixed;bottom: 20px;left: calc(15% - 1px); background-color: transparent; z-index: 3;" ng-class="vm.loop ? '' : 'videoLooping'">
-            <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.subSlider.options"></rzslider>
-            <!-- <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.visualSlider.options"></rzslider> -->
         </div>
-    </section>
+        <section ng-if="vm.meta.movieUrl != null" layout="row">
+            <div flex="70" layout-align="center center" ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id" class="clipSlider" style="width: 100%;position: fixed;bottom: 20px;left: calc(15% - 1px); background-color: transparent; z-index: 3;" ng-class="vm.loop ? '' : 'videoLooping'">
+                <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.subSlider.options"></rzslider>
+                <!-- <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.visualSlider.options"></rzslider> -->
+            </div>
+        </section>
 </md-content>
