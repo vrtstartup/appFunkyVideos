@@ -44,8 +44,8 @@ export default class templaterService {
                 'brand': 'deredactie.be',
                 'type': 'visual',
                 'img': 'assets/videoTemplates/Still_title.jpg',
-                'form': '/components/subtitles/template.visual.title.html',
-                'view': '/components/explainers/explainers.centercenter.view.html',
+                'form': '/components/subtitles/template.visual.title.form.html',
+                'view': '/components/subtitles/template.visual.title.view.html',
                 'length': 8
             },
             clip: {

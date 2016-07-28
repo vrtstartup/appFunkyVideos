@@ -243,7 +243,6 @@ export default class SubtitlesController {
     getTemplate(type, key) {
         console.log(type, key);
         let template = this.clipTemplates[key];
-        console.log(template);
         if (type === 'form') {
             this.selectedTemplate = template.meta.form;
         } else if (type === 'view') {
