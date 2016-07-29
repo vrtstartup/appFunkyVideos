@@ -213,7 +213,6 @@ md-toolbar.vrt-sub-toolbar {
                 line-height: 1.2vw;
                 white-space: pre-line;
                 word-wrap: break-word;
-
             }
             &__sub {
                 color: #fff;
@@ -222,7 +221,7 @@ md-toolbar.vrt-sub-toolbar {
                 line-height: 1.5vw;
                 white-space: pre-line;
                 word-wrap: break-word;
-                     &::after {
+                &::after {
                     content: '';
                     width: 4rem;
                     height: .8vw;
@@ -264,3 +263,16 @@ md-toolbar.vrt-sub-toolbar {
         }
     }
 }
+
+.subtitles-templates__selectTemplate {
+        width:100%;
+
+}
+
+.selectedTemplate {
+
+        border-left: $drd-main-color;
+        border-left-width: 10px;
+        border-left-style: solid;
+        background: $drd-main-color;
+    }

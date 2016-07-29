@@ -285,7 +285,8 @@ export default class SubtitlesController {
         this.selectedSub = {
             'id': id,
             'start': start,
-            'end': end
+            'end': end,
+            'template': template
         };
         this.goToTime(start);
     }
@@ -335,12 +336,14 @@ export default class SubtitlesController {
         let c = this.subs.$getRecord(this.selectedSub.id);
         c.template = key;
         c.type = type;
+
         this.subSlider.options.draggableRangeOnly = false;
         if (type === 'visual') {
             this.subSlider.options.draggableRangeOnly = true;
             c.end = c.start + this.clipTemplates[key].meta.length;
         }
         this.subs.$save(c);
+        this.selectedSub.template = key;
         this.getTemplate('form', key);
     }
 
