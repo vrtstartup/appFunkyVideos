@@ -26,10 +26,10 @@
                 Voeg toe
             </md-button>
         </section>
-        <section flex="10" layout-padding ng-if="vm.selectedTemplate != ''">
+        <section flex="10" ng-if="vm.selectedTemplate != ''">
             <div ng-if="vm.meta.movieUrl != null" >
                 <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)" >
-                        <img src="{{t.meta.img}}" style="width:100%;">
+                        <img src="{{t.meta.img}}" class="subtitles-templates__selectTemplate"  ng-class="(key == vm.selectedSub.template) ? 'selectedTemplate' : ''">
                 </div>
         </section>
         <section ng-if="vm.meta.movieUrl != null" layout-padding flex="30">

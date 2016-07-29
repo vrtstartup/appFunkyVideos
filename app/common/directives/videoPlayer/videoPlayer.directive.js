@@ -41,7 +41,7 @@ class VideoPlayerDirectiveController {
         $scope.$watch('subs', (value) => {
             this.subs = value;
             console.log('changing in subs', this.videogular.api.currentTime);
-            this.findSub(this.videogular.api.currentTime / 1000);
+            // this.findSub(this.videogular.api.currentTime / 1000);
         }, true);
 
         $scope.$watchCollection('[start, end]', (values, oldValues) => {
@@ -62,27 +62,32 @@ class VideoPlayerDirectiveController {
         });
     }
 
-
-    findSub(currentTime) {
-        angular.forEach(this.subs, (value, key) => {
-            if (value.start && currentTime >= value.start && currentTime <= value.end) {
-
-                if(value === this.activeTemplate){
-                    console.log('same, do nothing');
-                } else {
-                    this.activeTemplate = value;
-                    // Get the template for the include
-                    this.selectedTemplate = this.templater.clipTemplates[value.template].meta.view;
-
-
-                }
-
-            }
-        });
+    getTemplate(key) {
+        let template = this.templater.clipTemplates[key].meta.view;
+        console.log(template);
+        return template;
     }
-    updateTime(currentTime) {
-        this.findSub(currentTime);
-    }
+
+    // findSub(currentTime) {
+    //     angular.forEach(this.subs, (value, key) => {
+    //         if (value.start && currentTime >= value.start && currentTime <= value.end) {
+
+    //             if(value === this.activeTemplate){
+    //                 console.log('same, do nothing');
+    //             } else {
+    //                 this.activeTemplate = value;
+    //                 // Get the template for the include
+    //                 this.selectedTemplate = this.templater.clipTemplates[value.template].meta.view;
+
+
+    //             }
+
+    //         }
+    //     });
+    // }
+    // updateTime(currentTime) {
+    //     this.findSub(currentTime);
+    // }
 
     onUpdateState(state) {
         this.$scope.$emit('onUpdateState', state);
