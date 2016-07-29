@@ -46,8 +46,6 @@ export default class SubtitlesController {
             }
         };
 
-
-
         // Emit coming from video directive
         this.$scope.$on('onUpdateState', (event, data) => {
             if (data === 'play') {
@@ -245,7 +243,8 @@ export default class SubtitlesController {
         var clip = {};
 
         if (movieDuration) {
-            if (this.clips.length > 1) {
+
+            if (this.clips.length >= 1 ) {
 
                 clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010) };
             } else {
