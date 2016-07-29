@@ -242,7 +242,6 @@ export default class SubtitlesController {
 
     // get the html form that belongs with this template
     getTemplate(type, key) {
-        console.log(type, key);
         let template = this.clipTemplates[key];
         this.selectedTemplate = template.meta.form;
     }
