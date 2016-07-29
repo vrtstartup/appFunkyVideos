@@ -15,10 +15,11 @@ export const templateStampingtonDirective = function() {
         controller: TemplateStampingtonDirectiveController,
         controllerAs: 'vm',
         bindToController: {
-
+            quote: '=',
             image: '=',
             templateClass: '=',
             imageSize: '=',
+            square: '='
         },
     };
 };

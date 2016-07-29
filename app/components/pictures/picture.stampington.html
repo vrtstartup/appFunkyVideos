@@ -1,26 +1,26 @@
 <div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'stampington'" ng-class="vm.templateClass">
-
-
-    <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)"/>
-
-
+    <input ng-model="quote.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)" />
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Quote</label>
+            <textarea ng-model="vm.quote.quote" md-maxlength="120" rows="3" vrt-maxlines="3" maxlines-prevent-enter="true"></textarea>
+        </md-input-container>
+        <md-switch ng-model="vm.quote.square" aria-label="Maak vierkant">
+           Maak de afbeelding vierkant
+        </md-switch>
+    </md-content>
     <div layout>
         <div flex="10" layout layout-align="center center">
             <span class="md-body-1">Image size</span>
         </div>
-        <md-slider flex ng-init="vm.quote.imageSize=100" ng-model="vm.quote.imageSize" min="0" max="200"
-                   id="imageSize-slider" class="md-primary">
+        <md-slider flex ng-init="vm.quote.imageSize=100" ng-model="vm.quote.imageSize" min="0" max="200" id="imageSize-slider" class="md-primary">
         </md-slider>
         <div flex="20" layout layout-align="center center">
             <input flex type="number" ng-model="vm.quote.imageSize" aria-controls="imageSize-slider">
         </div>
     </div>
-
     <div class="dir-wrap">
-        <vrt-template-stampington class="dir-wrap"
-                          template-class="vm.templateClass"
-                          image-size="vm.quote.imageSize"
-                          image="quote.img" >
+        <vrt-template-stampington class="dir-wrap" template-class="vm.templateClass" image-size="vm.quote.imageSize" image="quote.img" quote="vm.quote.quote" square="vm.quote.square">
         </vrt-template-stampington>
     </div>
 </div>

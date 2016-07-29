@@ -44,18 +44,18 @@ export default class GridController {
             'value': 0
         }];
 
-// vormelijk:  traditionele link, fotoreeks, native video, social templates, poll en share
 
+// Native video 14, templates 6, link 6  shares 3, fotoreeks of poll 1
 
         this.types = [{
             'name': 'traditioneel',
             'descr': 'Traditionele link',
-            'max': 13,
+            'max': 6,
             'value': 0
         },{
             'name': 'fotoreeks',
             'descr': 'Fotoreeks',
-            'max': 3,
+            'max': 1,
             'value': 0
         }, {
             'name': 'nativevideo',
@@ -65,12 +65,12 @@ export default class GridController {
         }, {
             'name': 'socialtemplate',
             'descr': 'Social templates',
-            'max': 7,
+            'max': 6,
             'value': 0
         }, {
             'name': 'share',
             'descr': 'Share',
-            'max': 4,
+            'max': 3,
             'value': 0
         }, {
             'name': 'poll',
