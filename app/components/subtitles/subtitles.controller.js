@@ -416,7 +416,7 @@ export default class SubtitlesController {
                     console.log("Error:", error);
                 });
             }, (resp) => {
-                console.log('Error: ' + JSON.stringify(resp));
+                console.log('Error: ' + resp);
                 console.log('Error status: ' + resp.status);
             }, (evt) => {
                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
