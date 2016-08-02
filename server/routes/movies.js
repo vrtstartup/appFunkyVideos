@@ -149,11 +149,19 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
+    console.log('req', req);
+    console.log('file', file);
+
     var url = file.path;
+    console.log('url', url);
     var email = req.body.email;
+    console.log('email', email);
+    console.log('filepath', file.path);
     var name = (file.path).replace("temp/subtitleVideos/", '');
+    console.log('changed name', name);
 
     if (file.type === 'ass') {
+        console.log('file type = ass');
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
         fs.renameSync(path + name, srtPath);
@@ -182,7 +190,7 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
             }
         });
     } else {
-
+        console.log('file type is not ass');
         res.json({ url: url, name: videoPath, subtitled: false }).send();
     }
 });
