@@ -69,6 +69,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
             var fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
             if (!dbClient) {
                 console.log('No dbClient');
+                return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
             } else {
                 dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
                     if (error) {
@@ -146,7 +147,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
 
 router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
-
+console.log(res);
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
     var url = file.path;
@@ -154,7 +155,6 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
     var name = (file.path).replace("temp/subtitleVideos/", '');
 
     console.log(file);
-    console.log();
     if (file.type === 'ass') {
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
@@ -193,7 +193,7 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 
 
 router.post('/burnSubs', function(req, res) {
-
+    console.log(req.body);
 
 
     const path = "temp/subtitleVideos/";

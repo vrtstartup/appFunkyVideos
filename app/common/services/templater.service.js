@@ -657,12 +657,33 @@ export default class templaterService {
             let assFile = value[1];
             let visualClips = value[2];
             console.log(visualClips);
+
+
             if (!visualClips && assFile) {
-                this.$http({
-                    data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips },
-                    method: 'POST',
-                    url: '/api/movie/burnSubs/'
-                }).then((res) => {
+                let params = {
+                    ass: assFile.data.url,
+                    email: meta.email,
+                    videoName: videoName,
+                    movie: meta.movieUrl,
+                    duration: meta.movieDuration,
+                    width: meta.movieWidth,
+                    height: meta.movieHeight,
+                    logo: assets.logo,
+                    audio: assets.audio,
+                    bumper: assets.bumper,
+                    fade: assets.fade,
+                    bumperLength: assets.bumperLength,
+                    project: projectId,
+                    visualClips: visualClips
+                };
+                this.$http.post('api/movie/burnSubs', params)
+                    // this.$http({
+                    //     data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips },
+                    //     method: 'POST',
+                    //     url: '/api/movie/burnSubs/'
+                    // })
+
+                .then((res) => {
                     console.log(res);
                     deferred.resolve(res);
                 }, (err) => {
