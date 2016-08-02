@@ -4,10 +4,21 @@
         -webkit-transition: all 1s;
         transition: all 1s;
         background-color: #fff;
+        &:nth-child(even) {
+            opacity: .9;
+        }
         &.active {
             -webkit-transition: all 1s;
             transition: all 1s;
             background-color: $ook-dat-nog;
+        }
+        &.finished {
+            &.md-3-line .md-list-item-text h3, &.md-3-line .md-list-item-text h4, &.md-3-line .md-list-item-text p {
+                color: #fff;
+            }
+            -webkit-transition: all 1s;
+            transition: all 1s;
+            background-color: $drd-main-bg-color;
         }
     }
 }
