@@ -628,7 +628,7 @@ export default class templaterService {
             fade = this.bumpers[meta.bumper].fade;
             bumperLength = this.bumpers[meta.bumper].bumperLength;
             bumper = this.bumpers[meta.bumper].fileServer;
-        } else { meta.bumper = false };
+        } else { bumper = false };
         let assets = {
             fade: fade,
             bumperLength: bumperLength,

@@ -147,14 +147,12 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
 
 router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
-console.log(res);
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
     var url = file.path;
     var email = req.body.email;
     var name = (file.path).replace("temp/subtitleVideos/", '');
 
-    console.log(file);
     if (file.type === 'ass') {
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
@@ -166,7 +164,6 @@ console.log(res);
 
         // Upload it to dropbox, for backup, and if needed for templater
         fs.readFile(url, function(err, data) {
-            console.log(data, err);
             if (!dbClient) {
                 console.log('No dbClient');
             } else {
@@ -193,7 +190,7 @@ console.log(res);
 
 
 router.post('/burnSubs', function(req, res) {
-    console.log(req.body);
+
 
 
     const path = "temp/subtitleVideos/";
@@ -217,7 +214,7 @@ router.post('/burnSubs', function(req, res) {
     var ffmpegCommand = '';
     var complexFilter = [];
 
-    console.log(bumper, logo);
+    console.log('the bumper:', bumper, 'the logo:', logo);
     if (bumper !== false && logo !== false) {
         ffmpegCommand = ffmpeg()
             .input(movie)
