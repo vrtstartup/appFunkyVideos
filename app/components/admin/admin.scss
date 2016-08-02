@@ -1,0 +1,13 @@
+@import "../../common/style/variables";
+.admin-container {
+    .admin-project {
+        -webkit-transition: all 1s;
+        transition: all 1s;
+        background-color: #fff;
+        &.active {
+            -webkit-transition: all 1s;
+            transition: all 1s;
+            background-color: $ook-dat-nog;
+        }
+    }
+}
