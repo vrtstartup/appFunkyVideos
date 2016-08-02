@@ -398,9 +398,6 @@ export default class SubtitlesController {
         this.Upload.upload({
                 url: 'api/movie/upload-to-dropbox',
                 data: { file: file },
-                params: {
-                    logs: this.meta.log
-                },
                 method: 'POST'
             })
             .then((resp) => {
@@ -419,7 +416,7 @@ export default class SubtitlesController {
                     console.log("Error:", error);
                 });
             }, (resp) => {
-                console.log('Error: ' + resp.error);
+                console.log('Error: ' + JSON.stringify(resp));
                 console.log('Error status: ' + resp.status);
             }, (evt) => {
                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
