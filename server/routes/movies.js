@@ -58,7 +58,6 @@ function sendResultToDropbox(video, videoName, ass, email) {
     });
 }
 
-//url /api/movie
 router.post('/upload-to-dropbox', function(req, res, next) {
     var form = new multiparty.Form();
     form.parse(req);
