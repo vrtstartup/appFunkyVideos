@@ -142,7 +142,7 @@ export default class UserManagemeService {
     setVerificationStatus(userId, email, brand, status) {
         console.log(userId, email, brand, status);
         const deferred = this.$q.defer();
-        this.ref.child('users/' + userId + 'verificationStatus').set(status);
+        this.ref.child('users/' + userId + '/verificationStatus').set(status);
         if (email) {
             this.ref.child('users/' + userId + '/email').set(email);
         }
