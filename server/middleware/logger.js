@@ -35,7 +35,7 @@ var logger = new(winston.Logger)({
         new(winston.transports.File)({
             name: 'fileLogger',
             level: 'fatal',
-            filename: 'server/logs/winston.log',
+            filename: 'assets/logsWinston/winston.log',
             maxsize: 104857600 // 100 mb
         })
   ]
