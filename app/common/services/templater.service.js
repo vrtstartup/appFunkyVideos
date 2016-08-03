@@ -28,19 +28,21 @@ export default class templaterService {
 
                 }
             },
-            // {
-            //     meta: {
-            //         'id': 'testSub',
-            //         'brand': 'all',
-            //         'type': 'sub',
-            //         'form': '/components/subtitles/template.subtitle.normalSub.html',
-            //         'view': '/components/subtitles/explainers.centercenter.view.html',
-            //     },
-            //     clip: {
-            //         'style': 'Test'
+            {
+                meta: {
+                    'id': 'stubruSub',
+                    'brand': 'stubru',
+                    'type': 'sub',
+                    'img': 'assets/videoTemplates/stubru_defaultSub.png',
+                    'form': '/components/subtitles/template.subtitle.normalSub.form.html',
+                    'view': '/components/subtitles/template.subtitle.normalSub.view.html',
+                },
+                clip: {
+                    'style': 'Default'
 
-            //     }
-            // },
+                }
+            },
+
             {
                 meta: {
                     'id': 'title',

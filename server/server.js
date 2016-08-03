@@ -150,9 +150,6 @@ function createPath() {
         // path was created unless there was error
         if (err) console.log('Error while creating path:', err);
     });
-
-
-
 }
 
 
