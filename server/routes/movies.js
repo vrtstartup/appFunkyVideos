@@ -15,8 +15,8 @@ var dbClient = dropboxService.getDropboxClient();
 // var firebaseService = require('../services/firebaseService.js');
 
 
-// var logger = require('../middleware/logger');
 var logger = require('../middleware/logger');
+
 
 
 var emailService = require('../services/emailService.js');
@@ -65,8 +65,8 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
 
     var form = new multiparty.Form();
-    logger.info('req', req);
-    logger.info('res', res);
+    // logger.info('req', req);
+    // logger.info('res', res);
 
     form.parse(req);
 
