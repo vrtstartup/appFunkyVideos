@@ -93,48 +93,80 @@ function sendResultToDropbox(video, videoName, ass, email) {
 
 //url /api/movie
 router.post('/upload-to-dropbox', function(req, res, next) {
-    var form = new multiparty.Form();
+    console.log('INFO', 'received call to upload to dropbox');
 
-    // console.log('project', req);
+
+    var form = new multiparty.Form();
+    console.log('INFO', 'req', req);
+    console.log('INFO', 'res', res);
+
     form.parse(req);
-    // console.log('project', req);
+
     //if form contains file, open fileStream to get binary file
     form.on('file', function(name, file) {
+        console.log('INFO', 'Found a file, so lets read it out with fileStream.');
         fs.readFile(file.path, function(err, data) {
+            console.log('INFO', 'Found a file, so let\'s read it out with fileStream.');
             var imageUrl = '';
             var fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
-
+            console.log('INFO', 'changed the original filename, by deleting difficult characters. Filename is now: ' + fileName);
             if (!dbClient) {
-                console.log('No dbClient');
+                console.log('ERROR', 'Dropbox Client is missing or not correctly implemented.');
+                return next(Boom.badImplementation('Dropbox Client is missing or not correctly implemented.'));
 
             } else {
+                // Should this not be fileName, in stead of originalFileName?
                 dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
                     if (error) {
 
-                        console.log('ERROR:', error);
+                        console.log('ERROR', 'couldn\'t upload file to dropbox', error);
                         return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
                     }
-                    var fileUrl = 'in/' + file.originalFilename;
-                    dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
-                        imageUrl = data.url;
+                    console.log('INFO', 'status after upload, as returned by dropboxclient', status);
 
+                    // Should this not be fileName, in stead of originalFileName?
+                    var fileUrl = 'in/' + file.originalFilename;
+                    console.log('INFO', 'the file is now located in the dropbox app. Location is: ' + fileUrl);
+                    console.log('INFO', 'Fetching the permanent url at Dropbox, so we can save the url to the Firebase.');
+                    dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
+                        if (error) {
+                            console.log('ERROR', 'Wasn\'t able to fetch the url of the uploaded file. Returned error: ', error);
+                            return next(Boom.badImplementation('unexpected error, couldn\'t get file url from dropbox'));
+                        }
+                        console.log('INFO', 'Fetched url for the file on dropbox, returned data: ', data);
+                        imageUrl = data.url;
+                        console.log('INFO', 'the url for the file: ', imageUrl);
+
+                        console.log('INFO', 'Trying to get the metadata of the file, using ffprobe.');
                         ffmpeg.ffprobe(imageUrl, function(err, metadata) {
+                            if (err) {
+                                console.log('ERROR', 'Tried to probe the file, but returned error:', err);
+                                return next(Boom.badImplementation('unexpected error, tried to probe the file, but returned error.'));
+                            }
+                            console.log('INFO', 'ffprobe worked, checking if metadata is available.');
                             if (metadata) {
+                                 console.log('INFO', 'Metadata is available. Metadata: ', metadata);
+                                 console.log('INFO', 'Looping through metadata, checking if codec_type = video');
                                 for (i = 0; i < metadata.streams.length; i++) {
+                                    console.log('INFO', 'Checking stream ' + i + ' for metadata.');
                                     if (metadata.streams[i].codec_type === 'video') {
-                                        width = metadata.streams[i].width;
-                                        height = metadata.streams[i].height;
+                                        console.log('INFO', 'Found a stream with codec Video. Stream ' + i);
+                                        console.log('INFO', 'Checking stream ' + i + ' for width and height.');
+                                        var width = metadata.streams[i].width;
+                                        console.log('INFO', 'video width', width);
+                                        var height = metadata.streams[i].height;
+                                        console.log('INFO', 'video height', height);
                                         res.json({
                                             image: imageUrl,
-                                            width: metadata.streams[i].width,
-                                            height: metadata.streams[i].height,
+                                            width: width,
+                                            height: height,
                                             filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
                                             filenameIn: file.originalFilename
                                         }).send();
-
                                     }
                                 }
                             } else {
+                                console.log('INFO', 'There is no stream with a videocodec, so the file is not a video.');
                                 res.json({
                                     image: imageUrl,
                                     filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
