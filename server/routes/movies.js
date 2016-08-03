@@ -187,8 +187,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
-    console.log('req', req);
-    console.log('file', file);
+
 
     var url = file.path;
     console.log('url', url);
@@ -352,7 +351,6 @@ router.post('/burnSubs', function(req, res) {
         .outputOptions('-strict -2')
         .output(tempVideo)
         .on('start', function(commandLine) {
-            console.log(commandLine);
             db.ref('/apps/subtitles/' + project + '/logs').update({
                 status: 'Ondertitels aan het inbranden',
                 ffmpegLine: commandLine
@@ -396,7 +394,6 @@ router.post('/burnSubs', function(req, res) {
 
 
 router.post('/update-movie-json', function(req, res, next) {
-    console.log(req);
     var movieClips = req.body.movieClips;
 
     //update dropbox json

@@ -41,21 +41,18 @@ class UserLoginDirectiveController {
             'name': 'amerika kiest',
             'logo': 'assets/logos/amerikakiest.png'
         },
-                {
-            'name': 'een',
-            'logo': 'assets/logos/een.png'
+         {
+            'name': 'MNM',
+            'logo': 'assets/logos/mnm.png'
+        },{
+            'name': 'stubru',
+            'logo': 'assets/logos/stubru.png'
+        },
+        {
+            'name': 'Generation What',
+            'logo': 'assets/logos/generationwhat.png'
         }];
 
-
-        /**
-        notChecked
-        notAuthenticated
-        pendingVerification
-        lostPassword
-        authenticated
-        loggedIn
-        loggedOut
-        **/
 
 
         this.userManagement.checkAuth().then((userId) => {

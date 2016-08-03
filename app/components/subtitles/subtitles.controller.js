@@ -256,15 +256,27 @@ export default class SubtitlesController {
                 });
             });
 
-            var clip = {};
+            let clip = {};
+
+            // this should be writing more variable, it breaks when order changes of templates, or if we put the templates in firebase or whatever
+            let templateId = 0;
+            if (this.user.brand === 'stubru') {
+                templateId = 4;
+            }
+
             if (movieDuration) {
                 if (this.subs.length > 1) {
-                    clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: 0, type: 'sub' };
+
+
+                    clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: templateId, type: 'sub' };
+
+
                 } else {
                     clip = { end: movieDuration, start: 0.001, template: 0, type: 'sub' };
                 }
                 this.subs.$add(clip).then((ref) => {
-                    this.selectClip(ref.key, clip.start, clip.end, clip.type, 0, 'form');
+
+                    this.selectClip(ref.key, clip.start, clip.end, clip.type, templateId, 'form');
                 });
             }
         }

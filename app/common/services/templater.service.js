@@ -18,6 +18,7 @@ export default class templaterService {
                 meta: {
                     'id': 'defaultSub',
                     'brand': 'all',
+                    'excludeBrand': 'stubru',
                     'type': 'sub',
                     'img': 'assets/videoTemplates/dr_defaultSub.png',
                     'form': '/components/subtitles/template.subtitle.normalSub.form.html',
@@ -25,21 +26,6 @@ export default class templaterService {
                 },
                 clip: {
                     'style': 'Default'
-
-                }
-            },
-            {
-                meta: {
-                    'id': 'stubruSub',
-                    'brand': 'stubru',
-                    'type': 'sub',
-                    'img': 'assets/videoTemplates/stubru_defaultSub.png',
-                    'form': '/components/subtitles/template.subtitle.normalSub.form.html',
-                    'view': '/components/subtitles/template.subtitle.normalSub.view.html',
-                },
-                clip: {
-                    'style': 'Default'
-
                 }
             },
 
@@ -47,6 +33,7 @@ export default class templaterService {
                 meta: {
                     'id': 'title',
                     'brand': 'deredactie.be',
+                    'excludeBrand': '',
                     'type': 'visual',
                     'img': 'assets/videoTemplates/dr_title.gif',
                     'form': '/components/subtitles/template.visual.title.form.html',
@@ -74,6 +61,7 @@ export default class templaterService {
                 meta: {
                     'id': 'topLeft',
                     'brand': 'deredactie.be',
+                    'excludeBrand': '',
                     'type': 'visual',
                     'img': 'assets/videoTemplates/dr_high.gif',
                     'form': '/components/subtitles/template.visual.topLeft.form.html',
@@ -101,6 +89,7 @@ export default class templaterService {
                 meta: {
                     'id': 'bottomLeft',
                     'brand': 'deredactie.be',
+                    'excludeBrand': '',
                     'type': 'visual',
                     'img': 'assets/videoTemplates/dr_low.gif',
                     'form': '/components/subtitles/template.visual.bottomLeft.form.html',
@@ -121,6 +110,21 @@ export default class templaterService {
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
                     "Text5": ""
+                }
+            },
+            {
+                meta: {
+                    'id': 'stubruSub',
+                    'brand': 'stubru',
+                    'excludeBrand': '',
+                    'type': 'sub',
+                    'img': 'assets/videoTemplates/stubru_defaultSub.png',
+                    'form': '/components/subtitles/template.subtitle.stubruDefaultSub.form.html',
+                    'view': '/components/subtitles/template.subtitle.stubruDefaultSub.view.html',
+                },
+                clip: {
+                    'style': 'StubruDefault'
+
                 }
             },
         ];
@@ -413,6 +417,7 @@ export default class templaterService {
                     logoCommand = '[' + clipPlusThree + ':v]scale=' + meta.movieWidth / 6 + ':-1[logoRescaled];[longMovieBumper][logoRescaled]overlay=x=10:y=10[endMovie];';
                 }
 
+                // Should fix when no audio is on video
                 if (meta.audio > 0) {
                     audioCommand = 'amix=inputs=2:duration=first:dropout_transition=3';
                 } else {
@@ -578,6 +583,7 @@ export default class templaterService {
             string = '[Script Info]\nTitle: Nieuwshub subtitles\nScriptType: v4.00\nCollisions: Normal\n\n';
             string = string + '[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n';
             string = string + 'Style: Default,arial,24,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,5,5,30,1\n';
+            string = string + 'Style: StubruDefault,helvetica,16,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,0.6,0,2,5,5,21,1\n';
             string = string + 'Style: Test,arial,100,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,5,5,30,1\n\n';
             string = string + '[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
             angular.forEach(subs, (line) => {
