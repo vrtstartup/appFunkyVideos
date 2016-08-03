@@ -145,11 +145,11 @@ function createPath() {
         if (err) console.log('Error while creating path:', err);
     });
 
-    mkdirp('temp/logs', function(err) {
-        console.log('Path is created temp/logs');
-        // path was created unless there was error
-        if (err) console.log('Error while creating path:', err);
-    });
+    // mkdirp('temp/logs', function(err) {
+    //     console.log('Path is created temp/logs');
+    //     // path was created unless there was error
+    //     if (err) console.log('Error while creating path:', err);
+    // });
 
 
 
