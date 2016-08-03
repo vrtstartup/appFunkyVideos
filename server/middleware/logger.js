@@ -1,9 +1,9 @@
 var winston = require('winston');
 var fs = require('fs');
 // check if directory exist
-if (!fs.existsSync('temp/logs')) {
-    fs.mkdirSync('temp/logs'); // create new directory
-}
+// if (!fs.existsSync('temp/logs')) {
+//     fs.mkdirSync('temp/logs'); // create new directory
+// }
 
 // Set up logger
 var customColors = {
@@ -35,7 +35,7 @@ var logger = new(winston.Logger)({
         new(winston.transports.File)({
             name: 'fileLogger',
             level: 'fatal',
-            filename: 'temp/logs/winston.log',
+            filename: 'server/winston.log',
             maxsize: 104857600 // 100 mb
         })
   ]
