@@ -15,7 +15,7 @@ var dbClient = dropboxService.getDropboxClient();
 // var firebaseService = require('../services/firebaseService.js');
 
 
-var logger = require('../middleware/logger');
+// var logger = require('../middleware/logger');
 
 
 var emailService = require('../services/emailService.js');
