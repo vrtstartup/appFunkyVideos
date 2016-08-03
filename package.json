@@ -50,6 +50,7 @@
     "shortid": "2.2.6",
     "videogular": "1.4.1",
     "videogular-controls": "1.4.1",
+    "winston": "2.2.0",
     "youtube-dl": "1.11.1"
   },
   "devDependencies": {
