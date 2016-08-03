@@ -1,8 +1,8 @@
 var winston = require('winston');
 var fs = require('fs');
 // check if directory exist
-if (!fs.existsSync('server/logs')) {
-    fs.mkdirSync('server/logs'); // create new directory
+if (!fs.existsSync('temp/logs')) {
+    fs.mkdirSync('temp/logs'); // create new directory
 }
 
 // Set up logger
@@ -35,7 +35,7 @@ var logger = new(winston.Logger)({
         new(winston.transports.File)({
             name: 'fileLogger',
             level: 'fatal',
-            filename: 'server/logs/winston.log',
+            filename: 'temp/logs/winston.log',
             maxsize: 104857600 // 100 mb
         })
   ]
