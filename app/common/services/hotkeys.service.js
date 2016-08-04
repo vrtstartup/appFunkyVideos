@@ -7,8 +7,8 @@ export default class hotKeysService {
     addHotkey(combo, descr) {
         const deferred = this.$q.defer();
         this.hotkeys.add({
-            combo: 'i',
-            description: 'Begin van ondertitel',
+            combo: combo,
+            description: descr,
             callback: () => {
                 deferred.resolve();
             }

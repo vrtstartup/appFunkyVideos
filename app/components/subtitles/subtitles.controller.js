@@ -77,18 +77,18 @@ export default class SubtitlesController {
             }
         });
 
-
+        let c = '';
         // Ad Hotkeys
         this.hotkeys.addHotkey('i', 'Begin van ondertitel').then(() => {
             this.selectedSub.start = this.videogular.api.currentTime / 1000;
-            let c = this.subs.$getRecord(this.selectedSub.id);
+            c = this.subs.$getRecord(this.selectedSub.id);
             c.start = this.selectedSub.start;
             this.subs.$save(c);
         });
         this.hotkeys.addHotkey('o', 'Einde van ondertitel').then(() => {
             this.selectedSub.end = this.videogular.api.currentTime / 1000;
             this.goToTime(this.selectedSub.start);
-            let c = this.subs.$getRecord(this.selectedSub.id);
+            c = this.subs.$getRecord(this.selectedSub.id);
             c.end = this.selectedSub.end;
             this.subs.$save(c);
         });
