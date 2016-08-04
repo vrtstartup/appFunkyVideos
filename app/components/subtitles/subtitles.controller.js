@@ -300,7 +300,7 @@ export default class SubtitlesController {
             }
 
             if (movieDuration) {
-                if (this.subs.length > 1) {
+                if (this.subs.length > 0) {
 
 
                     clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: templateId, type: 'sub' };
