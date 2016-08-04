@@ -51,6 +51,10 @@ class UserLoginDirectiveController {
         {
             'name': 'Generation What',
             'logo': 'assets/logos/generationwhat.png'
+        },
+                {
+            'name': 'een',
+            'logo': 'assets/logos/een.png'
         }];
 
         this.userManagement.checkAuth().then((userId) => {
