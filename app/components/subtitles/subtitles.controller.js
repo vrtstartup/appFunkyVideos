@@ -1,14 +1,14 @@
 import { keys, extend, find, reject } from 'lodash';
 
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, toast, $firebaseAuth, $firebaseObject, $firebaseArray, userManagement, templater, $http, $mdDialog, hotkeysService) {
+    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, toast, $firebaseAuth, $firebaseObject, $firebaseArray, userManagement, templater, $http, $mdDialog, hotkeys) {
         this.$log = $log;
         this.$sce = $sce;
         this.srt = srt;
         this.$scope = $scope;
         this.FileSaver = FileSaver;
         this.videogular = videogular;
-        this.hotkeys = hotkeysService;
+        this.hotkeys = hotkeys;
         this.Upload = Upload;
         this.$timeout = $timeout;
         this.toast = toast;
@@ -79,33 +79,66 @@ export default class SubtitlesController {
 
         let c = '';
         // Ad Hotkeys
-        this.hotkeys.addHotkey('i', 'Begin van ondertitel').then(() => {
-            this.selectedSub.start = this.videogular.api.currentTime / 1000;
-            c = this.subs.$getRecord(this.selectedSub.id);
-            c.start = this.selectedSub.start;
-            this.subs.$save(c);
+
+        this.hotkeys.add({
+            combo: 'i',
+            description: 'Begin van ondertitel',
+            callback: () => {
+                this.selectedSub.start = this.videogular.api.currentTime / 1000;
+                c = this.subs.$getRecord(this.selectedSub.id);
+                c.start = this.selectedSub.start;
+                this.subs.$save(c);
+            }
         });
-        this.hotkeys.addHotkey('o', 'Einde van ondertitel').then(() => {
-            this.selectedSub.end = this.videogular.api.currentTime / 1000;
-            this.goToTime(this.selectedSub.start);
-            c = this.subs.$getRecord(this.selectedSub.id);
-            c.end = this.selectedSub.end;
-            this.subs.$save(c);
+
+        this.hotkeys.add({
+            combo: 'o',
+            description: 'Einde van ondertitel',
+            callback: () => {
+                this.selectedSub.end = this.videogular.api.currentTime / 1000;
+                this.goToTime(this.selectedSub.start);
+                c = this.subs.$getRecord(this.selectedSub.id);
+                c.end = this.selectedSub.end;
+                this.subs.$save(c);
+            }
         });
-        this.hotkeys.addHotkey('k', 'Frame verder').then(() => {
-            this.videogular.api.pause();
-            this.goToTime(this.videogular.api.currentTime / 1000 + 0.01);
+
+
+        this.hotkeys.add({
+            combo: 'k',
+            description: 'Frame verder',
+            callback: () => {
+                this.videogular.api.pause();
+                this.goToTime(this.videogular.api.currentTime / 1000 + 0.01);
+            }
         });
-        this.hotkeys.addHotkey('j', 'Frame terug').then(() => {
-            this.videogular.api.pause();
-            this.goToTime(this.videogular.api.currentTime / 1000 - 0.01);
+
+
+        this.hotkeys.add({
+            combo: 'j',
+            description: 'Frame terug',
+            callback: () => {
+                this.videogular.api.pause();
+                this.goToTime(this.videogular.api.currentTime / 1000 - 0.01);
+            }
         });
-        this.hotkeys.addHotkey('l', 'Preview filmpje').then(() => {
-            this.preview();
+
+        this.hotkeys.add({
+            combo: 'l',
+            description: 'Preview filmpje',
+            callback: () => {
+                this.preview();
+            }
         });
-        this.hotkeys.addHotkey('u', 'Nieuwe ondertitel').then(() => {
+       this.hotkeys.add({
+            combo: 'u',
+            description: 'Voeg toe',
+            callback: () => {
             this.addSubtitle(this.meta.movieDuration);
+            }
         });
+
+
     }
 
 
@@ -478,4 +511,4 @@ export default class SubtitlesController {
 
 
 
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'toast', '$firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$http', '$mdDialog', 'hotkeysService'];
+SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'toast', '$firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$http', '$mdDialog', 'hotkeys'];

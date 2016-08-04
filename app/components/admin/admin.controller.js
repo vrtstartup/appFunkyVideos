@@ -17,7 +17,7 @@ export default class AdminController {
         // The reference to the firebase
         this.ref = firebase.database().ref();
         this.projectsRef = this.ref.child('apps/subtitles');
-        let projectsQuery = this.projectsRef.orderByChild('meta/projectId').limitToLast(20);
+        let projectsQuery = this.projectsRef.limitToLast(20);
         this.projects = this.$firebaseArray(projectsQuery);
 
         this.projects.$watch(function(event) {

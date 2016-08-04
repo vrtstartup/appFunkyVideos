@@ -23,7 +23,7 @@ export default class templaterService {
                     'img': 'assets/videoTemplates/dr_defaultSub.png',
                     'form': '/components/subtitles/template.subtitle.normalSub.form.html',
                     'view': '/components/subtitles/template.subtitle.normalSub.view.html',
-                    'roles': ['0', '1', '2']
+                    'roles': ['0', '1', '2', '']
                 },
                 clip: {
                     'style': 'Default'

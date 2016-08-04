@@ -109,7 +109,7 @@ md-toolbar.vrt-sub-toolbar {
 
 .subtitles-preview {
     &__text {
-        &--deredactieDefault {
+        &--normalDefault {
             margin: 0;
             display: block;
             z-index: 70;
@@ -123,7 +123,7 @@ md-toolbar.vrt-sub-toolbar {
             word-wrap: break-word;
             max-width: 33.2vw;
             position: relative;
-            top: -2.8vw;
+
         }
         &--stubruDefault {
             margin: 0;
