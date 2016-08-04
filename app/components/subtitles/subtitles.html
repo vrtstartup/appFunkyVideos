@@ -29,7 +29,7 @@
         <section flex="10" ng-if="vm.selectedTemplate != ''">
             <div ng-if="vm.meta.movieUrl != null" >
 
-                <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)" ng-if="(t.meta.brand.indexOf(vm.project.meta.brand) > -1 || t.meta.brand == 'all') && t.meta.excludeBrand.indexOf(vm.project.meta.brand) == -1 && (t.meta.roles).indexOf(vm.user.role)" >
+                <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)" ng-if="(t.meta.brand.indexOf(vm.project.meta.brand) > -1 || t.meta.brand == 'all') && t.meta.excludeBrand.indexOf(vm.project.meta.brand) == -1 && t.meta.roles.indexOf(vm.user.role) > -1" >
                         <img src="{{t.meta.img}}" class="subtitles-templates__selectTemplate"  ng-class="(key == vm.selectedSub.template) ? 'selectedTemplate' : ''">
                 </div>
         </section>

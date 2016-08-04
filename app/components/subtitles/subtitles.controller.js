@@ -64,8 +64,11 @@ export default class SubtitlesController {
         this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
+                    console.log(obj);
                     this.user = authData;
                     this.user.brand = obj.brand;
+                    this.user.role = obj.role;
+                    console.log(this.user.brand);
                     this.project.meta.email = authData.email;
                     this.project.meta.sendTo = authData.email;
                     this.project.meta.brand = obj.brand;
