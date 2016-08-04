@@ -11,10 +11,10 @@ import movies from './movies';
 import questions from './questions';
 import download from './download';
 import explainers from './explainers';
-
+import admin from './admin';
 
 const module = angular.module('app.components', [
-    home, subtitles, pictures, chart, templater, audio, grid, maps, movies, questions, download, explainers
+    home, subtitles, pictures, chart, templater, audio, grid, maps, movies, questions, download, explainers, admin
 ]);
 
 export default module.name;

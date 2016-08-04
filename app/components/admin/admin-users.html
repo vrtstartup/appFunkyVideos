@@ -1,0 +1,35 @@
+<section class="admin-users">
+    <md-list class="md-dense" flex>
+        <md-button class="md-raised" ng-click="vm.orderUsers = 'email'" ng-class="vm.orderUsers == 'email' ?  'md-warn' : ''">Email</md-button>
+        <md-button class="md-raised" ng-click="vm.orderUsers = 'brand'" ng-class="vm.orderUsers == 'brand' ?  'md-warn' : ''">Brand</md-button>
+        <md-button class="md-raised" ng-click="vm.orderUsers = 'verificationStatus'" ng-class="vm.orderUsers == 'verificationStatus' ?  'md-warn' : ''">Verification</md-button>
+        <md-button class="md-raised" ng-click="vm.orderUsers = 'role'" ng-class="vm.orderUsers == 'role' ?  'md-warn' : ''">Rol</md-button>
+        <md-list-item ng-repeat="u in vm.users | orderBy:vm.orderUsers" " class="md-2-line admin-users ">
+            <div class="md-list-item-text " layout-padding layout="column ">
+                <h3>{{u.email}}</h3>
+                <p>{{u.$id}}</p>
+            </div>
+            <div  class="md-list-item-text " layout="column ">
+                <p>
+                    {{u.verificationStatus}}
+                </p>
+            </div>
+            <div  class="md-list-item-text " layout="column ">
+                <p>{{u.brand}}</p>
+            </div>
+            <div  class="md-list-item-text " layout="column ">
+                <md-input-container>
+                    <md-select ng-model="u.role " aria-label="user role" ng-change="vm.users.$save(u) ">
+                        <md-option ng-repeat="r in vm.roles " value="{{r.id}} ">
+                            {{r.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+ <div  class="md-list-item-text " layout="column ">
+                <md-button ng-click="doSecondaryAction($event) "><i style="padding-top:8px; " ng-click="vm.users.$remove(u) " class="material-icons grid-iconbutton ">&#xE14C;</i></md-button>
+                </div>
+        </md-list-item>
+
+
+</section>
