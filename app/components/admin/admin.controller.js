@@ -3,16 +3,26 @@ export default class AdminController {
         this.$log = $log;
         this.$firebaseArray = $firebaseArray;
 
+        this.roles = [{
+            id: 0,
+            name: 'admin'
+
+        }, {
+            id: 1,
+            name: 'tester'
+        }, {
+            id: 2,
+            name: 'user'
+        }];
         // The reference to the firebase
         this.ref = firebase.database().ref();
         this.projectsRef = this.ref.child('apps/subtitles');
-        let query = this.projectsRef.orderByChild('meta/projectId').limitToLast(20);
-        this.projects = this.$firebaseArray(query);
+        let projectsQuery = this.projectsRef.orderByChild('meta/projectId').limitToLast(20);
+        this.projects = this.$firebaseArray(projectsQuery);
 
         this.projects.$watch(function(event) {
             // this.triggerChange(event.event, event.key);
             if (event.event === 'child_changed') {
-                console.log('child changed');
                 angular.element(document.querySelector('#id-' + event.key)).addClass("active");
                 $timeout(function() {
                     angular.element(document.querySelector('#id-' + event.key)).removeClass("active");
@@ -20,19 +30,22 @@ export default class AdminController {
             }
 
         });
+
+
+
+
+
+        this.usersRef = this.ref.child('users');
+        let usersQuery = this.usersRef.orderByChild('email');
+        this.users = this.$firebaseArray(usersQuery);
+
+        this.orderUsers = 'email';
     }
 
 
-    // triggerChange(event, key) {
-    //     console.log();
-    //     if (event === 'child_changed') {
-    //         angular.element('#id-' + key).addClass("active");
-    //         $timeout(function() {
-    //             angular.element('#id-' + key).removeClass("active");
-    //         }, 300);
-    //     }
+    changeRole(userId) {
 
-    // }
+    }
 }
 
 AdminController.$inject = ['$log', '$firebaseArray', '$timeout'];

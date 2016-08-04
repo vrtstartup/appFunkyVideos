@@ -1,29 +1,14 @@
 <md-content class="admin-container">
-    <div layout-gt-md="row" layout="column" layout-sm="column">
-        <section flex-gt-md="50" flex-md="55" class="admin-projects" layout-padding>
-            <md-list class="md-dense" flex>
-                <md-subheader class="md-no-sticky">Projecten</md-subheader>
-                <md-list-item ng-repeat="p in vm.projects | reverse " class="md-3-line admin-project"  ng-if="p.meta.email != 'maarten.lauwaert@vrt.be'" id="id-{{p.$id}}" ng-class="(p.logs.progress > 99) ? 'finished' : ''">
-                    <div class="md-list-item-text" layout="column">
-                        <h3>{{p.meta.email}} - {{p.meta.brand}}</h3>
-                        <h4>{{p.meta.projectId}}</h4>
-                        <p>{{p.$id}}</p>
-                    </div>
-                    <div>
-                        {{vm.subtitles()}}
-                    </div>
-                    <div class="md-list-item-text" layout="column">
-                        <p>
-                            {{p.logs.status}}
-                        </p>
-                    </div>
-                    <div class="md-list-item-text" layout="column">
-                        <p ng-if="p.logs.progress">
-                            {{p.logs.progress | number:0}}%
-                        </p>
-                    </div>
-                    <!-- <md-button class="md-secondary" ng-click="doSecondaryAction($event)">Info</md-button> -->
-                </md-list-item>
-        </section>
-    </div>
+    <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="Projecten">
+        <md-content >
+                <ng-include src="'components/admin/admin-projects.html'">
+            </md-content>
+        </md-tab>
+        <md-tab label="Gebruikers">
+        <md-content >
+            <ng-include src="'components/admin/admin-users.html'">
+            </md-content>
+        </md-tab>
+    </md-tabs>
 </md-content>
