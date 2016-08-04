@@ -1,0 +1,24 @@
+<section class="admin-projects">
+    <md-list class="md-dense" flex>
+        <md-list-item ng-repeat="p in vm.projects | reverse " class="md-3-line admin-project" ng-if="p.meta.email != 'maarten.lauwaert@vrt.be'" id="id-{{p.$id}}" ng-class="(p.logs.status == 'Klaar met ondertitels inbranden.') ? 'finished' : ''">
+            <div class="md-list-item-text" layout="column">
+                <h3>{{p.meta.email}} - {{p.meta.brand}}</h3>
+                <h4>{{p.meta.projectId}}</h4>
+                <p>{{p.$id}}</p>
+            </div>
+            <div>
+                {{vm.subtitles()}}
+            </div>
+            <div class="md-list-item-text" layout="column">
+                <p>
+                    {{p.logs.status}}
+                </p>
+            </div>
+            <div class="md-list-item-text" layout="column">
+                <p ng-if="p.logs.progress">
+                    {{p.logs.progress | number:0}}%
+                </p>
+            </div>
+            <!-- <md-button class="md-secondary" ng-click="doSecondaryAction($event)">Info</md-button> -->
+        </md-list-item>
+</section>

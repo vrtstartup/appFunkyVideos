@@ -10,6 +10,7 @@ import firebaseDB from './firebase.service.js';
 import userManagement from './userManagement.service.js';
 import canvasUtil from './canvasUtil.service.js';
 import templater from './templater.service.js';
+import hotkeysService from './hotkeys.service.js';
 
 const module = angular.module('app.common.services', []);
 
@@ -24,5 +25,6 @@ module.service('firebaseDB', firebaseDB);
 module.service('userManagement', userManagement);
 module.service('canvasUtil', canvasUtil);
 module.service('templater', templater);
+module.service('hotkeysService', hotkeysService);
 
 export default module.name;

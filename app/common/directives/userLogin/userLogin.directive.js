@@ -45,14 +45,13 @@ class UserLoginDirectiveController {
             'name': 'MNM',
             'logo': 'assets/logos/mnm.png'
         },{
-            'name': 'Stubru',
+            'name': 'stubru',
             'logo': 'assets/logos/stubru.png'
         },
         {
             'name': 'Generation What',
             'logo': 'assets/logos/generationwhat.png'
         }];
-
 
         this.userManagement.checkAuth().then((userId) => {
             if (userId !== null) {
