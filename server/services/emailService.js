@@ -5,7 +5,7 @@ module.exports = (function() {
     return {
         sendMail: function(toAddress, subject, message) {
             var mailOptions = {
-                from: '"VRT funky videos" <vrtfunkyvideos@gmail.com>',
+                from: '"VRT Nieuwshub Tools" <nieuwshubtools@gmail.com>',
                 to: toAddress,
                 subject: subject,
                 html: message
