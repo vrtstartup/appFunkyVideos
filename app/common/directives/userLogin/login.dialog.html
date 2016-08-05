@@ -59,7 +59,7 @@
         </md-dialog-content>
         <md-dialog-actions layout="row" class="form-footer">
             <span flex ng-if="vm.accountStatus != 'loggedIn'"></span>
-            <md-button ng-click="vm.logIn(vm.userForm)" class="vrt-button" ng-if="vm.accountStatus == 'authenticated'">
+            <md-button ng-click="vm.logIn(vm.userForm)" class="vrt-button" ng-if="vm.accountStatus != 'loggedIn' && vm.accountStatus == 'existsTrue'">
                 Log in
             </md-button>
             <md-button ng-click="vm.createUser(vm.userForm)" class="vrt-button" ng-if="vm.accountStatus == 'existsFalse'">
