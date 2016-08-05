@@ -366,9 +366,7 @@ router.post('/update-movie-json', function(req, res, next) {
 
         file.data = data ? JSON.parse(data) : [];
 
-
         movieClips.forEach(function(clip) {
-
             file.data.push(clip);
         });
 

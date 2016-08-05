@@ -80,7 +80,7 @@ export default class templaterService {
                     "HighText": "",
                     "BigText": "{{off}}",
                     "HighlightText": "{{off}}",
-                    "Text1": "",
+                    "Text1": "{{off}}",
                     "Text2DR": "",
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
@@ -109,14 +109,13 @@ export default class templaterService {
                     "HighText": "{{off}}",
                     "BigText": "{{off}}",
                     "HighlightText": "{{off}}",
-                    "Text1": "",
+                    "Text1": "{{off}}",
                     "Text2DR": "",
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
                     "Text5": ""
                 }
-            },
-            {
+            }, {
                 meta: {
                     'id': 'stubruSub',
                     'brand': 'stubru',
@@ -376,11 +375,10 @@ export default class templaterService {
         let audioCommand = '';
         let subsCommand = '';
         let totalDuration = '';
+        let bumperInTime = '';
         let ffmpegCommand = '';
         let res = {};
         let totalClips = parseInt(clips.length);
-
-        console.log(clips);
         for (var key in clips) {
             console.log(key);
             if (!clips.hasOwnProperty(key)) continue;
@@ -395,24 +393,36 @@ export default class templaterService {
             // Input Overlays
             input = input + ' -i ' + folder + 'clips\\' + clip.id + '.mov';
 
+
             // Create the overlay command
             clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB,scale=' + '-1:' + meta.movieHeight + '[v' + clipId + '];';
             if (clip.id === 1) {
                 clipOverlaying = clipOverlaying + '[0:v][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
+            } else if (clip.id === totalClips) {
+
             } else {
                 clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
             }
             if (clip.id === totalClips) {
 
                 if (meta.bumper > 0) {
+                    clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
                     totalDuration = meta.movieDuration + this.bumpers[meta.bumper].bumperLength - this.bumpers[meta.bumper].fade;
+                    bumperInTime = meta.movieDuration - this.bumpers[meta.bumper].fade;
                     input = input + ' -i ' + this.bumpers[meta.bumper].fileRemote + ' -f lavfi -i color=c=black:s=' + meta.movieWidth + 'x' + meta.movieHeight;
 
                     if (meta.logo > 0) {
-                        bumperCommand = '[' + clipPlusOne + ':v]scale=' + meta.movieWidth + ':-1[bumperRescaled];[' + clipPlusTwo + ':v]scale=' + meta.movieWidth + 'x' + meta.movieHeight + ',trim=duration=' + totalDuration + '[blackVideo];[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((13.337)/TB)[theBumper];[blackVideo][c' + clipId + ']overlay=x=0:y=0[longMovie];[longMovie][theBumper]overlay=x=0:y=0[longMovieBumper];';
+                        bumperCommand = '[' + clipPlusOne + ':v]scale=' + meta.movieWidth + ':-1[bumperRescaled];[' + clipPlusTwo + ':v]scale=' + meta.movieWidth + 'x' + meta.movieHeight + ',trim=duration=' + totalDuration + '[blackVideo];[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+(' + bumperInTime + '/TB)[theBumper];[blackVideo][c' + clipId + ']overlay=x=0:y=0[longMovie];[longMovie][theBumper]overlay=x=0:y=0[longMovieBumper];';
                     } else {
                         totalDuration = meta.movieDuration;
-                        bumperCommand = '[' + clipPlusOne + ':v]scale=' + meta.movieWidth + ':-1[bumperRescaled];[' + clipPlusTwo + ':v]scale=' + meta.movieWidth + 'x' + meta.movieHeight + ',trim=duration=' + totalDuration + '[blackVideo];[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((13.337)/TB)[theBumper];[blackVideo][c' + clipId + ']overlay=x=0:y=0[endMovie];[longMovie][theBumper]overlay=x=0:y=0[endMovie];';
+                        bumperCommand = '[' + clipPlusOne + ':v]scale=' + meta.movieWidth + ':-1[bumperRescaled];[' + clipPlusTwo + ':v]scale=' + meta.movieWidth + 'x' + meta.movieHeight + ',trim=duration=' + totalDuration + '[blackVideo];[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+(' + bumperInTime + '/TB)[theBumper];[blackVideo][c' + clipId + ']overlay=x=0:y=0[endMovie];[longMovie][theBumper]overlay=x=0:y=0[endMovie];';
+                    }
+
+                } else {
+                    if (meta.logo > 0) {
+                        clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
+                    } else {
+                        clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[endMovie];';
                     }
                 }
 
@@ -483,8 +493,8 @@ export default class templaterService {
                 clip.output = project + '/clips/' + (x * 1 + 1);
                 clip.id = x + 1;
                 clip.start = visuals[x].start;
-                clip.Text1 = visuals[x].Text1 || '';
-                clip.Text2DR = visuals[x].Text2DR || '';
+                clip.Text1 = visuals[x].Text1 || '{{off}}';
+                clip.Text2DR = visuals[x].Text2DR || '{{off}}';
 
 
                 console.log(visuals.length, x, visuals.length === x + 1);
