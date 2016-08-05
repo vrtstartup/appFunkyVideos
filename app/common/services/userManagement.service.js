@@ -22,7 +22,7 @@ export default class UserManagemeService {
         this.firebaseAuth.$onAuthStateChanged((authData) => {
             //console.log(authData);
             if (authData !== null) {
-                deferred.resolve(authData.uid);
+                deferred.resolve(authData);
             } else {
                 deferred.reject('not authenticated');
             }
@@ -139,33 +139,28 @@ export default class UserManagemeService {
 
 
 
-    setVerificationStatus(userId, email, brand, status) {
-        console.log(userId, email, brand, status);
+    saveToFirebase(userId, email, brand, role) {
         const deferred = this.$q.defer();
-        this.ref.child('users/' + userId + '/verificationStatus').set(status);
-        if (email) {
+        console.log(userId, email, brand, role);
+        if (userId, email, brand && role === 0) {
             this.ref.child('users/' + userId + '/email').set(email);
-        }
-
-        if (brand) {
             this.ref.child('users/' + userId + '/brand').set(brand);
+            this.ref.child('users/' + userId + '/role').set(role);
+            deferred.resolve();
         }
-        deferred.resolve();
         return deferred.promise;
     }
 
 
-    createUser(email) {
+    createUser(email, password) {
         const deferred = this.$q.defer();
         let message = '';
-        console.log(email);
-        this.firebaseAuth.$createUserWithEmailAndPassword(email, this._generatePassword()).then((userData) => {
 
-            message = 'User created';
-            console.log(userData);
-            deferred.resolve(userData, message);
+        this.firebaseAuth.$createUserWithEmailAndPassword(email, password).then((userData) => {
+            console.log("User " + userData.uid + " created successfully!");
+            deferred.resolve(userData.uid);
         }).catch((error) => {
-            console.log(error);
+            console.error("Error: ", error);
             deferred.reject(error);
         });
         return deferred.promise;

@@ -190,7 +190,7 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 });
 
 router.post('/burnSubs', function(req, res) {
-
+    console.log('starting burning of subs');
     const path = "temp/subtitleVideos/";
 
     var ass = req.body.ass;
@@ -214,6 +214,7 @@ router.post('/burnSubs', function(req, res) {
 
     console.log('the bumper:', bumper, 'the logo:', logo);
     if (bumper !== false && logo !== false) {
+
         ffmpegCommand = ffmpeg()
             .input(movie)
             .input(bumper)
@@ -278,6 +279,7 @@ router.post('/burnSubs', function(req, res) {
             }
         ];
     } else if (bumper === false && logo === false) {
+         console.log('no logo, no bumper');
         ffmpegCommand = ffmpeg()
             .input(movie);
     }
