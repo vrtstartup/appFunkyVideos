@@ -84,10 +84,15 @@ export default class SubtitlesController {
             combo: 'i',
             description: 'Begin van ondertitel',
             callback: () => {
-                this.selectedSub.start = this.videogular.api.currentTime / 1000;
-                c = this.subs.$getRecord(this.selectedSub.id);
-                c.start = this.selectedSub.start;
-                this.subs.$save(c);
+
+                if (this.selectedSub.type === 'visual') {
+                    this.toast.showToast('error', 'Bij visuele elementen kan je de sneltoesten niet gebruiken.');
+                } else {
+                    this.selectedSub.start = this.videogular.api.currentTime / 1000;
+                    c = this.subs.$getRecord(this.selectedSub.id);
+                    c.start = this.selectedSub.start;
+                    this.subs.$save(c);
+                }
             }
         });
 
@@ -95,11 +100,16 @@ export default class SubtitlesController {
             combo: 'o',
             description: 'Einde van ondertitel',
             callback: () => {
-                this.selectedSub.end = this.videogular.api.currentTime / 1000;
-                this.goToTime(this.selectedSub.start);
-                c = this.subs.$getRecord(this.selectedSub.id);
-                c.end = this.selectedSub.end;
-                this.subs.$save(c);
+                if (this.selectedSub.type === 'visual') {
+                    this.toast.showToast('error', 'Bij visuele elementen kan je de sneltoesten niet gebruiken.');
+                } else {
+                    this.selectedSub.end = this.videogular.api.currentTime / 1000;
+                    this.goToTime(this.selectedSub.start);
+                    c = this.subs.$getRecord(this.selectedSub.id);
+                    c.end = this.selectedSub.end;
+                    this.subs.$save(c);
+                }
+
             }
         });
 
@@ -130,11 +140,11 @@ export default class SubtitlesController {
                 this.preview();
             }
         });
-       this.hotkeys.add({
+        this.hotkeys.add({
             combo: 'u',
             description: 'Voeg toe',
             callback: () => {
-            this.addSubtitle(this.meta.movieDuration);
+                this.addSubtitle(this.meta.movieDuration);
             }
         });
 
@@ -333,7 +343,8 @@ export default class SubtitlesController {
             'id': id,
             'start': start,
             'end': end,
-            'template': template
+            'template': template,
+            'type': type
         };
         this.goToTime(start);
     }

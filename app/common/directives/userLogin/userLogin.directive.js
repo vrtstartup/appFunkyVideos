@@ -136,7 +136,7 @@ class UserLoginDirectiveController {
         user.email = user.email.toLowerCase();
         this.userManagement.checkDomain(user.email).then((domain) => {
             this.userManagement.createUser(user.email, user.password).then((uid) => {
-                this.userManagement.saveToFirebase(uid, user.email, user.brand, 2).then(() => {
+                this.userManagement.saveToFirebase(uid, user.email, user.brand, '2').then(() => {
                     this.logIn(user);
                     // this.userManagement.resetPassword(user.email).then((response, message) => {
                     //     this.message = message;
