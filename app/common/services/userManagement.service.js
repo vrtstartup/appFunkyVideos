@@ -141,8 +141,9 @@ export default class UserManagemeService {
 
     saveToFirebase(userId, email, brand, role) {
         const deferred = this.$q.defer();
-        console.log(userId, email, brand, role);
-        if (userId, email, brand && role === 0) {
+        console.log('TEMPLATER: saving to to Firebase', userId, email, brand, role);
+        if (userId, email, brand && role === "2") {
+            console.log('UserId, email, brand and role are their, so saving user to firebase.');
             this.ref.child('users/' + userId + '/email').set(email);
             this.ref.child('users/' + userId + '/brand').set(brand);
             this.ref.child('users/' + userId + '/role').set(role);
@@ -170,9 +171,9 @@ export default class UserManagemeService {
     checkAccountStatus(userId) {
         const deferred = this.$q.defer();
         let message = '';
-        console.log(userId);
+
         this.ref.child('users/' + userId).on("value", function(snapshot) {
-            console.log(snapshot.val());
+
             deferred.resolve(snapshot.val(), 'success');
         }, function(errorObject) {
             deferred.reject(errorObject.code);
