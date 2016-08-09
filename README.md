@@ -30,7 +30,7 @@ Run 'npm start' to startup node server
   
     
 
-#### ffpeg
+#### ffmpeg
 To make it work prpoperly, you should install ffmpeg locally
 
 `brew install ffmpeg --with-fdk-aac --with-ffplay --with-freetype --with-frei0r
@@ -44,3 +44,7 @@ To upload files to dropbox (templater), following environment variables should b
 export DB_KEY=***
 export DB_SECRET=***
 export DB_TOKEN=***
+
+
+#### Git
+Although some of us suck at git, we try to follow Vincent Driessen's branching model (http://nvie.com/posts/a-successful-git-branching-model/) and use git-flow for ease of use (http://danielkummer.github.io/git-flow-cheatsheet/).
