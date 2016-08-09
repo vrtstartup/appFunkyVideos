@@ -3,3 +3,5 @@
 //
 
 import './main.js';
+
+try{Typekit.load({ async: true });}catch(e){}

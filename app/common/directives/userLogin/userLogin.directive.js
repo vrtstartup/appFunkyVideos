@@ -24,65 +24,39 @@ class UserLoginDirectiveController {
         }, {
             'name': 'sporza',
             'logo': 'assets/logos/sporza.png'
-        },
-         {
+        }, {
             'name': 'radio 1',
             'logo': 'assets/logos/radio1.png'
-        },
-        {
+        }, {
             'name': 'canvas',
             'logo': 'assets/logos/canvas.png'
-        },
-        {
+        }, {
             'name': 'radio 2',
             'logo': 'assets/logos/radio2.png'
-        },
-        {
+        }, {
             'name': 'amerika kiest',
             'logo': 'assets/logos/amerikakiest.png'
-        },
-         {
+        }, {
             'name': 'MNM',
             'logo': 'assets/logos/mnm.png'
-        },{
+        }, {
             'name': 'stubru',
             'logo': 'assets/logos/stubru.png'
-        },
-        {
+        }, {
             'name': 'Generation What',
             'logo': 'assets/logos/generationwhat.png'
+        }, {
+            'name': 'een',
+            'logo': 'assets/logos/een.png'
         }];
 
-
-
-        this.userManagement.checkAuth().then((userId) => {
-            if (userId !== null) {
-
-                this.userId = userId;
-                this.userManagement.checkAccountStatus(userId).then((obj, message, error) => {
-
-                     if (obj.brand) {
-                        this.userForm.brand = obj.brand;
-                    } else {
-                        this.brandWarning = 'Vanaf nu moet je je merk selecteren, opdat we de voor jouw geschikte templates en logos kunnen tonen.'
-                        this.openLoginPopup(this.userForm);
-                    }
-                    this.userForm.email = obj.email;
-
-
-                    if (obj.verificationStatus) {
-                        if (obj.verificationStatus === 'pendingVerification' || obj.verificationStatus === 'lostPassword') {
-                            this.accountStatus = obj.verificationStatus;
-
-                        } else {
-                            this.accountStatus = 'loggedIn';
-                        }
-                    } else {
-                        this.openLoginPopup(this.userForm);
-                    }
-                }, (reason) => {
-                    console.log('failed', reason);
-                });
+        this.userManagement.checkAuth().then((authData) => {
+            if (authData !== null) {
+                console.log(authData);
+                this.userId = authData.uid;
+                this.userForm.brand = authData.brand;
+                this.userForm.email = authData.email;
+                this.accountStatus = 'loggedIn';
             } else {
                 this.openLoginPopup(this.userForm);
             }
@@ -94,52 +68,57 @@ class UserLoginDirectiveController {
     }
 
     logIn(user) {
+        user.email = user.email.toLowerCase();
         this.userManagement.logIn(user.email, user.password).then((userId, message) => {
             this.message = message;
             this.userId = userId;
             this.accountStatus = 'loggedIn';
             this.closePopup();
-        }, (reason) => {
-            console.log('Failed: ' + reason);
+        }, (error) => {
+            this.message = error.message;
+
         });
     }
 
-    activateUser(user) {
-        this.userManagement.authenticate(user.email, user.oldPassword).then((authData, message) => {
-            this.userManagement.changePassword(user.email, user.oldPassword, user.newPassword).then((data, message, error) => {
-                this.message = message;
-                this.userManagement.setVerificationStatus(authData.uid, user.email, user.brand, 'verified').then(() => {
-                    this.accountStatus = 'verified';
-                }, (reason) => {
-                    console.log('Failed: ' + reason);
-                })
-                this.closePopup();
-            }, (reason) => {
-                console.log('Failed: ' + reason);
-            });
-        }, (reason) => {
-            console.log('Failed: ' + reason);
-        });
-    }
+    // activateUser(user) {
+    //     user.email = user.email.toLowerCase();
+    //     console.log(user.email);
+    //     this.userManagement.authenticate(user.email, user.oldPassword).then((authData, message) => {
+    //         this.userManagement.changePassword(user.email, user.oldPassword, user.newPassword).then((data, message, error) => {
+    //             this.message = message;
+    //             this.userManagement.setVerificationStatus(authData.uid, user.email, user.brand, 'verified').then(() => {
+    //                 this.accountStatus = 'verified';
+    //             }, (reason) => {
+    //                 console.log('Failed: ' + reason);
+    //             })
+    //             this.closePopup();
+    //         }, (reason) => {
+    //             console.log('Failed: ' + reason);
+    //         });
+    //     }, (reason) => {
+    //         console.log('Failed: ' + reason);
+    //     });
+    // }
 
-    forgotPassword(user) {
-        this.userManagement.resetPassword(user.email).then((response, message) => {
-            this.message = message;
-            if (response === 'success') {
-                this.userManagement.getUserIdFromEmail(user.email).then((userId) => {
-                    this.userManagement.setVerificationStatus(userId, 'lostPassword').then(() => {
-                        this.accountStatus = 'lostPassword';
-                    }, (reason) => {
-                        console.log('setVerificationStatus failed: ' + reason);
-                    });
-                }, (reason) => {
-                    console.log('getUserIdFromEmail failed: ' + reason);
-                });
-            }
-        }, (reason) => {
-            console.log('resetPassword failed: ' + reason);
-        });
-    }
+    // forgotPassword(user) {
+    //     user.email = user.email.toLowerCase();
+    //     this.userManagement.resetPassword(user.email).then((response, message) => {
+    //         this.message = message;
+    //         if (response === 'success') {
+    //             this.userManagement.getUserIdFromEmail(user.email).then((userId) => {
+    //                 this.userManagement.setVerificationStatus(userId, 'lostPassword').then(() => {
+    //                     this.accountStatus = 'lostPassword';
+    //                 }, (reason) => {
+    //                     console.log('setVerificationStatus failed: ' + reason);
+    //                 });
+    //             }, (reason) => {
+    //                 console.log('getUserIdFromEmail failed: ' + reason);
+    //             });
+    //         }
+    //     }, (reason) => {
+    //         console.log('resetPassword failed: ' + reason);
+    //     });
+    // }
 
 
     logOut() {
@@ -154,19 +133,21 @@ class UserLoginDirectiveController {
     }
 
     createUser(user) {
+        console.log('creating User:', user);
+        user.email = user.email.toLowerCase();
 
         this.userManagement.checkDomain(user.email).then((domain) => {
-            this.userManagement.createUser(user.email).then((userData, message) => {
-
-                this.message = message;
-                this.userManagement.setVerificationStatus(userData.uid, user.email, user.brand, 'pendingVerification').then(() => {
-                    this.userManagement.resetPassword(user.email).then((response, message) => {
-                        this.message = message;
-                        if (response === 'success') {
-                            this.userId = userData.uid;
-                            this.accountStatus = 'pendingVerification';
-                        }
-                    });
+            this.userManagement.createUser(user.email, user.password).then((uid) => {
+                console.log('saving user to firebase:', user);
+                this.userManagement.saveToFirebase(uid, user.email, user.brand, '2').then(() => {
+                    this.logIn(user);
+                    // this.userManagement.resetPassword(user.email).then((response, message) => {
+                    //     this.message = message;
+                    //     if (response === 'success') {
+                    //         this.userId = userData.uid;
+                    //         this.accountStatus = 'verified';
+                    //     }
+                    // });
                 });
             });
         });
@@ -176,8 +157,7 @@ class UserLoginDirectiveController {
 
     changeBrand(newBrand) {
 
-        this.userManagement.setBrand(newBrand, this.userId).then(() => {
-        });
+        this.userManagement.setBrand(newBrand, this.userId).then(() => {});
     }
 
 
@@ -205,6 +185,7 @@ class UserLoginDirectiveController {
 
 
     checkIfExistingUser(email) {
+        email = email.toLowerCase();
         this.message = '';
         this.userManagement.checkDomain(email).then((domain) => {
             if (domain === 'vrt.be') {
@@ -215,13 +196,14 @@ class UserLoginDirectiveController {
                     this.accountStatus = 'existsTrue';
 
                     this.userManagement.checkAccountStatus(userId).then((obj, message) => {
+                        this.accountStatus = 'existsTrue';
 
-                        if (obj.verificationStatus === 'pendingVerification' || obj.verificationStatus === 'lostPassword') {
-                            this.accountStatus = obj.verificationStatus;
-                            this.openLoginPopup(this.userForm);
-                        } else {
-                            this.accountStatus = 'authenticated';
-                        }
+                        // if (obj.verificationStatus === 'pendingVerification' || obj.verificationStatus === 'lostPassword') {
+                        //     this.accountStatus = obj.verificationStatus;
+                        //     this.openLoginPopup(this.userForm);
+                        // } else {
+                        //     this.accountStatus = 'verified';
+                        // }
                     });
                 }, (reason) => {
                     console.log('Failed: ' + reason);

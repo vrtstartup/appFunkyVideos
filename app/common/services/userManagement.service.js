@@ -22,7 +22,7 @@ export default class UserManagemeService {
         this.firebaseAuth.$onAuthStateChanged((authData) => {
             //console.log(authData);
             if (authData !== null) {
-                deferred.resolve(authData.uid);
+                deferred.resolve(authData);
             } else {
                 deferred.reject('not authenticated');
             }
@@ -38,22 +38,23 @@ export default class UserManagemeService {
             deferred.resolve(authData.uid, message);
 
         }).catch((error) => {
+            console.log(error.code);
             switch (error.code) {
                 case "INVALID_EMAIL":
-                    message = 'Dit email adres is niet geregistreerd.';
-                    deferred.reject('', message);
+                    error.message = 'Dit email adres is niet geregistreerd.';
+                    deferred.reject(error);
                     break;
-                case "INVALID_PASSWORD":
-                    message = 'Het paswoord is niet correct.';
-                    deferred.reject('', message);
+                case "auth/wrong-password":
+                    error.message = 'Het paswoord is niet correct.';
+                    deferred.reject(error);
                     break;
                 case "INVALID_USER":
-                    message = 'Deze gebruiker is niet geregistreerd';
-                    deferred.reject('', message);
+                    error.message = 'Deze gebruiker is niet geregistreerd';
+                    deferred.reject(error);
                     break;
                 default:
-                    message = 'Error logging user in: ' + error;
-                    deferred.reject('', message);
+                    error.message = 'Error logging user in: ' + error;
+                    deferred.reject(error);
             }
         });
         return deferred.promise;
@@ -138,33 +139,29 @@ export default class UserManagemeService {
 
 
 
-    setVerificationStatus(userId, email, brand, status) {
-        console.log(userId, email, brand, status);
+    saveToFirebase(userId, email, brand, role) {
         const deferred = this.$q.defer();
-        this.ref.child('users/' + userId + 'verificationStatus').set(status);
-        if (email) {
+        console.log('TEMPLATER: saving to to Firebase', userId, email, brand, role);
+        if (userId, email, brand && role === "2") {
+            console.log('UserId, email, brand and role are their, so saving user to firebase.');
             this.ref.child('users/' + userId + '/email').set(email);
-        }
-
-        if (brand) {
             this.ref.child('users/' + userId + '/brand').set(brand);
+            this.ref.child('users/' + userId + '/role').set(role);
+            deferred.resolve();
         }
-        deferred.resolve();
         return deferred.promise;
     }
 
 
-    createUser(email) {
+    createUser(email, password) {
         const deferred = this.$q.defer();
         let message = '';
-        console.log(email);
-        this.firebaseAuth.$createUserWithEmailAndPassword(email, this._generatePassword()).then((userData) => {
 
-            message = 'User created';
-            console.log(userData);
-            deferred.resolve(userData, message);
+        this.firebaseAuth.$createUserWithEmailAndPassword(email, password).then((userData) => {
+            console.log("User " + userData.uid + " created successfully!");
+            deferred.resolve(userData.uid);
         }).catch((error) => {
-            console.log(error);
+            console.error("Error: ", error);
             deferred.reject(error);
         });
         return deferred.promise;
@@ -174,9 +171,9 @@ export default class UserManagemeService {
     checkAccountStatus(userId) {
         const deferred = this.$q.defer();
         let message = '';
-        console.log(userId);
+
         this.ref.child('users/' + userId).on("value", function(snapshot) {
-            console.log(snapshot.val());
+
             deferred.resolve(snapshot.val(), 'success');
         }, function(errorObject) {
             deferred.reject(errorObject.code);

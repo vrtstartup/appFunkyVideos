@@ -28,13 +28,19 @@
 
 @font-face {
   font-family: 'utopia';
-  src: url('./fonts/UtopiaStdBoldSubhIt.woff') format('woff'); /* Pretty Modern Browsers */
+  src: url('./fonts/utopia-subhead-bold-italic.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
 @font-face {
   font-family: 'proxima';
   src: url('./fonts/proxima-bold.ttf')  format('truetype'), /* Safari, Android, iOS */
   url('./fonts/proxima-bold.woff') format('woff'); /* Pretty Modern Browsers */
+}
+
+@font-face {
+  font-family: 'proxima-extrabold';
+  src: url('./fonts/proxima-extrabold.ttf')  format('truetype'), /* Safari, Android, iOS */
+  url('./fonts/proxima-extrabold.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
 @font-face {
