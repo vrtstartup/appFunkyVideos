@@ -130,6 +130,21 @@ export default class templaterService {
                     'style': 'StubruDefault'
 
                 }
+            }, {
+                meta: {
+                    'id': 'deredactieBackdrop',
+                    'brand': 'deredactie.be',
+                    'excludeBrand': '',
+                    'type': 'sub',
+                    'img': 'assets/videoTemplates/dr_defaultSub.png',
+                    'form': '/components/subtitles/template.subtitle.normalSub.form.html',
+                    'view': '/components/subtitles/template.subtitle.normalSub.view.html',
+                    'roles': ['0', '1']
+                },
+                clip: {
+                    'style': 'DeredactieBackdrop'
+
+                }
             },
         ];
 
@@ -597,11 +612,13 @@ export default class templaterService {
         if (subs) {
             let fileName = projectId + '.ass';
             let string = '';
+            // Should place the styles in the templates instead of here, and just loop over them.
             string = '[Script Info]\nTitle: Nieuwshub subtitles\nScriptType: v4.00\nCollisions: Normal\n\n';
             string = string + '[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n';
             string = string + 'Style: Default,arial,24,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,5,5,30,1\n';
+            string = string + 'Style: DeredactieBackdrop,arial,24,&H00FFFFFF,&H00FFFFFF,&H64000000,&H64000000,0,0,0,0,100,100,0,0,3,1,0,2,10,10,30,1\n';
+            string = string + 'Style: DeredactieMarkering,arial,24,&H00FFFFFF,&H000000FF,&H0023D846,&H003E301D,0,0,0,0,100,100,0,0,3,2,0,2,10,10,10,1\n';
             string = string + 'Style: StubruDefault,helvetica,16,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,0.6,0,2,5,5,21,1\n';
-            string = string + 'Style: Test,arial,100,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,5,5,30,1\n\n';
             string = string + '[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
             angular.forEach(subs, (line) => {
                 if (line.text !== undefined) {
@@ -609,7 +626,7 @@ export default class templaterService {
                     if (text.indexOf('\n') > -1) {
                         text = text.replace(/\n/g, '\\N');
                     }
-                    string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',' + this.clipTemplates[line.template].clip.style + ',,0,0,0,,{\fad(250,250),\move(100,150,300,350,0,250)}' + text + '\n';
+                    string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',' + this.clipTemplates[line.template].clip.style + ',,0,0,0,,' + text + '\n';
                 }
             });
             let file = new Blob([string], {
