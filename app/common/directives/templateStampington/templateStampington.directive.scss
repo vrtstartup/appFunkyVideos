@@ -20,6 +20,15 @@
     pointer-events: none;
 }
 
+.rio__logo {
+    &.logo-drd {
+        display: block;
+        height: 44px;
+        left: 20px;
+        top: 20px;
+    }
+}
+
 .rio__quote {
     color: white;
     height: 100%;
