@@ -46,6 +46,7 @@
     "nodemailer": "2.3.0",
     "nodemon": "1.9.0",
     "path": "0.12.7",
+    "promise": "^7.1.1",
     "q": "1.4.1",
     "shortid": "2.2.6",
     "videogular": "1.4.1",
