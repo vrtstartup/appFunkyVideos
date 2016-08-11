@@ -38,8 +38,14 @@ export default class AdminController {
         this.usersRef = this.ref.child('users');
         let usersQuery = this.usersRef.orderByChild('email');
         this.users = this.$firebaseArray(usersQuery);
-
         this.orderUsers = 'email';
+
+
+
+        this.feedbackRef = this.ref.child('feedback');
+        let feedbackQuery = this.feedbackRef.limitToLast(20);
+        this.feedback = this.$firebaseArray(feedbackQuery);
+
     }
 
 

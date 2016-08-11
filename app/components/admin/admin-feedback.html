@@ -1,0 +1,10 @@
+<section class="admin-feedback">
+    <md-list class="md-dense" flex>
+        <md-list-item ng-repeat="f in vm.feedback | reverse " class="md-3-line admin-feedback" id="id-{{f.$id}}">
+            <div class="md-list-item-text" layout="column">
+                <h3>{{f.text}}</h3>
+                <h4>{{f.name}}</h4>
+                <p>{{f.page}} - {{f.screenHeight}} x {{f.screenWidth}} - {{f.userAgent}}</p>
+            </div>
+        </md-list-item>
+</section>
