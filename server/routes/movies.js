@@ -12,6 +12,8 @@ var dropboxService = require('../services/dropboxService.js');
 var dbClient = dropboxService.getDropboxClient();
 var logger = require('../middleware/logger');
 var emailService = require('../services/emailService.js');
+var Promise = require('promise');
+
 
 // var firebase = require('firebase');
 // var firebaseService = require('../services/firebaseService.js');
@@ -46,111 +48,70 @@ function deleteLocalFile(path) {
     });
 }
 
+
+
+
 function sendResultToDropbox(video, videoName, ass, email) {
+    logger.info('sending to Dropbox');
+    var dbPath = '/subtitled/' + videoName + '.mp4';
     fs.readFile(video, function(err, data) {
         if (!dbClient) {
-            console.log('No dbClient');
+            logger.crit('No dbClient');
         } else {
-            dbClient.writeFile('subtitled/' + videoName, data, function(error, stat) {
-                console.log('stat', stat);
-                if (error) {
-                    console.log('ERROR:', error);
-                    return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-                    sendNotification(email, 'error', '');
-                }
-                var fileUrl = 'subtitled/' + videoName;
-                dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
-                    sendNotification(email, 'finished', data.url);
-                    // deleteLocalFile(video);
-                    // deleteLocalFile(ass);
+            logger.info('writing to dropbox');
+            dbClient.filesUpload({ path: dbPath, contents: data })
+                .then(function(response) {
+                    logger.info('Uploaded the file, let\s get the share url.');
+                    dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
+                        tempUrl = response.link;
+                        sendNotification(email, 'finished', tempUrl);
+                        deleteLocalFile(video);
+                        deleteLocalFile(ass);
+                    });
+                })
+                .catch(function(err) {
+                    console.log(err);
+                    return next(Boom.badImplementation('Something went wrong uploading to dropbox.'));
                 });
-            });
+
+
+
+            // dbClient.writeFile('subtitled/' + videoName, data, function(error, stat) {
+            //     logger.info('stat', stat);
+            //     if (error) {
+            //         logger.crit('ERROR:', error);
+            //         return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+            //         sendNotification(email, 'error', '');
+            //     }
+            //     var fileUrl = 'subtitled/' + videoName;
+            //     logger.info('getting url from dropbox');
+            //     dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
+            //         if (error) {
+            //             logger.info('error getting url from dropbox');
+            //             return next(Boom.badImplementation('unexpected error, couldn\'t upload get url from dropbox'));
+            //         }
+
+            //         logger.info('got url from dropbox', data.url);
+
+            //         sendNotification(email, 'finished', data.url);
+            //         // deleteLocalFile(video);
+            //         // deleteLocalFile(ass);
+            //     });
+            // });
         }
     });
 }
 
 
 
-// function uploadToDropbox(file) {
-//     console.log(file);
-
-//     fs.readFile(file.path, function(err, data) {
-//         logger.info('Found a file, so let\'s read it out with fileStream.');
-//         // imageUrl = '';
-//         fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
-//         logger.info('changed the original filename, by deleting difficult characters. Filename is now: ' + fileName);
-//         if (!dbClient) {
-//             logger.crit('Dropbox Client is missing or not correctly implemented.');
-//             return next(Boom.badImplementation('Dropbox Client is missing or not correctly implemented.'));
-//         } else {
-//             logger.info('Dropbox Client is there, let\'s write the file.');
-//             // Should this not be fileName, in stead of originalFileName?
-//             dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
-//                 if (error) {
-//                     logger.crit('couldn\'t upload file to dropbox', error);
-//                     return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-//                 }
-//                 logger.info('status after upload, as returned by dropboxclient', stat);
-//                 // Should this not be fileName, in stead of originalFileName?
-//                 var fileUrl = 'in/' + file.originalFilename;
-//                 logger.info('the file is now located in the dropbox app. Location is: ' + fileUrl);
-//                 logger.info('Fetching the permanent url at Dropbox, so we can save the url to the Firebase.');
-//                 dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
-//                     if (error) {
-//                         logger.crit('Wasn\'t able to fetch the url of the uploaded file. Returned error: ', error);
-//                         return next(Boom.badImplementation('unexpected error, couldn\'t get file url from dropbox'));
-//                     }
-//                     logger.info('Fetched url for the file on dropbox, returned data: ', data);
-//                     imageUrl = data.url;
-//                     logger.info('the url for the file: ', imageUrl);
-//                     logger.info('Trying to get the metadata of the file, using ffprobe.');
-//                     ffmpeg.ffprobe(imageUrl, function(err, metadata) {
-//                         if (err) {
-//                             logger.crit('Tried to probe the file, but returned error:', err);
-//                             return next(Boom.badImplementation('unexpected error, tried to probe the file, but returned error.'));
-//                         }
-//                         logger.info('ffprobe worked, checking if metadata is available.');
-//                         if (metadata) {
-//                             logger.info('Metadata is available. Metadata: ', metadata);
-//                             logger.info('Looping through metadata, checking if codec_type = video');
-//                             for (i = 0; i < metadata.streams.length; i++) {
-//                                 logger.info('Checking stream ' + i + ' for metadata.');
-//                                 if (metadata.streams[i].codec_type === 'video') {
-//                                     logger.info('Found a stream with codec Video. Stream ' + i);
-//                                     logger.info('Checking stream ' + i + ' for width and height.');
-//                                     var width = metadata.streams[i].width;
-//                                     logger.info('video width', width);
-//                                     var height = metadata.streams[i].height;
-//                                     logger.info('video height', height);
-//                                     res.json({
-//                                         image: imageUrl,
-//                                         width: width,
-//                                         height: height,
-//                                         filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-//                                         filenameIn: file.originalFilename
-//                                     }).send();
-//                                 }
-//                             }
-//                         } else {
-//                             logger.info('There is no stream with a videocodec, so the file is not a video.');
-//                             res.json({
-//                                 image: imageUrl,
-//                                 filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-//                                 filenameIn: file.originalFilename
-//                             }).send();
-//                         }
-//                     });
-//                 });
-//             });
-//         }
-//     });
-// }
-
 router.post('/upload-to-dropbox', function(req, res, next) {
     logger.info('received call to upload to dropbox');
     var fileName = '';
     var file = {};
     var count = 0;
+    var dbPath = '';
+    var response = {};
+    var tempUrl = '';
     var form = new multiparty.Form();
     // Add errors and so on (https://github.com/andrewrk/node-multiparty)
 
@@ -165,6 +126,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
         // NOTE: if you want to ignore it, just call "part.resume()"
 
         if (!part.filename) {
+
             // filename is not defined when this is a field and not a file
             console.log('got field named ' + part.name);
             // ignore field's content
@@ -186,7 +148,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
     // Close emitted after form parsed
     form.on('close', function() {
-        console.log('Upload completed!');
+        console.log('Take in completed!');
         // res.setHeader('video/mp4');
         // res.end('Received ' + count + ' files');
     });
@@ -195,195 +157,89 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
     form.parse(req, function(err, fields, files) {
         Object.keys(fields).forEach(function(name) {
-            console.log('got field named ' + name);
+            logger.info('got field named ' + name);
         });
 
         Object.keys(files).forEach(function(name) {
-            // uploadToDropbox(files[name][0]);
             file = files[name][0];
+            fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
+            dbPath = '/in/' + fileName + '.mp4';
 
             fs.readFile(file.path, function(err, data) {
-                logger.info('Found a file, so let\'s read it out with fileStream.');
-                // imageUrl = '';
-                fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
-                logger.info('changed the original filename, by deleting difficult characters. Filename is now: ' + fileName);
-                if (!dbClient) {
-                    logger.crit('Dropbox Client is missing or not correctly implemented.');
-                    return next(Boom.badImplementation('Dropbox Client is missing or not correctly implemented.'));
-                } else {
-                    logger.info('Dropbox Client is there, let\'s write the file.');
-                    // Should this not be fileName, in stead of originalFileName?
-                    dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
-                        if (error) {
-                            logger.crit('couldn\'t upload file to dropbox', error);
-                            return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-                        }
-                        logger.info('status after upload, as returned by dropboxclient', stat);
-                        // Should this not be fileName, in stead of originalFileName?
-                        var fileUrl = 'in/' + file.originalFilename;
-                        logger.info('the file is now located in the dropbox app. Location is: ' + fileUrl);
-                        logger.info('Fetching the permanent url at Dropbox, so we can save the url to the Firebase.');
-                        dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
-                            if (error) {
-                                logger.crit('Wasn\'t able to fetch the url of the uploaded file. Returned error: ', error);
-                                return next(Boom.badImplementation('unexpected error, couldn\'t get file url from dropbox'));
-                            }
-                            logger.info('Fetched url for the file on dropbox, returned data: ', data);
-                            imageUrl = data.url;
-                            logger.info('the url for the file: ', imageUrl);
-                            logger.info('Trying to get the metadata of the file, using ffprobe.');
-                            ffmpeg.ffprobe(imageUrl, function(err, metadata) {
-                                if (err) {
-                                    logger.crit('Tried to probe the file, but returned error:', err);
-                                    return next(Boom.badImplementation('unexpected error, tried to probe the file, but returned error.'));
-                                }
-                                logger.info('ffprobe worked, checking if metadata is available.');
-                                if (metadata) {
-                                    logger.info('Metadata is available. Metadata: ', metadata);
-                                    logger.info('Looping through metadata, checking if codec_type = video');
-                                    for (i = 0; i < metadata.streams.length; i++) {
-                                        logger.info('Checking stream ' + i + ' for metadata.');
-                                        if (metadata.streams[i].codec_type === 'video') {
-                                            logger.info('Found a stream with codec Video. Stream ' + i);
-                                            logger.info('Checking stream ' + i + ' for width and height.');
-                                            var width = metadata.streams[i].width;
-                                            logger.info('video width', width);
-                                            var height = metadata.streams[i].height;
-                                            logger.info('video height', height);
-                                            res.json({
-                                                image: imageUrl,
-                                                width: width,
-                                                height: height,
-                                                filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-                                                filenameIn: file.originalFilename
-                                            }).send();
-                                        }
-                                    }
-                                } else {
-                                    logger.info('There is no stream with a videocodec, so the file is not a video.');
+
+
+                console.log('Start upload to Dropbox.');
+
+                dbClient.filesUpload({ path: dbPath, contents: data })
+                    .then(function(response) {
+                        logger.info('Uploaded the file, let\s get the share url.');
+
+
+                        dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
+
+                            tempUrl = response.link;
+                            dbClient.filesAlphaGetMetadata({ path: dbPath, include_media_info: true })
+                                .then(function(response) {
+                                    console.log(response);
+                                    height = response.media_info.metadata.dimensions.height;
+                                    width = response.media_info.metadata.dimensions.width;
+                                    duration = response.media_info.metadata.duration;
+
+                                    console.log('got everything, let\'s send this back for saving.');
+
+                                    // Why do we still need filenameOut and filenameIn?
+
                                     res.json({
-                                        image: imageUrl,
-                                        filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-                                        filenameIn: file.originalFilename
+                                        image: tempUrl,
+                                        width: width,
+                                        height: height,
+                                        duration: duration,
+                                        fileName: fileName,
+                                        filenameOut: fileName,
+                                        filenameIn: fileName
                                     }).send();
-                                }
-                            });
+                                })
+                                .catch(function(err) {
+                                    console.log(err);
+                                    return next(Boom.badImplementation('Something went wrong uploading to dropbox.'));
+                                });
                         });
+
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                        // logger.crit(err);
+                        return next(Boom.badImplementation('Something went wrong uploading to dropbox.'));
                     });
-                }
             });
-
-
-            console.log('got file named ' + name);
         });
-
-        console.log('Upload completed!');
-
-
-        // res.end('Received ' + files.length + ' files');
     });
-
-
-    //if form contains file, open fileStream to get binary file
-    // Parts are emitted when parsing the form
-
-
-    // form.on('file', function(name, file) {
-    //     logger.info('Found a file, so lets read it out with fileStream.');
-    //     fs.readFile(file.path, function(err, data) {
-    //         logger.info('Found a file, so let\'s read it out with fileStream.');
-    //         // imageUrl = '';
-    //         fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
-    //         logger.info('changed the original filename, by deleting difficult characters. Filename is now: ' + fileName);
-    //         if (!dbClient) {
-    //             logger.crit('Dropbox Client is missing or not correctly implemented.');
-    //             return next(Boom.badImplementation('Dropbox Client is missing or not correctly implemented.'));
-    //         } else {
-    //             logger.crit('Dropbox Client is there, let\'s write the file.');
-    //             // Should this not be fileName, in stead of originalFileName?
-    //             dbClient.writeFile('in/' + file.originalFilename, data, function(error, stat) {
-    //                 if (error) {
-    //                     logger.crit('couldn\'t upload file to dropbox', error);
-    //                     return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-    //                 }
-    //                 logger.info('status after upload, as returned by dropboxclient', stat);
-    //                 // Should this not be fileName, in stead of originalFileName?
-    //                 var fileUrl = 'in/' + file.originalFilename;
-    //                 logger.info('the file is now located in the dropbox app. Location is: ' + fileUrl);
-    //                 logger.info('Fetching the permanent url at Dropbox, so we can save the url to the Firebase.');
-    //                 dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
-    //                     if (error) {
-    //                         logger.crit('Wasn\'t able to fetch the url of the uploaded file. Returned error: ', error);
-    //                         return next(Boom.badImplementation('unexpected error, couldn\'t get file url from dropbox'));
-    //                     }
-    //                     logger.info('Fetched url for the file on dropbox, returned data: ', data);
-    //                     imageUrl = data.url;
-    //                     logger.info('the url for the file: ', imageUrl);
-    //                     logger.info('Trying to get the metadata of the file, using ffprobe.');
-    //                     ffmpeg.ffprobe(imageUrl, function(err, metadata) {
-    //                         if (err) {
-    //                             logger.crit('Tried to probe the file, but returned error:', err);
-    //                             return next(Boom.badImplementation('unexpected error, tried to probe the file, but returned error.'));
-    //                         }
-    //                         logger.info('ffprobe worked, checking if metadata is available.');
-    //                         if (metadata) {
-    //                             logger.info('Metadata is available. Metadata: ', metadata);
-    //                             logger.info('Looping through metadata, checking if codec_type = video');
-    //                             for (i = 0; i < metadata.streams.length; i++) {
-    //                                 logger.info('Checking stream ' + i + ' for metadata.');
-    //                                 if (metadata.streams[i].codec_type === 'video') {
-    //                                     logger.info('Found a stream with codec Video. Stream ' + i);
-    //                                     logger.info('Checking stream ' + i + ' for width and height.');
-    //                                     var width = metadata.streams[i].width;
-    //                                     logger.info('video width', width);
-    //                                     var height = metadata.streams[i].height;
-    //                                     logger.info('video height', height);
-    //                                     res.json({
-    //                                         image: imageUrl,
-    //                                         width: width,
-    //                                         height: height,
-    //                                         filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-    //                                         filenameIn: file.originalFilename
-    //                                     }).send();
-    //                                 }
-    //                             }
-    //                         } else {
-    //                             logger.info('There is no stream with a videocodec, so the file is not a video.');
-    //                             res.json({
-    //                                 image: imageUrl,
-    //                                 filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-    //                                 filenameIn: file.originalFilename
-    //                             }).send();
-    //                         }
-    //                     });
-    //                 });
-    //             });
-    //         }
-    //     });
-    // });
 });
 
 router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
     const path = "temp/subtitleVideos/";
     var file = req.files.file;
-
     var url = file.path;
     console.log('url', url);
     var email = req.body.email;
+    var filename = '';
+    var dbPath = '';
     console.log('email', email);
     console.log('filepath', file.path);
     var name = (file.path).replace("temp/subtitleVideos/", '');
     console.log('changed name', name);
+
 
     if (file.type === 'ass') {
         console.log('file type = ass');
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
         fs.renameSync(path + name, srtPath);
-        var filename = 'gen' + videoPath;
+        filename = 'gen' + videoPath;
 
         // burn subtitles
         url = path + videoPath;
+        dbPath = '/subs/' + req.body.fileName;
 
         // Upload it to dropbox, for backup, and if needed for templater
         fs.readFile(url, function(err, data) {
@@ -391,17 +247,17 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
                 console.log('No dbClient');
             } else {
                 console.log('uploading to dropbox');
-                dbClient.writeFile('subs/' + req.body.fileName, data, function(error, stat) {
-                    if (error) {
-                        console.log('ERROR:', error);
+                dbClient.filesUpload({ path: dbPath, contents: data })
+                    .then(function(response) {
+                        dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
+                            tempUrl = response.link;
+                            res.json({ url: url, name: videoPath, dropboxUrl: tempUrl }).send();
+                        });
+                    })
+                    .catch(function(err) {
+                        console.log(err);
                         return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-                    }
-                    var fileUrl = 'subs/' + req.body.fileName;
-                    dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
-                        dropboxUrl = data.url;
-                        res.json({ url: url, name: videoPath, dropboxUrl: dropboxUrl }).send();
                     });
-                });
             }
         });
     } else {
@@ -410,8 +266,12 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
     }
 });
 
+
+
 router.post('/burnSubs', function(req, res) {
-    console.log('starting burning of subs');
+
+
+    logger.info('starting burning of subs');
     const path = "temp/subtitleVideos/";
 
     var ass = req.body.ass;
@@ -433,7 +293,7 @@ router.post('/burnSubs', function(req, res) {
     var ffmpegCommand = '';
     var complexFilter = [];
 
-    console.log('the bumper:', bumper, 'the logo:', logo);
+    logger.info('the bumper:', bumper, 'the logo:', logo);
     if (bumper !== false && logo !== false) {
 
         ffmpegCommand = ffmpeg()
@@ -471,7 +331,6 @@ router.post('/burnSubs', function(req, res) {
         .input('color=c=black').inputOptions('-f lavfi');
 
         complexFilter = [
-            // 'color=black:' + width + 'x' + height + ':d=' + duration + '[blackVideo]',
             '[0:v]setpts=PTS-STARTPTS[theMovie]',
             '[1:v]scale=' + width + ':-1[bumperRescaled]',
             '[2:v]scale=' + width + 'x' + height + ',trim=duration=' + duration + '[blackVideo]',
@@ -500,7 +359,6 @@ router.post('/burnSubs', function(req, res) {
             }
         ];
     } else if (bumper === false && logo === false) {
-        console.log('no logo, no bumper');
         ffmpegCommand = ffmpeg()
             .input(movie);
     }
@@ -522,86 +380,93 @@ router.post('/burnSubs', function(req, res) {
 
     var db = firebase.database();
 
-    // run the command, do something when finished and print the
     ffmpegCommand.complexFilter(complexFilter, 'out')
         .outputOptions('-strict -2')
         .output(tempVideo)
         .on('start', function(commandLine) {
+            logger.info('start running command');
             db.ref('/apps/subtitles/' + project + '/logs').update({
                 status: 'Ondertitels aan het inbranden',
                 ffmpegLine: commandLine
             }).catch(function(error) {
-                console.log('Failed to save to log', error);
+                logger.crit('Failed to save to log', error);
 
             });
         })
         .on('error', function(err) {
+            logger.crit('error running ffmpeg command');
             res.send(err.toString('utf8'));
             db.ref('/apps/subtitles/' + project + '/logs').update({
                 status: 'Er is een fout opgetreden',
                 error: err.toString('utf8')
             }).catch(function(error) {
-                console.log('Failed to save to log', error);
+                logger.crit('Failed to save to log', error);
             });
-
-
         })
         .on('progress', function(progress) {
+            logger.info('progress: ' + progress.percent);
             if (progress.percent) {
                 db.ref('/apps/subtitles/' + project + '/logs').update({
                     progress: progress.percent,
                 }).catch(function(error) {
-                    console.log('Failed to save to log', error);
+                    logger.crit('Failed to save to log', error);
                     return next(Boom.badImplementation('Opslaan van de log is mislukt'));
                 });
             }
         })
         .on('end', function() {
+            logger.info('finished ffmpeg command');
             db.ref('/apps/subtitles/' + project + '/logs').update({
                 status: 'Klaar met ondertitels inbranden.',
             }).catch(function(error) {
-                console.log('Failed to save to log', error);
+                logger.crit('Failed to save to log', error);
                 return next(Boom.badImplementation('Opslaan van de log is mislukt'));
             });
             sendResultToDropbox(tempVideo, videoName, ass, email);
             res.send('ended');
         })
         .run();
-
-
 });
+
 
 
 router.post('/update-movie-json', function(req, res, next) {
     var movieClips = req.body.movieClips;
+    var data = [];
+    var dbPath = '/json/templater.json';
 
-    //update dropbox json
-    var file = {
-        path: '/json/',
-        name: 'templater.json',
-        data: ''
-    };
     //update JSON file on dropbox so AE templater get's triggered
-    dbClient.readFile(file.path + file.name, function(error, data) {
-        if (error) {
-            return next(Boom.badImplementation('unexpected error, couldn\'t read file from dropbox'));
-        }
-
-
-        file.data = data ? JSON.parse(data) : [];
-
-        movieClips.forEach(function(clip) {
-            file.data.push(clip);
-        });
-
-        dbClient.writeFile(file.path + file.name, JSON.stringify(file.data), function(error, stat) {
-            if (error) {
-                return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+    dbClient.filesDownload({ path: dbPath })
+        .then(function(response) {
+            data = response.fileBinary;
+            data = response.fileBinary ? JSON.parse(response.fileBinary) : [];
+            // delete clips that have already been done
+            for (var i = data.length - 1; i >= 0; i--) {
+                if (data[i]['render-status'] == 'done') {
+                    data.splice(i, 1);
+                }
             }
+            // add the new clips to the array
+            movieClips.forEach(function(clip) {
+                data.push(clip);
+            });
 
-            res.send();
+            // overwrite the json with the new one
+            data = JSON.stringify(data),
+                dbClient.filesUpload({ contents: data, path: dbPath, mode: 'overwrite' })
+                .then(function(response) {
+                    console.log('Upload of JSON is done');
+                    res.send();
+                })
+                .catch(function(err) {
+                    console.log(err);
+                    return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+                });
+        })
+        .catch(function(err) {
+            console.log(err);
+            return next(Boom.badImplementation('Something went wrong downloading the json for the templater from dropbox.'));
         });
-    });
 });
 
 module.exports = router;
