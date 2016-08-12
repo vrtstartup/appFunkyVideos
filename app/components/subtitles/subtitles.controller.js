@@ -157,10 +157,8 @@ export default class SubtitlesController {
     // Initiate Firebase
     initFirebase(app, brand, number) {
         this.ref = firebase.database().ref().child(app);
-        this.logsRef = firebase.database().ref('logs');
         this.query = this.ref.orderByChild('meta/brand').equalTo(brand).limitToLast(number);
         this.projects = this.$firebaseArray(this.query);
-        this.logs = this.$firebaseArray(this.logsRef);
         this.projects.$loaded()
             .then((x) => {
                 this.projectsLoaded = true;

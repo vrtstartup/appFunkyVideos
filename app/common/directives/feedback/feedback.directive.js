@@ -2,7 +2,7 @@ import template from './feedback.directive.html';
 import './feedback.directive.scss';
 
 class FeedbackDirectiveController {
-    constructor($scope, $log, $element, $mdSidenav, $http, toast, $window, $location, firebaseDB, $firebaseAuth) {
+    constructor($scope, $log, $element, $mdSidenav, $http, toast, $window, $location, $firebaseAuth, $firebaseArray, firebaseDB) {
         this.$log = $log;
         this.$element = $element;
         this.$scope = $scope;
@@ -15,23 +15,36 @@ class FeedbackDirectiveController {
         this.firebaseDB = firebaseDB;
         this.firebaseDB.initialize();
         this.firebaseAuth = $firebaseAuth();
+        this.$firebaseArray = $firebaseArray;
 
 
         this.toggleRight = this.buildToggler('right');
+
+
 
         this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
                 console.log(authData);
 
                 this.feedback.name = authData.email;
+                this.initFirebase();
             }
         });
 
         this.isOpenRight = function() {
             return this.$mdSidenav('right').isOpen();
         };
+
+
+
+
     }
 
+
+    initFirebase() {
+        this.ref = firebase.database().ref().child('feedback');
+        this.feedbacks = this.$firebaseArray(this.ref);
+    }
 
     debounce(func, wait, context) {
         var timer;
@@ -66,29 +79,24 @@ class FeedbackDirectiveController {
         };
     }
 
-    sendToZapier() {
-        if (!this.feedback) {
+    sendToFirebase() {
+        if (!this.feedback.text) {
             this.toast.showToast('error', 'please fill in the required fields');
             return;
         }
 
-        this.$http({
-            method: 'GET',
-            url: 'https://zapier.com/hooks/catch/2lf12p/',
-            params: {
-                'page': this.$location.$$path,
-                'screenHeight': this.$window.innerHeight,
-                'screenWidth': this.$window.innerWidth,
-                'userAgent': window.navigator.userAgent,
-                'name': this.feedback.name ? this.feedback.name : '',
-                'text': this.feedback.name ? this.feedback.text : '',
-            }
-        }).then(() => {
-            this.toast.showToast('success', 'Feedback is verstuurd');
-            this.resetForm();
-        }, (response) => {
-            this.toast.showToast('error', response);
+        this.feedback.page = this.$location.$$path;
+        this.feedback.screenHeight = this.$window.innerHeight;
+        this.feedback.screenWidth = this.$window.innerWidth;
+        this.feedback.userAgent = window.navigator.userAgent;
+
+        this.feedbacks.$add(this.feedback).then((ref) => {
+            console.log('added');
+
+            this.toggleRight();
+
         });
+
     }
 
     resetForm() {
@@ -113,4 +121,4 @@ export const feedbackDirective = function() {
     };
 };
 
-FeedbackDirectiveController.$inject = ['$scope', '$log', '$element', '$mdSidenav', '$http', 'toast', '$window', '$location', 'firebaseDB', '$firebaseAuth'];
+FeedbackDirectiveController.$inject = ['$scope', '$log', '$element', '$mdSidenav', '$http', 'toast', '$window', '$location', '$firebaseAuth', '$firebaseArray', 'firebaseDB'];
