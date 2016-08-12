@@ -36,14 +36,14 @@ function sendNotification(email, status, url) {
 
 function deleteLocalFile(path) {
     fs.stat(path, function(err, stats) {
-        console.log(stats); //here we got all information of file in stats variable
+        logger.info(stats); //here we got all information of file in stats variable
         if (err) {
             return console.error(err);
         }
 
         fs.unlink(path, function(err) {
-            if (err) return console.log(err);
-            console.log('file deleted successfully');
+            if (err) return logger.info(err);
+            logger.info('file deleted successfully');
         });
     });
 }
@@ -65,39 +65,14 @@ function sendResultToDropbox(video, videoName, ass, email) {
                     dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
                         tempUrl = response.link;
                         sendNotification(email, 'finished', tempUrl);
-                        deleteLocalFile(video);
-                        deleteLocalFile(ass);
+                        // deleteLocalFile(video);
+                        // deleteLocalFile(ass);
                     });
                 })
                 .catch(function(err) {
-                    console.log(err);
+                    logger.info(err);
                     return next(Boom.badImplementation('Something went wrong uploading to dropbox.'));
                 });
-
-
-
-            // dbClient.writeFile('subtitled/' + videoName, data, function(error, stat) {
-            //     logger.info('stat', stat);
-            //     if (error) {
-            //         logger.crit('ERROR:', error);
-            //         return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-            //         sendNotification(email, 'error', '');
-            //     }
-            //     var fileUrl = 'subtitled/' + videoName;
-            //     logger.info('getting url from dropbox');
-            //     dbClient.makeUrl(fileUrl, { downloadHack: true }, function(error, data) {
-            //         if (error) {
-            //             logger.info('error getting url from dropbox');
-            //             return next(Boom.badImplementation('unexpected error, couldn\'t upload get url from dropbox'));
-            //         }
-
-            //         logger.info('got url from dropbox', data.url);
-
-            //         sendNotification(email, 'finished', data.url);
-            //         // deleteLocalFile(video);
-            //         // deleteLocalFile(ass);
-            //     });
-            // });
         }
     });
 }
@@ -112,12 +87,13 @@ router.post('/upload-to-dropbox', function(req, res, next) {
     var dbPath = '';
     var response = {};
     var tempUrl = '';
-    var form = new multiparty.Form();
+    var tempPath = '';
+    var form = new multiparty.Form({autoFiles: true, uploadDir: 'temp/subtitleVideos'});
     // Add errors and so on (https://github.com/andrewrk/node-multiparty)
 
 
     form.on('error', function(err) {
-        console.log('Error parsing form: ' + err.stack);
+        logger.crit('Error parsing form: ' + err.stack);
     });
 
     // Parts are emitted when parsing the form
@@ -128,7 +104,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
         if (!part.filename) {
 
             // filename is not defined when this is a field and not a file
-            console.log('got field named ' + part.name);
+            logger.info('got field named ' + part.name);
             // ignore field's content
             part.resume();
         }
@@ -136,19 +112,22 @@ router.post('/upload-to-dropbox', function(req, res, next) {
         if (part.filename) {
             // filename is defined when this is a file
             count++;
-            console.log('got file named ' + part.name);
+            logger.info('got file named ' + part.name);
             // ignore file's content here
             part.resume();
         }
 
         part.on('error', function(err) {
+            logger.crit('Error on part: ' + err);
             // decide what to do
         });
     });
 
     // Close emitted after form parsed
     form.on('close', function() {
-        console.log('Take in completed!');
+        logger.info('Take in completed!');
+
+
         // res.setHeader('video/mp4');
         // res.end('Received ' + count + ' files');
     });
@@ -164,11 +143,11 @@ router.post('/upload-to-dropbox', function(req, res, next) {
             file = files[name][0];
             fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
             dbPath = '/in/' + fileName + '.mp4';
-
+            logger.info('the path where the file is now: ', file.path);
+            logger.info('File should go to Dropbox at:', dbPath);
             fs.readFile(file.path, function(err, data) {
 
-
-                console.log('Start upload to Dropbox.');
+                logger.info('Start upload to Dropbox.');
 
                 dbClient.filesUpload({ path: dbPath, contents: data })
                     .then(function(response) {
@@ -180,12 +159,12 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                             tempUrl = response.link;
                             dbClient.filesAlphaGetMetadata({ path: dbPath, include_media_info: true })
                                 .then(function(response) {
-                                    console.log(response);
+                                    logger.info(response);
                                     height = response.media_info.metadata.dimensions.height;
                                     width = response.media_info.metadata.dimensions.width;
                                     duration = response.media_info.metadata.duration;
 
-                                    console.log('got everything, let\'s send this back for saving.');
+                                    logger.info('got everything, let\'s send this back for saving.');
 
                                     // Why do we still need filenameOut and filenameIn?
 
@@ -200,14 +179,14 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                     }).send();
                                 })
                                 .catch(function(err) {
-                                    console.log(err);
+                                    logger.info(err);
                                     return next(Boom.badImplementation('Something went wrong uploading to dropbox.'));
                                 });
                         });
 
                     })
                     .catch(function(err) {
-                        console.log(err);
+                        logger.info(err);
                         // logger.crit(err);
                         return next(Boom.badImplementation('Something went wrong uploading to dropbox.'));
                     });
@@ -217,36 +196,35 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 });
 
 router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
-    const path = "temp/subtitleVideos/";
+    var path = "temp/subtitleVideos/";
     var file = req.files.file;
     var url = file.path;
-    console.log('url', url);
+    logger.info('url', url);
     var email = req.body.email;
     var filename = '';
     var dbPath = '';
-    console.log('email', email);
-    console.log('filepath', file.path);
+    logger.info('email', email);
+    logger.info('filepath', file.path);
     var name = (file.path).replace("temp/subtitleVideos/", '');
-    console.log('changed name', name);
+    logger.info('changed name', name);
 
 
     if (file.type === 'ass') {
-        console.log('file type = ass');
+        logger.info('file type = ass');
         const srtPath = path + req.body.fileName;
         const videoPath = (req.body.fileName).replace('.srt', '.mp4');
         fs.renameSync(path + name, srtPath);
         filename = 'gen' + videoPath;
 
-        // burn subtitles
         url = path + videoPath;
         dbPath = '/subs/' + req.body.fileName;
 
         // Upload it to dropbox, for backup, and if needed for templater
         fs.readFile(url, function(err, data) {
             if (!dbClient) {
-                console.log('No dbClient');
+                logger.info('No dbClient');
             } else {
-                console.log('uploading to dropbox');
+                logger.info('uploading to dropbox');
                 dbClient.filesUpload({ path: dbPath, contents: data })
                     .then(function(response) {
                         dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
@@ -255,13 +233,13 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
                         });
                     })
                     .catch(function(err) {
-                        console.log(err);
+                        logger.info(err);
                         return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
                     });
             }
         });
     } else {
-        console.log('file type is not ass');
+        logger.info('file type is not ass');
         res.json({ url: url, name: videoPath, subtitled: false }).send();
     }
 });
@@ -455,16 +433,16 @@ router.post('/update-movie-json', function(req, res, next) {
             data = JSON.stringify(data),
                 dbClient.filesUpload({ contents: data, path: dbPath, mode: 'overwrite' })
                 .then(function(response) {
-                    console.log('Upload of JSON is done');
+                    logger.info('Upload of JSON is done');
                     res.send();
                 })
                 .catch(function(err) {
-                    console.log(err);
+                    logger.info(err);
                     return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
                 });
         })
         .catch(function(err) {
-            console.log(err);
+            logger.info(err);
             return next(Boom.badImplementation('Something went wrong downloading the json for the templater from dropbox.'));
         });
 });
