@@ -362,6 +362,7 @@ router.post('/burnSubs', function(req, res) {
         .outputOptions('-strict -2')
         .output(tempVideo)
         .on('start', function(commandLine) {
+            res.send('started');
             logger.info('start running command');
             db.ref('/apps/subtitles/' + project + '/logs').update({
                 status: 'Ondertitels aan het inbranden',
@@ -401,7 +402,7 @@ router.post('/burnSubs', function(req, res) {
                 return next(Boom.badImplementation('Opslaan van de log is mislukt'));
             });
             sendResultToDropbox(tempVideo, videoName, ass, email);
-            res.send('ended');
+
         })
         .run();
 });
