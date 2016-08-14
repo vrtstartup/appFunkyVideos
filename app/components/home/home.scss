@@ -1,138 +1,50 @@
 @import "../../common/style/variables";
-
-.home-container {
-  margin: 15px auto;
+.home {
+    &-list {
+        &__item {
+            &:nth-child(2n+1) {
+                background-color: transparentize($vrt-tool, .9);
+            }
+            &--guide {
+                background-color: #FEFD3A !important;
+            }
+        }
+    }
+    &-footer {
+        margin-bottom: 2rem;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        & > p {
+            width: 100%;
+            text-align: center;
+        }
+    }
 }
 
-.filter-container {
-  margin: 15px auto 0;
+.home-heart-container {
+    margin: 0 auto;
+    // transform: translate(46%, 60px);
 }
 
-.md-button.tool {
-  background-color: $vrt-tool;
+#heart svg {
+    width: .7rem;
+    height: .7rem;
+    fill: red;
+    position: relative;
+    top: .05rem;
+    margin-right: .1rem;
+    -webkit-animation: pulse ease-in-out 3s infinite;
 }
 
-.md-button.md-raised.tool:hover {
-  background-color: lighten($vrt-tool, 15%);
-}
-
-.md-button.guide {
-  background-color: $vrt-guide;
-}
-
-.md-button.md-raised.guide:hover {
-  background-color: lighten($vrt-guide, 15%);
-}
-
-.md-button.tool.active, .md-button.guide.active {
-  color: #fff;
-}
-
-.md-button.learnings {
-  background-color: $vrt-learnings;
-}
-
-.md-button.md-raised.learnings:hover {
-  background-color: lighten($vrt-learnings, 15%);
-}
-
-md-grid-list {
-  md-grid-tile {
-    transition: transform 250ms 200ms;
-    background-color: $drd-main-color;
-    overflow: hidden;
-
-    .grid-tile-content {
-      padding: 10px 10px;
-      height: 100%;
+@-webkit-keyframes pulse {
+    0% {
+        transform: scale(1, 1);
     }
-
-    .grid-tile-overlay {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transform: translateY(-5%);
-      transition: all 250ms 200ms;
-      padding: 15px;
+    50% {
+        transform: scale(1.5, 1.5);
     }
-
-    .grid-tile-overlay-disabled {
-      display: none;
-      background-color: rgba(0, 0, 0, 0.7);
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      padding-top: 1.6rem;
-
-      .material-icons {
-        font-size: 4em;
-        cursor: default;
-        padding: 25px;
-      }
+    100% {
+        transform: scale(1, 1);
     }
-
-    img {
-      width: 100px;
-      height: 100px;
-      border-radius: 100%;
-    }
-
-    figure {
-      padding: 25px 10px;
-      text-align: center;
-      color: white;
-    }
-  }
-
-  md-grid-tile.tool {
-    background-color: $vrt-tool;
-
-    .grid-tile-overlay {
-      background-color: rgba(lighten($vrt-tool, 15%), 0.9);
-    }
-  }
-
-  md-grid-tile.guide {
-    background-color: $vrt-guide;
-
-    .grid-tile-overlay {
-      background-color: rgba(lighten($vrt-guide, 15%), 0.9);
-    }
-  }
-
-  md-grid-tile.learnings {
-    background-color: $vrt-learnings;
-
-    .grid-tile-overlay {
-      background-color: rgba(lighten($vrt-learnings, 15%), 0.9);
-    }
-  }
-
-  md-grid-tile:hover {
-    transform: scale(1.02);
-
-    .grid-tile-overlay {
-      opacity: 1;
-      transform: translateY(0%);
-    }
-  }
-
-  md-grid-tile.disabled {
-    .grid-tile-overlay-disabled {
-      display: flex;
-    }
-  }
-
-  md-grid-tile.disabled:hover {
-    transform: scale(1);
-
-    .grid-tile-overlay {
-      display: none;
-    }
-  }
 }
