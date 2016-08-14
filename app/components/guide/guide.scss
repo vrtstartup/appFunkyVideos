@@ -1,0 +1,8 @@
+@import "../../common/style/variables";
+.guide {
+    &-iframe {
+        width: 100vw;
+        height: calc(100vh - 64px);
+    }
+}
+

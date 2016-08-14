@@ -12,9 +12,10 @@ import questions from './questions';
 import download from './download';
 import explainers from './explainers';
 import admin from './admin';
+import guide from './guide';
 
 const module = angular.module('app.components', [
-    home, subtitles, pictures, chart, templater, audio, grid, maps, movies, questions, download, explainers, admin
+    home, subtitles, pictures, chart, templater, audio, grid, maps, movies, questions, download, explainers, admin, guide
 ]);
 
 export default module.name;
