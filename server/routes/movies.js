@@ -88,7 +88,9 @@ router.post('/upload-to-dropbox', function(req, res, next) {
     var response = {};
     var tempUrl = '';
     var tempPath = '';
-    var form = new multiparty.Form({autoFiles: true, uploadDir: 'temp/subtitleVideos'});
+    var width = 0;
+    var height = 0;
+    var form = new multiparty.Form({ autoFiles: true, uploadDir: 'temp/subtitleVideos' });
     // Add errors and so on (https://github.com/andrewrk/node-multiparty)
 
 
@@ -160,23 +162,76 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                             dbClient.filesAlphaGetMetadata({ path: dbPath, include_media_info: true })
                                 .then(function(response) {
                                     logger.info(response);
-                                    height = response.media_info.metadata.dimensions.height;
-                                    width = response.media_info.metadata.dimensions.width;
-                                    duration = response.media_info.metadata.duration;
+                                    if (response.media_info.metadata.dimensions.height && response.media_info.metadata.dimensions.width) {
+                                        logger.info('Dropbox got the metadata of the file, and found the height and the width.');
+                                        height = response.media_info.metadata.dimensions.height;
+                                        width = response.media_info.metadata.dimensions.width;
 
-                                    logger.info('got everything, let\'s send this back for saving.');
-
+                                        logger.info('got everything, let\'s send this back for saving.');
                                     // Why do we still need filenameOut and filenameIn?
 
-                                    res.json({
-                                        image: tempUrl,
-                                        width: width,
-                                        height: height,
-                                        duration: duration,
-                                        fileName: fileName,
-                                        filenameOut: fileName,
-                                        filenameIn: fileName
-                                    }).send();
+
+
+                                        res.json({
+                                            image: tempUrl,
+                                            width: width,
+                                            height: height,
+                                            fileName: fileName,
+                                            filenameOut: fileName,
+                                            filenameIn: fileName
+                                        }).send();
+
+                                    } else {
+
+                                        logger.info('Dropbox didn\'t find the width and the height. Trying to get the metadata of the file, using ffprobe.');
+                                        ffmpeg.ffprobe(file.path, function(err, metadata) {
+                                            if (err) {
+                                                logger.crit('Tried to probe the file using ffprobe, but returned error:', err);
+                                                return next(Boom.badImplementation('unexpected error, tried to probe the file, but returned error.'));
+                                            }
+                                            logger.info('ffprobe worked, checking if metadata is available.');
+                                            if (metadata) {
+                                                logger.info('Metadata is available. Metadata: ', metadata);
+                                                logger.info('Looping through metadata, checking if codec_type = video');
+                                                for (i = 0; i < metadata.streams.length; i++) {
+                                                    logger.info('Checking stream ' + i + ' for metadata.');
+                                                    if (metadata.streams[i].codec_type === 'video') {
+                                                        logger.info('Found a stream with codec Video. Stream ' + i);
+                                                        logger.info('Checking stream ' + i + ' for width and height.');
+                                                        width = metadata.streams[i].width;
+                                                        logger.info('video width', width);
+                                                        height = metadata.streams[i].height;
+                                                        logger.info('video height', height);
+
+                                                        logger.info('got everything, let\'s send this back for saving.');
+                                    // Why do we still need filenameOut and filenameIn?
+
+
+                                                        res.json({
+                                                            image: tempUrl,
+                                                            width: width,
+                                                            height: height,
+                                                            fileName: fileName,
+                                                            filenameOut: fileName,
+                                                            filenameIn: fileName
+                                                        }).send();
+                                                    }
+                                                }
+                                            } else {
+                                                logger.info('There is no stream with a videocodec, so the file is not a video.');
+                                                res.json({
+                                                    image: imageUrl,
+                                                    filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
+                                                    filenameIn: file.originalFilename
+                                                }).send();
+                                            }
+                                        });
+
+
+                                    }
+
+
+
                                 })
                                 .catch(function(err) {
                                     logger.info(err);
