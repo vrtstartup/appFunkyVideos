@@ -1,59 +1,19 @@
-<div layout="row" layout-align="center start">
-    <div flex="85" class="filter-container">
-        <md-button class="md-button md-raised tool" ng-class="{'active' : vm.currentFilter === 'tool'}" ng-click="vm.filterTiles('tool')">Tools</md-button>
-        <md-button class="md-button md-raised guide" ng-class="{'active' : vm.currentFilter === 'guide'}" ng-click="vm.filterTiles('guide')">Handleidingen</md-button>
-        <md-button class="md-button md-raised learnings" ng-class="{'active' : vm.currentFilter === 'learnings'}" ng-click="vm.filterTiles('learnings')">Learnings</md-button>
-    </div>
-</div>
-<div layout="col" layout-align="center start" class="home-container">
-    <md-grid-list flex="85" md-cols-xs="3" md-cols-gt-sm="6" md-cols-gt-md="9" md-cols-lg="12" md-cols-gt-lg="12"
-                  md-row-height-gt-md="1:1" md-row-height="2:2"
-                  md-gutter="10px" md-gutter-gt-sm="20px">
-        <md-grid-tile ng-repeat="tile in vm.filteredTiles" md-rowspan="3" md-colspan="3" class="{{tile.type}}" ng-class="{'disabled': tile.disabled}">
-
-            <!--<md-grid-tile-header>-->
-                <!--{{tile.category}}-->
-            <!--</md-grid-tile-header>-->
-            <div class="grid-tile-overlay-disabled" layout="column" layout-align="start center">
-                <i class="material-icons">&#xE869;</i>
-                <h1>nog aan bezig</h1>
-                <!-- <div></div> -->
+<section>
+    <md-list class="md-dense home-list" flex>
+        <md-list-item ng-repeat="c in vm.components" class="md-2-line home-list__item home-list__item--{{c.type}}" ng-click="vm.goTo(c.url)">
+            <i class="material-icons md-avatar-icon">{{c.icon}}</i>
+            <div class="md-list-item-text" layout="column">
+                <h3>{{c.title}}</h3>
+                <p>{{c.sub}}</p>
             </div>
-
-            <div class="grid-tile-content" layout="column" layout-align="start center">
-                <img src="{{tile.image}}" ng-if="tile.image !== undefined" />
-                <h3>{{tile.title}}</h3>
-                <p>{{tile.sub}}</p>
-            </div>
-
-            <div class="grid-tile-overlay" layout="column" layout-align="center center">
-                <div layout="row" layout-align="center center" ng-if="tile.status !== undefined">
-                    <p>{{tile.status}}</p>
-                </div>
-                <div layout="row" layout-align="center center">
-                    <md-button class="md-fab" aria-label="aan de slag"
-                               ng-if="tile.url !== undefined" ng-href="{{tile.url}}">
-                        <md-tooltip>
-                            Aan de slag
-                        </md-tooltip>
-                        <md-icon md-svg-src="assets/ic_format_paint_white_24px.svg"></md-icon>
-                    </md-button>
-                    <md-button class="md-fab" aria-label="documentatie"
-                               ng-if="tile.docUrl !== undefined" ng-href="{{tile.docUrl}}" target="_blank">
-                        <md-tooltip>
-                            Documentatie
-                        </md-tooltip>
-                        <md-icon md-svg-src="assets/ic_chrome_reader_mode_white_24px.svg"></md-icon>
-                    </md-button>
-
-                    <!--<md-button class="md-button md-raised" ng-if="tile.url !== undefined" ng-href="{{tile.url}}">-->
-                        <!--<i class="material-icons">&#xE243;</i>-->
-                    <!--</md-button>-->
-                    <!--<md-button class="md-button md-raised" ng-if="tile.docUrl !== undefined" ng-href="{{tile.docUrl}}" target="_blank">-->
-                        <!--<i class="material-icons">&#xE86D;</i>-->
-                    <!--</md-button>-->
-                </div>
-            </div>
-        </md-grid-tile>
-    </md-grid-list>
-</div>
+        </md-list-item>
+</section>
+<section class="home-footer" layout="row" layout-align="center center">
+    <div>
+        <div class="home-heart-container" id="heart">
+            <svg id="heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32c-5.15-4.67-8.55-7.75-8.55-11.53 0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.45 1.31z" />
+            </svg>
+            van de nieuwshub
+        </div>
+</section>
