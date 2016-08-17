@@ -162,26 +162,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                             dbClient.filesAlphaGetMetadata({ path: dbPath, include_media_info: true })
                                 .then(function(response) {
                                     logger.info(response);
-                                    if (response.media_info.metadata.dimensions.height && response.media_info.metadata.dimensions.width) {
-                                        logger.info('Dropbox got the metadata of the file, and found the height and the width.');
-                                        height = response.media_info.metadata.dimensions.height;
-                                        width = response.media_info.metadata.dimensions.width;
-
-                                        logger.info('got everything, let\'s send this back for saving.');
-                                    // Why do we still need filenameOut and filenameIn?
-
-
-
-                                        res.json({
-                                            image: tempUrl,
-                                            width: width,
-                                            height: height,
-                                            fileName: fileName,
-                                            filenameOut: fileName,
-                                            filenameIn: fileName
-                                        }).send();
-
-                                    } else {
+                                   
 
                                         logger.info('Dropbox didn\'t find the width and the height. Trying to get the metadata of the file, using ffprobe.');
                                         ffmpeg.ffprobe(file.path, function(err, metadata) {
@@ -216,7 +197,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                                             filenameIn: fileName
                                                         }).send();
                                                     }
-                                                }
+                                                
                                             } else {
                                                 logger.info('There is no stream with a videocodec, so the file is not a video.');
                                                 res.json({
