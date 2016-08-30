@@ -1,8 +1,14 @@
 @import "../../style/variables";
 
+
+
 .header-bob {
+
+
+
+
   color: $white;
-  margin: 0 auto;
+  margin: 0 0;
   text-align: center;
   font-size: 70px;
   font-weight: 700;
@@ -10,4 +16,13 @@
   display: inline-block;
   white-space: pre-wrap;
   padding: 0 50px;
+
+  &_line {
+    height: 18px;
+    width: 117px;
+    background-color: $drd-main-color
+
+  }
 }
+
+

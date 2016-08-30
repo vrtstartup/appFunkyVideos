@@ -13,6 +13,7 @@ import ngFileUpload from 'ng-file-upload';
 import 'angular-hotkeys';
 import firebase from 'firebase';
 import angularfire from 'angularfire';
+import angularCSS from 'angular-css';
 
 
 
@@ -37,6 +38,7 @@ export default angular
         ngFileUpload,
         'cfp.hotkeys',
         'firebase',
+        angularCSS,
         // application
         components,
         common,
