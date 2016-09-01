@@ -7,7 +7,9 @@ export default class QuestionsController {
         this.questionInput = '';
         this.live = false;
         // The reference to the firebase
-        this.questionsAppRef = new Firebase('vrtnieuwshub.firebaseio.com/apps/questions');
+        this.ref = firebase.database().ref();
+        this.questionsAppRef = this.ref.child('apps/questions');
+
         this.getSessions();
 
     }
@@ -26,14 +28,14 @@ export default class QuestionsController {
     }
 
     addQuestion(question) {
-        question.timestamp = Firebase.ServerValue.TIMESTAMP;
+        question.timestamp = firebase.database.ServerValue.TIMESTAMP;
         this.questions.$add(question).then((ref) => {
             this.questionInput = '';
         });
     }
 
     addSession(session) {
-        session.timestamp = Firebase.ServerValue.TIMESTAMP;
+        session.timestamp = firebase.database.ServerValue.TIMESTAMP;
         this.sessions.$add(session).then((ref) => {
             this.getSession(ref.key);
             this.sessionInput = '';
