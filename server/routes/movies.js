@@ -204,6 +204,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                             tempUrlSmall = tempPath + '/' + fileName + '_small.mp4';
 
                             ffmpeg(file.path).size('320x?')
+                                .format('mp4')
                                 .output(tempUrlSmall)
                                 .on('start', function(commandLine) {
                                     logger.info('Started creating Low Res version.');
