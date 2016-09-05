@@ -54,7 +54,7 @@ function uploadHiRes(filePath, dbPath) {
     // Upload the hi res version
     fs.readFile(filePath, function(err, data) {
         logger.info('Start upload to Dropbox.');
-        dbClient.filesUpload({ path: dbPath, contents: data })
+        dbClient.filesUpload({ path: dbPath, contents: data, mode: 'overwrite' })
             .then(function(response) {})
             .catch(function(err) {
                 logger.info(err);
@@ -170,6 +170,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
             file = files[name][0];
             console.log(file);
             fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
+
             dbPath = '/in/' + fileName + '.mp4';
             dbPathSmall = '/in/' + fileName + '_small.mp4';
             logger.info('the path where the file is now: ', file.path);
@@ -201,80 +202,63 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                             logger.info('got everything, let\'s send this back for saving.');
 
 
-
                             tempUrlSmall = tempPath + '/' + fileName + '_small.mp4';
+
                             ffmpeg(file.path).size('320x?')
+                                .outputOptions('-strict -2')
+                                .audioCodec('copy')
+                                .format('mp4')
                                 .output(tempUrlSmall)
                                 .on('start', function(commandLine) {
-
+                                    logger.info('Started creating Low Res version.');
                                 })
-                                .on('error', function(err) {
+                                .on('error', function(err, stdout, stderr) {
+                                    logger.crit('Error creating low res version.', err);
+                                    logger.crit('ffmpeg stdout:\n' + stdout);
+                                    logger.crit('ffmpeg stderr:\n' + stderr);
 
                                 })
                                 .on('progress', function(progress) {
-
+                                    logger.info('creating low res version', progress);
                                 })
                                 .on('end', function() {
                                     logger.info('finished ffmpeg command');
-
+                                    logger.info('reading file from temp location', tempUrlSmall)
                                     fs.readFile(tempUrlSmall, function(err, data) {
+                                        var smallFile = data;
+
+                                        if (err) {
+                                            logger.crit('error while reading low res file', err);
+                                        } else {
+                                            logger.info('starting upload low res version', dbPathSmall);
 
 
-                                        dbClient.filesUpload({ path: dbPathSmall, contents: data })
-                                            .then(function(response) {
 
-                                                logger.info('done uploading the small file', response);
-                                                logger.info('Get the temp link of the small file');
-                                                dbClient.filesGetTemporaryLink({ path: dbPathSmall }).then(function(response) {
-                                                    logger.info('got temporary url', response);
-                                                    res.json({
-                                                        image: response.link,
-                                                        dbPath: dbPath,
-                                                        width: width,
-                                                        height: height,
-                                                        fileName: fileName,
-                                                        filenameOut: fileName,
-                                                        filenameIn: fileName
-                                                    }).send();
+                                            dbClient.filesUpload({ path: dbPathSmall, contents: smallFile, mode: 'overwrite' })
+                                                .then(function(response) {
+
+                                                    logger.info('done uploading the small file', response);
+                                                    logger.info('Get the temp link of the small file');
+                                                    dbClient.filesGetTemporaryLink({ path: dbPathSmall })
+                                                        .then(function(response) {
+                                                            logger.info('got temporary url', response);
+                                                                                                                        
+                                                            res.json({ image: response.link, dbPath: dbPath, width: width, height: height, fileName: fileName, filenameOut: fileName, filenameIn: fileName })
+                                                                .send();
+                                                        });
+                                                })
+                                                .catch(function(err) {
+                                                    logger.crit('something went wrong uploading the low res file');
+
                                                 });
-
-
-
-                                            });
+                                        }
                                     });
-
                                 })
                                 .run();
-
-
-
-
-
-
                         }
                     }
-                } else {
-                    logger.info('There is no stream with a videocodec, so the file is not a video.');
-                    res.json({
-                        image: imageUrl,
-                        filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-                        filenameIn: file.originalFilename
-                    }).send();
                 }
             });
-
-
-
-
-
-
-
-
-
-
-
-
-
         });
     });
 });
