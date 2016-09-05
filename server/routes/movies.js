@@ -205,14 +205,13 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
                             ffmpeg(file.path).size('320x?')
                                 .outputOptions('-strict -2')
-                                .videoCodec('copy')
                                 .audioCodec('copy')
                                 .format('mp4')
                                 .output(tempUrlSmall)
                                 .on('start', function(commandLine) {
                                     logger.info('Started creating Low Res version.');
                                 })
-                                .on('error', function(err) {
+                                .on('error', function(err, stdout, stderr) {
                                     logger.crit('Error creating low res version.', err);
                                     logger.crit('ffmpeg stdout:\n' + stdout);
                                     logger.crit('ffmpeg stderr:\n' + stderr);
