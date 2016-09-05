@@ -204,6 +204,9 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                             tempUrlSmall = tempPath + '/' + fileName + '_small.mp4';
 
                             ffmpeg(file.path).size('320x?')
+                                .outputOptions('-strict -2')
+                                .videoCodec('copy')
+                                .audioCodec('copy')
                                 .format('mp4')
                                 .output(tempUrlSmall)
                                 .on('start', function(commandLine) {
@@ -211,6 +214,8 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                 })
                                 .on('error', function(err) {
                                     logger.crit('Error creating low res version.', err);
+                                    logger.crit('ffmpeg stdout:\n' + stdout);
+                                    logger.crit('ffmpeg stderr:\n' + stderr);
 
                                 })
                                 .on('progress', function(progress) {
