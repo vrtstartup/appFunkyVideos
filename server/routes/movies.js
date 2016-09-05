@@ -177,6 +177,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
             logger.info('File should go to Dropbox at:', dbPath);
 
             // Upload hi res version
+            uploadHiRes(file.path, dbPath);
 
             // Probe file for width and height
             ffmpeg.ffprobe(file.path, function(err, metadata) {
@@ -241,7 +242,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                                     dbClient.filesGetTemporaryLink({ path: dbPathSmall })
                                                         .then(function(response) {
                                                             logger.info('got temporary url', response);
-
+                                                                                                                        
                                                             res.json({ image: response.link, dbPath: dbPath, width: width, height: height, fileName: fileName, filenameOut: fileName, filenameIn: fileName })
                                                                 .send();
                                                         });
