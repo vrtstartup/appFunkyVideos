@@ -54,7 +54,7 @@ function uploadHiRes(filePath, dbPath) {
     // Upload the hi res version
     fs.readFile(filePath, function(err, data) {
         logger.info('Start upload to Dropbox.');
-        dbClient.filesUpload({ path: dbPath, contents: data })
+        dbClient.filesUpload({ path: dbPath, contents: data, mode: 'overwrite' })
             .then(function(response) {})
             .catch(function(err) {
                 logger.info(err);
@@ -170,13 +170,13 @@ router.post('/upload-to-dropbox', function(req, res, next) {
             file = files[name][0];
             console.log(file);
             fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
+
             dbPath = '/in/' + fileName + '.mp4';
             dbPathSmall = '/in/' + fileName + '_small.mp4';
             logger.info('the path where the file is now: ', file.path);
             logger.info('File should go to Dropbox at:', dbPath);
 
             // Upload hi res version
-            uploadHiRes(file.path, dbPath);
 
             // Probe file for width and height
             ffmpeg.ffprobe(file.path, function(err, metadata) {
@@ -222,28 +222,35 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                 })
                                 .on('end', function() {
                                     logger.info('finished ffmpeg command');
-
+                                    logger.info('reading file from temp location', tempUrlSmall)
                                     fs.readFile(tempUrlSmall, function(err, data) {
-                                        logger.info('starting upload low res version');
+                                        var smallFile = data;
 
-                                        dbClient.filesUpload({ path: dbPathSmall, contents: data })
-                                            .then(function(response) {
+                                        if (err) {
+                                            logger.crit('error while reading low res file', err);
+                                        } else {
+                                            logger.info('starting upload low res version', dbPathSmall);
 
-                                                logger.info('done uploading the small file', response);
-                                                logger.info('Get the temp link of the small file');
-                                                dbClient.filesGetTemporaryLink({ path: dbPathSmall }).then(function(response) {
-                                                    logger.info('got temporary url', response);
-                                                    res.json({
-                                                        image: response.link,
-                                                        dbPath: dbPath,
-                                                        width: width,
-                                                        height: height,
-                                                        fileName: fileName,
-                                                        filenameOut: fileName,
-                                                        filenameIn: fileName,
-                                                    }).send();
+
+
+                                            dbClient.filesUpload({ path: dbPathSmall, contents: smallFile, mode: 'overwrite' })
+                                                .then(function(response) {
+
+                                                    logger.info('done uploading the small file', response);
+                                                    logger.info('Get the temp link of the small file');
+                                                    dbClient.filesGetTemporaryLink({ path: dbPathSmall })
+                                                        .then(function(response) {
+                                                            logger.info('got temporary url', response);
+
+                                                            res.json({ image: response.link, dbPath: dbPath, width: width, height: height, fileName: fileName, filenameOut: fileName, filenameIn: fileName })
+                                                                .send();
+                                                        });
+                                                })
+                                                .catch(function(err) {
+                                                    logger.crit('something went wrong uploading the low res file');
+
                                                 });
-                                            });
+                                        }
                                     });
                                 })
                                 .run();
