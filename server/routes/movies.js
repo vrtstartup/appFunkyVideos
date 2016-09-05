@@ -201,8 +201,8 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                             logger.info('got everything, let\'s send this back for saving.');
 
 
-
                             tempUrlSmall = tempPath + '/' + fileName + '_small.mp4';
+
                             ffmpeg(file.path).size('320x?')
                                 .output(tempUrlSmall)
                                 .on('start', function(commandLine) {
@@ -234,47 +234,18 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                                         height: height,
                                                         fileName: fileName,
                                                         filenameOut: fileName,
-                                                        filenameIn: fileName
+                                                        filenameIn: fileName,
                                                     }).send();
                                                 });
-
-
-
                                             });
                                     });
-
                                 })
                                 .run();
-
-
-
-
-
-
+                            break;
                         }
                     }
-                } else {
-                    logger.info('There is no stream with a videocodec, so the file is not a video.');
-                    // res.json({
-                    //     image: imageUrl,
-                    //     filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-                    //     filenameIn: file.originalFilename
-                    // }).send();
                 }
             });
-
-
-
-
-
-
-
-
-
-
-
-
-
         });
     });
 });
