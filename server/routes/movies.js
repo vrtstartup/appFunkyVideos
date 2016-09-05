@@ -206,19 +206,20 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                             ffmpeg(file.path).size('320x?')
                                 .output(tempUrlSmall)
                                 .on('start', function(commandLine) {
-
+                                    logger.info('Started creating Low Res version.');
                                 })
                                 .on('error', function(err) {
+                                    logger.crit('Error creating low res version.', err);
 
                                 })
                                 .on('progress', function(progress) {
-
+                                    logger.info('creating low res version', progress);
                                 })
                                 .on('end', function() {
                                     logger.info('finished ffmpeg command');
 
                                     fs.readFile(tempUrlSmall, function(err, data) {
-
+                                        logger.info('starting upload low res version');
 
                                         dbClient.filesUpload({ path: dbPathSmall, contents: data })
                                             .then(function(response) {
@@ -241,7 +242,6 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                     });
                                 })
                                 .run();
-                            break;
                         }
                     }
                 }
