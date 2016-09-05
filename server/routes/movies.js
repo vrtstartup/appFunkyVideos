@@ -255,11 +255,11 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                     }
                 } else {
                     logger.info('There is no stream with a videocodec, so the file is not a video.');
-                    res.json({
-                        image: imageUrl,
-                        filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
-                        filenameIn: file.originalFilename
-                    }).send();
+                    // res.json({
+                    //     image: imageUrl,
+                    //     filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
+                    //     filenameIn: file.originalFilename
+                    // }).send();
                 }
             });
 
