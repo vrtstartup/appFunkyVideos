@@ -1,17 +1,45 @@
 <md-content class="grid-container">
+
+<canvas id="line" chart-options="vm.options" class="chart chart-bar" chart-data="vm.data" chart-labels="vm.labels" chart-series="vm.series">
+</canvas>
+    <section flex="100" flex-gt-md="100" flex-md="100" layout-padding>
+        <div ng-if="vm.showTotals">
+            <div layout-padding>Overzicht van hard nieuws op maandbasis:</div>
+            <div ng-repeat="(key, val) in vm.overviewHard" layout-padding layout="column">
+                <div>{{val.month}} {{val.year}}</div>
+                <div layout="row">
+                    <div flex="20">Hard: {{val.hard}} van {{val.total}} ({{val.hard/val.total*100 | number:0}}%)</div>
+                    <md-progress-linear md-mode="determinate" value="{{val.hard/val.total*100}}"></md-progress-linear>
+                </div>
+                <div layout="row">
+                    <div flex="20">Sport: {{val.sport}} van {{val.total}} ({{val.hard/val.total*100 | number:0}}%)</div>
+                    <md-progress-linear md-mode="determinate" value="{{val.sport/val.total*100}}"></md-progress-linear>
+                </div>
+                <div>Breaking dagen:
+                    <div ng-show="!val.breaking">Geen</div>
+                    <div ng-repeat="b in val.breaking">{{b}}</div>
+                </div>
+            </div>
+        </div>
+    </section>
     <div layout-gt-md="row" layout="column" layout-sm="column">
+
         <section flex-gt-md="50" flex-md="55" class="grid-posts" layout-padding>
             <div layout="row" layout-align="start center" class="grid-datepicker" layout-padding>
+
                 <span>Datum: </span>
                 <md-datepicker ng-model="vm.minDate" md-placeholder="Enter date" ng-change="vm.dateChanged(vm.minDate, vm.maxDate, this.range)"></md-datepicker>
-            </div>
-         <!--    <div layout="row" layout-align="start center" class="grid-datepicker" layout-padding>
+                <span flex></span>
                 <md-switch ng-model="vm.range" aria-label="Range">
-                    Periode
-                </md-switch>
 
+                </md-switch>
                 <md-datepicker ng-model="vm.maxDate" md-placeholder="Enter date" ng-change="vm.dateChanged(vm.minDate, vm.maxDate)" ng-disabled="!vm.range"></md-datepicker>
-            </div> -->
+
+                <span flex></span>
+                <md-button class="md-raised md-primary" ng-click="vm.getMonthlyValues()" ng-if="!vm.showTotals">Per maand</md-button>
+                <md-button class="md-raised" ng-click="vm.showTotals = false" ng-if="vm.showTotals">Per maand</md-button>
+
+            </div>
             <div>
                 <div class="grid-form" layout-padding layout-gt-xs="row" layout="column">
                     <md-input-container flex="40">
@@ -20,7 +48,7 @@
                     </md-input-container>
                     <md-input-container class="md-block" flex="30">
                         <label>Inhoud</label>
-                        <md-select ng-model="vm.post.category"  aria-label="category option">
+                        <md-select ng-model="vm.post.category" aria-label="category option">
                             <md-option ng-repeat="c in vm.categories" value="{{c.name}}">{{c.descr}}</md-option>
                         </md-select>
                     </md-input-container>
@@ -33,6 +61,13 @@
                     <md-input-container>
                         <i style="padding-top:8px;" ng-click="vm.addPost(vm.post)" class="material-icons grid-iconbutton">&#xE145;</i>
                     </md-input-container>
+                </div>
+                <div class="grid-form" layout-padding layout-gt-xs="row" layout="column">
+                    <div ng-repeat="d in vm.days" layout-padding layout="row">
+                        <md-checkbox ng-model="d.breaking" ng-change="vm.days.$save(d)" aria-label="Breaking News">
+                            Breaking nieuwsdag
+                        </md-checkbox>
+                    </div>
                 </div>
             </div>
             <div class="grid-list">
@@ -58,14 +93,14 @@
         </section>
         <section flex-gt-md="50" flex-md="45" layout-gt-sm="column">
             <!-- <h1>Totaal aantal posts: {{vm.total.day}}</h1> -->
-            <div layout="row" >
+            <div layout="row">
                 <span flex="20"></span>
                 <h1>Inhoud</h1>
             </div>
             <div ng-repeat="c in vm.categories" class="bars-category" layout="row">
                 <div flex="20" class="bars-category-description" layout-padding>{{c.descr}}</div>
                 <div flex="80" class="bars-category-chart">
-                    <vrt-grid-bar total-day="vm.totalDay" total-bar="c.max" value="c.value"></vrt-grid-bar>
+                    <vrt-grid-bar total-day="(vm.totalDay*vm.numberOfDays)" total-bar="(c.max*vm.numberOfDays)" value="c.value"></vrt-grid-bar>
                 </div>
             </div>
             <div layout="row">
@@ -75,7 +110,7 @@
             <div ng-repeat="t in vm.types" class="bars-type" layout="row">
                 <div flex="20" class="bars-category-description" layout-padding>{{t.descr}}</div>
                 <div flex="80" class="bars-category-chart">
-                    <vrt-grid-bar total-day="vm.totalDay" total-bar="t.max" value="t.value"></vrt-grid-bar>
+                    <vrt-grid-bar total-day="(vm.totalDay*vm.numberOfDays)" total-bar="(t.max*vm.numberOfDays)" value="t.value"></vrt-grid-bar>
                 </div>
             </div>
         </section>
