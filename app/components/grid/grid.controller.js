@@ -79,7 +79,7 @@ export default class GridController {
         this.types = [{
             'name': 'traditioneel',
             'descr': 'Traditionele link',
-            'max': 8,
+            'max': 9,
             'value': 0
         }, {
             'name': 'fotoreeks',
@@ -340,7 +340,7 @@ export default class GridController {
                                     if (i === days.length - 1) {
                                         console.log('last');
                                         console.log(counts);
-                                         this.overview = counts;
+                                        this.overview = counts;
 
                                         let label = '';
                                         counts.forEach((a) => {
@@ -393,7 +393,7 @@ export default class GridController {
 
                                         });
 
-                                       
+
 
 
                                         // Add it to the chartjs
