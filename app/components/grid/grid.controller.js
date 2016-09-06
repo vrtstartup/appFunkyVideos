@@ -79,7 +79,7 @@ export default class GridController {
         this.types = [{
             'name': 'traditioneel',
             'descr': 'Traditionele link',
-            'max': 6,
+            'max': 8,
             'value': 0
         }, {
             'name': 'fotoreeks',
@@ -89,17 +89,17 @@ export default class GridController {
         }, {
             'name': 'nativevideo',
             'descr': 'Native video',
-            'max': 6,
+            'max': 7,
             'value': 0
         }, {
             'name': 'socialtemplate',
             'descr': 'Social templates',
-            'max': 6,
+            'max': 8,
             'value': 0
         }, {
             'name': 'share',
             'descr': 'Share',
-            'max': 3,
+            'max': 4,
             'value': 0
         }, {
             'name': 'poll',
