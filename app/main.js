@@ -13,8 +13,7 @@ import ngFileUpload from 'ng-file-upload';
 import 'angular-hotkeys';
 import firebase from 'firebase';
 import angularfire from 'angularfire';
-
-
+import chartjs from 'angular-chart.js';
 
 import components from './components';
 import common from './common';
@@ -37,6 +36,7 @@ export default angular
         ngFileUpload,
         'cfp.hotkeys',
         'firebase',
+        chartjs,
         // application
         components,
         common,
