@@ -18,20 +18,13 @@
     /* Pretty Modern Browsers */
 }
 
-
-
 @font-face {
-	font-family: 'din-cndbold';
-	src: url('./fonts/DINComp-CondBold.eot');
-	src: url('./fonts/DINComp-CondBold.eot?#iefix') format('embedded-opentype'),
-		url('./fonts/DINComp-CondBold.woff2') format('woff2'),
-		url('./fonts/DINComp-CondBold.woff') format('woff'),
-		url('./fonts/DINComp-CondBold.ttf') format('truetype'),
-		url('./fonts/DINComp-CondBold.svg#DINComp-CondBold') format('svg');
-	font-weight: bold;
-	font-style: normal;
+    font-family: 'din-cndbold';
+    src: url('./fonts/DINComp-CondBold.eot');
+    src: url('./fonts/DINComp-CondBold.eot?#iefix') format('embedded-opentype'), url('./fonts/DINComp-CondBold.woff2') format('woff2'), url('./fonts/DINComp-CondBold.woff') format('woff'), url('./fonts/DINComp-CondBold.ttf') format('truetype'), url('./fonts/DINComp-CondBold.svg#DINComp-CondBold') format('svg');
+    font-weight: bold;
+    font-style: normal;
 }
-
 
 @font-face {
     font-family: 'din-black';
@@ -44,6 +37,38 @@
     font-family: 'din-cndit';
     src: url('./fonts/din-cndit.ttf') format('truetype');
     /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'Gotham-Light';
+    src: url('./fonts/Gotham-Light.eot');
+    src: url('./fonts/Gotham-Light.eot?#iefix') format('embedded-opentype'), url('./fonts/Gotham-Light.woff2') format('woff2'), url('./fonts/Gotham-Light.woff') format('woff'), url('./fonts/Gotham-Light.ttf') format('truetype'), url('./fonts/Gotham-Light.svg#Gotham-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gotham-Book';
+    src: url('./fonts/Gotham-Book.eot');
+    src: url('./fonts/Gotham-Book.eot?#iefix') format('embedded-opentype'), url('./fonts/Gotham-Book.woff2') format('woff2'), url('./fonts/Gotham-Book.woff') format('woff'), url('./fonts/Gotham-Book.ttf') format('truetype'), url('./fonts/Gotham-Book.svg#Gotham-Book') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gotham-Medium';
+    src: url('./fonts/Gotham-Medium.eot');
+    src: url('./fonts/Gotham-Medium.eot?#iefix') format('embedded-opentype'), url('./fonts/Gotham-Medium.woff2') format('woff2'), url('./fonts/Gotham-Medium.woff') format('woff'), url('./fonts/Gotham-Medium.ttf') format('truetype'), url('./fonts/Gotham-Medium.svg#Gotham-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gotham-Bolk';
+    src: url('./fonts/Gotham-Bold.eot');
+    src: url('./fonts/Gotham-Bold.eot?#iefix') format('embedded-opentype'), url('./fonts/Gotham-Bold.woff2') format('woff2'), url('./fonts/Gotham-Bold.woff') format('woff'), url('./fonts/Gotham-Bold.ttf') format('truetype'), url('./fonts/Gotham-Bold.svg#Gotham-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
 }
 
 @font-face {

@@ -18,6 +18,7 @@ class UserLoginDirectiveController {
         this.userForm = {};
 
 
+
         this.brands = [{
             'name': 'deredactie.be',
             'logo': 'assets/logos/deredactie.png'
@@ -48,6 +49,9 @@ class UserLoginDirectiveController {
         }, {
             'name': 'een',
             'logo': 'assets/logos/een.png'
+        }, {
+            'name': 'de zevende dag',
+            'logo': 'assets/logos/dezevendedag.png'
         }];
 
         this.userManagement.checkAuth().then((authData) => {

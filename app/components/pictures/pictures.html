@@ -152,6 +152,17 @@
                         <img src="./../assets/templates/r2_hb.png" alt="" width="100%">
                     </md-list-item>
                 </md-content>
+
+                <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'de zevende dag'">
+                    <div class="md-toolbar-tools" ng-init="vm.showTempltes7d = true" ng-click="vm.getScheme('7d')">
+                        De zevende dag <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltes7d}">&#xE313;</i>
+                    </div>
+                </md-toolbar>
+                <md-content ng-if="vm.showTempltes7d && vm.userBrand == 'de zevende dag'">
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('zdd01', '7d')">
+                        <img src="./../assets/templates/zdd01.png" alt="" width="100%">
+                    </md-list-item>
+                </md-content>
             </md-list>
         </md-content>
     </section>
@@ -178,6 +189,8 @@
                 <ng-include src="'components/pictures/pictures.drd.02.html'"></ng-include>
                 <ng-include src="'components/pictures/pictures.drd.03.html'"></ng-include>
                 <ng-include src="'components/pictures/pictures.drd.04.html'"></ng-include>
+
+                <ng-include src="'components/pictures/pictures.zdd.01.html'"></ng-include>
 
                 <ng-include src="'components/pictures/picture.explosion.html'"></ng-include>
 

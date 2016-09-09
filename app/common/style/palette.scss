@@ -232,6 +232,13 @@ sans-serif;
 $drd-font-black: "din-black",
 sans-serif;
 $drd-padding: 30px;
+// $zdd-font-family:
+$zdd-font-color: #575756;
+$zdd-padding: 30px;
+$zdd-light: "Gotham-Light";
+$zdd-medium: "Gotham-Medium";
+$zdd-bold: "Gotham-Bold";
+$zdd-book: "Gotham-Book";
 .pictures {
     &-drd {
         &__logo {
@@ -353,13 +360,48 @@ $drd-padding: 30px;
             font-family: $drd-font-black;
             bottom: $drd-padding;
             background-color: $drd-main-color;
-            > span {}
             &--breaking {
                 background-color: #DE3944;
             }
             &--ookdatnog {
                 background-color: #2154A4;
             }
+        }
+    }
+    &-zdd {
+        &__container {
+            color: $zdd-font-color;
+            padding: $zdd-padding;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/templates/zddBack.png');
+        }
+        &__image {
+            width: 326px;
+            height: 326px;
+             box-shadow: 10px 10px 5px grey;
+        }
+        &__date {
+            font-family: $zdd-light;
+            font-size: 40px;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.50);
+        }
+        &__name {
+            font-family: $zdd-medium;
+            font-size: 40px;
+            > span {
+                font-family: $zdd-bold;
+                font-size: 40px;
+            }
+        }
+        &__function {
+            font-family: $zdd-book;
+            font-size: 40px;
+        }
+        &__titel {
+            font-family: $zdd-medium;
+            font-size: 50px;
         }
     }
 }
@@ -372,26 +414,13 @@ $drd-padding: 30px;
 
 /*
 
-Alle 
-- padding 30px rondom
-- logo 50 px hoog
 
-- Effect op foto lichte overlay gradient van links tot iets voorbij breedte titel
-- Enters mogelijk
-- titels : DIN bold
-- label: DIN black 36px
+datum : gotham light 40px
+voornaam gotham medium 40px
+achternaam gotham bold 40px
+functie gotham book 40px
+titel gotham medium 50px
 
-Analyse/opinie/Ook dat nog/...
-- label: hoogte: 50px
-- lichte overlay gradient onder naar boven
-- update en volg live zijn niet meer nodig
 
-Titeltemplates 
-- Balkje: 117*18px
-
-Quote
-- Quote: din bold 55px - din bold cond
-- Naam: 29px - din bold cond
-- Functie 22px - din bold cond
 
 */
