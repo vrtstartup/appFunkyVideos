@@ -1,5 +1,5 @@
 export default class PicturesController {
-    constructor(Upload, $firebaseAuth, userManagement, videoGeneration) {
+    constructor(Upload, $firebaseAuth, userManagement, videoGeneration, $http) {
 
         this.Upload = Upload;
         this.videoGeneration = videoGeneration;
@@ -7,6 +7,7 @@ export default class PicturesController {
         this.className = 'drd';
         this.image = '';
 
+        this.$http = $http;
         this.userManagement = userManagement;
         this.firebaseAuth = $firebaseAuth();
         this.firebaseAuth.$onAuthStateChanged((authData) => {
@@ -69,6 +70,23 @@ export default class PicturesController {
             });
     }
 
+
+    getBreaking() {
+        this.$http.get('assets/templates/breaking.jpg', {
+                responseType: "arraybuffer"
+            })
+            .success((data) => {
+                var anchor = angular.element('<a/>');
+                var blob = new Blob([data]);
+                anchor.attr({
+                    href: window.URL.createObjectURL(blob),
+                    target: '_blank',
+                    download: 'breaking.png'
+                })[0].click();
+            })
+    }
+
+
     // setTemplate('Murderface', 'drd);
     setTemplate(name, scheme, templateClass, footerText) {
         this.templateName = name;
@@ -79,4 +97,4 @@ export default class PicturesController {
 
 }
 
-PicturesController.$inject = ['Upload', '$firebaseAuth', 'userManagement', 'videoGeneration'];
+PicturesController.$inject = ['Upload', '$firebaseAuth', 'userManagement', 'videoGeneration', '$http'];

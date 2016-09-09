@@ -1,0 +1,22 @@
+<section class='wrap container-screenshot'>
+
+    <!--<div ng-class="vm.image ? 'overlay' : 'no-overlay'" class="pictures-drd__container">-->
+
+    <div class="pictures-drd__container--sidebyside">
+
+        <img class="pictures-drd__logo" src="./assets/deredactie.svg">
+        <div class="pictures-drd__textContainer">
+            <p class="pictures-drd__quote pictures-drd__quote--cond" style="left:0;max-width:100%;">{{vm.text}}</p>
+        </div>
+        <div class="pictures-drd__name">{{vm.name}}</div>
+        <div class="pictures-drd__function">{{vm.function}}</div>
+
+    </div>
+
+    <div style="width: 50%; display: inline-block; height: 100%;">
+        <div class='image' style="background-image: url('{{vm.image}}')">
+        </div>
+    </div>
+
+
+</section>

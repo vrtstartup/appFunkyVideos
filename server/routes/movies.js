@@ -92,17 +92,6 @@ function sendResultToDropbox(video, videoName, ass, email) {
 
 
 
-router.post('/getTempUrl', function(req, res, next) {
-    logger.info('getting Temp Url', req.body.path);
-    dbClient.filesGetTemporaryLink({ path: req.body.path }).then(function(response) {
-        logger.info('got temporary url', response);
-        res.send(response.link);
-    });
-});
-
-
-
-
 router.post('/upload-to-dropbox', function(req, res, next) {
     logger.info('received call to upload to dropbox');
     var fileName = '';
@@ -111,11 +100,10 @@ router.post('/upload-to-dropbox', function(req, res, next) {
     var dbPath = '';
     var response = {};
     var tempUrl = '';
-    var tempPath = 'temp/subtitleVideos';
-    var tempUrlSmall = '';
+    var tempPath = '';
     var width = 0;
     var height = 0;
-    var form = new multiparty.Form({ autoFiles: true, uploadDir: tempPath });
+    var form = new multiparty.Form({ autoFiles: true, uploadDir: 'temp/subtitleVideos' });
     // Add errors and so on (https://github.com/andrewrk/node-multiparty)
 
 
@@ -168,13 +156,12 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
         Object.keys(files).forEach(function(name) {
             file = files[name][0];
-            console.log(file);
             fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
 
             dbPath = '/in/' + fileName + '.mp4';
-            dbPathSmall = '/in/' + fileName + '_small.mp4';
             logger.info('the path where the file is now: ', file.path);
             logger.info('File should go to Dropbox at:', dbPath);
+            fs.readFile(file.path, function(err, data) {
 
             // Upload hi res version
             uploadHiRes(file.path, dbPath);
@@ -233,6 +220,77 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                             logger.info('starting upload low res version', dbPathSmall);
 
 
+                            tempUrl = response.link;
+                            dbClient.filesAlphaGetMetadata({ path: dbPath, include_media_info: true })
+                                .then(function(response) {
+                                    logger.info(response);
+                                    if (response.media_info.metadata.dimensions.height && response.media_info.metadata.dimensions.width) {
+                                        logger.info('Dropbox got the metadata of the file, and found the height and the width.');
+                                        height = response.media_info.metadata.dimensions.height;
+                                        width = response.media_info.metadata.dimensions.width;
+
+                                        logger.info('got everything, let\'s send this back for saving.');
+                                    // Why do we still need filenameOut and filenameIn?
+
+
+
+                                        res.json({
+                                            image: tempUrl,
+                                            width: width,
+                                            height: height,
+                                            fileName: fileName,
+                                            filenameOut: fileName,
+                                            filenameIn: fileName
+                                        }).send();
+
+                                    } else {
+
+                                        logger.info('Dropbox didn\'t find the width and the height. Trying to get the metadata of the file, using ffprobe.');
+                                        ffmpeg.ffprobe(file.path, function(err, metadata) {
+                                            if (err) {
+                                                logger.crit('Tried to probe the file using ffprobe, but returned error:', err);
+                                                return next(Boom.badImplementation('unexpected error, tried to probe the file, but returned error.'));
+                                            }
+                                            logger.info('ffprobe worked, checking if metadata is available.');
+                                            if (metadata) {
+                                                logger.info('Metadata is available. Metadata: ', metadata);
+                                                logger.info('Looping through metadata, checking if codec_type = video');
+                                                for (i = 0; i < metadata.streams.length; i++) {
+                                                    logger.info('Checking stream ' + i + ' for metadata.');
+                                                    if (metadata.streams[i].codec_type === 'video') {
+                                                        logger.info('Found a stream with codec Video. Stream ' + i);
+                                                        logger.info('Checking stream ' + i + ' for width and height.');
+                                                        width = metadata.streams[i].width;
+                                                        logger.info('video width', width);
+                                                        height = metadata.streams[i].height;
+                                                        logger.info('video height', height);
+
+                                                        logger.info('got everything, let\'s send this back for saving.');
+                                    // Why do we still need filenameOut and filenameIn?
+
+
+                                                        res.json({
+                                                            image: tempUrl,
+                                                            width: width,
+                                                            height: height,
+                                                            fileName: fileName,
+                                                            filenameOut: fileName,
+                                                            filenameIn: fileName
+                                                        }).send();
+                                                    }
+                                                }
+                                            } else {
+                                                logger.info('There is no stream with a videocodec, so the file is not a video.');
+                                                res.json({
+                                                    image: imageUrl,
+                                                    filenameOut: file.originalFilename.replace(/(?:\.([^.]+))?$/, ''),
+                                                    filenameIn: file.originalFilename
+                                                }).send();
+                                            }
+                                        });
+
+
+                                    }
 
                                             dbClient.filesUpload({ path: dbPathSmall, contents: smallFile, mode: 'overwrite' })
                                                 .then(function(response) {
@@ -250,6 +308,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                                 .catch(function(err) {
                                                     logger.crit('something went wrong uploading the low res file');
 
+
                                                 });
                                         }
                                     });
@@ -258,6 +317,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                         }
                     }
                 }
+
             });
         });
     });
@@ -442,7 +502,7 @@ router.post('/burnSubs', function(req, res) {
         })
         .on('error', function(err) {
             logger.crit('error running ffmpeg command');
-            // res.send(err.toString('utf8'));
+            res.send(err.toString('utf8'));
             db.ref('/apps/subtitles/' + project + '/logs').update({
                 status: 'Er is een fout opgetreden',
                 error: err.toString('utf8')
