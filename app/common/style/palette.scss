@@ -1,250 +1,397 @@
 @import "./variables";
-
 .drd {
-  .auth-name, .sign {
-    color: $drd-main-color;
-  }
-
-  .hor-line, .line-under, .wth-footer {
-    background-color: $drd-main-color;
-  }
-
-  .wrap, .wth-wrap {
-    background-color: $drd-main-bg-color;
-  }
-
-
-  .dir-wrap, .footer-block-wrap {
-    font-family: "din-med", "Roboto Condensed", sans-serif;
-  }
-
-  .logo-drd {
-    display: block;
-    height: 44px;
-
-  }
-
-  .logo-ak, .logo-r1 {
-    display: none;
-  }
-
-  .wth-text p{
-    margin: 12px 0;
-  }
-
+    .auth-name,
+    .sign {
+        color: $drd-main-color;
+    }
+    .hor-line,
+    .line-under,
+    .wth-footer {
+        background-color: $drd-main-color;
+    }
+    .wrap,
+    .wth-wrap {
+        background-color: $drd-main-bg-color;
+    }
+    .dir-wrap,
+    .footer-block-wrap {
+        font-family: "din-bold", "Roboto Condensed", sans-serif;
+    }
+    .logo-drd {
+        display: block;
+        height: 44px;
+    }
+    .logo-ak,
+    .logo-r1 {
+        display: none;
+    }
+    .wth-text p {
+        margin: 12px 0;
+    }
 }
 
 .ak {
-
-  .logo {
-    display: block;
-    //top: 25px;
-  }
-  .logo-drd, .logo-r1 {
-    display: none;
-  }
-  .logo-ak {
-    width: 150px;
-    height: 48px;
-  }
-
-  .skwg-logo {
-    top: 20px;
-    left: 23px;
-  }
-
-  .wth-logo {
-    bottom: 25px;
-  }
-
-  .sign {
-    color: $ak-main-color;
-    display: inline-block;
-  }
-
-  .hor-line,  .line-under {
-    background-color: $ak-main-color;
-  }
-
-  .wrap, .wth-wrap, .wth-footer {
-    background-color: $ak-main-bg-color;
-  }
-
-  .auth-name , .auth-title, .header  {
-    font-family: "proxima", "Roboto Condensed", sans-serif;
-    color: #fff;
-    font-style: normal;
-  }
-
-  .header {
-    line-height: 75px;
-  }
-
-  .auth-title {
-    color: rgba(255, 255, 255, 0.6);
-    font-family: "proxima", "Roboto Condensed", sans-serif;
-  }
-
-  .quote, .header-bob {
-    font-family: "utopia", "Roboto Condensed", sans-serif;
-    letter-spacing: 1.5px;
-  }
-
-  .wth-footer-text {
-    font-family: "proxima", "Roboto Condensed", sans-serif;
-  }
-
-  .wth-text {
-    background-color: $ak-main-color;
-    font-family: "proxima", "Roboto Condensed", sans-serif;
-    height: 125px;
-  }
+    .logo {
+        display: block;
+        //top: 25px;
+    }
+    .logo-drd,
+    .logo-r1 {
+        display: none;
+    }
+    .logo-ak {
+        width: 150px;
+        height: 48px;
+    }
+    .skwg-logo {
+        top: 20px;
+        left: 23px;
+    }
+    .wth-logo {
+        bottom: 25px;
+    }
+    .sign {
+        color: $ak-main-color;
+        display: inline-block;
+    }
+    .hor-line,
+    .line-under {
+        background-color: $ak-main-color;
+    }
+    .wrap,
+    .wth-wrap,
+    .wth-footer {
+        background-color: $ak-main-bg-color;
+    }
+    .auth-name,
+    .auth-title,
+    .header {
+        font-family: "proxima", "Roboto Condensed", sans-serif;
+        color: #fff;
+        font-style: normal;
+    }
+    .header {
+        line-height: 75px;
+    }
+    .auth-title {
+        color: rgba(255, 255, 255, 0.6);
+        font-family: "proxima", "Roboto Condensed", sans-serif;
+    }
+    .quote,
+    .header-bob {
+        font-family: "utopia", "Roboto Condensed", sans-serif;
+        letter-spacing: 1.5px;
+    }
+    .wth-footer-text {
+        font-family: "proxima", "Roboto Condensed", sans-serif;
+    }
+    .wth-text {
+        background-color: $ak-main-color;
+        font-family: "proxima", "Roboto Condensed", sans-serif;
+        height: 125px;
+    }
 }
 
 .r1 {
-
-  .wrap {
-    background-color: $r1-main-color;
-  }
-
-  .overlay {
-    background: rgba($r1-main-color, 0.6);
-    height: 100%;
-    overflow: hidden;
-    z-index: 2;
-  }
-
-
-  .logo {
-    left: 47%;
-    top: 30px;
-  }
-
-  .logo-r1 {
-    display: block;
-    height: 64px;
-  }
-  .logo-drd, .logo-ak {
-    display: none;
-  }
-
-  .quote, .sign {
-    font-family: "Calibre-Black", sans-serif;
-    font-style: normal;
-    //letter-spacing: 2px;
-    color: $r1-light-color;
-    font-size: 65px;
-    line-height: 60px;
-  }
-
-  .author {
-    line-height: 1em;
-  }
-
-  .skwg-author {
-    text-align: center;
-    left: 0;
-  }
-  .auth-name {
-    font-family: "Calibre-Medium", sans-serif;
-    color: $r1-light-color;
-    background-color: $r1-accent-color;
-    display: inline-block;
-    padding: 8px 6px 0px 6px;
-    margin: 0;
-    font-size: 30px;
-    text-transform: none;
-    line-height: 1em;
-    width: 100%;
-  }
-
-  .auth-title {
-    font-family: "Calibre-Medium", sans-serif;
-    padding: 6px 8px 0px 10px;
-    color: rgba($r1-light-color, 0.9);
-    margin: 4px 0 0 0;
-    font-style: normal;
-    font-size: 23px;
-  }
-
+    .wrap {
+        background-color: $r1-main-color;
+    }
+    .overlay {
+        background: rgba($r1-main-color, 0.6);
+        height: 100%;
+        overflow: hidden;
+        z-index: 2;
+    }
+    .logo {
+        left: 47%;
+        top: 30px;
+    }
+    .logo-r1 {
+        display: block;
+        height: 64px;
+    }
+    .logo-drd,
+    .logo-ak {
+        display: none;
+    }
+    .quote,
+    .sign {
+        font-family: "Calibre-Black", sans-serif;
+        font-style: normal;
+        //letter-spacing: 2px;
+        color: $r1-light-color;
+        font-size: 65px;
+        line-height: 60px;
+    }
+    .author {
+        line-height: 1em;
+    }
+    .skwg-author {
+        text-align: center;
+        left: 0;
+    }
+    .auth-name {
+        font-family: "Calibre-Medium", sans-serif;
+        color: $r1-light-color;
+        background-color: $r1-accent-color;
+        display: inline-block;
+        padding: 8px 6px 0px 6px;
+        margin: 0;
+        font-size: 30px;
+        text-transform: none;
+        line-height: 1em;
+        width: 100%;
+    }
+    .auth-title {
+        font-family: "Calibre-Medium", sans-serif;
+        padding: 6px 8px 0px 10px;
+        color: rgba($r1-light-color, 0.9);
+        margin: 4px 0 0 0;
+        font-style: normal;
+        font-size: 23px;
+    }
 }
 
 .deafsprak {
-
-  .logo-terzake{
-    display: none;
-  }
-
-  .logo-afspr, .logo-canvas {
-    display: block;
-    height: 44px;
-  }
-
-  .wrap {
-    background-color: $afspr-footer;
-  }
-
-  .quote {
-    font-family: 'textanarrow-heavy', sans-serif;
-    font-size: 77px;
-    line-height: 1em;
-    font-style: normal;
-  }
-
-  .overlay {
-    background: rgba(236, 138, 0, 0.3);
-  }
+    .logo-terzake {
+        display: none;
+    }
+    .logo-afspr,
+    .logo-canvas {
+        display: block;
+        height: 44px;
+    }
+    .wrap {
+        background-color: $afspr-footer;
+    }
+    .quote {
+        font-family: 'textanarrow-heavy', sans-serif;
+        font-size: 77px;
+        line-height: 1em;
+        font-style: normal;
+    }
+    .overlay {
+        background: rgba(236, 138, 0, 0.3);
+    }
 }
 
 .terzake {
-  .logo-afspr, .logo-canvas, .logo-drd, .logo-ak, .logo-r1 {
-    display: none;
-  }
-
-  .overlay {
-    background: rgba(0, 0, 0, 0.38);
-  }
-
-  .wrap {
-    background-color: teal;
-  }
-
-  .logo-terzake {
-    display: block;
-    height: 44px;
-    left: 25px;
-    top: 25px;
-  }
-
-  .quote {
-    font-family: 'NarzissTextBold', serif;
-    font-style: normal;
-    font-weight: 100;
-    font-size: 55px;
-    line-height: 1.2em;
-  }
-
-  .author {
-    text-align: center;
-  }
-
-  .skwg-author {
-    left: unset;
-  }
-
-  .auth-name {
-    font-family: 'dinbold', sans-serif;
-    font-size: 31px;
-    line-height: 1em;
-    margin: 0;
-    //letter-spacing: 0.1em;
-  }
-
-  .auth-title {
-    font-family: 'NarzissTextRegular', serif;
-    font-size: 28px;
-    font-style: normal;
-    line-height: 1.1em;
-    margin: 0;
-  }
+    .logo-afspr,
+    .logo-canvas,
+    .logo-drd,
+    .logo-ak,
+    .logo-r1 {
+        display: none;
+    }
+    .overlay {
+        background: rgba(0, 0, 0, 0.38);
+    }
+    .wrap {
+        background-color: teal;
+    }
+    .logo-terzake {
+        display: block;
+        height: 44px;
+        left: 25px;
+        top: 25px;
+    }
+    .quote {
+        font-family: 'NarzissTextBold', serif;
+        font-style: normal;
+        font-weight: 100;
+        font-size: 55px;
+        line-height: 1.2em;
+    }
+    .author {
+        text-align: center;
+    }
+    .skwg-author {
+        left: unset;
+    }
+    .auth-name {
+        font-family: 'dinbold', sans-serif;
+        font-size: 31px;
+        line-height: 1em;
+        margin: 0;
+        //letter-spacing: 0.1em;
+    }
+    .auth-title {
+        font-family: 'NarzissTextRegular', serif;
+        font-size: 28px;
+        font-style: normal;
+        line-height: 1.1em;
+        margin: 0;
+    }
 }
+
+// Restart Maarten
+$drd-font-bold: "dinbold",
+sans-serif;
+$drd-font-cond: "din-cndbold",
+sans-serif;
+$drd-font-black: "din-black",
+sans-serif;
+$drd-padding: 30px;
+.pictures {
+    &-drd {
+        &__logo {
+            height: 50px;
+            width: auto;
+            position: absolute;
+            top: 30px;
+        }
+        &__overlay {
+            &--bottom {
+                width: 100%;
+                height: 100%;
+                background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.00) 32%, rgba(0, 0, 0, 0.47) 100%);
+                background-image: -o-linear-gradient(rgba(0, 0, 0, 0.00) 32%, rgba(0, 0, 0, 0.47) 100%);
+                background-image: linear-gradient(rgba(0, 0, 0, 0.00) 32%, rgba(0, 0, 0, 0.47) 100%);
+            }
+            &--full {
+                width: 100%;
+                height: 100%;
+                background-color: black;
+                opacity: .6;
+                position: relative;
+                z-index: 1;
+            }
+        }
+        &__container {
+            padding: $drd-padding;
+            margin: 0px;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            &--sidebyside {
+                padding: $drd-padding;
+                margin: 0px;
+                height: 100%;
+                position: relative;
+                top: 0;
+                left: 0;
+                z-index: 2;
+                width: 50%;
+                display: inline-block;
+            }
+        }
+        &__title {
+            font-size: 60px;
+            color: #fff;
+            font-family: $drd-font-bold;
+            white-space: pre-wrap;
+            position: absolute;
+            bottom: 9px;
+            line-height: 56px;
+            &--withlabel {
+                font-size: 65px;
+                color: #fff;
+                font-family: "dinbold", sans-serif;
+                white-space: pre-wrap;
+                position: absolute;
+                bottom: 36px;
+                line-height: 56px;
+            }
+        }
+        &__textContainer {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        &__quote {
+            font-size: 55px;
+            line-height: 55px;
+            color: #fff;
+            font-family: $drd-font-bold;
+            // white-space: pre-wrap;
+            text-align: center;
+            align-self: center;
+            word-wrap: break-word;
+            max-width: 85%;
+            position: relative;
+            left: -$drd-padding;
+            &::before {
+                content: '\201C ';
+                color: $drd-main-color;
+            }
+            &::after {
+                content: ' \201D';
+                color: $drd-main-color;
+            }
+        }
+        &__name {
+            font-family: $drd-font-bold;
+            font-size: 29px;
+            color: #fff;
+            position: absolute;
+            bottom: 60px;
+        }
+        &__function {
+            font-family: $drd-font-bold;
+            font-size: 22px;
+            color: $drd-main-color;
+            position: absolute;
+            bottom: $drd-padding;
+        }
+        &__rectangle {
+            width: 117px;
+            height: 18px;
+            background-color: $drd-main-color;
+            position: absolute;
+            bottom: $drd-padding;
+        }
+        &__label {
+            font-size: 38px;
+            color: #fff;
+            position: absolute;
+            padding: 10px 9px 14px 9px;
+            height: 48px;
+            font-family: $drd-font-black;
+            bottom: $drd-padding;
+            background-color: $drd-main-color;
+            > span {}
+            &--breaking {
+                background-color: #DE3944;
+            }
+            &--ookdatnog {
+                background-color: #2154A4;
+            }
+        }
+    }
+}
+
+.pictures-drd__quote--cond {
+    font-family: $drd-font-cond;
+    text-align: left;
+}
+
+
+/*
+
+Alle 
+- padding 30px rondom
+- logo 50 px hoog
+
+- Effect op foto lichte overlay gradient van links tot iets voorbij breedte titel
+- Enters mogelijk
+- titels : DIN bold
+- label: DIN black 36px
+
+Analyse/opinie/Ook dat nog/...
+- label: hoogte: 50px
+- lichte overlay gradient onder naar boven
+- update en volg live zijn niet meer nodig
+
+Titeltemplates 
+- Balkje: 117*18px
+
+Quote
+- Quote: din bold 55px - din bold cond
+- Naam: 29px - din bold cond
+- Functie 22px - din bold cond
+
+*/

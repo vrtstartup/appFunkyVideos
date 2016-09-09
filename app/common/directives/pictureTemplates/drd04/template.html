@@ -1,0 +1,14 @@
+<section class='wrap container-screenshot'>
+    <div class='image' style="background-image: url('{{vm.image}}')">
+        <div class="pictures-drd__overlay--bottom"></div>
+
+        <!--<div ng-class="vm.image ? 'overlay' : 'no-overlay'" class="pictures-drd__container">-->
+        <div class="pictures-drd__container">
+
+            <img class="pictures-drd__logo" src="./assets/deredactie.svg">
+            <p class="pictures-drd__title--withlabel">{{vm.text}}</p>
+
+            <div class="pictures-drd__label" ng-class="(vm.label === 'BREAKING' ? 'pictures-drd__label--breaking' : '' )+' '+( vm.label === 'OOK DAT NOG' ? 'pictures-drd__label--ookdatnog' : '')"><span>{{vm.label}}</span></div>
+        </div>
+    </div>
+</section>
