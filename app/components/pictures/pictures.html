@@ -1,67 +1,62 @@
 <md-content layout="row">
-    <section flex="15" >
+    <section flex="15">
         <md-content class="pictures-sidebar">
             <md-list>
                 <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'deredactie.be'">
-                    <div class="md-toolbar-tools" ng-init="vm.showTempltesDRD = false" ng-click="vm.getScheme('drd')">
+                    <div class="md-toolbar-tools" ng-init="vm.showTempltesDRD = true" ng-click="vm.getScheme('drd')">
                         De redactie <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon':vm.showTempltesDRD}">&#xE313;</i>
                     </div>
                 </md-toolbar>
                 <md-content ng-if="vm.showTempltesDRD && vm.userBrand == 'deredactie.be'">
                     <md-subheader class="">Headline</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('bob', 'drd')">
-                        <img src="./../assets/templates/header.png" alt="" width="100%">
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('drd01', 'drd')">
+                        <img src="./../assets/templates/drd01.png" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="">Quote</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('murderface', 'drd')">
-                        <img src="./../assets/templates/hub_Quote-situatie.jpg" alt="" width="100%">
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('drd02', 'drd')">
+                        <img src="./../assets/templates/drd02.png" alt="" width="100%">
                     </md-list-item>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('skwigelf','drd')">
-                        <img src="./../assets/templates/hub_Quote-persoon.jpg" alt="" width="100%">
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('drd03', 'drd')">
+                        <img src="./../assets/templates/drd03.png" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="">Cijfer</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('pickels', 'drd')">
                         <img src="./../assets/templates/hub_Cijfer.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="">Update</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('dethklok', 'drd', 'update', 'UPDATE')">
-                        <img src="./../assets/templates/hub_Update.jpg" alt="" width="100%">
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('drd04', 'drd', 'update', 'UPDATE')">
+                        <img src="./../assets/templates/drd04Update.png" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="">Breaking</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('dethklok', 'drd', 'breaking', 'BREAKING')">
-                        <img src="./../assets/templates/hub_Breaking-foto.jpg" alt="" width="100%">
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('drd04', 'drd', 'breaking', 'BREAKING')">
+                        <img src="./../assets/templates/drd04Breaking.png" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="">Live</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('dethklok', 'drd', 'update', 'Volg LIVE')">
-                        <img src="./../assets/templates/hub_Live.jpg" alt="" width="100%">
+                    <md-list-item class="md-3-line" ng-click="vm.getBreaking()">
+                        <img src="./../assets/templates/breaking.jpg" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="">Analyse</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('dethklok', 'drd', 'update', 'Analyse')">
-                        <img src="./../assets/templates/hub_Analyse.jpg" alt="" width="100%">
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('drd04', 'drd', 'analyse', 'ANALYSE')">
+                        <img src="./../assets/templates/drd04Analyse.png" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="">Ook dat nog</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('dethklok', 'drd', 'nog', 'Ook dat nog')">
-                        <img src="./../assets/templates/hub_Ook-dat-nog-h1.jpg" alt="" width="100%">
-                    </md-list-item>
-                    <md-subheader class="">Infografiek</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('dethklok', 'drd', 'update', 'Infografiek')">
-                        <img src="./../assets/templates/hub_Infografiek-h1.jpg" alt="" width="100%">
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('drd04', 'drd', 'ookdatnog', 'OOK DAT NOG')">
+                        <img src="./../assets/templates/drd04OokDatNog.png" alt="" width="100%">
                     </md-list-item>
                     <md-subheader class="">Opinie</md-subheader>
-                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('dethklok', 'drd', 'update', 'Opinie')">
-                        <img src="./../assets/templates/hub_Opinie.jpg" alt="" width="100%">
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('drd04', 'drd', 'opinie', 'Opinie')">
+                        <img src="./../assets/templates/drd04Opinie.png" alt="" width="100%">
                     </md-list-item>
-                    <md-subheader class="">Rio</md-subheader>
+                    <!--<md-subheader class="">Rio</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('stampington', 'drd')">
                         <img src="./../assets/templates/rio.png" alt="" width="100%">
-                    </md-list-item>
+                    </md-list-item>-->
                 </md-content>
                 <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'amerika kiest'">
                     <div class="md-toolbar-tools" ng-init="vm.showTempltesAK = false" ng-click="vm.getScheme('ak')">
                         Amerika kiest <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesAK}">&#xE313;</i>
                     </div>
                 </md-toolbar>
-                <md-content ng-if="vm.showTempltesAK && vm.userBrand == 'amerika kiest'" >
+                <md-content ng-if="vm.showTempltesAK && vm.userBrand == 'amerika kiest'">
                     <md-subheader class="">Headline</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('bob', 'ak')">
                         <img src="./../assets/templates/ak_headline.png" alt="" width="100%">
@@ -78,15 +73,15 @@
                         <img src="./../assets/templates/number_ak.png" alt="" width="100%">
                     </md-list-item>
                 </md-content>
-                <md-toolbar md-scroll-shrink=""  ng-if="vm.userBrand == 'radio 1'">
+                <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'radio 1'">
                     <div class="md-toolbar-tools" ng-init="vm.showTempltesR1 = false" ng-click="vm.getScheme('r1')">
                         Radio 1 <span flex></span><i class="material-icons animatedIcon" ng-class="{'rotatedIcon': vm.showTempltesR1}">&#xE313;</i>
                     </div>
-                 </md-toolbar>
+                </md-toolbar>
                 <md-content ng-if="vm.showTempltesR1  && vm.userBrand == 'radio 1'">
                     <!--<md-subheader class="">Headline</md-subheader>-->
                     <!--<md-list-item class="md-3-line" ng-click="vm.setTemplate('explosion','r1')">-->
-                        <!--<img src="./../assets/templates/titelpan_r1.png" alt="" width="100%">-->
+                    <!--<img src="./../assets/templates/titelpan_r1.png" alt="" width="100%">-->
                     <!--</md-list-item>-->
                     <md-subheader class="">Quote</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('tina','r1')">
@@ -105,7 +100,7 @@
                     </md-list-item>
 
                     <!--<md-list-item class="md-3-line" ng-click="vm.setTemplate('lumpy','r1')">-->
-                        <!--<img src="./../assets/templates/r1_vox.png" alt="" width="100%">-->
+                    <!--<img src="./../assets/templates/r1_vox.png" alt="" width="100%">-->
                     <!--</md-list-item>-->
                 </md-content>
                 <md-toolbar md-scroll-shrink="" ng-if="vm.userBrand == 'canvas'">
@@ -179,19 +174,23 @@
         <div ng-class="vm.className">
             <form name="templateForm">
 
-            <!--template-->
+                <ng-include src="'components/pictures/pictures.drd.01.html'"></ng-include>
+                <ng-include src="'components/pictures/pictures.drd.02.html'"></ng-include>
+                <ng-include src="'components/pictures/pictures.drd.03.html'"></ng-include>
+                <ng-include src="'components/pictures/pictures.drd.04.html'"></ng-include>
+
                 <ng-include src="'components/pictures/picture.explosion.html'"></ng-include>
-                <!--template-->
+
                 <ng-include src="'components/pictures/picture.skwigelf.html'"></ng-include>
-                <!--template-->
+
                 <ng-include src="'components/pictures/picture.murderface.html'"></ng-include>
-                <!--template-->
+
                 <ng-include src="'components/pictures/picture.wartooth.html'"></ng-include>
-                <!--template-->
+
                 <ng-include src="'components/pictures/picture.pickels.html'"></ng-include>
-                <!--template-->
+
                 <ng-include src="'components/pictures/picture.dethklok.html'"></ng-include>
-                <!--template-->
+
                 <ng-include src="'components/pictures/picture.bob.html'"></ng-include>
 
                 <ng-include src="'components/pictures/picture.tina.html'"></ng-include>
@@ -226,12 +225,11 @@
 
 
 
-                <div ng-messages="templateForm.img.$error.required" >
+                <div ng-messages="templateForm.img.$error.required">
                     <div ng-message="required">Image is required.</div>
                 </div>
 
-                <section ng-if="vm.templateName"
-                         layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+                <section ng-if="vm.templateName" layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
                     <md-button class="md-raised" ng-click="vm.getPicture()" ng-disabled="templateForm.img.$error.required && (vm.templateClass != 'breaking')">Get Picture</md-button>
                 </section>
             </form>
