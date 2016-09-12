@@ -458,6 +458,7 @@ export default class SubtitlesController {
             })
             .then((resp) => {
                 // Set the meta information
+                this.meta.dropboxPath = resp.data.dbPath;
                 this.meta.movieName = resp.data.filenameIn;
                 this.meta.movieWidth = resp.data.width;
                 this.meta.movieHeight = resp.data.height;
