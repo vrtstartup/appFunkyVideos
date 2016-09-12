@@ -682,6 +682,27 @@ export default class templaterService {
         return deferred.promise;
     }
 
+ getTempUrl(path) {
+        console.log('start getting temp Url');
+        console.log(path);
+        const deferred = this.$q.defer();
+        this.$http({
+                data: { path: path },
+                method: 'POST',
+                url: '/api/movie/getTempUrl/'
+            })
+            .then((res) => {
+                console.log('the response of getting the temp url', res);
+                deferred.resolve(res);
+            }, (err) => {
+                deferred.reject(res);
+                console.error('Error', err);
+            });
+        return deferred.promise;
+    }
+
+
+
     renderMovie(subs, visuals, meta, projectId) {
         const deferred = this.$q.defer();
         console.log('subs:', subs);
@@ -690,6 +711,11 @@ export default class templaterService {
         console.log('projectId:', projectId);
         let uniqueProjectName = this.time() + '_' + (meta.email.substring(0, meta.email.indexOf("@"))).replace('.', '');
         let videoName = uniqueProjectName + '.mp4';
+         this.getTempUrl(meta.dropboxPath).then((res) => {
+            console.log(res.data);
+
+            meta.movieUrl = res.data;
+
         this.$q.all([
             this.getAssets(meta),
             this.CreateSubFile(subs, meta.email, uniqueProjectName),
@@ -727,6 +753,9 @@ export default class templaterService {
         }, function(error) {
             console.log(error);
         });
+
+        })
+
         return deferred.promise;
     }
 }
