@@ -288,12 +288,12 @@ export default class templaterService {
             'bumperLength': 5
         }, {
             'name': 'Terzake 1',
-            'id': 7,
+            'id': 8,
             'brand': 'terzake',
             'fileLocal': 'assets/bumpers/terzake_1.gif',
             'fileServer': 'assets/bumpers/terzake_1.mov',
             'fileRemote': this.root + 'bumpers\\terzake_1.mov',
- 'fade': 2,
+            'fade': 2,
             'bumperLength': 4
         }, ];
     }
