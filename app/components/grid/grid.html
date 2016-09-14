@@ -1,6 +1,6 @@
 <md-content class="grid-container">
 
-<canvas id="line" chart-options="vm.options" class="chart chart-bar" chart-data="vm.data" chart-labels="vm.labels" chart-series="vm.series">
+    <canvas id="line" chart-options="vm.options" class="chart chart-bar" chart-data="vm.data" chart-labels="vm.labels" chart-series="vm.series">
 </canvas>
     <section flex="100" flex-gt-md="100" flex-md="100" layout-padding>
         <div ng-if="vm.showTotals">
@@ -71,7 +71,10 @@
                 </div>
             </div>
             <div class="grid-list">
-                <div ng-repeat="p in vm.posts | orderBy:'dateAdded':true" class="grid-item" layout-padding layout="row">
+                <div ng-repeat="(key, p) in vm.posts | orderBy:'dateAdded':true" class="grid-item" layout-padding layout="row">
+                    <div class="grid-item__number ">
+                        {{vm.posts.length - key}}
+                    </div>
                     <md-input-container flex="40">
                         <input ng-model="p.url" type="text" ng-change="vm.posts.$save(p)" aria-label="subject">
                     </md-input-container>
