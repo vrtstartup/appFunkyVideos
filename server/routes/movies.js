@@ -242,7 +242,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                                     dbClient.filesGetTemporaryLink({ path: dbPathSmall })
                                                         .then(function(response) {
                                                             logger.info('got temporary url', response);
-                                                                                                                        
+
                                                             res.json({ image: response.link, dbPath: dbPath, width: width, height: height, fileName: fileName, filenameOut: fileName, filenameIn: fileName })
                                                                 .send();
                                                         });
@@ -373,13 +373,12 @@ router.post('/burnSubs', function(req, res) {
         ffmpegCommand = ffmpeg()
             .input(movie)
             .input(bumper)
-
-        .input('color=c=black').inputOptions('-f lavfi');
+            .input('color=c=black:s=' + width + 'x' + height).inputOptions('-f lavfi');
 
         complexFilter = [
             '[0:v]setpts=PTS-STARTPTS[theMovie]',
             '[1:v]scale=' + width + ':-1[bumperRescaled]',
-            '[2:v]scale=' + width + 'x' + height + ',trim=duration=' + duration + '[blackVideo]',
+            '[2:v]scale=' + width + 'x' + height + ',trim=duration=' + (duration + bumperLength - fade) + '[blackVideo]',
             '[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]', {
                 filter: 'overlay',
                 options: { x: 0, y: 0 },
@@ -430,6 +429,7 @@ router.post('/burnSubs', function(req, res) {
         .outputOptions('-strict -2')
         .output(tempVideo)
         .on('start', function(commandLine) {
+            console.log(commandLine);
             res.send('started');
             logger.info('start running command');
             db.ref('/apps/subtitles/' + project + '/logs').update({

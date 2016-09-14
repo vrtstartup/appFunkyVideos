@@ -143,7 +143,6 @@ export default class templaterService {
                 },
                 clip: {
                     'style': 'DeredactieBackdrop'
-
                 }
             },
         ];
@@ -286,7 +285,16 @@ export default class templaterService {
             'fileRemote': this.root + 'bumpers\\een_5.mov',
             'fade': 1,
             'bumperLength': 5
-        }, ];
+        }, {
+            'name': 'Sporza 1',
+            'id': 8,
+            'brand': 'sporza',
+            'fileLocal': 'assets/bumpers/sporza_1.gif',
+            'fileServer': 'assets/bumpers/sporza_1.mov',
+            'fileRemote': this.root + 'bumpers\\sporza_1.mov',
+            'fade': 0,
+            'bumperLength': 2
+        }];
     }
 
     /*
@@ -682,7 +690,7 @@ export default class templaterService {
         return deferred.promise;
     }
 
- getTempUrl(path) {
+    getTempUrl(path) {
         console.log('start getting temp Url');
         console.log(path);
         const deferred = this.$q.defer();
@@ -711,48 +719,48 @@ export default class templaterService {
         console.log('projectId:', projectId);
         let uniqueProjectName = this.time() + '_' + (meta.email.substring(0, meta.email.indexOf("@"))).replace('.', '');
         let videoName = uniqueProjectName + '.mp4';
-         this.getTempUrl(meta.dropboxPath).then((res) => {
+        this.getTempUrl(meta.dropboxPath).then((res) => {
             console.log(res.data);
 
             meta.movieUrl = res.data;
 
-        this.$q.all([
-            this.getAssets(meta),
-            this.CreateSubFile(subs, meta.email, uniqueProjectName),
-            this.visualsToJSON(visuals, subs, meta, uniqueProjectName),
-        ]).then((value) => {
-            let assets = value[0];
-            let assFile = value[1];
-            let visualClips = value[2];
+            this.$q.all([
+                this.getAssets(meta),
+                this.CreateSubFile(subs, meta.email, uniqueProjectName),
+                this.visualsToJSON(visuals, subs, meta, uniqueProjectName),
+            ]).then((value) => {
+                let assets = value[0];
+                let assFile = value[1];
+                let visualClips = value[2];
 
 
 
-            if (!visualClips && assFile) {
-                console.log('call burnSubs');
+                if (!visualClips && assFile) {
+                    console.log('call burnSubs');
                     this.$http({
                         data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips },
                         method: 'POST',
                         url: '/api/movie/burnSubs/'
                     })
 
-                .then((res) => {
-                    console.log(res);
-                    deferred.resolve(res);
-                }, (err) => {
-                    deferred.reject(res);
-                    console.error('Error', err);
-                });
-            } else if (visualClips && !assFile) {
-                console.log('There are visual clips but no subs, so send the complete ffmpeg line to the templater pc');
-                this.sendToAfterEffects(visualClips)
-            } else if (visualClips && assFile) {
-                this.sendToAfterEffects(visualClips)
-            } else {
-                console.log('there is nothing, chillax');
-            }
-        }, function(error) {
-            console.log(error);
-        });
+                    .then((res) => {
+                        console.log(res);
+                        deferred.resolve(res);
+                    }, (err) => {
+                        deferred.reject(res);
+                        console.error('Error', err);
+                    });
+                } else if (visualClips && !assFile) {
+                    console.log('There are visual clips but no subs, so send the complete ffmpeg line to the templater pc');
+                    this.sendToAfterEffects(visualClips)
+                } else if (visualClips && assFile) {
+                    this.sendToAfterEffects(visualClips)
+                } else {
+                    console.log('there is nothing, chillax');
+                }
+            }, function(error) {
+                console.log(error);
+            });
 
         })
 
