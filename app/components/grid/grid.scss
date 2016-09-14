@@ -27,21 +27,19 @@
         overflow: auto;
         padding-left: 30px;
     }
-    .grid-list > div {
+    .grid-list>div {
         &:nth-child(2n) {
             background-color: transparentize($vrt-tool, .9);
         }
     }
     .grid-item {
         position: relative;
-        &::before {
+        &__number {
             position: absolute;
-            left: -20px;
-            top: 38%;
+            left: -35px;
+            top: 31%;
             color: $vrt-supl;
             font: bold 20px/1 Sans-Serif;
-            counter-increment: section;
-            content: counter(section);
         }
     }
     .bars-category {
