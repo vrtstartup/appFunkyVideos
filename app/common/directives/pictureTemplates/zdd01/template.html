@@ -1,15 +1,20 @@
-<section class='wrap container-screenshot'>
+<section class='wrap container-screenshot' style="width:980px">
 
 
     <!--<div ng-class="vm.image ? 'overlay' : 'no-overlay'" class="pictures-drd__container">-->
-    <div class="pictures-zdd__container">
+    <div class="pictures-zdd__container pictures-zdd__container--one">
 
-        <img class="pictures-zdd__logo" src="./assets/logos/zdd.png">
-<div class="pictures-zdd__date">sadfsdf</div>
-        <div class='pictures-zdd__image' style="background-image: url('{{vm.image}}')"></div>
-        <!--<p class="pictures-zdd__title--withlabel">{{vm.text}}</p>-->
 
-        <!--<div class="pictures-drd__label" ng-class="(vm.label === 'BREAKING' ? 'pictures-drd__label--breaking' : '' )+' '+( vm.label === 'OOK DAT NOG' ? 'pictures-drd__label--ookdatnog' : '')"><span>{{vm.label}}</span></div>-->
-    </div>
+        <div class="pictures-zdd__date">{{vm.date}}</div>
+        <div class='pictures-zdd__image--one' ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}" vrt-movable></div>
+        <div class="pictures-zdd__person">
+            <div class="pictures-zdd__person__name">{{vm.firstname}}</div>
+            <div class="pictures-zdd__person__name"><span>{{vm.lastname}}</span></div>
+
+            <div class="pictures-zdd__person__label">{{vm.label}}</div>
+        </div>
+        <div class="pictures-zdd__text">{{vm.text}}</div>
+
+   </div>
 
 </section>

@@ -38,7 +38,7 @@
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('drd04', 'drd', 'analyse', 'ANALYSE')">
                         <img src="./../assets/templates/drd04Analyse.png" alt="" width="100%">
                     </md-list-item>
-                      <md-subheader class="">Live</md-subheader>
+                    <md-subheader class="">Live</md-subheader>
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('drd04', 'drd', 'live', 'LIVE')">
                         <img src="./../assets/templates/drd04Analyse.png" alt="" width="100%">
                     </md-list-item>
@@ -164,8 +164,21 @@
                 </md-toolbar>
                 <md-content ng-if="vm.showTempltes7d && vm.userBrand == 'de zevende dag'">
                     <md-list-item class="md-3-line" ng-click="vm.setTemplate('zdd01', '7d')">
-                        <img src="./../assets/templates/zdd01.png" alt="" width="100%">
+                        <img src="./../assets/templates/zdd_1.png" alt="" width="100%">
                     </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('zdd02', '7d')">
+                        <img src="./../assets/templates/zdd_2VS.png" alt="" width="100%">
+                    </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('zdd03', '7d')">
+                        <img src="./../assets/templates/zdd_3.png" alt="" width="100%">
+                    </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('zdd04', '7d')">
+                        <img src="./../assets/templates/zdd_4.png" alt="" width="100%">
+                    </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="vm.setTemplate('zdd05', '7d')">
+                        <img src="./../assets/templates/zdd_5.png" alt="" width="100%">
+                    </md-list-item>
+
                 </md-content>
             </md-list>
         </md-content>
@@ -195,6 +208,10 @@
                 <ng-include src="'components/pictures/pictures.drd.04.html'"></ng-include>
 
                 <ng-include src="'components/pictures/pictures.zdd.01.html'"></ng-include>
+                <ng-include src="'components/pictures/pictures.zdd.02.html'"></ng-include>
+                <ng-include src="'components/pictures/pictures.zdd.03.html'"></ng-include>
+                <ng-include src="'components/pictures/pictures.zdd.04.html'"></ng-include>
+                <ng-include src="'components/pictures/pictures.zdd.05.html'"></ng-include>
 
                 <ng-include src="'components/pictures/picture.explosion.html'"></ng-include>
 

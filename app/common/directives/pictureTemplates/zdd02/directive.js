@@ -1,28 +1,28 @@
 import './style.scss';
 import template from './template.html';
 
-class zdd01Controller {
+class zdd02Controller {
     constructor($sce) {}
 }
 
-export const zdd01Directive = function() {
+export const zdd02Directive = function() {
     return {
         restrict: 'E',
         template: template,
         scope: {},
-        controller: zdd01Controller,
+        controller: zdd02Controller,
         controllerAs: 'vm',
         bindToController: {
             text: '=',
-            label: '=',
-            image: '=',
+            imageOne: '=',
+            imageTwo: '=',
             templateClass: '=',
-            imageSize: '=',
+            imageSizeOne: '=',
+            imageSizeTwo: '=',
             date: '=',
-            firstname: '=',
-            lastname: '='
+
         },
     };
 };
 
-zdd01Controller.$inject = ['$sce'];
+zdd02Controller.$inject = ['$sce'];

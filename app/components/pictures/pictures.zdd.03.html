@@ -1,0 +1,66 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'zdd03'" ng-class="vm.templateClass">
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Datum</label>
+            <textarea ng-model="vm.template.date" md-maxlength="60" rows="3" vrt-maxlines="3" maxlines-prevent-enter="true"></textarea>
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Tekst</label>
+            <textarea ng-model="vm.template.text" md-maxlength="60" rows="3" vrt-maxlines="3" maxlines-prevent-enter="true"></textarea>
+        </md-input-container>
+
+
+        <input ng-model="vm.template.imgOne" type="file" name="img" required vrt-image-preview="onFileSelect($files)" />
+
+
+        <div layout>
+            <div flex="10" layout layout-align="center center">
+                <span class="md-body-1">Afbeelding 1 grootte</span>
+            </div>
+            <md-slider flex ng-init="vm.template.imageSizeOne=100" ng-model="vm.template.imageSizeOne" min="0" max="200" id="imageSize-slider" class="md-primary">
+            </md-slider>
+            <div flex="20" layout layout-align="center center">
+                <input flex type="number" ng-model="vm.template.imageSizeOne" aria-controls="imageSize-slider">
+            </div>
+        </div>
+
+
+
+        <input ng-model="vm.template.imgTwo" type="file" name="img" required vrt-image-preview="onFileSelect($files)" />
+
+        <div layout>
+            <div flex="10" layout layout-align="center center">
+                <span class="md-body-1">Afbeelding 2 grootte</span>
+            </div>
+            <md-slider flex ng-init="vm.template.imageSizeTwo=100" ng-model="vm.template.imageSizeTwo" min="0" max="200" id="imageSize-slider" class="md-primary">
+            </md-slider>
+            <div flex="20" layout layout-align="center center">
+                <input flex type="number" ng-model="vm.template.imageSizeTwo" aria-controls="imageSize-slider">
+            </div>
+        </div>
+
+
+        <input ng-model="vm.template.imgThree" type="file" name="img" required vrt-image-preview="onFileSelect($files)" />
+
+        <div layout>
+            <div flex="10" layout layout-align="center center">
+                <span class="md-body-1">Afbeelding 3 grootte</span>
+            </div>
+            <md-slider flex ng-init="vm.template.imageSizeThree=100" ng-model="vm.template.imageSizeThree" min="0" max="200" id="imageSize-slider" class="md-primary">
+            </md-slider>
+            <div flex="20" layout layout-align="center center">
+                <input flex type="number" ng-model="vm.template.imageSizeThree" aria-controls="imageSize-slider">
+            </div>
+        </div>
+
+
+    </md-content>
+
+
+
+    <div class="dir-wrap">
+        <vrt-picture-zdd03 class="dir-wrap" template-class="vm.templateClass" image-one="vm.template.imgOne" image-size-one="vm.template.imageSizeOne" text="vm.template.text" date="vm.template.date" image-three="vm.template.imgThree" image-size-three="vm.template.imageSizeThree"
+            image-two="vm.template.imgTwo" image-size-two="vm.template.imageSizeTwo">
+        </vrt-picture-zdd03>
+    </div>
+</div>

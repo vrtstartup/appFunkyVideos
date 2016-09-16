@@ -374,7 +374,6 @@ $zdd-book: "Gotham-Book";
             -moz-box-sizing: border-box;
             box-sizing: border-box;
             vertical-align: baseline;
-
             &--breaking {
                 background-color: #DE3944;
             }
@@ -390,33 +389,142 @@ $zdd-book: "Gotham-Book";
             margin: 0;
             width: 100%;
             height: 100%;
-            background-image: url('assets/templates/zddBack.png');
+            position: relative;
+            &--one {
+                background-image: url('assets/templates/zdd_1.png');
+            }
+            &--two {
+                background-image: url('assets/templates/zdd_2VS.png');
+            }
+            &--three {
+                background-image: url('assets/templates/zdd_3.png');
+            }
+            &--four {
+                background-image: url('assets/templates/zdd_4.png');
+            }
+            &--five {
+                background-image: url('assets/templates/zdd_5.png');
+            }
         }
         &__image {
-            width: 326px;
-            height: 326px;
-             box-shadow: 10px 10px 5px grey;
+            &--one {
+                background-size: cover;
+                width: 328px;
+                height: 327px;
+                position: absolute;
+                left: 29px;
+                top: 157px;
+            }
+            &--two {
+                background-size: cover;
+                width: 222px;
+                height: 222px;
+                position: absolute;
+                top: 146px;
+                &:nth-of-type(2) {
+                    left: 202px;
+                }
+                &:nth-of-type(3) {
+                    left: 557px;
+                }
+            }
+            &--three {
+                background-size: cover;
+                width: 240px;
+                height: 241px;
+                position: absolute;
+                top: 136px;
+                &:nth-of-type(2) {
+                    left: 89px;
+                }
+                &:nth-of-type(3) {
+                    left: 370px;
+                }
+                &:nth-of-type(4) {
+                    left: 651px;
+                }
+            }
+            &--four {
+                background-size: cover;
+                width: 193px;
+                height: 193px;
+                position: absolute;
+                top: 160px;
+                &:nth-of-type(2) {
+                    left: 30px;
+                }
+                &:nth-of-type(3) {
+                    left: 273px;
+                }
+                &:nth-of-type(4) {
+                    left: 515px;
+                }
+                &:nth-of-type(5) {
+                    left: 757px;
+                }
+            }
+            &--five {
+                background-size: cover;
+                width: 153px;
+                height: 154px;
+                position: absolute;
+                top: 180px;
+                &:nth-of-type(2) {
+                    left: 31px;
+                }
+                &:nth-of-type(3) {
+                    left: 223px;
+                }
+                &:nth-of-type(4) {
+                    left: 415px;
+                }
+                &:nth-of-type(5) {
+                    left: 606px;
+                }
+                &:nth-of-type(6) {
+                    left: 797px;
+                }
+            }
         }
         &__date {
             font-family: $zdd-light;
+            color: #fff;
+            position: absolute;
+            right: 30px;
             font-size: 40px;
-            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.50);
+            text-shadow: 0px 2px 4px rgba(2, 1, 2, 0.8);
         }
-        &__name {
-            font-family: $zdd-medium;
-            font-size: 40px;
-            > span {
-                font-family: $zdd-bold;
+        &__person {
+            position: absolute;
+            left: 400px;
+            top: 153px;
+            &__name {
+                font-family: $zdd-medium;
+                font-size: 40px;
+                white-space: pre-wrap;
+                >span {
+                    font-family: $zdd-bold;
+                    font-size: 40px;
+                }
+            }
+            &__label {
+                font-family: $zdd-book;
                 font-size: 40px;
             }
         }
-        &__function {
-            font-family: $zdd-book;
-            font-size: 40px;
-        }
-        &__titel {
+        &__text {
+            position: absolute;
             font-family: $zdd-medium;
             font-size: 50px;
+            left: 400px;
+            bottom: 30px;
+            white-space: pre-wrap;
+            &--full {
+                left: 30px;
+                padding-right: 30px;
+                text-align: center;
+                width: 100%;
+            }
         }
     }
 }

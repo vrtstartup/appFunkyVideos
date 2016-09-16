@@ -53,7 +53,7 @@ class UserLoginDirectiveController {
 
             'name': 'de zevende dag',
             'logo': 'assets/logos/dezevendedag.png'
-        },{
+        }, {
             'name': 'terzake',
             'logo': 'assets/logos/terzake.png'
 
