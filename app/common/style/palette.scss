@@ -232,6 +232,13 @@ sans-serif;
 $drd-font-black: "din-black",
 sans-serif;
 $drd-padding: 30px;
+// $zdd-font-family:
+$zdd-font-color: #575756;
+$zdd-padding: 30px;
+$zdd-light: "Gotham-Light";
+$zdd-medium: "Gotham-Medium";
+$zdd-bold: "Gotham-Bold";
+$zdd-book: "Gotham-Book";
 .pictures {
     &-clicktrough {
         pointer-events: none;
@@ -367,12 +374,156 @@ $drd-padding: 30px;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
             vertical-align: baseline;
-            // height: 3rem;
             &--breaking {
                 background-color: #DE3944;
             }
             &--ookdatnog {
                 background-color: #2154A4;
+            }
+        }
+    }
+    &-zdd {
+        &__container {
+            color: $zdd-font-color;
+            padding: $zdd-padding;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            &--one {
+                background-image: url('assets/templates/zdd_1.png');
+            }
+            &--two {
+                background-image: url('assets/templates/zdd_2VS.png');
+            }
+            &--three {
+                background-image: url('assets/templates/zdd_3.png');
+            }
+            &--four {
+                background-image: url('assets/templates/zdd_4.png');
+            }
+            &--five {
+                background-image: url('assets/templates/zdd_5.png');
+            }
+        }
+        &__image {
+            &--one {
+                background-size: cover;
+                width: 328px;
+                height: 327px;
+                position: absolute;
+                left: 29px;
+                top: 157px;
+            }
+            &--two {
+                background-size: cover;
+                width: 222px;
+                height: 222px;
+                position: absolute;
+                top: 146px;
+                &:nth-of-type(2) {
+                    left: 202px;
+                }
+                &:nth-of-type(3) {
+                    left: 557px;
+                }
+            }
+            &--three {
+                background-size: cover;
+                width: 240px;
+                height: 241px;
+                position: absolute;
+                top: 136px;
+                &:nth-of-type(2) {
+                    left: 89px;
+                }
+                &:nth-of-type(3) {
+                    left: 370px;
+                }
+                &:nth-of-type(4) {
+                    left: 651px;
+                }
+            }
+            &--four {
+                background-size: cover;
+                width: 193px;
+                height: 193px;
+                position: absolute;
+                top: 160px;
+                &:nth-of-type(2) {
+                    left: 30px;
+                }
+                &:nth-of-type(3) {
+                    left: 273px;
+                }
+                &:nth-of-type(4) {
+                    left: 515px;
+                }
+                &:nth-of-type(5) {
+                    left: 757px;
+                }
+            }
+            &--five {
+                background-size: cover;
+                width: 153px;
+                height: 154px;
+                position: absolute;
+                top: 180px;
+                &:nth-of-type(2) {
+                    left: 31px;
+                }
+                &:nth-of-type(3) {
+                    left: 223px;
+                }
+                &:nth-of-type(4) {
+                    left: 415px;
+                }
+                &:nth-of-type(5) {
+                    left: 606px;
+                }
+                &:nth-of-type(6) {
+                    left: 797px;
+                }
+            }
+        }
+        &__date {
+            font-family: $zdd-light;
+            color: #fff;
+            position: absolute;
+            right: 30px;
+            font-size: 40px;
+            text-shadow: 0px 2px 4px rgba(2, 1, 2, 0.8);
+        }
+        &__person {
+            position: absolute;
+            left: 400px;
+            top: 153px;
+            &__name {
+                font-family: $zdd-medium;
+                font-size: 40px;
+                white-space: pre-wrap;
+                >span {
+                    font-family: $zdd-bold;
+                    font-size: 40px;
+                }
+            }
+            &__label {
+                font-family: $zdd-book;
+                font-size: 40px;
+            }
+        }
+        &__text {
+            position: absolute;
+            font-family: $zdd-medium;
+            font-size: 50px;
+            left: 400px;
+            bottom: 30px;
+            white-space: pre-wrap;
+            &--full {
+                left: 30px;
+                padding-right: 30px;
+                text-align: center;
+                width: 100%;
             }
         }
     }
@@ -386,26 +537,13 @@ $drd-padding: 30px;
 
 /*
 
-Alle 
-- padding 30px rondom
-- logo 50 px hoog
 
-- Effect op foto lichte overlay gradient van links tot iets voorbij breedte titel
-- Enters mogelijk
-- titels : DIN bold
-- label: DIN black 36px
+datum : gotham light 40px
+voornaam gotham medium 40px
+achternaam gotham bold 40px
+functie gotham book 40px
+titel gotham medium 50px
 
-Analyse/opinie/Ook dat nog/...
-- label: hoogte: 50px
-- lichte overlay gradient onder naar boven
-- update en volg live zijn niet meer nodig
 
-Titeltemplates 
-- Balkje: 117*18px
-
-Quote
-- Quote: din bold 55px - din bold cond
-- Naam: 29px - din bold cond
-- Functie 22px - din bold cond
 
 */

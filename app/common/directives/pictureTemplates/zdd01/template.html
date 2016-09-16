@@ -1,0 +1,20 @@
+<section class='wrap container-screenshot' style="width:980px">
+
+
+    <!--<div ng-class="vm.image ? 'overlay' : 'no-overlay'" class="pictures-drd__container">-->
+    <div class="pictures-zdd__container pictures-zdd__container--one">
+
+
+        <div class="pictures-zdd__date">{{vm.date}}</div>
+        <div class='pictures-zdd__image--one' ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}" vrt-movable></div>
+        <div class="pictures-zdd__person">
+            <div class="pictures-zdd__person__name">{{vm.firstname}}</div>
+            <div class="pictures-zdd__person__name"><span>{{vm.lastname}}</span></div>
+
+            <div class="pictures-zdd__person__label">{{vm.label}}</div>
+        </div>
+        <div class="pictures-zdd__text">{{vm.text}}</div>
+
+   </div>
+
+</section>
