@@ -50,8 +50,13 @@ class UserLoginDirectiveController {
             'name': 'een',
             'logo': 'assets/logos/een.png'
         }, {
+
             'name': 'de zevende dag',
             'logo': 'assets/logos/dezevendedag.png'
+        },{
+            'name': 'terzake',
+            'logo': 'assets/logos/terzake.png'
+
         }];
 
         this.userManagement.checkAuth().then((authData) => {

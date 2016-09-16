@@ -9,8 +9,7 @@
                 </md-toolbar>
                 <div layout-padding layout="column">
                     Bumper:
-                    <div layout="row">
-
+                    <div layout="row" layout-wrap>
                         <div layout-padding ng-repeat="b in vm.bumpers" ng-if="b.brand.indexOf(vm.project.meta.brand) > -1 || b.brand == 'all'" ng-click="vm.meta.bumper = b.id; vm.meta.$save()">
                             <div class="subtitles-assets__images" ng-class="b.id == vm.meta.bumper? 'assetsSelected' : ''">
                                 <img ng-if="b.fileLocal" src="{{b.fileLocal}}">

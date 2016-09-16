@@ -1,9 +1,9 @@
 <section class='wrap container-screenshot'>
-    <div class='image' style="background-image: url('{{vm.image}}')">
-        <div class="pictures-drd__overlay--bottom"></div>
+    <div class='pictures-drd__image' vrt-movable ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
+        <div class="pictures-drd__overlay--bottom pictures-clicktrough"></div>
 
         <!--<div ng-class="vm.image ? 'overlay' : 'no-overlay'" class="pictures-drd__container">-->
-        <div class="pictures-drd__container">
+        <div class="pictures-drd__container pictures-clicktrough">
 
             <img class="pictures-drd__logo" src="./assets/deredactie.svg">
             <div class="">

@@ -17,6 +17,7 @@ export const drd01Directive = function() {
             quote: '=',
             image: '=',
             templateClass: '=',
+            imageSize: '=',
         },
     };
 };
