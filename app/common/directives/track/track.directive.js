@@ -27,8 +27,6 @@ class TrackDirectiveController {
         this.freqDrawWidth = this.canvasWidth / (this.freqCount * this.freqShowPercent);
         this.timeDrawWidth = this.canvasWidth / this.freqCount;
 
-        console.log("trackSrc", this.trackSrc);
-        console.log("trackName", this.trackName);
         this.track = {};
 
 
@@ -60,14 +58,12 @@ class TrackDirectiveController {
 
         //audioTrack.play();
         //this.analyser = audioTrack.analyser;
-        console.log('play');
         this.source = this.ctx.createBufferSource();
         this.source.buffer = buffer;
         this.analyser.connect(this.ctx.destination);
         this.source.connect(this.analyser);
         this.source.start(0);
 
-        console.log("this.source", this.source);
 
 
         this.visualize();
@@ -82,12 +78,8 @@ class TrackDirectiveController {
             // request.response is encoded... so decode it now
             this.ctx.decodeAudioData(request.response, (buffer) => {
                     this.sound = buffer;
-
-                    //setTimeout(() => {
-                        console.log('decodeAudioData buffer', buffer);
-                    //}, 1500);
                 }, function(err) {
-                    console.log('Error', err);
+                    //
                 }
             );
         };
@@ -122,8 +114,6 @@ class TrackDirectiveController {
 
         function draw() {
             that.track.cCtx.clearRect(0, 0, that.canvasWidth, that.canvasHeight);
-
-            console.log('This draw', that);
 
             that.analyser.getByteTimeDomainData(that.dataArray); // get waveform data and put it into the array created above
 

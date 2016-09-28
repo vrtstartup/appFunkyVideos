@@ -56,18 +56,14 @@ export default class SubtitlesController {
         this.bumpers = this.templater.bumpers;
         this.logos = this.templater.logos;
 
-
-
         // Authenticate the user
         this.firebaseAuth = $firebaseAuth();
         this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
-                    console.log(obj);
                     this.user = authData;
                     this.user.brand = obj.brand;
                     this.user.role = obj.role;
-                    console.log(this.user.brand);
                     this.project.meta.email = authData.email;
                     this.project.meta.sendTo = authData.email;
                     this.project.meta.brand = obj.brand;
@@ -77,14 +73,13 @@ export default class SubtitlesController {
             }
         });
 
+        // Ad hotkeys
         let c = '';
-        // Ad Hotkeys
 
         this.hotkeys.add({
             combo: 'i',
             description: 'Begin van ondertitel',
             callback: () => {
-
                 if (this.selectedSub.type === 'visual') {
                     this.toast.showToast('error', 'Bij visuele elementen kan je de sneltoesten niet gebruiken.');
                 } else {
@@ -113,7 +108,6 @@ export default class SubtitlesController {
             }
         });
 
-
         this.hotkeys.add({
             combo: 'k',
             description: 'Frame verder',
@@ -122,7 +116,6 @@ export default class SubtitlesController {
                 this.goToTime(this.videogular.api.currentTime / 1000 + 0.01);
             }
         });
-
 
         this.hotkeys.add({
             combo: 'j',
@@ -140,6 +133,7 @@ export default class SubtitlesController {
                 this.preview();
             }
         });
+
         this.hotkeys.add({
             combo: 'u',
             description: 'Voeg toe',
@@ -147,12 +141,7 @@ export default class SubtitlesController {
                 this.addSubtitle(this.meta.movieDuration);
             }
         });
-
-
     }
-
-
-
 
     // Initiate Firebase
     initFirebase(app, brand, number) {
@@ -164,10 +153,8 @@ export default class SubtitlesController {
                 this.projectsLoaded = true;
             })
             .catch((error) => {
-                console.log("Error:", error);
             });
     }
-
 
     /*
         ____      __            ____                   ____                 __  _
@@ -177,7 +164,6 @@ export default class SubtitlesController {
     /___/_/ /_/\__/\___/_/  /_/  \__,_/\___/\___/  /_/  \__,_/_/ /_/\___/\__/_/\____/_/ /_/____/
 
     */
-
 
     showOnlyYours(email, yours) {
         if (yours)
@@ -222,7 +208,6 @@ export default class SubtitlesController {
         });
     }
 
-
     /*
 
         ____               _           __     ______            __  _
@@ -233,7 +218,6 @@ export default class SubtitlesController {
                     /___/
 
     */
-
 
     // Start a new movie
     createMovie() {
@@ -277,7 +261,7 @@ export default class SubtitlesController {
     removeProject(projectId, owner) {
         if (this.user.email === owner) {
             var project = this.projects.$getRecord(projectId);
-            this.projects.$remove(project).then((ref) => {});
+            this.projects.$remove(project).then((ref) => { });
         } else {
             this.toast.showToast('error', 'Dit is niet jouw filmpje, dus kan je het ook niet verwijderen.');
         }
@@ -291,44 +275,48 @@ export default class SubtitlesController {
 
     // Add one subtitle
     addSubtitle(movieDuration) {
-            // get last subtitle
-            let lastClip = {};
-            this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function(snapshot) {
-                snapshot.forEach(function(data) {
-                    lastClip = data.val();
-                });
+        // get last subtitle
+        let lastClip = {};
+        this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function (snapshot) {
+            snapshot.forEach(function (data) {
+                lastClip = data.val();
             });
+        });
 
-            let clip = {};
+        let clip = {};
 
-            // this should be writing more variable, it breaks when order changes of templates, or if we put the templates in firebase or whatever
-            let templateId = 0;
-            if (this.user.brand === 'stubru') {
-                templateId = 4;
-            }
-
-            if (movieDuration) {
-                if (this.subs.length > 0) {
-
-
-                    clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: templateId, type: 'sub' };
-
-
-                } else {
-                    clip = { end: movieDuration, start: 0.001, template: 0, type: 'sub' };
-                }
-                this.subs.$add(clip).then((ref) => {
-
-                    this.selectClip(ref.key, clip.start, clip.end, clip.type, templateId, 'form');
-                });
-            }
+        // this should be writing more variable, it breaks when order changes of templates, or if we put the templates in firebase or whatever
+        let templateId = 0;
+        if (this.user.brand === 'stubru') {
+            templateId = 4;
         }
-        // Make the video follow when the range gets dragged
+
+        if (movieDuration) {
+            if (this.subs.length > 0) {
+
+
+                clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: templateId, type: 'sub' };
+
+
+            } else {
+                clip = { end: movieDuration, start: 0.001, template: 0, type: 'sub' };
+            }
+            this.subs.$add(clip).then((ref) => {
+
+                this.selectClip(ref.key, clip.start, clip.end, clip.type, templateId, 'form');
+            });
+        }
+    }
+
+    // Make the video follow when the range gets dragged
     goToTime(time) {
         this.videogular.api.seekTime(time);
     }
 
     selectClip(id, start, end, type, template, context) {
+
+        //console.log('type =', type);
+
         if (type === 'visual') {
             this.subSlider.options.draggableRangeOnly = true;
         } else {
@@ -355,11 +343,11 @@ export default class SubtitlesController {
             { label: 'minutes', mod: 60 },
         ];
         // calculate the individual unit values...
-        units.forEach(function(u) {
+        units.forEach(function (u) {
             millis = (millis - (dur[u.label] = (millis % u.mod))) / u.mod;
         });
 
-        let twoDigits = function(number) {
+        let twoDigits = function (number) {
             if (number < 10) {
                 number = '0' + number;
                 return number;
@@ -367,7 +355,7 @@ export default class SubtitlesController {
                 return number;
             }
         };
-        let round = function(number) {
+        let round = function (number) {
             if (number < 99) {
                 return number;
             } else {
@@ -388,7 +376,6 @@ export default class SubtitlesController {
     // }
 
     setTemplate(type, key) {
-        console.log(key);
         let c = this.subs.$getRecord(this.selectedSub.id);
         c.template = key;
         c.type = type;
@@ -452,10 +439,10 @@ export default class SubtitlesController {
         });
         // upload to dropbox
         this.Upload.upload({
-                url: 'api/movie/upload-to-dropbox',
-                data: { file: file },
-                method: 'POST'
-            })
+            url: 'api/movie/upload-to-dropbox',
+            data: { file: file },
+            method: 'POST'
+        })
             .then((resp) => {
                 // Set the meta information
                 this.meta.dropboxPath = resp.data.dbPath;
@@ -470,18 +457,15 @@ export default class SubtitlesController {
                     this.setSubSlider(movieDuration);
                     // this.setTimeSlider(movieDuration);
                 }, (error) => {
-                    console.log("Error:", error);
                 });
             }, (resp) => {
                 console.dir(resp);
-                console.log('Error status: ' + resp.status);
             }, (evt) => {
                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             });
     }
 
     /*
-
        _____ _______   ______     ________  ________   __  _______ _    ____________
       / ___// ____/ | / / __ \   /_  __/ / / / ____/  /  |/  / __ \ |  / /  _/ ____/
       \__ \/ __/ /  |/ / / / /    / / / /_/ / __/    / /|_/ / / / / | / // // __/
@@ -503,19 +487,10 @@ export default class SubtitlesController {
                 visuals.push(value);
             }
         });
-        console.log(this.visuals);
         this.templater.renderMovie(subs, visuals, this.meta, this.projectId).then((resp) => {
             this.movieSend = true;
         });
     }
-
-
-
-
-
-
-
-
 
 }
 

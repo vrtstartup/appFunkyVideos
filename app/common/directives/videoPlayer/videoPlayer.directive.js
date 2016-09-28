@@ -40,7 +40,6 @@ class VideoPlayerDirectiveController {
 
         $scope.$watch('subs', (value) => {
             this.subs = value;
-            console.log('changing in subs', this.videogular.api.currentTime);
             // this.findSub(this.videogular.api.currentTime / 1000);
         }, true);
 
@@ -64,7 +63,6 @@ class VideoPlayerDirectiveController {
 
     getTemplate(key) {
         let template = this.templater.clipTemplates[key].meta.view;
-        console.log(template);
         return template;
     }
 
@@ -73,7 +71,6 @@ class VideoPlayerDirectiveController {
     //         if (value.start && currentTime >= value.start && currentTime <= value.end) {
 
     //             if(value === this.activeTemplate){
-    //                 console.log('same, do nothing');
     //             } else {
     //                 this.activeTemplate = value;
     //                 // Get the template for the include

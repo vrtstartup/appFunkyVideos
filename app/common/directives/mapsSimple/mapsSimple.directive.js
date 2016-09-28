@@ -79,8 +79,6 @@ class mapsSimpleDirectiveController {
 
         geocoder.on('result', (ev) => {
 
-            console.log(ev.result.place_name);
-
             let name = ev.result.place_name;
 
             let lng = ev.result.geometry.coordinates[0];

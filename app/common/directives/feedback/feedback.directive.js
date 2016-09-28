@@ -24,8 +24,6 @@ class FeedbackDirectiveController {
 
         this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
-                console.log(authData);
-
                 this.feedback.name = authData.email;
                 this.initFirebase();
             }
@@ -91,10 +89,7 @@ class FeedbackDirectiveController {
         this.feedback.userAgent = window.navigator.userAgent;
 
         this.feedbacks.$add(this.feedback).then((ref) => {
-            console.log('added');
-
             this.toggleRight();
-
         });
 
     }

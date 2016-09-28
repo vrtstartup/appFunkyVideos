@@ -11,7 +11,6 @@ export default class PicturesController {
         this.userManagement = userManagement;
         this.firebaseAuth = $firebaseAuth();
         this.firebaseAuth.$onAuthStateChanged((authData) => {
-            console.log(authData);
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
                     this.userBrand = obj.brand;
@@ -31,12 +30,9 @@ export default class PicturesController {
                 this.quote[numb] = resp.data.url;
             }
             this.image = resp.data.url;
-            console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data.url);
         }, function(resp) {
-            console.log('Error status: ', resp);
         }, function(evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
         });
     }
 
@@ -57,7 +53,6 @@ export default class PicturesController {
         if (scheme === 'r2') {
             this.showTempltesR2 = !this.showTempltesR2;
         }
-        console.log('Scheme', this.selected);
     }
 
     getPicture() {

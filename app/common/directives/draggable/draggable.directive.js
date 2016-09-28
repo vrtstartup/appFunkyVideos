@@ -17,7 +17,6 @@ class DraggableDirectiveController {
         });
 
         this.$element.on('mousedown', (event) => {
-            console.log('Mouse down', event.pageX, event.pageY);
             // Prevent default dragging of selected content
             event.preventDefault();
             this.startX = event.pageX - this.x;

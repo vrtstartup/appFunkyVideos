@@ -8,7 +8,6 @@ class ScreenshotDirectiveController {
         this.$scope = $scope;
         this.videoGeneration = videoGeneration;
 
-
         $scope.$watch('vm.isAnimated', (value) => {
             let target = this.$element.find('section');
             if (value) {

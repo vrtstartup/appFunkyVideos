@@ -412,7 +412,6 @@ overlays(clips, meta, project, subs) {
     let res = {};
     let totalClips = parseInt(clips.length);
     for (var key in clips) {
-        console.log(key);
         if (!clips.hasOwnProperty(key)) continue;
 
         let clip = clips[key];
@@ -496,7 +495,6 @@ sendToAfterEffects(clips) {
     };
     this.$http.post('api/movie/update-movie-json', params)
         .then(() => {
-            console.log('send');
             this.toast.showToast('success', 'Uw video wordt zodra verwerkt, het resultaat wordt naar u doorgemailed.');
         });
 }
@@ -529,14 +527,11 @@ visualsToJSON(visuals, subs, meta, project) {
             clip.Text2DR = visuals[x].Text2DR || '{{off}}';
 
 
-            console.log(visuals.length, x, visuals.length === x + 1);
             if (visuals.length === x + 1) {
                 clip.last = true;
                 newClips.push(clip);
                 this.overlays(newClips, meta, project, subs).then((resp) => {
                     ffmpeg = resp.ffmpeg;
-                    console.log(x);
-                    console.log(newClips);
                     newClips[(visuals.length) * 1 - 1].ffmpeg = ffmpeg;
                     deferred.resolve(newClips);
                 });
@@ -616,8 +611,6 @@ uploadSubFileToServer(file, fileName, email) {
             deferred.resolve(res);
         }, (err) => {
             deferred.reject(err);
-            console.log('Error: ' + err.error);
-            console.log('Error status: ' + err.status);
         }, (evt) => {
             // this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
         });
@@ -700,8 +693,6 @@ getAssets(meta) {
 }
 
 getTempUrl(path) {
-    console.log('start getting temp Url');
-    console.log(path);
     const deferred = this.$q.defer();
     this.$http({
             data: { path: path },
@@ -709,7 +700,6 @@ getTempUrl(path) {
             url: '/api/movie/getTempUrl/'
         })
         .then((res) => {
-            console.log('the response of getting the temp url', res);
             deferred.resolve(res);
         }, (err) => {
             deferred.reject(res);
@@ -722,14 +712,9 @@ getTempUrl(path) {
 
 renderMovie(subs, visuals, meta, projectId) {
     const deferred = this.$q.defer();
-    console.log('subs:', subs);
-    console.log('visuals:', visuals);
-    console.log('meta:', meta);
-    console.log('projectId:', projectId);
     let uniqueProjectName = this.time() + '_' + (meta.email.substring(0, meta.email.indexOf("@"))).replace('.', '');
     let videoName = uniqueProjectName + '.mp4';
     this.getTempUrl(meta.dropboxPath).then((res) => {
-        console.log(res.data);
 
         meta.movieUrl = res.data;
 
@@ -745,7 +730,6 @@ renderMovie(subs, visuals, meta, projectId) {
 
 
             if (!visualClips && assFile) {
-                console.log('call burnSubs');
                 this.$http({
                     data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips },
                     method: 'POST',
@@ -753,22 +737,18 @@ renderMovie(subs, visuals, meta, projectId) {
                 })
 
                 .then((res) => {
-                    console.log(res);
                     deferred.resolve(res);
                 }, (err) => {
                     deferred.reject(res);
                     console.error('Error', err);
                 });
             } else if (visualClips && !assFile) {
-                console.log('There are visual clips but no subs, so send the complete ffmpeg line to the templater pc');
                 this.sendToAfterEffects(visualClips)
             } else if (visualClips && assFile) {
                 this.sendToAfterEffects(visualClips)
             } else {
-                console.log('there is nothing, chillax');
             }
         }, function(error) {
-            console.log(error);
         });
 
     })

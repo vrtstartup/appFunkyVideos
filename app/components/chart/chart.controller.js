@@ -23,7 +23,6 @@ export default class ChartController {
         this.isAnimated = !this.isAnimated;
 
         this.$timeout(()=>{
-            console.log('this.isAnimated', this.isAnimated);
             this.isAnimatedText = !this.isAnimatedText;
 
             this.animatePieChart();

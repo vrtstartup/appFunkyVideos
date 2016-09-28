@@ -15,7 +15,6 @@ class ArtistBlockDirectiveController {
     }
 
     calculateLineLength(name) {
-        console.log('Name', name);
     }
 }
 

@@ -61,7 +61,6 @@ class UserLoginDirectiveController {
 
         this.userManagement.checkAuth().then((authData) => {
             if (authData !== null) {
-                console.log(authData);
                 this.userId = authData.uid;
                 this.userForm.brand = authData.brand;
                 this.userForm.email = authData.email;
@@ -70,7 +69,6 @@ class UserLoginDirectiveController {
                 this.openLoginPopup(this.userForm);
             }
         }, (reason) => {
-            console.log('Failed: ' + reason);
             this.accountStatus = 'notAuthenticated';
             this.openLoginPopup(this.userForm);
         });
@@ -91,21 +89,17 @@ class UserLoginDirectiveController {
 
     // activateUser(user) {
     //     user.email = user.email.toLowerCase();
-    //     console.log(user.email);
     //     this.userManagement.authenticate(user.email, user.oldPassword).then((authData, message) => {
     //         this.userManagement.changePassword(user.email, user.oldPassword, user.newPassword).then((data, message, error) => {
     //             this.message = message;
     //             this.userManagement.setVerificationStatus(authData.uid, user.email, user.brand, 'verified').then(() => {
     //                 this.accountStatus = 'verified';
     //             }, (reason) => {
-    //                 console.log('Failed: ' + reason);
     //             })
     //             this.closePopup();
     //         }, (reason) => {
-    //             console.log('Failed: ' + reason);
     //         });
     //     }, (reason) => {
-    //         console.log('Failed: ' + reason);
     //     });
     // }
 
@@ -118,14 +112,11 @@ class UserLoginDirectiveController {
     //                 this.userManagement.setVerificationStatus(userId, 'lostPassword').then(() => {
     //                     this.accountStatus = 'lostPassword';
     //                 }, (reason) => {
-    //                     console.log('setVerificationStatus failed: ' + reason);
     //                 });
     //             }, (reason) => {
-    //                 console.log('getUserIdFromEmail failed: ' + reason);
     //             });
     //         }
     //     }, (reason) => {
-    //         console.log('resetPassword failed: ' + reason);
     //     });
     // }
 
@@ -142,12 +133,10 @@ class UserLoginDirectiveController {
     }
 
     createUser(user) {
-        console.log('creating User:', user);
         user.email = user.email.toLowerCase();
 
         this.userManagement.checkDomain(user.email).then((domain) => {
             this.userManagement.createUser(user.email, user.password).then((uid) => {
-                console.log('saving user to firebase:', user);
                 this.userManagement.saveToFirebase(uid, user.email, user.brand, '2').then(() => {
                     this.logIn(user);
                     // this.userManagement.resetPassword(user.email).then((response, message) => {
@@ -215,7 +204,6 @@ class UserLoginDirectiveController {
                         // }
                     });
                 }, (reason) => {
-                    console.log('Failed: ' + reason);
                     this.message = 'Je bent nog niet geregistreerd. Wil je een account aanmaken?';
                     this.accountStatus = 'existsFalse';
 
@@ -225,7 +213,6 @@ class UserLoginDirectiveController {
                 this.accountStatus = 'domainFalse';
             }
         }, (reason) => {
-            console.log('Failed: ' + reason);
         });
     }
 }

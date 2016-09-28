@@ -1,6 +1,7 @@
 <md-content layout="column" style="height:calc(100vh - 4em)">
     <div layout="row" style="height:calc(100% - 3rem)">
         <section flex="20" layout="column">
+
             <md-toolbar>
                 <div class="md-toolbar-tools">
                     <span flex></span>
@@ -10,8 +11,12 @@
                     <span flex></span>
                 </div>
             </md-toolbar>
+
             <md-list style="overflow-y: scroll;">
-                <md-list-item class="md-2-line animate-repeat subtitles-clips__list--{{c.type}}" ng-click="vm.selectClip(c.$id, c.start, c.end, c.type, c.template, 'form'); vm.loop = true" ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" ng-repeat="(key, c) in vm.subs | orderBy: 'start'">
+                <md-list-item class="md-2-line animate-repeat subtitles-clips__list--{{c.type}}" 
+                    ng-click="vm.selectClip(c.$id, c.start, c.end, c.type, c.template, 'form'); vm.loop = true"
+                    ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" 
+                    ng-repeat="(key, c) in vm.subs | orderBy: 'start'">
                     <div class="md-list-item-text">
                         <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
                         <!-- <p>{{ c.text | limitTo: 20 }}{{c.text.length > 20 ? '...' : ''}}</p> -->
@@ -22,17 +27,19 @@
                     </md-button>
                 </md-list-item>
             </md-list>
+
             <md-button ng-if="vm.meta.movieUrl != null" class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.meta.movieDuration)">
                 Voeg toe
             </md-button>
         </section>
-        <section flex="10" ng-if="vm.selectedTemplate != ''">
-            <div ng-if="vm.meta.movieUrl != null" >
 
-                <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)" ng-if="(t.meta.brand.indexOf(vm.project.meta.brand) > -1 || t.meta.brand == 'all') && t.meta.excludeBrand.indexOf(vm.project.meta.brand) == -1 && t.meta.roles.indexOf(vm.user.role) > -1" >
-                        <img src="{{t.meta.img}}" class="subtitles-templates__selectTemplate"  ng-class="(key == vm.selectedSub.template) ? 'selectedTemplate' : ''">
+        <section flex="10" ng-if="vm.selectedTemplate != ''" style="border:1px solid">
+            <div ng-if="vm.meta.movieUrl != null">
+                <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)" ng-if="(t.meta.brand.indexOf(vm.project.meta.brand) > -1 || t.meta.brand == 'all') && t.meta.excludeBrand.indexOf(vm.project.meta.brand) == -1 && t.meta.roles.indexOf(vm.user.role) > -1">
+                    <img src="{{t.meta.img}}" class="subtitles-templates__selectTemplate" ng-class="(key == vm.selectedSub.template) ? 'selectedTemplate' : ''">
                 </div>
         </section>
+
         <section ng-if="vm.meta.movieUrl != null" layout-padding flex="30">
             <div ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id">
                 <div layout="row">
@@ -40,11 +47,13 @@
                 </div>
             </div>
         </section>
+
         <section flex ng-if="vm.projectActive == true" class="subtitles-movie" layout="column" flex="40">
             <md-list>
                 <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl != null">
                     <p>Huidig filmpje: {{vm.meta.movieUrl | limitTo: 30}}{{vm.meta.movieUrl > 30 ? '...' : ''}}</p>
-                    <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'" ngf-select="vm.upload($file)" type="file">
+                    <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'"
+                        ngf-select="vm.upload($file)" type="file">
                         Verander
                     </md-button>
                 </md-list-item>
@@ -52,7 +61,8 @@
                     <vrt-videoplayer source="vm.meta.movieUrl" start="vm.selectedSub.start" end="vm.selectedSub.end" loop="vm.loop" subs="vm.subs"></vrt-videoplayer>
                 </div>
                 <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl == null">
-                    <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'" ngf-select="vm.upload($file)" type="file">
+                    <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'"
+                        ngf-select="vm.upload($file)" type="file">
                         Voeg een video toe
                     </md-button>
                 </md-list-item>
@@ -76,9 +86,12 @@
                 <md-progress-linear ng-if="vm.logs.progress" md-mode="determinate" value="{{vm.logs.progress}}"></md-progress-linear>
             </section>
         </section>
+
         </div>
         <section ng-if="vm.meta.movieUrl != null" layout="row">
-            <div flex="70" layout-align="center center" ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id" class="clipSlider" style="width: 100%;position: fixed;bottom: 20px;left: calc(15% - 1px); background-color: transparent; z-index: 3;" ng-class="vm.loop ? '' : 'videoLooping'">
+            <div flex="70" layout-align="center center" ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id" class="clipSlider"
+                style="width: 100%;position: fixed;bottom: 20px;left: calc(15% - 1px); background-color: transparent; z-index: 3;"
+                ng-class="vm.loop ? '' : 'videoLooping'">
                 <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.subSlider.options"></rzslider>
                 <!-- <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.visualSlider.options"></rzslider> -->
             </div>

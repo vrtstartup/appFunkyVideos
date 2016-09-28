@@ -1,7 +1,7 @@
 import angular from 'angular';
 import pieChart from './pieChart';
-import text from './text';
-import screenshot from './screenshot';
+//import text from './text';
+//import screenshot from './screenshot';
 import templateBob from './templateBob';
 import templateTina from './templateTina';
 import templateLinda from './templateLinda';
@@ -51,7 +51,8 @@ import zdd04 from './pictureTemplates/zdd04';
 import zdd05 from './pictureTemplates/zdd05';
 
 const module = angular.module('app.common.directives', [
-    pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
+    // pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
+    pieChart, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
     userLogin, draggable, templateFinn, templateJake, templateGiantBomb, movable, templateBmo, templateLumpy,

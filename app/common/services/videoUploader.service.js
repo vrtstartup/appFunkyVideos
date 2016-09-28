@@ -6,7 +6,6 @@ export default class VideoUploaderService {
         this.$log  = $log;
 
         this.upload = function(data) {
-            console.log(data);
             this.$http({
                     method: 'POST',
                     url: '/api/subtitleVideos',
@@ -18,11 +17,9 @@ export default class VideoUploaderService {
                 })
                 .success(() => {
                     this.$log.info('video uploaded');
-                    console.log('success');
                 })
                 .error((err) => {
                     this.$log.error('upload error', err);
-                    console.log('no success');
                 });
         };
 

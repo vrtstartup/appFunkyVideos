@@ -17,7 +17,6 @@ class GridBarDirectiveController {
 
         //     if (this.totalBar < value) {
         //         this.style = { 'background-color': 'red', width: '100%' };
-        //         console.log('too much');
 
         //     } else {
         //         this.width = value / this.totalBar * 100 + '%';
@@ -34,8 +33,6 @@ class GridBarDirectiveController {
 
             if (this.totalBar < value) {
                 this.style = { 'background-color': 'red', width: '100%' };
-                console.log('too much');
-
             } else {
                 let procentPermitted = (this.totalBar / this.totalDay);
                 let procentActual = (value / this.totalDay);
