@@ -176,6 +176,7 @@ export default class SubtitlesController {
     preview() {
         this.loop = false;
         this.selectedSub.id = null;
+        this.subs.selected = false;
     }
 
     closeModal() {
