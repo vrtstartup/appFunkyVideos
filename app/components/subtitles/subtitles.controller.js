@@ -293,16 +293,12 @@ export default class SubtitlesController {
 
         if (movieDuration) {
             if (this.subs.length > 0) {
-
-
                 clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: templateId, type: 'sub' };
-
-
             } else {
                 clip = { end: movieDuration, start: 0.001, template: 0, type: 'sub' };
             }
-            this.subs.$add(clip).then((ref) => {
 
+            this.subs.$add(clip).then((ref) => {
                 this.selectClip(ref.key, clip.start, clip.end, clip.type, templateId, 'form');
             });
         }
@@ -314,8 +310,9 @@ export default class SubtitlesController {
     }
 
     selectClip(id, start, end, type, template, context) {
-
-        //console.log('type =', type);
+        
+        // toggles templates visibility
+        this.subs.selected = true;
 
         if (type === 'visual') {
             this.subSlider.options.draggableRangeOnly = true;

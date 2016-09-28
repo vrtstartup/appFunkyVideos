@@ -12,31 +12,35 @@
                 </div>
             </md-toolbar>
 
-            <md-list style="overflow-y: scroll;">
-                <md-list-item class="md-2-line animate-repeat subtitles-clips__list--{{c.type}}" ng-click="vm.selectClip(c.$id, c.start, c.end, c.type, c.template, 'form'); vm.loop = true"
-                    ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" ng-repeat="(key, c) in vm.subs | orderBy: 'start'">
-                    <div class="md-list-item-text">
-                        <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
-                        <!-- <p>{{ c.text | limitTo: 20 }}{{c.text.length > 20 ? '...' : ''}}</p> -->
-                        <p>{{ c.text }}</p>
-                    </div>
-                    <md-button class="md-secondary md-icon-button" ng-click="vm.subs.$remove(c)" aria-label="remove clip">
-                        <i class="material-icons" ng-click="vm.subs.$remove(c)">close</i>
-                    </md-button>
-                </md-list-item>
-            </md-list>
+            <div ng-if="vm.meta.movieUrl != null">
+                <md-list style="overflow-y: scroll;">
+                    <md-list-item class="md-2-line animate-repeat subtitles-clips__list--{{c.type}}" 
+                        ng-click="vm.selectClip(c.$id, c.start, c.end, c.type, c.template, 'form'); vm.loop = true"
+                        ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" 
+                        ng-repeat="(key, c) in vm.subs | orderBy: 'start'">
+                        list
+                        <div class="md-list-item-text">
+                            <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
+                            <!-- <p>{{ c.text | limitTo: 20 }}{{c.text.length > 20 ? '...' : ''}}</p> -->
+                            <p>{{ c.text }}</p>
+                        </div>
+                        <md-button class="md-secondary md-icon-button" ng-click="vm.subs.$remove(c)" aria-label="remove clip">
+                            <i class="material-icons" ng-click="vm.subs.$remove(c)">close</i>
+                        </md-button>
+                    </md-list-item>
+                </md-list>
 
-            <md-button ng-if="vm.meta.movieUrl != null" class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.meta.movieDuration)">
-                Voeg toe
-            </md-button>
+                <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.meta.movieDuration)">
+                    Voeg toe
+                </md-button>
+            </div>
+
         </section>
 
-        <section flex="10" ng-if="vm.selectedTemplate != null" style="border:1px solid #f2f2f2">
-            <div ng-if="vm.meta.movieUrl != null">
+        <section flex="10" ng-if="vm.subs.length && vm.subs.selected" style="border:1px solid #f2f2f2">
                 <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)" ng-if="(t.meta.brand.indexOf(vm.project.meta.brand) > -1 || t.meta.brand == 'all') && t.meta.excludeBrand.indexOf(vm.project.meta.brand) == -1 && t.meta.roles.indexOf(vm.user.role) > -1">
                     <img ng-src="{{t.meta.img}}" class="subtitles-templates__selectTemplate" ng-class="(key == vm.selectedSub.template) ? 'selectedTemplate' : ''">
                 </div>
-            </div>
         </section>
 
         <section ng-if="vm.meta.movieUrl != null" layout-padding flex="30">
