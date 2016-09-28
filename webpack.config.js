@@ -51,16 +51,19 @@ var config = {
                   presets: ['es2015']
                 }
             },
+            // The url loader works like the file loader, 
+            // but can return a Data Url if the file is smaller than a limit.
+            // e.g if file is smaller than 10kb (=10000)
             {
-                //test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+                test: /\.(png)$/,
                 loader: 'url-loader?limit=10000&minetype=application/font-woff',
             },
+            // Uses default webpack file-loader
+            // just copy-files & solve paths to './build''
             {
-                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'file-loader',
+                test: /\.(eot|svg|eot|ttf|woff|woff2)$/,
+                loader: 'file?name=app/fonts/[name].[ext]'
             },
-
             // Let us also add the style-loader and css-loader, which you can
             // expand with less-loader etc.
             {
