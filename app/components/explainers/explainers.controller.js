@@ -173,11 +173,9 @@ export default class ExplainersController {
                         ffmpeg = resp.ffmpeg;
                         state = resp.state;
                         this.templater.addLogo(ffmpeg, this.meta.logo, project, state).then((resp) => {
-                            console.log('step 2');
                             ffmpeg = resp.ffmpeg;
                             state = resp.state;
                             this.templater.addBumper(ffmpeg, this.meta.bumper, meta.movieDuration, project, state).then((resp) => {
-                                console.log('step 3');
                                 ffmpeg = resp.ffmpeg;
                                 state = resp.state;
                                 this.templater.addAudio(ffmpeg, this.meta.audio, project, state).then((resp) => {
@@ -269,8 +267,6 @@ export default class ExplainersController {
                     console.log("Error:", error);
                 });
             }, (resp) => {
-                console.log('Error: ' + resp.error);
-                console.log('Error status: ' + resp.status);
             }, (evt) => {
                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             });
