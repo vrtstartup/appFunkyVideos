@@ -1,20 +1,14 @@
 import { keys, extend, find, reject } from 'lodash';
 
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, toast, $firebaseAuth, $firebaseObject, $firebaseArray, userManagement, templater, $http, $mdDialog, hotkeys) {
-        this.$log = $log;
-        this.$sce = $sce;
-        this.srt = srt;
+    constructor($scope, videogular, Upload, toast, $firebaseAuth, $firebaseObject, $firebaseArray, userManagement, templater, $mdDialog, hotkeys) {
         this.$scope = $scope;
-        this.FileSaver = FileSaver;
         this.videogular = videogular;
         this.hotkeys = hotkeys;
         this.Upload = Upload;
-        this.$timeout = $timeout;
         this.toast = toast;
         this.userManagement = userManagement;
         this.templater = templater;
-        this.$http = $http;
         this.$mdDialog = $mdDialog;
         this.$firebaseObject = $firebaseObject;
         this.$firebaseArray = $firebaseArray;
@@ -22,7 +16,6 @@ export default class SubtitlesController {
         // Interface Vars
         this.projectFilters = { email: true };
         this.numberOfProjects = 200;
-        this.playingVideo = '';
         this.loop = false;
         this.projectsLoaded = false;
         this.movieSend = false;
@@ -508,7 +501,6 @@ export default class SubtitlesController {
      ___/ / /___/ /|  / /_/ /    / / / __  / /___   / /  / / /_/ /| |/ // // /___
     /____/_____/_/ |_/_____/    /_/ /_/ /_/_____/  /_/  /_/\____/ |___/___/_____/
 
-
     */
 
     renderMovie(clips) {
@@ -531,5 +523,4 @@ export default class SubtitlesController {
 }
 
 
-
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'toast', '$firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$http', '$mdDialog', 'hotkeys'];
+SubtitlesController.$inject = ['$scope', 'videogular', 'Upload', 'toast', '$firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$mdDialog', 'hotkeys'];
