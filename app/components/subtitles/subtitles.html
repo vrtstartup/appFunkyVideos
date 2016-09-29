@@ -18,7 +18,6 @@
                         ng-click="vm.selectClip(c.$id, c.start, c.end, c.type, c.template, 'form'); vm.loop = true"
                         ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" 
                         ng-repeat="(key, c) in vm.subs | orderBy: 'start'">
-                        list
                         <div class="md-list-item-text">
                             <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
                             <!-- <p>{{ c.text | limitTo: 20 }}{{c.text.length > 20 ? '...' : ''}}</p> -->
@@ -38,12 +37,14 @@
         </section>
 
         <section flex="10" ng-if="vm.subs.length && vm.subs.selected" style="border:1px solid #f2f2f2">
-                <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)" ng-if="(t.meta.brand.indexOf(vm.project.meta.brand) > -1 || t.meta.brand == 'all') && t.meta.excludeBrand.indexOf(vm.project.meta.brand) == -1 && t.meta.roles.indexOf(vm.user.role) > -1">
+                <div ng-repeat="(key,t) in vm.clipTemplates" 
+                    ng-click="vm.setTemplate(t.meta.type, key)" 
+                    ng-if="(t.meta.brand.indexOf(vm.project.meta.brand) > -1 || t.meta.brand == 'all') && t.meta.excludeBrand.indexOf(vm.project.meta.brand) == -1 && t.meta.roles.indexOf(vm.user.role) > -1">
                     <img ng-src="{{t.meta.img}}" class="subtitles-templates__selectTemplate" ng-class="(key == vm.selectedSub.template) ? 'selectedTemplate' : ''">
                 </div>
         </section>
-
-        <section ng-if="vm.meta.movieUrl != null" layout-padding flex="30">
+        
+        <section ng-if="vm.meta.movieUrl != null" layout-padding flex="30" style="border:1px solid #f2f2f2">
             <div ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id">
                 <div layout="row">
                     <div ng-include="vm.selectedTemplate"></div>
@@ -107,3 +108,11 @@
         </section>
     </div>
 </md-content>
+
+<!--debugging info-->
+<!--<div style="position:absolute;bottom:60px;width:100%;padding:20px;font-size:10px;line-height:15px;z-index:100;background:#f2f2f2;">
+    this.selectedSub.type {{ this.selectedSub.type | json}} 
+    vm.meta: {{ vm.meta | json }} <br>
+    vm.subs.length: {{ vm.subs.length }} <br>
+    vm.subs.selected: {{ vm.subs.selected | json}}
+</div>-->
