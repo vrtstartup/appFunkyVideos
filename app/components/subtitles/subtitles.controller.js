@@ -295,7 +295,6 @@ export default class SubtitlesController {
     }
 
     // Add one subtitle
-<<<<<<< HEAD
     addSubtitle(movieDuration, $event) {
         // remove focus from button
         $event.currentTarget.blur();
@@ -310,10 +309,6 @@ export default class SubtitlesController {
             }
         }
         
-=======
-    addSubtitle(movieDuration) {
-
->>>>>>> 92c1ae9936b5e20d4c6099c26ec27532d7d42502
         // get last subtitle
         let lastClip = {};
         this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function (snapshot) {
