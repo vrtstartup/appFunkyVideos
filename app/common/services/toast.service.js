@@ -4,11 +4,12 @@ export default class toastService {
     }
 
     showToast(type, text) {
-        this.$mdToast.show({
-            template: '<md-toast class="md-toast ' + type +'">' + text + '</md-toast>',
-            hideDelay: 7000,
-            position: 'bottom right'
-        });
+        this.$mdToast.show(
+            this.$mdToast.simple()
+                .textContent(text)
+                .position('top right' )
+                .hideDelay(3000)
+        );
     }
 }
 
