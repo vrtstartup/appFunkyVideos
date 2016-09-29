@@ -6,7 +6,7 @@
                 <div class="md-toolbar-tools">
                     <span flex></span>
                     <md-button class="md-raised" aria-label="Project openen / starten" ng-click="vm.openProjects()">
-                        Nieuw / Open
+                        New / Open
                     </md-button>
                     <span flex></span>
                 </div>
@@ -30,7 +30,7 @@
                 </md-list>
 
                 <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.meta.movieDuration, $event)">
-                    Add(sub)
+                    Add (sub)title
                 </md-button>
             </div>
 
@@ -83,11 +83,11 @@
             <md-toolbar ng-if="vm.meta.movieUrl != null">
                 <div class="md-toolbar-tools">
                     <md-button class="md-raised" aria-label="Bekijk filmpje" ng-click="vm.preview()" ng-disabled="!vm.loop">
-                        Preview filmpje
+                        Preview
                     </md-button>
                     <span flex></span>
                     <md-button class="md-raised" aria-label="Maak filmpje" ng-click="vm.finishMovie()">
-                        Maak filmpje
+                        Create Movie
                     </md-button>
                 </div>
             </md-toolbar>
