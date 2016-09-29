@@ -372,8 +372,12 @@ export default class SubtitlesController {
     //         console.log("Error:", error);
     //     });
     // }
+    
 
     setTemplate(type, key) {
+
+        this.selectedSub.type = type;
+
         let c = this.subs.$getRecord(this.selectedSub.id);
         c.template = key;
         c.type = type;
