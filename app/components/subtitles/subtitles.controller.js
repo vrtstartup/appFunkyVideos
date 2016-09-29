@@ -282,10 +282,32 @@ export default class SubtitlesController {
         this.selectedTemplate = template.meta.form;
     }
 
+    checkTimeFromEnd(movieDuration) {
+
+        let hightestClipTime = Math.max.apply( Math,this.subs.map(function(o){return o.end;}) );
+
+        let timeFromEnd = movieDuration - hightestClipTime;
+
+        if (timeFromEnd < 2){
+            return false;
+        }
+        
+    }
+
     // Add one subtitle
     addSubtitle(movieDuration, $event) {
         // remove focus from button
         $event.currentTarget.blur();
+
+        if(this.subs.length > 0){
+            let canAddSubtitle = this.checkTimeFromEnd(movieDuration);   
+            
+            if(canAddSubtitle == false){
+                console.log('please make your last subtitle smaller');
+                this.toast.showToast('error', 'please make your last subtitle smaller');
+                return;
+            }
+        }
         
         // get last subtitle
         let lastClip = {};

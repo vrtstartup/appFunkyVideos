@@ -30,7 +30,7 @@
                 </md-list>
 
                 <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.meta.movieDuration, $event)">
-                    Voeg toe
+                    Add(sub)
                 </md-button>
             </div>
 
@@ -55,12 +55,12 @@
         <section flex ng-if="vm.projectActive == true" class="subtitles-movie" layout="column" flex="40">
             <md-list>
                 <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl != null">
-                    <p>Huidig filmpje: {{vm.meta.movieUrl | limitTo: 30}}{{vm.meta.movieUrl > 30 ? '...' : ''}}</p>
+                    <md-button class="md-raised" href="{{vm.meta.movieUrl}}">Download orig</md-button>
                     <md-button class="md-raised" aria-label="Plaats nieuw filmpje" 
                         ng-model="vm.subtitle.video" 
                         ngf-accept="'video/mp4, video/quicktime'"
                         ngf-select="vm.upload($file)" type="file">
-                        Verander
+                        Change Movie
                     </md-button>
                 </md-list-item>
 
@@ -71,7 +71,7 @@
                 <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl == null">
                     <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'"
                         ngf-select="vm.upload($file)" type="file">
-                        Voeg een video toe
+                        Add a Movie
                     </md-button>
                 </md-list-item>
 
@@ -110,9 +110,10 @@
 </md-content>
 
 <!--debugging info-->
-<div style="position:absolute;bottom:60px;width:100%;padding:20px;font-size:10px;line-height:15px;z-index:100;background:#f2f2f2;">
-    this.selectedSub.type {{ this.selectedSub.type | json}} 
+<div style="position:absolute;bottom:60px;width:100%;padding:20px;font-size:10px;line-height:15px;z-index:0;background:rgba(0,0,0,.1);">
+    spacebar = start/stop | i = in | o = out | l = preview | k = next frame | l = prev frame
+    <!--this.selectedSub.type {{ this.selectedSub.type | json}} 
     vm.meta: {{ vm.meta | json }} <br>
-    vm.subs.length: {{ vm.subs.length }} <br>
-    vm.subs.selected: {{ vm.subs.selected | json}}
+    vm.subs.length: {{ vm.subs }} <br>
+    vm.subs.selected: {{ vm.subs.selected | json}}-->
 </div>
