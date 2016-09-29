@@ -29,7 +29,7 @@
                     </md-list-item>
                 </md-list>
 
-                <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.meta.movieDuration)">
+                <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.meta.movieDuration, $event)">
                     Voeg toe
                 </md-button>
             </div>
@@ -110,9 +110,9 @@
 </md-content>
 
 <!--debugging info-->
-<!--<div style="position:absolute;bottom:60px;width:100%;padding:20px;font-size:10px;line-height:15px;z-index:100;background:#f2f2f2;">
+<div style="position:absolute;bottom:60px;width:100%;padding:20px;font-size:10px;line-height:15px;z-index:100;background:#f2f2f2;">
     this.selectedSub.type {{ this.selectedSub.type | json}} 
     vm.meta: {{ vm.meta | json }} <br>
     vm.subs.length: {{ vm.subs.length }} <br>
     vm.subs.selected: {{ vm.subs.selected | json}}
-</div>-->
+</div>
