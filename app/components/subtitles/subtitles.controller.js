@@ -141,6 +141,14 @@ export default class SubtitlesController {
                 this.addSubtitle(this.meta.movieDuration);
             }
         });
+
+        this.hotkeys.add({
+            combo: 'space',
+            description: 'start|stop video',
+            callback: () => {
+                this.videogular.api.playPause();
+            }
+        });
     }
 
     // Initiate Firebase
@@ -276,6 +284,7 @@ export default class SubtitlesController {
 
     // Add one subtitle
     addSubtitle(movieDuration) {
+
         // get last subtitle
         let lastClip = {};
         this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function (snapshot) {
