@@ -296,7 +296,7 @@ export default class SubtitlesController {
             let canAddSubtitle = this.checkTimeFromEnd(movieDuration);   
             
             if(canAddSubtitle == false){
-                console.log('please make your last subtitle smaller');
+                // console.log('please make your last subtitle smaller');
                 this.toast.showToast('error', 'please make your last subtitle smaller');
                 return;
             }
@@ -504,6 +504,7 @@ export default class SubtitlesController {
     */
 
     renderMovie(clips) {
+        console.log('clips =',clips);
         // Filter subs from visuals
         let subs = [];
         let visuals = [];
@@ -511,13 +512,14 @@ export default class SubtitlesController {
             if (value.type === 'sub') {
                 subs.push(value);
             } else if (value.type === 'visual') {
-
                 visuals.push(value);
             }
         });
-        this.templater.renderMovie(subs, visuals, this.meta, this.projectId).then((resp) => {
-            this.movieSend = true;
-        });
+        
+        this.templater.renderMovie(subs, visuals, this.meta, this.projectId)
+            .then((resp) => {
+                this.movieSend = true;
+            });
     }
 
 }

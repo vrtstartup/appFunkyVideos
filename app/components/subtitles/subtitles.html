@@ -14,36 +14,38 @@
 
             <div ng-if="vm.meta.movieUrl != null">
                 <md-list style="overflow-y: scroll;">
-                    <md-list-item class="md-2-line animate-repeat subtitles-clips__list--{{c.type}}" 
-                        ng-click="vm.selectClip(c.$id, c.start, c.end, c.type, c.template, 'form'); vm.loop = true"
-                        ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" 
-                        ng-repeat="(key, c) in vm.subs | orderBy: 'start'">
-                        <div class="md-list-item-text">
-                            <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
-                            <!-- <p>{{ c.text | limitTo: 20 }}{{c.text.length > 20 ? '...' : ''}}</p> -->
-                            <p>{{ c.text }}</p>
-                        </div>
-                        <md-button class="md-secondary md-icon-button" ng-click="vm.subs.$remove(c)" aria-label="remove clip">
-                            <i class="material-icons" ng-click="vm.subs.$remove(c)">close</i>
-                        </md-button>
-                    </md-list-item>
+                    <div>
+                        <md-list-item class="md-2-line animate-repeat subtitles-clips__list--{{c.type}}" 
+                            ng-click="vm.selectClip(c.$id, c.start, c.end, c.type, c.template, 'form'); vm.loop = true"
+                            ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" 
+                            ng-repeat="(key, c) in vm.subs | orderBy: 'start'">
+                            <div class="md-list-item-text">
+                                <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
+                                <p>{{ c.text }}</p>
+                            </div>
+                            <md-button class="md-secondary md-icon-button" ng-click="vm.subs.$remove(c)" aria-label="remove clip">
+                                <i class="material-icons" ng-click="vm.subs.$remove(c)">close</i>
+                            </md-button>
+                        </md-list-item>
+                    </div>
                 </md-list>
-
                 <md-button class="md-raised" aria-label="Clip toevoegen" ng-click="vm.addSubtitle(vm.meta.movieDuration, $event)">
                     Add (sub)title
                 </md-button>
             </div>
-
+            
+            <!--testComponent-->
+            <test input="''"></test>
+            <!-- -->
+            
         </section>
 
         <section flex="10" ng-if="vm.subs.length && vm.subs.selected" style="border:1px solid #f2f2f2">
-                <div ng-repeat="(key,t) in vm.clipTemplates" 
-                    ng-click="vm.setTemplate(t.meta.type, key)" 
-                    ng-if="(t.meta.brand.indexOf(vm.project.meta.brand) > -1 || t.meta.brand == 'all') && t.meta.excludeBrand.indexOf(vm.project.meta.brand) == -1 && t.meta.roles.indexOf(vm.user.role) > -1">
-                    <img ng-src="{{t.meta.img}}" class="subtitles-templates__selectTemplate" ng-class="(key == vm.selectedSub.template) ? 'selectedTemplate' : ''">
-                </div>
+            <div ng-repeat="(key,t) in vm.clipTemplates" ng-click="vm.setTemplate(t.meta.type, key)" ng-if="(t.meta.brand.indexOf(vm.project.meta.brand) > -1 || t.meta.brand == 'all') && t.meta.excludeBrand.indexOf(vm.project.meta.brand) == -1 && t.meta.roles.indexOf(vm.user.role) > -1">
+                <img ng-src="{{t.meta.img}}" class="subtitles-templates__selectTemplate" ng-class="(key == vm.selectedSub.template) ? 'selectedTemplate' : ''">
+            </div>
         </section>
-        
+
         <section ng-if="vm.meta.movieUrl != null" layout-padding flex="30" style="border:1px solid #f2f2f2">
             <div ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id">
                 <div layout="row">
@@ -56,9 +58,7 @@
             <md-list>
                 <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl != null">
                     <md-button class="md-raised" href="{{vm.meta.movieUrl}}">Download orig</md-button>
-                    <md-button class="md-raised" aria-label="Plaats nieuw filmpje" 
-                        ng-model="vm.subtitle.video" 
-                        ngf-accept="'video/mp4, video/quicktime'"
+                    <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'"
                         ngf-select="vm.upload($file)" type="file">
                         Change Movie
                     </md-button>
@@ -111,9 +111,5 @@
 
 <!--debugging info-->
 <div style="position:absolute;bottom:60px;width:100%;padding:20px;font-size:13px;line-height:15px;z-index:0;background:rgba(0,0,0,.1);">
-    hotkeys: press <span class="cfp-hotkeys-key">shift</span> + <span class="cfp-hotkeys-key">?</span> 
-    <!--this.selectedSub.type {{ this.selectedSub.type | json}} 
-    vm.meta: {{ vm.meta | json }} <br>
-    vm.subs.length: {{ vm.subs }} <br>
-    vm.subs.selected: {{ vm.subs.selected | json}}-->
+    hotkeys: press <span class="cfp-hotkeys-key">shift</span> + <span class="cfp-hotkeys-key">?</span>
 </div>

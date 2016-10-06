@@ -1,6 +1,7 @@
 import angular from 'angular';
 import home from './home';
 import subtitles from './subtitles';
+import testSubComponent from './subtitles/components/subtitles-listitem';
 import pictures from './pictures';
 import chart from './chart';
 import templater from './templater';
@@ -15,7 +16,7 @@ import admin from './admin';
 import guide from './guide';
 
 const module = angular.module('app.components', [
-    home, subtitles, pictures, chart, templater, audio, grid, maps, movies, questions, download, explainers, admin, guide
+    home, subtitles, testSubComponent, pictures, chart, templater, audio, grid, maps, movies, questions, download, explainers, admin, guide
 ]);
 
 export default module.name;
