@@ -500,8 +500,6 @@ export default class templaterService {
 
         for (var key in clips) {
 
-            console.log('clips ==', clips);
-            
             if (!clips.hasOwnProperty(key)) continue;
 
             let clip = clips[key];
@@ -843,7 +841,6 @@ export default class templaterService {
                 let visualClips = value[2];
 
                 if (!visualClips && assFile) {
-                    console.log('assFile.data.url =', assFile.data.url);
                     this.$http({
                         data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips },
                         method: 'POST',

@@ -289,8 +289,10 @@ export default class SubtitlesController {
 
     // Add one subtitle
     addSubtitle(movieDuration, $event) {
-        // remove focus from button
-        $event.currentTarget.blur();
+        
+        if($event){
+            $event.currentTarget.blur();
+        }
 
         if(this.subs.length > 0){
             let canAddSubtitle = this.checkTimeFromEnd(movieDuration);   
