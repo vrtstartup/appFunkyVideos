@@ -521,8 +521,35 @@ export default class templaterService {
 
             } else {
                 clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
-            }
-            // LAST
+            } 
+
+            // INPUT
+            // i - container
+            // i - orig
+            // i - bumper
+            // i - visuals
+            // i - logo
+
+            // SCALING
+            // 
+
+            // TIMINGS
+            // offset 0 or defined
+
+            // OVERLAYS [orig, logo, clips, bumper] exept container
+            // 1op2 ()
+            // 2op3 ()
+            // 3op4 ()
+
+            // SUBTITLE
+            // 
+
+            // AUDIO
+            // 
+
+            //FINAL
+            // 
+
             if (clip.id === totalClips) {
 
                 if (meta.bumper > 0) {

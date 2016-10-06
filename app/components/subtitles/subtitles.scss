@@ -297,3 +297,21 @@ md-toolbar.vrt-sub-toolbar {
     border-left-style: solid;
     background: $drd-main-color;
 }
+
+#subtitle-tool {
+    .vertical-divider {
+        width: 1px;
+        height: 100%;
+        border-right: 1px solid #dbdbdb;
+        display: inline-block;
+        margin: 0 .5rem;
+    }
+    .md-button:not(.md-icon-button) {
+        padding: 0 1rem;
+    }
+    .cfp-hotkeys-key {
+        background-color: #b7b7b7;
+        border: 0;
+        box-shadow: none;
+    }
+}
