@@ -2,8 +2,8 @@
 
 
     <!--<div ng-class="vm.image ? 'overlay' : 'no-overlay'" class="pictures-drd__container">-->
-    <div class="pictures-zdd__container" style="background-image: url('/assets/templates/zdd_2VS.png')">
 
+    <div class="pictures-zdd__container" ng-style="vm.vs ? {'background-image': 'url(/assets/templates/zdd_2VS.png)'} : {'background-image': 'url(/assets/templates/zdd_2.png)' }">
 
         <div class="pictures-zdd__date">{{vm.date}}</div>
 
