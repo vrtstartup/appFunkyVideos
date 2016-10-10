@@ -197,7 +197,7 @@ export default class SubtitlesController {
     // Show the dialog to finish the movie
     finishMovie(ev) {
         this.$mdDialog.show({
-            templateUrl: '/components/subtitles/finish.dialog.html',
+            templateUrl: '/components/subtitles/views/finish.dialog.html',
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose: false,
@@ -210,7 +210,7 @@ export default class SubtitlesController {
     // Show the dialog to open a project
     openProjects(ev) {
         this.$mdDialog.show({
-            templateUrl: '/components/subtitles/projects.dialog.html',
+            templateUrl: '/components/subtitles/views/projects.dialog.html',
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose: false,
