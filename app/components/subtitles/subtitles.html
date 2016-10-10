@@ -73,9 +73,7 @@
 
         <section ng-if="vm.meta.movieUrl != null" layout-padding flex="30" style="border:1px solid #f2f2f2">
             <div ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id">
-                <div layout="row">
-                    <div ng-include="vm.selectedTemplate"></div>
-                </div>
+                <subtitle-input template="vm.selectedTemplate" updateparent="vm.saveSubs(c)"  ref="c"></subtitle-input>
             </div>
         </section>
 

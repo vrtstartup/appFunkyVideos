@@ -41,6 +41,16 @@ export default class SubtitlesController {
         // Subtitle Vars
         this.subs = '';
         this.subSlider = {};
+        this.subtitleFields = [
+            {
+                "type": "label",
+                "name": "stBottom"
+            },
+            {
+                "type": "label",
+                "name": "stBottom"
+            }
+        ]
 
         // Visual Vars
         this.visuals = '';
@@ -272,7 +282,7 @@ export default class SubtitlesController {
     // get the html form that belongs with this template
     getTemplate(type, key) {
         let template = this.clipTemplates[key];
-        this.selectedTemplate = template.meta.form;
+        this.selectedTemplate = template.clip;
     }
 
     checkTimeFromEnd(movieDuration) {
@@ -393,16 +403,7 @@ export default class SubtitlesController {
         let time = twoDigits(dur.minutes) + ':' + twoDigits(dur.seconds) + '.' + round(dur.millis);
         return time;
     }
-
-    // setAudio(audioId) {
-    //     this.meta.audio = audioId;
-    //     this.audioTrackUrl = this.templater.audioTracks[audioId].fileLocal;
-    //     this.meta.$save().then(function(ref) {}, function(error) {
-    //         console.log("Error:", error);
-    //     });
-    // }
     
-
     setTemplate(type, key) {
 
         this.selectedSub.type = type;
@@ -419,6 +420,10 @@ export default class SubtitlesController {
         this.subs.$save(c);
         this.selectedSub.template = key;
         this.getTemplate('form', key);
+    }
+
+    saveSubs(c){
+       this.subs.$save(c);
     }
 
     setSubSlider(movieDuration) {

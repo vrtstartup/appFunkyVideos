@@ -22,12 +22,12 @@ export default class templaterService {
                 'excludeBrand': 'stubru',
                 'type': 'sub',
                 'img': 'assets/videoTemplates/dr_defaultSub.png',
-                'form': '/components/subtitles/template.subtitle.normalSub.form.html',
                 'view': '/components/subtitles/template.subtitle.normalSub.view.html',
                 'roles': ['0', '1', '2', '']
             },
             clip: {
-                'style': 'Default'
+                'style': 'Default',
+                'text': ""
             }
         },
             {
@@ -37,7 +37,6 @@ export default class templaterService {
                     'excludeBrand': '',
                     'type': 'visual',
                     'img': 'assets/videoTemplates/dr_title.gif',
-                    'form': '/components/subtitles/template.visual.title.form.html',
                     'view': '/components/subtitles/template.visual.title.view.html',
                     'length': 8,
                     'roles': ['0', '1']
@@ -66,7 +65,6 @@ export default class templaterService {
                     'excludeBrand': '',
                     'type': 'visual',
                     'img': 'assets/videoTemplates/dr_high.gif',
-                    'form': '/components/subtitles/template.visual.topLeft.form.html',
                     'view': '/components/subtitles/template.visual.topLeft.view.html',
                     'length': 8,
                     'roles': ['0', '1']
@@ -95,7 +93,6 @@ export default class templaterService {
                     'excludeBrand': '',
                     'type': 'visual',
                     'img': 'assets/videoTemplates/dr_low.gif',
-                    'form': '/components/subtitles/template.visual.bottomLeft.form.html',
                     'view': '/components/subtitles/template.visual.bottomLeft.view.html',
                     'length': 8,
                     'roles': ['0', '1']
@@ -122,12 +119,12 @@ export default class templaterService {
                     'excludeBrand': '',
                     'type': 'sub',
                     'img': 'assets/videoTemplates/stubru_defaultSub.png',
-                    'form': '/components/subtitles/template.subtitle.stubruDefaultSub.form.html',
                     'view': '/components/subtitles/template.subtitle.stubruDefaultSub.view.html',
                     'roles': ['0', '1', '2']
                 },
                 clip: {
-                    'style': 'StubruDefault'
+                    'style': 'StubruDefault',
+                    'text': ""
 
                 }
             }, {
@@ -137,12 +134,12 @@ export default class templaterService {
                     'excludeBrand': '',
                     'type': 'sub',
                     'img': 'assets/videoTemplates/dr_defaultSub.png',
-                    'form': '/components/subtitles/template.subtitle.normalSub.form.html',
                     'view': '/components/subtitles/template.subtitle.normalSub.view.html',
                     'roles': ['0', '1']
                 },
                 clip: {
-                    'style': 'DeredactieBackdrop'
+                    'style': 'DeredactieBackdrop',
+                    'text': ""
                 }
             }, {
                 meta: {
@@ -151,7 +148,6 @@ export default class templaterService {
                     'excludeBrand': '',
                     'type': 'visual',
                     'img': 'assets/videoTemplates/dr_title.gif',
-                    'form': '/components/subtitles/template.visual.title.form.html',
                     'view': '/components/subtitles/template.visual.title.view.html',
                     'length': 8,
                     'roles': ['0', '1']
@@ -178,7 +174,6 @@ export default class templaterService {
                     'excludeBrand': '',
                     'type': 'visual',
                     'img': 'assets/videoTemplates/dr_high.gif',
-                    'form': '/components/subtitles/template.visual.topLeft.form.html',
                     'view': '/components/subtitles/template.visual.topLeft.view.html',
                     'length': 8,
                     'roles': ['0', '1']
@@ -207,7 +202,6 @@ export default class templaterService {
                     'excludeBrand': '',
                     'type': 'visual',
                     'img': 'assets/videoTemplates/dr_low.gif',
-                    'form': '/components/subtitles/template.visual.bottomLeft.form.html',
                     'view': '/components/subtitles/template.visual.bottomLeft.view.html',
                     'length': 8,
                     'roles': ['0', '1']
