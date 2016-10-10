@@ -3,7 +3,6 @@ import angular from 'angular';
 function SubtitleInputController($scope) {
   let ctrl = this;
   // Parse template properties
-  console.log(this.template);
 
    this.parseTemplate = ()=>{ 
     let ret = {};
