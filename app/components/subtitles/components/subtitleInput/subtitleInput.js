@@ -23,7 +23,7 @@ function SubtitleInputController($scope) {
 }
 
 const module = angular.module('app.components.SubtitleInput', []).component('subtitleInput', {
-  templateUrl: './subtitleInput.html',
+  templateUrl: 'subtitleInput.html',
   controller: SubtitleInputController,
   bindings: {
     template: "=",
