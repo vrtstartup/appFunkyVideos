@@ -7,14 +7,15 @@ var ffmpeg = require('fluent-ffmpeg');
 router.get('/makemovie', function(req, res) {
 
     
-    let inpArr = ['movie', 'overlay_1', 'overlay_2', 'overlay_3', 'logo', 'bumper'];
+    let inpArr = ['movie', 'overlay_1', 'overlay_2', 'overlay_3', 'logo', 'outro'];
+
     let overlayArray = [ 
         { path: 'temp/test/overlay_1.mov', stTime: '0',},
         { path: 'temp/test/overlay_2.mov', stTime: '4',},
         { path: 'temp/test/overlay_3.mov', stTime: '8',},
     ];
     let logo = inpArr.includes('logo'); //flag
-    let bumper = inpArr.includes('bumper'); //flag
+    let outro = inpArr.includes('outro'); //flag
 
     var ffmpegtest = new ffmpeg();
 
@@ -29,32 +30,26 @@ router.get('/makemovie', function(req, res) {
         ffmpegtest = ffmpegtest.input(el.path);    
     });
 
-    // LOGO AND BUMPER 
-    function setLogoAndBumper(){
+    // LOGO AND outro 
+    function setLogoAndoutro(){
         let logoLine = '';
-        let bumperLine = '';
-        const inputIndex = overlayArray.length + 2; // black(0) | movie(1) | overlay(2) | overlay(3) | overlay(4)
+        let outroLine = '';
 
-        if(logo && !bumper){
+        if(outro) {
+            ffmpegtest
+                .input('temp/test/outro.mov')
+            outroLine = '[' + (inpArr.indexOf('outro') + 1) + ':v]setpts=PTS-STARTPTS+20/TB,scale=380:-1[outro];';
+        } 
+        if(logo){
             ffmpegtest
                 .input('temp/test/logo.mov')
-            logoLine = '[' + inputIndex + ':v]setpts=PTS-STARTPTS,scale=75:-1[logo];';
-            return logoLine;
-        } else if(bumper && !logo) {
-            ffmpegtest
-                .input('temp/test/bumper.mov')
-            bumperLine = '[' + inputIndex + ':v]setpts=PTS-STARTPTS+20/TB,scale=380:-1[bumper];';
-            return bumperLine;
-        } else if(bumper && logo) {
-            ffmpegtest
-                .input('temp/test/logo.mov')
-                .input('temp/test/bumper.mov');
-            logoLine = '[' + inputIndex + ':v]setpts=PTS-STARTPTS,scale=75:-1[logo];';
-            bumperLine = '[' + (inputIndex + 1) + ':v]setpts=PTS-STARTPTS+20/TB,scale=380:-1[bumper];';
-            return logoLine + bumperLine;
-        } else {
-            return '';
-        }
+                .input('color=c=black:s=320x182,trim=duration=50') // very last input
+                .inputFormat('lavfi')   //[last:v]
+            logoLine = '[' + (inpArr.indexOf('logo') + 1) + ':v]setpts=PTS-STARTPTS,scale=75:-1[logo_tp];';
+            logoLine += '[logo_tp]['+ (inpArr.length + 1) + ']overlay=x=10:y=10[logo];'
+        } 
+        console.log('outroLine + logoLine =', outroLine + logoLine);
+        return outroLine + logoLine;
     }
 
     // SET POS & SCALE
@@ -64,7 +59,7 @@ router.get('/makemovie', function(req, res) {
         overlayArray.forEach( (el, i) => {
             posScaleLine =  posScaleLine +  '[' + (i+2) + ':v]setpts=PTS-STARTPTS+' + el.stTime + '/TB,scale=380:-1[overlay_' + (i+1) + '];' ;
         });
-        posScaleLine = posScaleLine + setLogoAndBumper();
+        posScaleLine = posScaleLine + setLogoAndoutro();
         return posScaleLine;
     }
 
@@ -73,26 +68,37 @@ router.get('/makemovie', function(req, res) {
     let overlayLine = '';
     let output = '';
     
+    // function makeOverlaysString(){
+    //     if( inpArr.length > 1) {
+    //         output = inpArr[0] + '_' + inpArr[1];
+    //         overlayLine += '['+ inpArr[0] + ']['+ inpArr[1] + ']overlay=x=0:y=0['+ output +'];' ;
+    //         inpArr.splice(0, 2, output);
+    //         return makeOverlaysString();
+    //     } else {
+    //         overlayLine = overlayLine.replace(output, 'out'); // replace output by outputname
+    //         return overlayLine ;
+    //     }
+    // }
+
     function makeOverlaysString(){
-        if( inpArr.length > 1) {
+        while (inpArr.length > 1) {
             output = inpArr[0] + '_' + inpArr[1];
             overlayLine += '['+ inpArr[0] + ']['+ inpArr[1] + ']overlay=x=0:y=0['+ output +'];' ;
             inpArr.splice(0, 2, output);
-            return makeOverlaysString();
-        } else {
-            overlayLine = overlayLine.replace(output, 'out'); // replace output by outputname
-            return overlayLine ;
         }
+        
+        overlayLine = overlayLine.replace(output, 'out'); // replace output by outputname
+        console.log(overlayLine);
+        return overlayLine ;
     }
 
     function makeComplexFilter(){
         let complxLine = setStartPosAndScale() + makeOverlaysString() ;
+        // CLEANUP
         complxLine = complxLine.replace(';;', ';');
         complxLine = complxLine.substring(0, complxLine.length - 1);
         return complxLine;
     }
-/*
-*/
 
 ffmpegtest    
     .complexFilter([
