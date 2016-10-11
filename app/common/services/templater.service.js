@@ -417,7 +417,7 @@ export default class templaterService {
         if (minutes < 10) {
             minutes = '0' + minutes;
         }
-        let date = yyyy + mm + dd + '_' + hours + minutes + seconds;
+        let date = yyyy.toString() + mm.toString() + dd.toString() + '_' + hours + minutes + seconds;
         return date;
     }
 
