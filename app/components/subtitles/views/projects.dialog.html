@@ -11,7 +11,7 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-padding" layout="row">
-                <md-content flex="65" layout="column" layout-align="space-around">
+                <md-content flex="100" layout="column" layout-align="space-around">
                     <md-checkbox ng-model="vm.projectFilters.email" aria-label="Jouw projecten">
                         Toon enkel jouw projecten
                     </md-checkbox>
@@ -28,11 +28,6 @@
                         </md-list-item>
                     </md-list>
                 </md-content>
-                <div layout="column" layout-align="start center" layout-wrap flex="35">
-                    <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.createMovie()">
-                        Start nieuw project
-                    </md-button>
-                </div>
             </div>
         </md-dialog-content>
     </form>
