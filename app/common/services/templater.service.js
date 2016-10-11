@@ -48,13 +48,13 @@ export default class templaterService {
                     "Text1": "{{off}}",
                     "LowText": "{{off}}",
                     "HighText": "{{off}}",
-                    "BigText": "",
+                    "BigText": "{{off}}",
                     "HighlightText": "{{off}}",
                     "Text1": "",
                     "Text2DR": "",
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
-                    "Text5": ""
+                    "Text5": "{{off}}"
                 }
             },
 
@@ -75,14 +75,14 @@ export default class templaterService {
                     "color2": "4CBF23",
                     "Text1": "{{off}}",
                     "LowText": "{{off}}",
-                    "HighText": "",
+                    "HighText": "{{off}}",
                     "BigText": "{{off}}",
                     "HighlightText": "{{off}}",
-                    "Text1": "{{off}}",
+                    "Text1": "",
                     "Text2DR": "",
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
-                    "Text5": ""
+                    "Text5": "{{off}}"
                 }
             },
 
@@ -101,8 +101,7 @@ export default class templaterService {
                     'aep': this.aepLocation + 'template.aep',
                     "color1": "1B2A36",
                     "color2": "4CBF23",
-                    "Text1": "{{off}}",
-                    "LowText": "",
+                    "LowText": "{{off}}",
                     "HighText": "{{off}}",
                     "BigText": "{{off}}",
                     "HighlightText": "{{off}}",
@@ -110,7 +109,7 @@ export default class templaterService {
                     "Text2DR": "",
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
-                    "Text5": ""
+                    "Text5": "{{off}}"
                 }
             }, {
                 meta: {
