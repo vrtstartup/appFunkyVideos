@@ -15,7 +15,7 @@ export default class SubtitlesController {
 
         // Interface Vars
         this.projectFilters = { email: true };
-        this.numberOfProjects = 200;
+        this.numberOfProjects = 20;
         this.loop = false;
         this.projectsLoaded = false;
         this.movieSend = false;
@@ -162,6 +162,7 @@ export default class SubtitlesController {
         this.projects.$loaded()
             .then((x) => {
                 this.projectsLoaded = true;
+                console.log(x);
             })
             .catch((error) => {
             });
