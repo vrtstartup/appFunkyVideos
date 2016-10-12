@@ -1,4 +1,5 @@
 import angular from 'angular';
+// var templateUrl = require('ngtemplate!html!./subtitleInput.html');
 
 function SubtitleInputController($scope) {
   let ctrl = this;
@@ -23,7 +24,8 @@ function SubtitleInputController($scope) {
 }
 
 const module = angular.module('app.components.SubtitleInput', []).component('subtitleInput', {
-  templateUrl: 'subtitleInput.html',
+  restrict: 'E',
+  templateUrl: require('./subtitleInput.html'),
   controller: SubtitleInputController,
   bindings: {
     template: "=",

@@ -5,6 +5,8 @@ var buildPath = path.resolve(__dirname, 'app', 'build');
 var mainPath = path.resolve(__dirname, 'app', 'app.js');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+console.log("DIR", __dirname);
+
 var config = {
 
     // Makes sure errors in console map to the correct file
@@ -70,9 +72,14 @@ var config = {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract('style', 'css?sourceMap!autoprefixer-loader?browsers=last 2 versions!sass?sourceMap'),
             },
-            {
+            // {
+            //     test: /\.html$/,
+            //     loader: 'raw'
+            // },
+            // ngtemplate loader
+             {
                 test: /\.html$/,
-                loader: 'raw'
+                loader: 'ngtemplate?relativeTo=' + __dirname + '/!html'
             },
 
         ]
