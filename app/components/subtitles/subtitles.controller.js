@@ -162,7 +162,6 @@ export default class SubtitlesController {
         this.projects.$loaded()
             .then((x) => {
                 this.projectsLoaded = true;
-                console.log(x);
             })
             .catch((error) => {
             });
