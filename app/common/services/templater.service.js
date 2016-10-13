@@ -28,6 +28,9 @@ export default class templaterService {
             clip: {
                 'style': 'Default',
                 'text': ""
+            },
+            input: {
+                'text': "",
             }
         },
             {
@@ -55,36 +58,45 @@ export default class templaterService {
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
                     "Text5": ""
+                },
+                input: {
+                    "Text2DR": "",
+                    "Text1": "",
                 }
             },
 
-            {
-                meta: {
-                    'id': 'topLeft',
-                    'brand': 'deredactie.be',
-                    'excludeBrand': '',
-                    'type': 'visual',
-                    'img': 'assets/videoTemplates/dr_high.gif',
-                    'view': '/components/subtitles/views/template.visual.topLeft.view.html',
-                    'length': 8,
-                    'roles': ['0', '1']
-                },
-                clip: {
-                    'aep': this.aepLocation + 'template.aep',
-                    "color1": "1B2A36",
-                    "color2": "4CBF23",
-                    "Text1": "{{off}}",
-                    "LowText": "{{off}}",
-                    "HighText": "",
-                    "BigText": "{{off}}",
-                    "HighlightText": "{{off}}",
-                    "Text1": "{{off}}",
-                    "Text2DR": "",
-                    "Text2AK": "{{off}}",
-                    "Text4AK": "{{off}}",
-                    "Text5": ""
-                }
-            },
+            // {
+            //     meta: {
+            //         'id': 'topLeft',
+            //         'brand': 'deredactie.be',
+            //         'excludeBrand': '',
+            //         'type': 'visual',
+            //         'img': 'assets/videoTemplates/dr_high.gif',
+            //         'view': '/components/subtitles/views/template.visual.topLeft.view.html',
+            //         'length': 8,
+            //         'roles': ['0', '1']
+            //     },
+            //     clip: {
+            //         'aep': this.aepLocation + 'template.aep',
+            //         "color1": "1B2A36",
+            //         "color2": "4CBF23",
+            //         "Text1": "{{off}}",
+            //         "LowText": "{{off}}",
+            //         "HighText": "",
+            //         "BigText": "{{off}}",
+            //         "HighlightText": "{{off}}",
+            //         "Text1": "{{off}}",
+            //         "Text2DR": "",
+            //         "Text2AK": "{{off}}",
+            //         "Text4AK": "{{off}}",
+            //         "Text5": ""
+            //     },
+            //     input: {
+            //         "Text2DR": "",
+            //         "Text5": "",
+            //         "Text1": "",
+            //     }
+            // },
 
             {
                 meta: {
@@ -111,6 +123,9 @@ export default class templaterService {
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
                     "Text5": ""
+                },
+                input: {
+                    "Text2DR": "",
                 }
             }, {
                 meta: {
@@ -140,6 +155,9 @@ export default class templaterService {
                 clip: {
                     'style': 'DeredactieBackdrop',
                     'text': ""
+                },
+                input: {
+                    'text': "",
                 }
             }, {
                 meta: {
@@ -166,6 +184,10 @@ export default class templaterService {
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
                     "Text5": ""
+                },
+                input: {
+                    "Text2DR": "",
+                    "Text1": "",
                 }
             }, {
                 meta: {
@@ -192,6 +214,9 @@ export default class templaterService {
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
                     "Text5": ""
+                },
+                input: {
+                    "Text2DR": "",
                 }
             },
 
@@ -219,6 +244,10 @@ export default class templaterService {
                     "Text2DR": "",
                     "Text2AK": "{{off}}",
                     "Text4AK": "{{off}}",
+                    "Text5": ""
+                },
+                input: {
+                    "Text2DR": "",
                     "Text5": ""
                 }
             }

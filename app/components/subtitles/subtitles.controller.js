@@ -283,7 +283,7 @@ export default class SubtitlesController {
     // get the html form that belongs with this template
     getTemplate(type, key) {
         let template = this.clipTemplates[key];
-        this.selectedTemplate = template.clip;
+        this.selectedTemplate = template.input;
     }
 
     checkTimeFromEnd(movieDuration) {
