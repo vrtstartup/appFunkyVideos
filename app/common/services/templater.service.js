@@ -873,7 +873,6 @@ export default class templaterService {
 
     renderMovie(subs, visuals, meta, projectId) {
         const deferred = this.$q.defer();
-
         let uniqueProjectName = this.time() + '_' + (meta.email.substring(0, meta.email.indexOf("@"))).replace('.', '');
         let videoName = uniqueProjectName + '.mp4';
         this.getTempUrl(meta.dropboxPath).then((res) => {
