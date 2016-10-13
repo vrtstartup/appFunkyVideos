@@ -23,7 +23,7 @@ const questionsApi = require('./routes/questions');
 const convertImageApi = require('./routes/convertimage');
 const environmentVarsApi = require('./routes/environment');
 const downloadApi = require('./routes/download');
-// const makeMovieApi = require('./routes/makemovie.route');
+const makeMovieApi = require('./routes/makemovie.route');
 // const storage = require('./services/storage');
 
 //var proxy = httpProxy.createProxyServer(); // for communication between webpack & server
@@ -57,7 +57,7 @@ app.use('/api', questionsApi);
 app.use('/api', environmentVarsApi);
 app.use('/api', convertImageApi);
 app.use('/api', downloadApi);
-// app.use('/api', makeMovieApi);
+app.use('/api', makeMovieApi);
 
 
 
