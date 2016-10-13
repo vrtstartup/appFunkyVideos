@@ -417,7 +417,7 @@ export default class templaterService {
         if (minutes < 10) {
             minutes = '0' + minutes;
         }
-        let date = yyyy.toString() + mm.toString() + dd.toString() + '_' + hours + minutes + seconds;
+        let date = yyyy.toString() + mm.toString() + dd.toString() + '_' + hours.toString() + minutes.toString() + seconds.toString();
         return date;
     }
 
@@ -842,9 +842,11 @@ export default class templaterService {
 
 
     renderMovie(subs, visuals, meta, projectId) {
+        
         const deferred = this.$q.defer();
 
-        let uniqueProjectName = this.time() + '_' + (meta.email.substring(0, meta.email.indexOf("@"))).replace('.', '');
+        let uniqueProjectName = meta.projectId;
+        
         let videoName = uniqueProjectName + '.mp4';
         this.getTempUrl(meta.dropboxPath).then((res) => {
             //console.log(res.data);
