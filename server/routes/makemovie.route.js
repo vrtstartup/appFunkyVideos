@@ -157,49 +157,23 @@ router.get('/makemovie', function(req, res) {
         let complxLine = '';
         // no logo - no bumper - no titles
         if(!overlayArray.length) {
-            complxLine = '[0:v][1:v]overlay=x=0:y=0[out]';
+            complxLine = '[0:v][1:v]overlay=x=0:y=0[output]';
             return complxLine;
         }
 
         complxLine = '[0:v][1:v]overlay=x=0:y=0[movie];' ; // movie on black-container
         complxLine += setStartPosAndScale() + makeOverlaysString() ;
         
-        // CLEANUP
+        // CLEANUP ;
         complxLine = complxLine.replace(';;', ';');
-        complxLine = complxLine.substring(0, complxLine.length - 1);
+        //complxLine = complxLine.substring(0, complxLine.length - 1);
+
+        // TODO OPTIMIZE
+        complxLine += 'amix=inputs=1:duration=first:dropout_transition=3;' ;
+        complxLine += '[output]ass=temp/test/subtitles.ass[out_subs]'
         
         return complxLine;
     }
-
-/*
-ffmpeg 
--f lavfi -i color=c=black:s=320x182,trim=duration=3129 
--i temp/test/low.mp4 
--i temp/test/overlay_1.mov 
--i temp/test/overlay_2.mov 
--i temp/test/overlay_3.mov 
--i temp/test/logo.mov 
--i temp/test/outro.mov
-
--y -filter_complex 
-[0:v][1:v]overlay=x=0:y=0[movie];
-[2:v]setpts=PTS-STARTPTS+0/TB,scale=320:-1[0];
-[3:v]setpts=PTS-STARTPTS+8/TB,scale=320:-1[1];
-[4:v]setpts=PTS-STARTPTS+16/TB,scale=320:-1[2];
-[5:v]setpts=PTS-STARTPTS+0/TB,scale=80:-1[3];
-[6:v]setpts=PTS-STARTPTS+29/TB,scale=320:-1[4];
-
-[movie][0]overlay=x=0:y=0[movie_0];
-[movie][0]overlay=x=0:y=0[movie_0];
-[movie_0][1]overlay=x=0:y=0[movie_0_1];
-[movie_0][1]overlay=x=0:y=0[movie_0_1];
-[movie_0_1][2]overlay=x=0:y=0[movie_0_1_2];
-[movie_0_1][2]overlay=x=0:y=0[movie_0_1_2];
-[movie_0_1_2][3]overlay=x=0:y=0[movie_0_1_2_3];
-[movie_0_1_2][3]overlay=x=10:y=10[movie_0_1_2_3];
-[movie_0_1_2_3][4]overlay=x=0:y=0[output];
-[movie_0_1_2_3][4]overlay=x=0:y=0[movie_0_1_2_3_4]; -map [output] temp/test/output.mp4
-*/
 
     /* ------------------------------- */
     /* -- FiNAL ---------------------- */
@@ -209,7 +183,7 @@ ffmpegtest
     .complexFilter([
         makeComplexFilter(),
         //'[out]null[output]', // pass out to output
-    ], 'output')
+    ], 'out_subs')
     .saveToFile( 'temp/test/output.mp4', function (stdout, stderr) {
         console.log('file has been created');
     })
