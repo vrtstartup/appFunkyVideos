@@ -1,4 +1,5 @@
 import angular from 'angular';
+// var templateUrl = require('ngtemplate!html!./subtitleInput.html');
 
 function SubtitleInputController($scope) {
   let ctrl = this;
@@ -23,7 +24,12 @@ function SubtitleInputController($scope) {
 }
 
 const module = angular.module('app.components.SubtitleInput', []).component('subtitleInput', {
-  templateUrl: 'subtitleInput.html',
+  restrict: 'E',
+  template: `
+  <md-input-container ng-repeat="(key, value) in $ctrl.parseTemplate()" class="md-block" layout="row" ng-if="$ctrl.template">
+    <label>{{key}}</label>
+    <textarea flex="100" class="flex-100" vrt-maxlines="2" maxlines-prevent-enter="true" id="subtitleText" name="title" ng-model="$ctrl.ref[key]" ng-change="updateparent()"></textarea>
+</md-input-container>`,
   controller: SubtitleInputController,
   bindings: {
     template: "=",
