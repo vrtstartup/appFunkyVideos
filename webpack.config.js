@@ -72,15 +72,15 @@ var config = {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract('style', 'css?sourceMap!autoprefixer-loader?browsers=last 2 versions!sass?sourceMap'),
             },
-            // {
-            //     test: /\.html$/,
-            //     loader: 'raw'
-            // },
-            // ngtemplate loader
-             {
+            {
                 test: /\.html$/,
-                loader: 'ngtemplate?relativeTo=' + __dirname + '/!html'
+                loader: 'raw'
             },
+            // ngtemplate loader
+            //  {
+            //     test: /\.html$/,
+            //     loader: 'ngtemplate?relativeTo=' + __dirname + '/!html'
+            // },
 
         ]
     },
