@@ -1,0 +1,34 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'veertienachtien01'" ng-class="vm.templateClass">
+    <md-content layout-padding="">
+        <md-input-container class="md-block">
+            <label>Datum 1</label>
+            <textarea ng-model="template.dateOne" md-maxlength="100" rows="1" vrt-maxlines="1" maxlines-prevent-enter="true"></textarea>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+            <label>Datum 2</label>
+            <textarea ng-model="template.dateTwo" md-maxlength="100" rows="1" vrt-maxlines="1" maxlines-prevent-enter="true"></textarea>
+        </md-input-container>
+
+
+
+        <div layout>
+            <div flex="10" layout layout-align="center center">
+                <span class="md-body-1">Afbeelding grootte</span>
+            </div>
+            <md-slider flex ng-init="vm.template.imageSize=100" ng-model="vm.template.imageSize" min="0" max="200" id="imageSize-slider" class="md-primary">
+            </md-slider>
+            <div flex="20" layout layout-align="center center">
+                <input flex type="number" ng-model="vm.template.imageSize" aria-controls="imageSize-slider">
+            </div>
+        </div>
+
+    </md-content>
+
+    <input ng-model="template.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)" />
+
+    <div class="dir-wrap">
+        <vrt-picture-veertienachtien01 class="dir-wrap" image-size="vm.template.imageSize" date-one="template.dateOne" date-two="template.dateTwo" image="template.img">
+        </vrt-picture-veertienachtien01>
+    </div>
+</div>

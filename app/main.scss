@@ -19,6 +19,13 @@
 }
 
 @font-face {
+    font-family: 'bookmanBold';
+    src: url('./fonts/BookmanOldStyle-Bold.eot?#iefix') format('embedded-opentype'), url('./fonts/BookmanOldStyle-Bold.woff') format('woff'), url('./fonts/BookmanOldStyle-Bold.ttf') format('truetype'), url('./fonts/BookmanOldStyle-Bold.svg#BookmanOldStyle-Bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'din-cndbold';
     src: url('./fonts/DINComp-CondBold.eot');
     src: url('./fonts/DINComp-CondBold.eot?#iefix') format('embedded-opentype'), url('./fonts/DINComp-CondBold.woff2') format('woff2'), url('./fonts/DINComp-CondBold.woff') format('woff'), url('./fonts/DINComp-CondBold.ttf') format('truetype'), url('./fonts/DINComp-CondBold.svg#DINComp-CondBold') format('svg');

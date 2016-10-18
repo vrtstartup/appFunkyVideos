@@ -239,6 +239,7 @@ $zdd-light: "Gotham-Light";
 $zdd-medium: "Gotham-Medium";
 $zdd-bold: "Gotham-Bold";
 $zdd-book: "Gotham-Book";
+$veertienachtien-font-bold: "bookmanBold";
 .pictures {
     &-clicktrough {
         pointer-events: none;
@@ -513,6 +514,35 @@ $zdd-book: "Gotham-Book";
                 padding-right: 30px;
                 text-align: center;
                 width: 100%;
+            }
+        }
+    }
+    &-1418 {
+        &__image {
+            width: 100%;
+            height: 100%;
+        }
+        &__overlay {
+            width: 100%;
+            height: 100%;
+        }
+        &__title {
+            font-family: $veertienachtien-font-bold;
+            font-size: 39px;
+            color: #000;
+            width: 100%;
+            text-align: center;
+            white-space: pre-wrap;
+            position: absolute;
+            bottom: 39px;
+            line-height: 56px;
+            &--one {
+                &::after {
+                    content: " -";
+                }
+            }
+            &--two {
+                bottom: 0px;
             }
         }
     }
