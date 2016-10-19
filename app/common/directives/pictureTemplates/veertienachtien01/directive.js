@@ -2,7 +2,22 @@ import './style.scss';
 import template from './template.html';
 
 class veertienachtien01Controller {
-    constructor($sce) {}
+    constructor($scope) {
+        this.dateTwo = new Date();
+        $scope.$watch('vm.dateOne', (value) => {
+            if (!value) return;
+            this.newdate(value);
+        });
+
+    }
+
+    newdate(date) {
+        console.log(date);
+        this.dateTwo.setDate(date.getDate() + 6);
+        console.log(this.dateTwo);
+    }
+
+
 }
 
 export const veertienachtien01Directive = function() {
@@ -15,10 +30,10 @@ export const veertienachtien01Directive = function() {
         bindToController: {
             dateOne: '=',
             image: '=',
-            dateTwo: '=',
+            // dateTwo: '=',
             imageSize: '=',
         },
     };
 };
 
-veertienachtien01Controller.$inject = ['$sce'];
+veertienachtien01Controller.$inject = ['$scope'];
