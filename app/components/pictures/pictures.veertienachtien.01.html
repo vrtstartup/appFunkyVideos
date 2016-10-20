@@ -6,6 +6,11 @@
             <md-datepicker ng-model="template.dateOne" md-placeholder="Enter date"></md-datepicker>
         </div>
 
+   <div flex-gt-xs>
+            <h4>Einddatum</h4>
+            <md-datepicker ng-model="template.dateTwo" md-placeholder="Enter date"></md-datepicker>
+        </div>
+
         <div layout>
             <div flex="10" layout layout-align="center center">
                 <span class="md-body-1">Afbeelding grootte</span>
@@ -22,7 +27,7 @@
     <input ng-model="template.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)" />
 
     <div class="dir-wrap">
-        <vrt-picture-veertienachtien01 class="dir-wrap" image-size="vm.template.imageSize" date-one="template.dateOne" image="template.img">
+        <vrt-picture-veertienachtien01 class="dir-wrap" image-size="vm.template.imageSize" date-one="template.dateOne"  date-two="template.dateTwo" image="template.img">
         </vrt-picture-veertienachtien01>
     </div>
 </div>

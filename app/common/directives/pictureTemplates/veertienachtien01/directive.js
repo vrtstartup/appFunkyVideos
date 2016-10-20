@@ -3,7 +3,7 @@ import template from './template.html';
 
 class veertienachtien01Controller {
     constructor($scope) {
-        this.dateTwo = new Date();
+        this.dateOne = new Date();
         $scope.$watch('vm.dateOne', (value) => {
             if (!value) return;
             this.newdate(value);
@@ -30,7 +30,7 @@ export const veertienachtien01Directive = function() {
         bindToController: {
             dateOne: '=',
             image: '=',
-            // dateTwo: '=',
+            dateTwo: '=',
             imageSize: '=',
         },
     };
