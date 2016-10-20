@@ -4,6 +4,7 @@ import template from './template.html';
 class veertienachtien01Controller {
     constructor($scope) {
         this.dateOne = new Date();
+        this.dateTwo = new Date();
         $scope.$watch('vm.dateOne', (value) => {
             if (!value) return;
             this.newdate(value);
