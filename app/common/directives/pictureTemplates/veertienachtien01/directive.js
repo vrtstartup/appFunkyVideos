@@ -17,8 +17,6 @@ class veertienachtien01Controller {
         this.dateTwo.setDate(date.getDate() + 6);
         console.log(this.dateTwo);
     }
-
-
 }
 
 export const veertienachtien01Directive = function() {
