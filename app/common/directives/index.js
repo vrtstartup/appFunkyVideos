@@ -1,7 +1,7 @@
 import angular from 'angular';
 import pieChart from './pieChart';
-import text from './text';
-import screenshot from './screenshot';
+//import text from './text';
+//import screenshot from './screenshot';
 import templateBob from './templateBob';
 import templateTina from './templateTina';
 import templateLinda from './templateLinda';
@@ -44,19 +44,22 @@ import drd01 from './pictureTemplates/drd01';
 import drd02 from './pictureTemplates/drd02';
 import drd03 from './pictureTemplates/drd03';
 import drd04 from './pictureTemplates/drd04';
+import drd05 from './pictureTemplates/drd05';
 import zdd01 from './pictureTemplates/zdd01';
 import zdd02 from './pictureTemplates/zdd02';
 import zdd03 from './pictureTemplates/zdd03';
 import zdd04 from './pictureTemplates/zdd04';
 import zdd05 from './pictureTemplates/zdd05';
+import veertienachtien01 from './pictureTemplates/veertienachtien01';
 
 const module = angular.module('app.common.directives', [
-    pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
+    // pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
+    pieChart, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
     templateMurderface, templateWartooth, templateSkwigelf, templateExplosion, templatePickels,
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
     userLogin, draggable, templateFinn, templateJake, templateGiantBomb, movable, templateBmo, templateLumpy,
     artistBlock, templateCinnabon, templateBubblegum, templateTrunk, templateIceKing, templateMarceline,
-    audioPlayer, templatePeppermint, templateStampington, videoSlider, drd01, drd02, drd03, drd04, zdd01, zdd02, zdd03, zdd04, zdd05
+    audioPlayer, templatePeppermint, templateStampington, videoSlider, drd01, drd02, drd03, drd04, drd05, zdd01, zdd02, zdd03, zdd04, zdd05, veertienachtien01
 ]);
 
 export default module.name;

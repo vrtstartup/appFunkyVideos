@@ -1,0 +1,165 @@
+/* ---------------------- */
+/* /createnewproject
+/* ---------------------- */
+// GET -> /createnewproject
+{
+    "token": "jwt-token-fdladlaju00248-324-foejfkwej0ifj23-fk32fkp3[kfw"
+}
+// Response:
+{
+    "projectID": "7849357432057802",
+}
+
+
+/* ---------------------- */
+/* /makelowresvideo
+/* ---------------------- */
+// POST -> /makelowresvideo
+{ 
+    "projectID": "7849357432057802",
+    "clip": {
+        "data": "NEW_big_buck_bunny.mp4",
+    }
+}
+// PUT -> /makelowresvideo/:id
+{ 
+    "projectID": "7849357432057802",
+    "clip": {
+        "data": "NEW_big_buck_bunny.mp4",
+    }
+}
+// Response:
+{
+    "projectID": "7849357432057802",
+    "clip": {
+        "lowUrl": "path/to/big_buck_bunny.mp4",
+        "highUrl": "path/to/big_buck_bunny.mp4",
+        "fileName": "big_buck_bunny.mp4",
+        "duration": "03:52:00",
+        "mime": "video/MPEG"
+    }
+}
+
+
+// Create Movie
+// POST /createmovie
+{
+    "projectID": "7849357432057802",
+    
+    "subtitles": [
+        {
+            "begin": "00:00:00",
+            "end": "00:00:00",
+            "text": "Dit is een ondertiel"
+        },
+        {
+            "begin": "00:00:00",
+            "end": "00:00:00",
+            "text": "Dit is een ondertiel"
+        },
+        {
+            "begin": "00:00:00",
+            "end": "00:00:00",
+            "text": "Dit is een ondertiel"
+        },
+        {
+            "begin": "00:00:00",
+            "end": "00:00:00",
+            "text": "Dit is een ondertiel",
+            "options": {
+                "fade": true,
+                "size": 20
+            }
+        }
+    ],
+
+    "overlays": [
+        {
+            "begin": "00:00:00",
+            "end": "00:00:00",
+            "text": {
+                "layerTitel": "Dit is de Titel",
+                "layerLabel": "Korte omschrijving"
+            }
+        }
+    ],
+
+    "bumper": true,
+    "logo": false
+}
+
+
+
+// Database entry
+// Project
+{
+    "projectID": "7849357432057802",
+    "userID":1234567890,
+
+    "clip": {
+        "lowUrl": "path/to/big_buck_bunny.mp4",
+        "highUrl": "path/to/big_buck_bunny.mp4",
+        "fileName": "big_buck_bunny.mp4",
+        "duration": "03:52:00",
+        "mime": "video/MPEG",
+        "creation": "STAMP"
+    },
+
+    "subtitles": [
+        {
+            "begin": "00:00:00",
+            "end": "00:00:00",
+            "text": "Dit is een ondertiel"
+        },
+        {
+            "begin": "00:00:00",
+            "end": "00:00:00",
+            "text": "Dit is een ondertiel"
+        },
+        {
+            "begin": "00:00:00",
+            "end": "00:00:00",
+            "text": "Dit is een ondertiel"
+        },
+        {
+            "begin": "00:00:00",
+            "end": "00:00:00",
+            "text": "Dit is een ondertiel",
+            "options": {
+                "fade": true,
+                "size": 20
+            }
+        }
+    ],
+
+    "overlays": [
+        {
+            "template_id": "awesome_template",
+            "begin": "00:00:00",
+            "end": "00:00:00",
+            "text": {
+                "layerTitel": "Dit is de Titel",
+                "layerLabel": "Korte omschrijving"
+            },
+
+            "ready": true,
+            "asset_url": "project/rendered/asset1.mp4"
+        }
+    ],
+
+    "bumper": true,
+    "logo": false,
+
+    "status": {
+        "processed": true, 
+        "command": "ffmpeg -do stuff -input big_bugs_bunny.mp4 -options....."
+    }
+}
+
+// User
+
+// Template
+
+
+Firebase VS MongoDB
+// https://www.slant.co/versus/14255/613/~firebase_vs_mongodb

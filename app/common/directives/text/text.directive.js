@@ -17,7 +17,6 @@ class TextDirectiveController {
                 this.text = this.percValue + '%'+ ' ' +  this.titleText;
                 TweenMax.to(target, 5, {height: 0});
             } else {
-                //TweenMax.to(target, 1, {right:200});
             }
         }, true);
     }

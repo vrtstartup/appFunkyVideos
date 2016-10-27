@@ -117,7 +117,6 @@ export default class MoviesController {
             let titleTemplate = '';
             angular.forEach(this.clipTemplates, (template) => {
                 if (template.brand === movie.meta.brand && template.name === 'title') {
-                    console.log('add title clip');
                     this.initiateClip(template.aep, 0, 'title');
                 }
             });
@@ -165,8 +164,6 @@ export default class MoviesController {
             number = this.clips.length;
         }
 
-        console.log(number);
-
         var clip = {
             'id': number,
             'uploading': false,
@@ -188,7 +185,6 @@ export default class MoviesController {
             if (clip.$id !== 'meta') {
 
                 clip.id = counter;
-                console.log(clip);
                 var clip = this.clips.$getRecord(clip.$id);
                 this.clips.$save(clip).then((ref) => {});
                 counter++;
@@ -207,7 +203,6 @@ export default class MoviesController {
         // this.enumerate();
         let to = c.id - 1;
         let from = c.id;
-        console.log(from, to);
         this.clips.splice(to, 0, this.clips.splice(from, 1)[0]);
         this.enumerate();
     }
@@ -245,8 +240,6 @@ export default class MoviesController {
                 }
 
             }, (resp) => {
-                console.log('Error: ' + resp.error);
-                console.log('Error status: ' + resp.status);
             }, (evt) => {
                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             });

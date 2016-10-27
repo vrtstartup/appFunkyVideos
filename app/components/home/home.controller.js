@@ -55,6 +55,14 @@ export default class HomeController {
                 'icon': 'place',
                 'url': '/maps',
 
+            },
+            {
+                'title': 'Facebook Live Vragen',
+                'sub': 'Toon gestelde vragen of regieaanwijzingen aan de presentator tijdens Facebook Live.',
+                'type': 'tool',
+                'icon': 'live_help',
+                'url': '/questions',
+
             }
             //  {
             //     'title': 'Infotainment',

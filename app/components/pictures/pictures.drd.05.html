@@ -1,0 +1,106 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'drd05'" ng-class="vm.templateClass">
+    <md-content layout-padding="">
+        <div layout>
+            <div flex="10" layout layout-align="center center">
+                <span class="md-body-1">Afbeelding 1 grootte</span>
+            </div>
+            <md-slider flex ng-init="vm.template.imgOneSize=100" ng-model="vm.template.imgOneSize" min="0" max="400" id="imageSize-slider" class="md-primary">
+            </md-slider>
+            <div flex="20" layout layout-align="center center">
+                <input flex type="number" ng-model="vm.template.imgOneSize" aria-controls="imageSize-slider">
+            </div>
+        </div>
+
+    </md-content>
+
+    <input ng-model="vm.template.imgOne" type="file" name="img" required vrt-image-preview="onFileSelect($files)" />
+
+
+
+
+    <md-content layout-padding="">
+        <div layout>
+            <div flex="10" layout layout-align="center center">
+                <span class="md-body-1">Afbeelding 2 grootte</span>
+            </div>
+            <md-slider flex ng-init="vm.template.imgTwoSize=100" ng-model="vm.template.imgTwoSize" min="0" max="400" id="imageSize-slider" class="md-primary">
+            </md-slider>
+            <div flex="20" layout layout-align="center center">
+                <input flex type="number" ng-model="vm.template.imgTwoSize" aria-controls="imageSize-slider">
+            </div>
+        </div>
+
+    </md-content>
+
+    <input ng-model="vm.template.imgTwo" type="file" name="img"  vrt-image-preview="onFileSelect($files)" />
+
+
+
+    <md-content layout-padding="">
+        <div layout>
+            <div flex="10" layout layout-align="center center">
+                <span class="md-body-1">Afbeelding 3 grootte</span>
+            </div>
+            <md-slider flex ng-init="vm.template.imgThreeSize=100" ng-model="vm.template.imgThreeSize" min="0" max="400" id="imageSize-slider" class="md-primary">
+            </md-slider>
+            <div flex="20" layout layout-align="center center">
+                <input flex type="number" ng-model="vm.template.imgThreeSize" aria-controls="imageSize-slider">
+            </div>
+        </div>
+
+    </md-content>
+
+    <input ng-model="vm.template.imgThree" type="file" name="img"  vrt-image-preview="onFileSelect($files)" />
+
+
+
+
+
+    <md-content layout-padding="">
+        <div layout>
+            <div flex="10" layout layout-align="center center">
+                <span class="md-body-1">Afbeelding 4 grootte</span>
+            </div>
+            <md-slider flex ng-init="vm.template.imgFourSize=100" ng-model="vm.template.imgFourSize" min="0" max="400" id="imageSize-slider" class="md-primary">
+            </md-slider>
+            <div flex="20" layout layout-align="center center">
+                <input flex type="number" ng-model="vm.template.imgFourSize" aria-controls="imageSize-slider">
+            </div>
+        </div>
+
+    </md-content>
+
+    <input ng-model="vm.template.imgFour" type="file" name="img"  vrt-image-preview="onFileSelect($files)" />
+
+
+
+    <md-content layout-padding="">
+        <div layout>
+            <div flex="10" layout layout-align="center center">
+                <span class="md-body-1">Afbeelding 5 grootte</span>
+            </div>
+            <md-slider flex ng-init="vm.template.imgFiveSize=100" ng-model="vm.template.imgFiveSize" min="0" max="400" id="imageSize-slider" class="md-primary">
+            </md-slider>
+            <div flex="20" layout layout-align="center center">
+                <input flex type="number" ng-model="vm.template.imgFiveSize" aria-controls="imageSize-slider">
+            </div>
+        </div>
+
+    </md-content>
+
+    <input ng-model="vm.template.imgFive" type="file" name="img"  vrt-image-preview="onFileSelect($files)" />
+
+
+
+
+
+
+
+
+
+
+    <div class="dir-wrap">
+        <vrt-picture-drd05 class="dir-wrap" img-one-size="vm.template.imgOneSize" img-one="vm.template.imgOne" img-two-size="vm.template.imgTwoSize" img-two="vm.template.imgTwo" img-three-size="vm.template.imgThreeSize" img-three="vm.template.imgThree"  img-four-size="vm.template.imgFourSize" img-four="vm.template.imgFour" img-five-size="vm.template.imgFiveSize" img-five="vm.template.imgFive" template-class="vm.templateClass">
+        </vrt-picture-drd05>
+    </div>
+</div>

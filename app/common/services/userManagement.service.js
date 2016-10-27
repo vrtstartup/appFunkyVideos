@@ -20,7 +20,6 @@ export default class UserManagemeService {
         const deferred = this.$q.defer();
         let message = '';
         this.firebaseAuth.$onAuthStateChanged((authData) => {
-            //console.log(authData);
             if (authData !== null) {
                 deferred.resolve(authData);
             } else {
@@ -38,7 +37,6 @@ export default class UserManagemeService {
             deferred.resolve(authData.uid, message);
 
         }).catch((error) => {
-            console.log(error.code);
             switch (error.code) {
                 case "INVALID_EMAIL":
                     error.message = 'Dit email adres is niet geregistreerd.';
@@ -75,10 +73,8 @@ export default class UserManagemeService {
         let message = '';
         this.firebaseAuth.$signInWithEmailAndPassword(email, oldPassword).then((authData) => {
             message = 'Je account is geactiveerd';
-            console.log(authData, message);
             deferred.resolve(authData, message);
         }).catch((error) => {
-            console.log(error);
             deferred.reject(error);
         });
         return deferred.promise;
@@ -141,9 +137,7 @@ export default class UserManagemeService {
 
     saveToFirebase(userId, email, brand, role) {
         const deferred = this.$q.defer();
-        console.log('TEMPLATER: saving to to Firebase', userId, email, brand, role);
         if (userId, email, brand && role === "2") {
-            console.log('UserId, email, brand and role are their, so saving user to firebase.');
             this.ref.child('users/' + userId + '/email').set(email);
             this.ref.child('users/' + userId + '/brand').set(brand);
             this.ref.child('users/' + userId + '/role').set(role);
@@ -158,7 +152,6 @@ export default class UserManagemeService {
         let message = '';
 
         this.firebaseAuth.$createUserWithEmailAndPassword(email, password).then((userData) => {
-            console.log("User " + userData.uid + " created successfully!");
             deferred.resolve(userData.uid);
         }).catch((error) => {
             console.error("Error: ", error);

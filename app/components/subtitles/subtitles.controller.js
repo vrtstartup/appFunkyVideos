@@ -1,28 +1,21 @@
 import { keys, extend, find, reject } from 'lodash';
 
 export default class SubtitlesController {
-    constructor($log, srt, FileSaver, $sce, $scope, videogular, Upload, $timeout, toast, $firebaseAuth, $firebaseObject, $firebaseArray, userManagement, templater, $http, $mdDialog, hotkeys) {
-        this.$log = $log;
-        this.$sce = $sce;
-        this.srt = srt;
+    constructor($scope, videogular, Upload, toast, $firebaseAuth, $firebaseObject, $firebaseArray, userManagement, templater, $mdDialog, hotkeys) {
         this.$scope = $scope;
-        this.FileSaver = FileSaver;
         this.videogular = videogular;
         this.hotkeys = hotkeys;
         this.Upload = Upload;
-        this.$timeout = $timeout;
         this.toast = toast;
         this.userManagement = userManagement;
         this.templater = templater;
-        this.$http = $http;
         this.$mdDialog = $mdDialog;
         this.$firebaseObject = $firebaseObject;
         this.$firebaseArray = $firebaseArray;
 
         // Interface Vars
         this.projectFilters = { email: true };
-        this.numberOfProjects = 200;
-        this.playingVideo = '';
+        this.numberOfProjects = 20;
         this.loop = false;
         this.projectsLoaded = false;
         this.movieSend = false;
@@ -48,6 +41,16 @@ export default class SubtitlesController {
         // Subtitle Vars
         this.subs = '';
         this.subSlider = {};
+        this.subtitleFields = [
+            {
+                "type": "label",
+                "name": "stBottom"
+            },
+            {
+                "type": "label",
+                "name": "stBottom"
+            }
+        ]
 
         // Visual Vars
         this.visuals = '';
@@ -56,18 +59,14 @@ export default class SubtitlesController {
         this.bumpers = this.templater.bumpers;
         this.logos = this.templater.logos;
 
-
-
         // Authenticate the user
         this.firebaseAuth = $firebaseAuth();
         this.firebaseAuth.$onAuthStateChanged((authData) => {
             if (authData) {
                 this.userManagement.checkAccountStatus(authData.uid).then((obj, message, error) => {
-                    console.log(obj);
                     this.user = authData;
                     this.user.brand = obj.brand;
                     this.user.role = obj.role;
-                    console.log(this.user.brand);
                     this.project.meta.email = authData.email;
                     this.project.meta.sendTo = authData.email;
                     this.project.meta.brand = obj.brand;
@@ -77,14 +76,13 @@ export default class SubtitlesController {
             }
         });
 
+        // Ad hotkeys
         let c = '';
-        // Ad Hotkeys
 
         this.hotkeys.add({
             combo: 'i',
             description: 'Begin van ondertitel',
             callback: () => {
-
                 if (this.selectedSub.type === 'visual') {
                     this.toast.showToast('error', 'Bij visuele elementen kan je de sneltoesten niet gebruiken.');
                 } else {
@@ -113,7 +111,6 @@ export default class SubtitlesController {
             }
         });
 
-
         this.hotkeys.add({
             combo: 'k',
             description: 'Frame verder',
@@ -122,7 +119,6 @@ export default class SubtitlesController {
                 this.goToTime(this.videogular.api.currentTime / 1000 + 0.01);
             }
         });
-
 
         this.hotkeys.add({
             combo: 'j',
@@ -140,6 +136,7 @@ export default class SubtitlesController {
                 this.preview();
             }
         });
+
         this.hotkeys.add({
             combo: 'u',
             description: 'Voeg toe',
@@ -148,11 +145,14 @@ export default class SubtitlesController {
             }
         });
 
-
+        this.hotkeys.add({
+            combo: 'space',
+            description: 'start|stop video',
+            callback: () => {
+                this.videogular.api.playPause();
+            }
+        });
     }
-
-
-
 
     // Initiate Firebase
     initFirebase(app, brand, number) {
@@ -164,10 +164,8 @@ export default class SubtitlesController {
                 this.projectsLoaded = true;
             })
             .catch((error) => {
-                console.log("Error:", error);
             });
     }
-
 
     /*
         ____      __            ____                   ____                 __  _
@@ -177,7 +175,6 @@ export default class SubtitlesController {
     /___/_/ /_/\__/\___/_/  /_/  \__,_/\___/\___/  /_/  \__,_/_/ /_/\___/\__/_/\____/_/ /_/____/
 
     */
-
 
     showOnlyYours(email, yours) {
         if (yours)
@@ -190,6 +187,7 @@ export default class SubtitlesController {
     preview() {
         this.loop = false;
         this.selectedSub.id = null;
+        this.subs.selected = false;
     }
 
     closeModal() {
@@ -199,7 +197,7 @@ export default class SubtitlesController {
     // Show the dialog to finish the movie
     finishMovie(ev) {
         this.$mdDialog.show({
-            templateUrl: '/components/subtitles/finish.dialog.html',
+            templateUrl: '/components/subtitles/views/finish.dialog.html',
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose: false,
@@ -212,7 +210,7 @@ export default class SubtitlesController {
     // Show the dialog to open a project
     openProjects(ev) {
         this.$mdDialog.show({
-            templateUrl: '/components/subtitles/projects.dialog.html',
+            templateUrl: '/components/subtitles/views/projects.dialog.html',
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose: false,
@@ -221,7 +219,6 @@ export default class SubtitlesController {
             preserveScope: true
         });
     }
-
 
     /*
 
@@ -233,7 +230,6 @@ export default class SubtitlesController {
                     /___/
 
     */
-
 
     // Start a new movie
     createMovie() {
@@ -277,7 +273,7 @@ export default class SubtitlesController {
     removeProject(projectId, owner) {
         if (this.user.email === owner) {
             var project = this.projects.$getRecord(projectId);
-            this.projects.$remove(project).then((ref) => {});
+            this.projects.$remove(project).then((ref) => { });
         } else {
             this.toast.showToast('error', 'Dit is niet jouw filmpje, dus kan je het ook niet verwijderen.');
         }
@@ -286,49 +282,78 @@ export default class SubtitlesController {
     // get the html form that belongs with this template
     getTemplate(type, key) {
         let template = this.clipTemplates[key];
-        this.selectedTemplate = template.meta.form;
+        this.selectedTemplate = template.input;
+    }
+
+    checkTimeFromEnd(movieDuration) {
+
+        let hightestClipTime = Math.max.apply( Math,this.subs.map(function(o){return o.end;}) );
+
+        let timeFromEnd = movieDuration - hightestClipTime;
+
+        if (timeFromEnd < 2){
+            return false;
+        }
+        
     }
 
     // Add one subtitle
-    addSubtitle(movieDuration) {
-            // get last subtitle
-            let lastClip = {};
-            this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function(snapshot) {
-                snapshot.forEach(function(data) {
-                    lastClip = data.val();
-                });
-            });
+    addSubtitle(movieDuration, $event) {
+        
+        if($event){
+            $event.currentTarget.blur();
+        }
 
-            let clip = {};
-
-            // this should be writing more variable, it breaks when order changes of templates, or if we put the templates in firebase or whatever
-            let templateId = 0;
-            if (this.user.brand === 'stubru') {
-                templateId = 4;
-            }
-
-            if (movieDuration) {
-                if (this.subs.length > 0) {
-
-
-                    clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: templateId, type: 'sub' };
-
-
-                } else {
-                    clip = { end: movieDuration, start: 0.001, template: 0, type: 'sub' };
-                }
-                this.subs.$add(clip).then((ref) => {
-
-                    this.selectClip(ref.key, clip.start, clip.end, clip.type, templateId, 'form');
-                });
+        if(this.subs.length > 0){
+            let canAddSubtitle = this.checkTimeFromEnd(movieDuration);   
+            
+            if(canAddSubtitle == false){
+                // console.log('please make your last subtitle smaller');
+                this.toast.showToast('error', 'please make your last subtitle smaller');
+                return;
             }
         }
-        // Make the video follow when the range gets dragged
+        
+        // get last subtitle
+        let lastClip = {};
+        this.projectRef.child('subs').orderByChild('start').limitToLast(1).once("value", function (snapshot) {
+            snapshot.forEach(function (data) {
+                lastClip = data.val();
+            });
+        });
+
+        let clip = {};
+
+        // this should be writing more variable, it breaks when order changes of templates, or if we put the templates in firebase or whatever
+        let templateId = 0;
+        if (this.user.brand === 'stubru') {
+            templateId = 4;
+        }
+
+        if (movieDuration) {
+            if (this.subs.length > 0) {
+                clip = { end: movieDuration, start: (lastClip.end * 1 + 0.010), template: templateId, type: 'sub' };
+            } else {
+                clip = { end: movieDuration, start: 0.001, template: 0, type: 'sub' };
+            }
+
+            this.subs.$add(clip).then((ref) => {
+                this.selectClip(ref.key, clip.start, clip.end, clip.type, templateId, 'form');
+            });
+        }
+
+    }
+
+    // Make the video follow when the range gets dragged
     goToTime(time) {
         this.videogular.api.seekTime(time);
     }
 
     selectClip(id, start, end, type, template, context) {
+        
+        // toggles templates visibility
+        this.subs.selected = true;
+
         if (type === 'visual') {
             this.subSlider.options.draggableRangeOnly = true;
         } else {
@@ -355,11 +380,11 @@ export default class SubtitlesController {
             { label: 'minutes', mod: 60 },
         ];
         // calculate the individual unit values...
-        units.forEach(function(u) {
+        units.forEach(function (u) {
             millis = (millis - (dur[u.label] = (millis % u.mod))) / u.mod;
         });
 
-        let twoDigits = function(number) {
+        let twoDigits = function (number) {
             if (number < 10) {
                 number = '0' + number;
                 return number;
@@ -367,7 +392,7 @@ export default class SubtitlesController {
                 return number;
             }
         };
-        let round = function(number) {
+        let round = function (number) {
             if (number < 99) {
                 return number;
             } else {
@@ -378,17 +403,11 @@ export default class SubtitlesController {
         let time = twoDigits(dur.minutes) + ':' + twoDigits(dur.seconds) + '.' + round(dur.millis);
         return time;
     }
-
-    // setAudio(audioId) {
-    //     this.meta.audio = audioId;
-    //     this.audioTrackUrl = this.templater.audioTracks[audioId].fileLocal;
-    //     this.meta.$save().then(function(ref) {}, function(error) {
-    //         console.log("Error:", error);
-    //     });
-    // }
-
+    
     setTemplate(type, key) {
-        console.log(key);
+
+        this.selectedSub.type = type;
+
         let c = this.subs.$getRecord(this.selectedSub.id);
         c.template = key;
         c.type = type;
@@ -401,6 +420,10 @@ export default class SubtitlesController {
         this.subs.$save(c);
         this.selectedSub.template = key;
         this.getTemplate('form', key);
+    }
+
+    saveSubs(c){
+       this.subs.$save(c);
     }
 
     setSubSlider(movieDuration) {
@@ -452,10 +475,10 @@ export default class SubtitlesController {
         });
         // upload to dropbox
         this.Upload.upload({
-                url: 'api/movie/upload-to-dropbox',
-                data: { file: file },
-                method: 'POST'
-            })
+            url: 'api/movie/upload-to-dropbox',
+            data: { file: file },
+            method: 'POST'
+        })
             .then((resp) => {
                 // Set the meta information
                 this.meta.dropboxPath = resp.data.dbPath;
@@ -470,28 +493,25 @@ export default class SubtitlesController {
                     this.setSubSlider(movieDuration);
                     // this.setTimeSlider(movieDuration);
                 }, (error) => {
-                    console.log("Error:", error);
                 });
             }, (resp) => {
                 console.dir(resp);
-                console.log('Error status: ' + resp.status);
             }, (evt) => {
                 this.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             });
     }
 
     /*
-
        _____ _______   ______     ________  ________   __  _______ _    ____________
       / ___// ____/ | / / __ \   /_  __/ / / / ____/  /  |/  / __ \ |  / /  _/ ____/
       \__ \/ __/ /  |/ / / / /    / / / /_/ / __/    / /|_/ / / / / | / // // __/
      ___/ / /___/ /|  / /_/ /    / / / __  / /___   / /  / / /_/ /| |/ // // /___
     /____/_____/_/ |_/_____/    /_/ /_/ /_/_____/  /_/  /_/\____/ |___/___/_____/
 
-
     */
 
     renderMovie(clips) {
+        console.log('clips =',clips);
         // Filter subs from visuals
         let subs = [];
         let visuals = [];
@@ -499,26 +519,17 @@ export default class SubtitlesController {
             if (value.type === 'sub') {
                 subs.push(value);
             } else if (value.type === 'visual') {
-
                 visuals.push(value);
             }
         });
-        console.log(this.visuals);
-        this.templater.renderMovie(subs, visuals, this.meta, this.projectId).then((resp) => {
-            this.movieSend = true;
-        });
+        
+        this.templater.renderMovie(subs, visuals, this.meta, this.projectId)
+            .then((resp) => {
+                this.movieSend = true;
+            });
     }
-
-
-
-
-
-
-
-
 
 }
 
 
-
-SubtitlesController.$inject = ['$log', 'srt', 'FileSaver', '$sce', '$scope', 'videogular', 'Upload', '$timeout', 'toast', '$firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$http', '$mdDialog', 'hotkeys'];
+SubtitlesController.$inject = ['$scope', 'videogular', 'Upload', 'toast', '$firebaseAuth', '$firebaseObject', '$firebaseArray', 'userManagement', 'templater', '$mdDialog', 'hotkeys'];

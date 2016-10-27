@@ -7,8 +7,6 @@ export default function seconds() {
             return undefined;
         }
 
-       console.log('FILTER input', input);
-
         return input;
 
     };

@@ -62,7 +62,6 @@ class VideoSliderDirectiveController {
 
 
     setTimeSlider() {
-        console.log(this.api.totalTime);
         this.timeSlider = {
             min: 0,
             max: this.api.totalTime,

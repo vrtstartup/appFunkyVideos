@@ -9,16 +9,17 @@ const module = angular.module('app.components.subtitles', [
     uiRouter, ngMaterial,
 ]);
 
-module.config(['$stateProvider', ($stateProvider) => {
-    $stateProvider
-        .state('subtitles', {
-            url: '/subtitles',
-            title: 'VRT Subtitles Tool',
-            templateUrl: '/components/subtitles/subtitles.html',
-            controller: subtitlesController,
-            controllerAs: 'vm',
-        });
-}]);
+module
+    .config(['$stateProvider', ($stateProvider) => {
+        $stateProvider
+            .state('subtitles', {
+                url: '/subtitles',
+                title: 'VRT Subtitles Tool',
+                templateUrl: '/components/subtitles/subtitles.html',
+                controller: subtitlesController,
+                controllerAs: 'vm',
+            });
+    }])
 
 module.controller('SubtitlesController', subtitlesController);
 

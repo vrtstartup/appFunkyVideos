@@ -6,8 +6,6 @@ class videoUploaderDirectiveController {
         this.videoSrc = '';
 
         this.getFile = (file) => {
-            console.log('file selected', file);
-            console.log(videoUploader);
             this.videoUploader.upload(file, $scope)
                 .then((result) => {
                     //this.$scope.imageSrc = result;
@@ -32,7 +30,6 @@ export const videoUploaderDirective = function() {
         controllerAs: 'vm',
         link: ($scope, el, attrs, ctrls) => {
             el.bind('change', (e) => {
-                console.log('video uploader directive loaded');
                 const file = (e.srcElement || e.target).files[0];
 
                 const ngModel = ctrls[0];

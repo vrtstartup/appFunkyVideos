@@ -1,0 +1,33 @@
+<div layout="column" class="md-inline-form block-wrap" ng-if="vm.templateName === 'veertienachtien01'" ng-class="vm.templateClass">
+    <md-content layout-padding="">
+
+        <div flex-gt-xs>
+            <h4>Begindatum</h4>
+            <md-datepicker ng-model="template.dateOne" md-placeholder="Enter date"></md-datepicker>
+        </div>
+
+   <div flex-gt-xs>
+            <h4>Einddatum</h4>
+            <md-datepicker ng-model="template.dateTwo" md-placeholder="Enter date"></md-datepicker>
+        </div>
+
+        <div layout>
+            <div flex="10" layout layout-align="center center">
+                <span class="md-body-1">Afbeelding grootte</span>
+            </div>
+            <md-slider flex ng-init="vm.template.imageSize=100" ng-model="vm.template.imageSize" min="0" max="200" id="imageSize-slider" class="md-primary">
+            </md-slider>
+            <div flex="20" layout layout-align="center center">
+                <input flex type="number" ng-model="vm.template.imageSize" aria-controls="imageSize-slider">
+            </div>
+        </div>
+
+    </md-content>
+
+    <input ng-model="template.img" type="file" name="img" required vrt-image-preview="onFileSelect($files)" />
+
+    <div class="dir-wrap">
+        <vrt-picture-veertienachtien01 class="dir-wrap" image-size="vm.template.imageSize" date-one="template.dateOne"  date-two="template.dateTwo" image="template.img">
+        </vrt-picture-veertienachtien01>
+    </div>
+</div>

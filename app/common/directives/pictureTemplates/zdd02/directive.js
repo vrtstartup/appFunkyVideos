@@ -20,6 +20,7 @@ export const zdd02Directive = function() {
             imageSizeOne: '=',
             imageSizeTwo: '=',
             date: '=',
+            vs: '=',
 
         },
     };

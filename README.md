@@ -38,6 +38,13 @@ To make it work prpoperly, you should install ffmpeg locally
 --with-openjpeg --with-opus --with-rtmpdump --with-schroedinger --with-speex
 --with-theora --with-tools --enable-libass`
 
+##### missing library
+`brew install <libass>`
+
+##### oR use static build
+Or copy static build off ffmpeg with libass & ffprobe into usr/local/bin
+https://johnvansickle.com/ffmpeg/
+https://evermeet.cx/pub/ffmpeg/snapshots/
 
 #### dropbox access
 To upload files to dropbox (templater), following environment variables should be set

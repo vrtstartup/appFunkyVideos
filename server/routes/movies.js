@@ -76,10 +76,13 @@ function sendResultToDropbox(video, videoName, ass, email) {
                 .then(function(response) {
                     logger.info('Uploaded the file, let\s get the share url.');
                     dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
+                        
                         tempUrl = response.link;
                         sendNotification(email, 'finished', tempUrl);
-                        // deleteLocalFile(video);
-                        // deleteLocalFile(ass);
+
+                        deleteLocalFile(ass);
+                        deleteLocalFile(video);
+
                     });
                 })
                 .catch(function(err) {
@@ -168,7 +171,6 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
         Object.keys(files).forEach(function(name) {
             file = files[name][0];
-            console.log(file);
             fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
 
             dbPath = '/in/' + fileName + '.mp4';
@@ -233,12 +235,16 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                             logger.info('starting upload low res version', dbPathSmall);
 
 
-
+                                            // TODO should be replaced by general send to dropbox function
                                             dbClient.filesUpload({ path: dbPathSmall, contents: smallFile, mode: 'overwrite' })
                                                 .then(function(response) {
 
                                                     logger.info('done uploading the small file', response);
                                                     logger.info('Get the temp link of the small file');
+
+                                                    deleteLocalFile(tempUrlSmall);
+                                                    deleteLocalFile(file.path);
+
                                                     dbClient.filesGetTemporaryLink({ path: dbPathSmall })
                                                         .then(function(response) {
                                                             logger.info('got temporary url', response);
@@ -315,7 +321,6 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 
 
 router.post('/burnSubs', function(req, res) {
-
 
     logger.info('starting burning of subs');
     const path = "temp/subtitleVideos/";
@@ -462,13 +467,14 @@ router.post('/burnSubs', function(req, res) {
             }
         })
         .on('end', function() {
-            logger.info('finished ffmpeg command');
+                
             db.ref('/apps/subtitles/' + project + '/logs').update({
                 status: 'Klaar met ondertitels inbranden.',
             }).catch(function(error) {
                 logger.crit('Failed to save to log', error);
                 return next(Boom.badImplementation('Opslaan van de log is mislukt'));
             });
+
             sendResultToDropbox(tempVideo, videoName, ass, email);
 
         })

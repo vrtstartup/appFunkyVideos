@@ -38,13 +38,17 @@
             </div>
         </div>
 
+  <md-switch ng-model="vm.template.vs" aria-label="Show vs label">
+    Toon "VS" tussen de twee foto's
+  </md-switch>
+
 
     </md-content>
 
 
 
     <div class="dir-wrap">
-        <vrt-picture-zdd02 class="dir-wrap" template-class="vm.templateClass" image-one="vm.template.imgOne" image-size-one="vm.template.imageSizeOne" text="vm.template.text" date="vm.template.date" image-two="vm.template.imgTwo" image-size-two="vm.template.imageSizeTwo">
+        <vrt-picture-zdd02 class="dir-wrap"  vs="vm.template.vs" template-class="vm.templateClass" image-one="vm.template.imgOne" image-size-one="vm.template.imageSizeOne" text="vm.template.text" date="vm.template.date" image-two="vm.template.imgTwo" image-size-two="vm.template.imageSizeTwo">
         </vrt-picture-zdd02>
     </div>
 </div>

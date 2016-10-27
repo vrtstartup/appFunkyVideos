@@ -1,0 +1,34 @@
+<md-dialog aria-label="Open project of start nieuw" flex="70" style="max-height:80vh;">
+    <form>
+        <md-toolbar class="vrt-toolbar">
+            <div class="md-toolbar-tools">
+                <h2>Projecten</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.closeModal()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-padding" layout="row">
+                <md-content flex="100" layout="column" layout-align="space-around">
+                    <md-checkbox ng-model="vm.projectFilters.email" aria-label="Jouw projecten">
+                        Toon enkel jouw projecten
+                    </md-checkbox>
+                    <md-progress-circular md-mode="indeterminate" ng-if="!vm.projectsLoaded"></md-progress-circular>
+                    <md-list ng-if="vm.projectsLoaded">
+                        <md-list-item class="md-2-line animate-repeat" ng-repeat="(key, m) in vm.projects | reverse | filter:vm.showOnlyYours(vm.user.email, vm.projectFilters.email)" aria-label="Open project" ng-click="vm.openProject(m.$id)" >
+                            <div class="md-list-item-text" class="md-list-item-text">
+                                <h3>{{m.meta.projectId}}</h3>
+                                <p>{{m.meta.email}}</p>
+                            </div>
+                            <md-button class="md-secondary md-icon-button" ng-click="vm.removeProject(m.$id, m.meta.email)" aria-label="remove clip">
+                                <i class="material-icons" ng-click="vm.projects.$remove(c)">close</i>
+                            </md-button>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

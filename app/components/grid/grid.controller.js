@@ -174,10 +174,7 @@ export default class GridController {
                     for (var i = 0, len = this.days.length; i < len; i++) {
                         console.log(this.days[i]);
                         if (this.days[i].date === date) {
-                            console.log('this day exists');
-                            console.log(this.days[i].breaking);
                         } else {
-                            console.log('this day doesnt exist yet');
                             let day = [];
                             day.date = date;
                             day.breaking = false;
@@ -338,13 +335,10 @@ export default class GridController {
                                         }
                                     }
                                     if (i === days.length - 1) {
-                                        console.log('last');
-                                        console.log(counts);
                                         this.overview = counts;
 
                                         let label = '';
                                         counts.forEach((a) => {
-                                            console.log(a);
                                             label = a.month + ' ' + a.year
                                             this.labels.push(label);
                                             if (a.hard) {

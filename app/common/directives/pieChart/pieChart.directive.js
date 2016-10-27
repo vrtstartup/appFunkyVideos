@@ -10,15 +10,10 @@ class pieChartDirectiveController {
 
         $scope.$watch('vm.isAnimated', (value) => {
             if (value) {
-                //console.log('pieChartDATA', this.chartData);
                 this.piechart($element, this.chartData);
-                //TweenMax.to($element, 1, {rotation:360, transformOrigin:"150px 150px"});
-
-                //console.log('value changed', value);
             }
         }, true);
     }
-
 
     segmentColour(i) {
         return {

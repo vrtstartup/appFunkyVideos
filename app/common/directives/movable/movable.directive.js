@@ -26,15 +26,9 @@ class MovableDirectiveController {
         let x = e.clientX;
         let y = e.clientY;
 
-        //console.log('X #1', x);
-        //console.log('Y #1', y);
-
         tg.style.backgroundPositionX = x - this.originX + this.originBgPosX + 'px';
         tg.style.backgroundPositionY = y - this.originY + this.originBgPosY + 'px';
 
-
-        //console.log('e.clientX #2', x, this.originX, this.originBgPosX);
-        //console.log('tg.style.backgroundPositionX #2', tg.style.backgroundPositionX);
     }
 
     onMousedown(e) {
