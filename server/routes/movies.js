@@ -72,23 +72,23 @@ function sendResultToDropbox(video, videoName, ass, email) {
             logger.crit('No dbClient');
         } else {
             logger.info('writing to dropbox');
-            dbClient.filesUpload({ path: dbPath, contents: data })
-                .then(function(response) {
-                    logger.info('Uploaded the file, let\s get the share url.');
-                    dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
-                        
-                        tempUrl = response.link;
-                        sendNotification(email, 'finished', tempUrl);
+            dbClient.filesUpload({ path: dbPath, contents: data, mode: {'.tag': 'overwrite'} })
+            .then(function(response) {
+                logger.info('Uploaded the file, let\s get the share url.');
+                dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
+                    
+                    tempUrl = response.link;
+                    sendNotification(email, 'finished', tempUrl);
 
-                        deleteLocalFile(ass);
-                        deleteLocalFile(video);
+                    deleteLocalFile(ass);
+                    deleteLocalFile(video);
 
-                    });
-                })
-                .catch(function(err) {
-                    logger.info(err);
-                    return next(Boom.badImplementation('Something went wrong uploading to dropbox.'));
                 });
+            })
+            .catch(function(err) {
+                logger.info(err);
+                return next(Boom.badImplementation('Something went wrong uploading to dropbox.'));
+            });
         }
     });
 }
@@ -299,17 +299,20 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
                 logger.info('No dbClient');
             } else {
                 logger.info('uploading to dropbox');
-                dbClient.filesUpload({ path: dbPath, contents: data })
-                    .then(function(response) {
-                        dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
-                            tempUrl = response.link;
-                            res.json({ url: url, name: videoPath, dropboxUrl: tempUrl }).send();
-                        });
-                    })
-                    .catch(function(err) {
-                        logger.info(err);
-                        return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+
+                // fix: delete ass file if it exists
+                const filePath = dbPath;
+                dbClient.filesUpload({ path: dbPath, contents: data, mode: {'.tag': 'overwrite'}})
+                .then(function(response) {
+                    dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
+                        tempUrl = response.link;
+                        res.json({ url: url, name: videoPath, dropboxUrl: tempUrl }).send();
                     });
+                })
+                .catch(function(err) {
+                    logger.info(err);
+                    return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
+                });
             }
         });
     } else {
