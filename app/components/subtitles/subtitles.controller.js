@@ -302,15 +302,7 @@ export default class SubtitlesController {
             $event.currentTarget.blur();
         }
 
-        if (this.subs.length > 0) {
-            let canAddSubtitle = this.checkTimeFromEnd(movieDuration);
 
-            // if(canAddSubtitle == false){
-            //     // console.log('please make your last subtitle smaller');
-            //     this.toast.showToast('error', 'please make your last subtitle smaller');
-            //     return;
-            // }
-        }
 
         // get last subtitle
         let lastClip = {};
@@ -321,6 +313,19 @@ export default class SubtitlesController {
         });
 
         let clip = {};
+
+
+        if (this.subs.length > 0) {
+            let canAddSubtitle = this.checkTimeFromEnd(movieDuration);
+
+            if (canAddSubtitle == false) {
+                // console.log('please make your last subtitle smaller');
+                // this.toast.showToast('error', 'please make your last subtitle smaller');
+                // return;
+                lastClip.end = movieDuration - 3;
+            }
+        }
+
 
         // this should be writing more variable, it breaks when order changes of templates, or if we put the templates in firebase or whatever
         let templateId = 0;
