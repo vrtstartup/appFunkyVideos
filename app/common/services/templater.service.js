@@ -684,6 +684,8 @@ export default class templaterService {
 
                 // IF LAST: 
                 if (visuals.length === x + 1) {
+                    //console.log('is last');
+                    //console.log(visuals.length, x, visuals.length === x + 1);
 
                     clip.last = true;
                     newClips.push(clip);
