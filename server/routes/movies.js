@@ -421,8 +421,6 @@ router.post('/burnSubs', function(req, res) {
     if (audio !== false) {
         ffmpegCommand.input(audio);
         complexFilter.push('amix=inputs=2:duration=first:dropout_transition=3');
-    } else if (bumperAudio === true) {
-        complexFilter.push('amix=inputs=2:duration=first:dropout_transition=3');
     } else {
         complexFilter.push('amix=inputs=1:duration=first:dropout_transition=3');
     }
