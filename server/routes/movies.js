@@ -72,23 +72,23 @@ function sendResultToDropbox(video, videoName, ass, email) {
             logger.crit('No dbClient');
         } else {
             logger.info('writing to dropbox');
-            dbClient.filesUpload({ path: dbPath, contents: data, mode: {'.tag': 'overwrite'} })
-            .then(function(response) {
-                logger.info('Uploaded the file, let\s get the share url.');
-                dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
-                    
-                    tempUrl = response.link;
-                    sendNotification(email, 'finished', tempUrl);
+            dbClient.filesUpload({ path: dbPath, contents: data, mode: { '.tag': 'overwrite' } })
+                .then(function(response) {
+                    logger.info('Uploaded the file, let\s get the share url.');
+                    dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
 
-                    deleteLocalFile(ass);
-                    deleteLocalFile(video);
+                        tempUrl = response.link;
+                        sendNotification(email, 'finished', tempUrl);
 
+                        deleteLocalFile(ass);
+                        deleteLocalFile(video);
+
+                    });
+                })
+                .catch(function(err) {
+                    logger.info(err);
+                    return next(Boom.badImplementation('Something went wrong uploading to dropbox.'));
                 });
-            })
-            .catch(function(err) {
-                logger.info(err);
-                return next(Boom.badImplementation('Something went wrong uploading to dropbox.'));
-            });
         }
     });
 }
@@ -302,17 +302,17 @@ router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
 
                 // fix: delete ass file if it exists
                 const filePath = dbPath;
-                dbClient.filesUpload({ path: dbPath, contents: data, mode: {'.tag': 'overwrite'}})
-                .then(function(response) {
-                    dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
-                        tempUrl = response.link;
-                        res.json({ url: url, name: videoPath, dropboxUrl: tempUrl }).send();
+                dbClient.filesUpload({ path: dbPath, contents: data, mode: { '.tag': 'overwrite' } })
+                    .then(function(response) {
+                        dbClient.filesGetTemporaryLink({ path: dbPath }).then(function(response) {
+                            tempUrl = response.link;
+                            res.json({ url: url, name: videoPath, dropboxUrl: tempUrl }).send();
+                        });
+                    })
+                    .catch(function(err) {
+                        logger.info(err);
+                        return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
                     });
-                })
-                .catch(function(err) {
-                    logger.info(err);
-                    return next(Boom.badImplementation('unexpected error, couldn\'t upload file to dropbox'));
-                });
             }
         });
     } else {
@@ -334,6 +334,7 @@ router.post('/burnSubs', function(req, res) {
     var logo = req.body.logo;
     var audio = req.body.audio;
     var bumper = req.body.bumper;
+    var bumperAudio = req.body.bumperAudio;
     var duration = req.body.duration;
     var fade = req.body.fade;
     var width = req.body.width;
@@ -420,6 +421,8 @@ router.post('/burnSubs', function(req, res) {
     if (audio !== false) {
         ffmpegCommand.input(audio);
         complexFilter.push('amix=inputs=2:duration=first:dropout_transition=3');
+    } else if (bumperAudio === true) {
+        complexFilter.push('amix=inputs=2:duration=first:dropout_transition=3');
     } else {
         complexFilter.push('amix=inputs=1:duration=first:dropout_transition=3');
     }
@@ -470,7 +473,7 @@ router.post('/burnSubs', function(req, res) {
             }
         })
         .on('end', function() {
-                
+
             db.ref('/apps/subtitles/' + project + '/logs').update({
                 status: 'Klaar met ondertitels inbranden.',
             }).catch(function(error) {
