@@ -16,23 +16,23 @@ export default class templaterService {
         this.visualsToSend = [];
 
         this.clipTemplates = [{
-            meta: {
-                'id': 'defaultSub',
-                'brand': 'all',
-                'excludeBrand': 'stubru',
-                'type': 'sub',
-                'img': 'assets/videoTemplates/dr_defaultSub.png',
-                'view': '/components/subtitles/views/template.subtitle.normalSub.view.html',
-                'roles': ['0', '1', '2', '']
+                meta: {
+                    'id': 'defaultSub',
+                    'brand': 'all',
+                    'excludeBrand': 'stubru',
+                    'type': 'sub',
+                    'img': 'assets/videoTemplates/dr_defaultSub.png',
+                    'view': '/components/subtitles/views/template.subtitle.normalSub.view.html',
+                    'roles': ['0', '1', '2', '']
+                },
+                clip: {
+                    'style': 'Default',
+                    'text': ""
+                },
+                input: {
+                    'text': "",
+                }
             },
-            clip: {
-                'style': 'Default',
-                'text': ""
-            },
-            input: {
-                'text': "",
-            }
-        },
             {
                 meta: {
                     'id': 'title',
@@ -260,48 +260,48 @@ export default class templaterService {
             'fileLocal': false,
             'fileRemote': false
         }, {
-                'name': '1',
-                'id': 1,
-                'brand': 'deredactie.be',
-                'length': '02:54',
-                'fileLocal': 'assets/audio/deredactiebe/1.mp3',
-                'fileRemote': this.root + 'audio\\1.wav'
-            }, {
-                'name': '2',
-                'id': 2,
-                'brand': 'deredactie.be',
-                'length': '01:23',
-                'fileLocal': 'assets/audio/deredactiebe/2.mp3',
-                'fileRemote': this.root + 'audio\\2.wav'
-            }, {
-                'name': '3',
-                'id': 3,
-                'brand': 'deredactie.be',
-                'length': '01:23',
-                'fileLocal': 'assets/audio/deredactiebe/3.mp3',
-                'fileRemote': this.root + 'audio\\3.wav'
-            }, {
-                'name': '4',
-                'id': 4,
-                'brand': 'deredactie.be',
-                'length': '01:23',
-                'fileLocal': 'assets/audio/deredactiebe/4.mp3',
-                'fileRemote': this.root + 'audio\\4.wav'
-            }, {
-                'name': '5',
-                'id': 5,
-                'brand': 'deredactie.be',
-                'length': '01:23',
-                'fileLocal': 'assets/audio/deredactiebe/5.mp3',
-                'fileRemote': this.root + 'audio\\5.wav'
-            }, {
-                'name': '6',
-                'id': 6,
-                'brand': 'deredactie.be',
-                'length': '01:23',
-                'fileLocal': 'assets/audio/deredactiebe/6.mp3',
-                'fileRemote': this.root + 'audio\\6.wav'
-            }];
+            'name': '1',
+            'id': 1,
+            'brand': 'deredactie.be',
+            'length': '02:54',
+            'fileLocal': 'assets/audio/deredactiebe/1.mp3',
+            'fileRemote': this.root + 'audio\\1.wav'
+        }, {
+            'name': '2',
+            'id': 2,
+            'brand': 'deredactie.be',
+            'length': '01:23',
+            'fileLocal': 'assets/audio/deredactiebe/2.mp3',
+            'fileRemote': this.root + 'audio\\2.wav'
+        }, {
+            'name': '3',
+            'id': 3,
+            'brand': 'deredactie.be',
+            'length': '01:23',
+            'fileLocal': 'assets/audio/deredactiebe/3.mp3',
+            'fileRemote': this.root + 'audio\\3.wav'
+        }, {
+            'name': '4',
+            'id': 4,
+            'brand': 'deredactie.be',
+            'length': '01:23',
+            'fileLocal': 'assets/audio/deredactiebe/4.mp3',
+            'fileRemote': this.root + 'audio\\4.wav'
+        }, {
+            'name': '5',
+            'id': 5,
+            'brand': 'deredactie.be',
+            'length': '01:23',
+            'fileLocal': 'assets/audio/deredactiebe/5.mp3',
+            'fileRemote': this.root + 'audio\\5.wav'
+        }, {
+            'name': '6',
+            'id': 6,
+            'brand': 'deredactie.be',
+            'length': '01:23',
+            'fileLocal': 'assets/audio/deredactiebe/6.mp3',
+            'fileRemote': this.root + 'audio\\6.wav'
+        }];
 
         this.logos = [{
             'name': 'geen',
@@ -311,13 +311,13 @@ export default class templaterService {
             'fileServer': null,
             'fileRemote': null
         }, {
-                'name': 'Deredactie.be simpel',
-                'id': 1,
-                'brand': ['deredactie.be', 'amerika kiest'],
-                'fileLocal': 'assets/logos/deredactie_1.gif',
-                'fileServer': 'assets/logos/deredactie_1.mov',
-                'fileRemote': this.root + 'logos\\deredactie_1.mov'
-            }];
+            'name': 'Deredactie.be simpel',
+            'id': 1,
+            'brand': ['deredactie.be', 'amerika kiest'],
+            'fileLocal': 'assets/logos/deredactie_1.gif',
+            'fileServer': 'assets/logos/deredactie_1.mov',
+            'fileRemote': this.root + 'logos\\deredactie_1.mov'
+        }];
 
 
         this.bumpers = [{
@@ -328,87 +328,88 @@ export default class templaterService {
             'fileServer': null,
             'fileRemote': null
         }, {
-                'name': 'Deredactie.be simpel',
-                'id': 1,
-                'brand': ['deredactie.be', 'amerika kiest'],
-                'fileLocal': 'assets/bumpers/deredactie_1.gif',
-                'fileServer': 'assets/bumpers/deredactie_1.mov',
-                'fileRemote': this.root + 'bumpers\\deredactie_1.mov',
-                'fade': 2,
-                'bumperLength': 4
-            }, {
-                'name': 'Amerika Kiest',
-                'id': 2,
-                'brand': 'amerika kiest',
-                'fileLocal': 'assets/bumpers/amerikakiest_1.gif',
-                'fileServer': 'assets/bumpers/amerikakiest_1.mov',
-                'fileRemote': this.root + 'bumpers\\amerikakiest_1.mov',
-                'fade': 2,
-                'bumperLength': 4
-            }, {
-                'name': 'Een Blauw',
-                'id': 3,
-                'brand': 'een',
-                'fileLocal': 'assets/bumpers/een_1.gif',
-                'fileServer': 'assets/bumpers/een_1.mov',
-                'fileRemote': this.root + 'bumpers\\een_1.mov',
-                'fade': 1,
-                'bumperLength': 5
-            }, {
-                'name': 'Een Geel',
-                'id': 4,
-                'brand': 'een',
-                'fileLocal': 'assets/bumpers/een_2.gif',
-                'fileServer': 'assets/bumpers/een_2.mov',
-                'fileRemote': this.root + 'bumpers\\een_2.mov',
-                'fade': 1,
-                'bumperLength': 5
-            }, {
-                'name': 'Een Groen',
-                'id': 5,
-                'brand': 'een',
-                'fileLocal': 'assets/bumpers/een_3.gif',
-                'fileServer': 'assets/bumpers/een_3.mov',
-                'fileRemote': this.root + 'bumpers\\een_3.mov',
-                'fade': 1,
-                'bumperLength': 5
-            }, {
-                'name': 'Een Rood',
-                'id': 6,
-                'brand': 'een',
-                'fileLocal': 'assets/bumpers/een_4.gif',
-                'fileServer': 'assets/bumpers/een_4.mov',
-                'fileRemote': this.root + 'bumpers\\een_4.mov',
-                'fade': 1,
-                'bumperLength': 5
-            }, {
-                'name': 'Een Roze',
-                'id': 7,
-                'brand': 'een',
-                'fileLocal': 'assets/bumpers/een_5.gif',
-                'fileServer': 'assets/bumpers/een_5.mov',
-                'fileRemote': this.root + 'bumpers\\een_5.mov',
-                'fade': 1,
-                'bumperLength': 5
-            }, {
-                'name': 'Terzake 1',
-                'id': 8,
-                'brand': 'canvas',
-                'fileLocal': 'assets/bumpers/terzake_1.gif',
-                'fileServer': 'assets/bumpers/terzake_1.mov',
-                'fileRemote': this.root + 'bumpers\\terzake_1.mov',
-                'fade': 2,
-                'bumperLength': 4
-            }, {
-                'name': 'Sporza 1',
-                'id': 9,
-                'brand': 'sporza',
-                'fileLocal': 'assets/bumpers/sporza_1.gif',
-                'fileServer': 'assets/bumpers/sporza_1.mov',
-                'fileRemote': this.root + 'bumpers\\sporza_1.mov',
-                'fade': 0,
-                'bumperLength': 2
-            }];
+            'name': 'Deredactie.be simpel',
+            'id': 1,
+            'brand': ['deredactie.be', 'amerika kiest'],
+            'fileLocal': 'assets/bumpers/deredactie_1.gif',
+            'fileServer': 'assets/bumpers/deredactie_1.mov',
+            'fileRemote': this.root + 'bumpers\\deredactie_1.mov',
+            'fade': 2,
+            'bumperLength': 4
+        }, {
+            'name': 'Amerika Kiest',
+            'id': 2,
+            'brand': 'amerika kiest',
+            'fileLocal': 'assets/bumpers/amerikakiest_1.gif',
+            'fileServer': 'assets/bumpers/amerikakiest_1.mov',
+            'fileRemote': this.root + 'bumpers\\amerikakiest_1.mov',
+            'fade': 2,
+            'bumperLength': 4
+        }, {
+            'name': 'Een Blauw',
+            'id': 3,
+            'brand': 'een',
+            'fileLocal': 'assets/bumpers/een_1.gif',
+            'fileServer': 'assets/bumpers/een_1.mov',
+            'fileRemote': this.root + 'bumpers\\een_1.mov',
+            'fade': 1,
+            'bumperLength': 5
+        }, {
+            'name': 'Een Geel',
+            'id': 4,
+            'brand': 'een',
+            'fileLocal': 'assets/bumpers/een_2.gif',
+            'fileServer': 'assets/bumpers/een_2.mov',
+            'fileRemote': this.root + 'bumpers\\een_2.mov',
+            'fade': 1,
+            'bumperLength': 5
+        }, {
+            'name': 'Een Groen',
+            'id': 5,
+            'brand': 'een',
+            'fileLocal': 'assets/bumpers/een_3.gif',
+            'fileServer': 'assets/bumpers/een_3.mov',
+            'fileRemote': this.root + 'bumpers\\een_3.mov',
+            'fade': 1,
+            'bumperLength': 5
+        }, {
+            'name': 'Een Rood',
+            'id': 6,
+            'brand': 'een',
+            'fileLocal': 'assets/bumpers/een_4.gif',
+            'fileServer': 'assets/bumpers/een_4.mov',
+            'fileRemote': this.root + 'bumpers\\een_4.mov',
+            'fade': 1,
+            'bumperLength': 5
+        }, {
+            'name': 'Een Roze',
+            'id': 7,
+            'brand': 'een',
+            'fileLocal': 'assets/bumpers/een_5.gif',
+            'fileServer': 'assets/bumpers/een_5.mov',
+            'fileRemote': this.root + 'bumpers\\een_5.mov',
+            'fade': 1,
+            'bumperLength': 5
+        }, {
+            'name': 'Terzake 1',
+            'id': 8,
+            'brand': 'canvas',
+            'fileLocal': 'assets/bumpers/terzake_3.gif',
+            'fileServer': 'assets/bumpers/terzake_3.mov',
+            'fileRemote': this.root + 'bumpers\\terzake_3.mov',
+            'fade': 0,
+            'bumperLength': 5,
+            'audio': true
+        }, {
+            'name': 'Sporza 1',
+            'id': 9,
+            'brand': 'sporza',
+            'fileLocal': 'assets/bumpers/sporza_1.gif',
+            'fileServer': 'assets/bumpers/sporza_1.mov',
+            'fileRemote': this.root + 'bumpers\\sporza_1.mov',
+            'fade': 0,
+            'bumperLength': 2
+        }];
     }
 
     /*
@@ -459,10 +460,10 @@ export default class templaterService {
             { label: 'hours', mod: 24 },
         ];
         // calculate the individual unit values...
-        units.forEach(function (u) {
+        units.forEach(function(u) {
             millis = (millis - (dur[u.label] = (millis % u.mod))) / u.mod;
         });
-        let twoDigits = function (number) {
+        let twoDigits = function(number) {
             if (number < 10) {
                 number = '0' + number;
                 return number;
@@ -470,7 +471,7 @@ export default class templaterService {
                 return number;
             }
         };
-        let round = function (number) {
+        let round = function(number) {
 
             if (number < 99) {
                 return '0' + Math.round((number / 10));
@@ -517,7 +518,7 @@ export default class templaterService {
         let ffmpegCommand = '';
         let res = {};
         let totalClips = parseInt(clips.length);
-        
+
 
         for (var key in clips) {
 
@@ -541,15 +542,15 @@ export default class templaterService {
             if (clip.id === 1) {
                 clipOverlaying = clipOverlaying + '[0:v][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
 
-            } else if( clip.id !== totalClips) {
+            } else if (clip.id !== totalClips) {
                 clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
-            } 
-            
+            }
+
             if (clip.id === totalClips) {
                 if (meta.bumper > 0) {
                     if (clip.id != 1) {
                         clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
-                    } 
+                    }
 
                     totalDuration = meta.movieDuration + this.bumpers[meta.bumper].bumperLength - this.bumpers[meta.bumper].fade;
                     bumperInTime = meta.movieDuration - this.bumpers[meta.bumper].fade;
@@ -563,14 +564,14 @@ export default class templaterService {
                     }
 
                 } else {
-                    if (meta.logo > 0 ) {
+                    if (meta.logo > 0) {
                         if (clip.id === 1) {
                             //
                         } else {
                             clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
                         }
                     } else {
-                        if(clip.id === 1) {
+                        if (clip.id === 1) {
                             clipOverlaying = '[0:v][v' + clipId + ']overlay=eof_action=pass[endMovie];'
                         } else {
                             clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[endMovie];';
@@ -631,7 +632,7 @@ export default class templaterService {
             let newClips = [];
             let template = '';
 
-            for ( var x = 0; x < visuals.length; x++ ) {
+            for (var x = 0; x < visuals.length; x++) {
                 template = visuals[x].template;
                 //console.log('visual template = ', template);
                 let clip = {};
@@ -657,7 +658,7 @@ export default class templaterService {
                 if (visuals.length === x + 1) {
                     //console.log('is last');
                     //console.log(visuals.length, x, visuals.length === x + 1);
-                    
+
                     clip.last = true;
                     newClips.push(clip);
                     this.overlays(newClips, meta, project, subs)
@@ -734,10 +735,10 @@ export default class templaterService {
     uploadSubFileToServer(file, fileName, email) {
         const deferred = this.$q.defer();
         this.Upload.upload({
-            url: 'api/movie/generateSub',
-            data: { file: file, fileName: fileName, email: email },
-            method: 'POST',
-        })
+                url: 'api/movie/generateSub',
+                data: { file: file, fileName: fileName, email: email },
+                method: 'POST',
+            })
             .then((res) => {
                 if (!res) return;
                 deferred.resolve(res);
@@ -800,7 +801,7 @@ export default class templaterService {
         const deferred = this.$q.defer();
         let fade = 0;
         let bumperLength = '';
-        let logo, audio, bumper;
+        let logo, audio, bumper, bumperAudio;
 
         if (meta.logo > 0) {
             logo = this.logos[meta.logo].fileServer;
@@ -814,13 +815,15 @@ export default class templaterService {
             fade = this.bumpers[meta.bumper].fade;
             bumperLength = this.bumpers[meta.bumper].bumperLength;
             bumper = this.bumpers[meta.bumper].fileServer;
+            bumperAudio = this.bumpers[meta.bumper].audio;
         } else { bumper = false };
         let assets = {
             fade: fade,
             bumperLength: bumperLength,
             logo: logo,
             audio: audio,
-            bumper: bumper
+            bumper: bumper,
+            bumperAudio: bumperAudio
         }
         deferred.resolve(assets);
         return deferred.promise;
@@ -829,10 +832,10 @@ export default class templaterService {
     getTempUrl(path) {
         const deferred = this.$q.defer();
         this.$http({
-            data: { path: path },
-            method: 'POST',
-            url: '/api/movie/getTempUrl/'
-        })
+                data: { path: path },
+                method: 'POST',
+                url: '/api/movie/getTempUrl/'
+            })
             .then((res) => {
                 //console.log('the response of getting the temp url', res);
                 deferred.resolve(res);
@@ -846,7 +849,7 @@ export default class templaterService {
 
 
     renderMovie(subs, visuals, meta, projectId) {
-        
+
         const deferred = this.$q.defer();
         let uniqueProjectName = meta.projectId;
         let videoName = uniqueProjectName + '.mp4';
@@ -866,10 +869,10 @@ export default class templaterService {
 
                 if (!visualClips && assFile) {
                     this.$http({
-                        data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips },
-                        method: 'POST',
-                        url: '/api/movie/burnSubs/'
-                    })
+                            data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips, bumperAudio: assets.bumperAudio },
+                            method: 'POST',
+                            url: '/api/movie/burnSubs/'
+                        })
                         .then((res) => {
                             //console.log(res);
                             deferred.resolve(res);
@@ -885,7 +888,7 @@ export default class templaterService {
                 } else {
                     //console.log('there is nothing, chillax');
                 }
-            }, function (error) {
+            }, function(error) {
                 console.log(error);
             });
 
