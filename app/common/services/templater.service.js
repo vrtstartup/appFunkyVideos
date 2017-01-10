@@ -16,23 +16,23 @@ export default class templaterService {
         this.visualsToSend = [];
 
         this.clipTemplates = [{
-            meta: {
-                'id': 'defaultSub',
-                'brand': 'all',
-                'excludeBrand': 'stubru',
-                'type': 'sub',
-                'img': 'assets/videoTemplates/dr_defaultSub.png',
-                'view': '/components/subtitles/views/template.subtitle.normalSub.view.html',
-                'roles': ['0', '1', '2', '']
+                meta: {
+                    'id': 'defaultSub',
+                    'brand': 'all',
+                    'excludeBrand': 'stubru',
+                    'type': 'sub',
+                    'img': 'assets/videoTemplates/dr_defaultSub.png',
+                    'view': '/components/subtitles/views/template.subtitle.normalSub.view.html',
+                    'roles': ['0', '1', '2', '']
+                },
+                clip: {
+                    'style': 'Default',
+                    'text': ""
+                },
+                input: {
+                    'text': "",
+                }
             },
-            clip: {
-                'style': 'Default',
-                'text': ""
-            },
-            input: {
-                'text': "",
-            }
-        },
             {
                 meta: {
                     'id': 'title',
