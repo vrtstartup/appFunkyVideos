@@ -520,6 +520,8 @@ export default class templaterService {
         let totalClips = parseInt(clips.length);
 
 
+
+
         for (var key in clips) {
 
             if (!clips.hasOwnProperty(key)) continue;
@@ -537,49 +539,21 @@ export default class templaterService {
             // Create the overlay command
             clipsTiming = clipsTiming + '[' + clip.id + ':v]setpts=PTS-STARTPTS+' + clip.start + '/TB,scale=' + '-1:' + meta.movieHeight + '[v' + clipId + '];';
 
+
+
             if (clip.id === 1) {
                 clipOverlaying = clipOverlaying + '[0:v][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
-            } else if (clip.id === totalClips) {
 
-            } else {
+            } else if (clip.id !== totalClips) {
                 clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
-<<<<<<< HEAD
             }
-=======
-            } 
->>>>>>> parent of 2ea2a11... bugfix: edge case where movie with only one title and bumper is being rendered
-
-            // INPUT
-            // i - container
-            // i - orig
-            // i - bumper
-            // i - visuals
-            // i - logo
-
-            // SCALING
-            // 
-
-            // TIMINGS
-            // offset 0 or defined
-
-            // OVERLAYS [orig, logo, clips, bumper] exept container
-            // 1op2 ()
-            // 2op3 ()
-            // 3op4 ()
-
-            // SUBTITLE
-            // 
-
-            // AUDIO
-            // 
-
-            //FINAL
-            // 
 
             if (clip.id === totalClips) {
-
                 if (meta.bumper > 0) {
-                    clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
+                    if (clip.id != 1) {
+                        clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
+                    }
+
                     totalDuration = meta.movieDuration + this.bumpers[meta.bumper].bumperLength - this.bumpers[meta.bumper].fade;
                     bumperInTime = meta.movieDuration - this.bumpers[meta.bumper].fade;
                     input = input + ' -i ' + this.bumpers[meta.bumper].fileRemote + ' -f lavfi -i color=c=black:s=' + meta.movieWidth + 'x' + meta.movieHeight;
