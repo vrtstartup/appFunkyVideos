@@ -543,7 +543,11 @@ export default class templaterService {
 
             } else {
                 clipOverlaying = clipOverlaying + '[c' + clipMinusOne + '][v' + clipId + ']overlay=eof_action=pass[c' + clipId + '];';
+<<<<<<< HEAD
             }
+=======
+            } 
+>>>>>>> parent of 2ea2a11... bugfix: edge case where movie with only one title and bumper is being rendered
 
             // INPUT
             // i - container
