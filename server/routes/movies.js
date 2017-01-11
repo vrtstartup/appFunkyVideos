@@ -358,9 +358,8 @@ router.post('/burnSubs', function(req, res) {
             .input('color=c=black:s=' + width + 'x' + height).inputOptions('-f lavfi');
         complexFilter = [
             '[0:v]setpts=PTS-STARTPTS[theMovie]',
-            '[1:v]scale=' + width + ':-1[bumperRescaled]',
+            '[1:v]scale=' + width + ':-1,format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]',
             '[3:v]scale=' + width + 'x' + height + ',trim=duration=' + (duration + bumperLength - fade) + '[blackVideo]',
-            '[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]',
             '[2:v]scale=' + width / 7 + ':-1[logoRescaled]', {
                 filter: 'overlay',
                 options: { x: 0, y: 0 },
@@ -386,9 +385,9 @@ router.post('/burnSubs', function(req, res) {
 
         complexFilter = [
             '[0:v]setpts=PTS-STARTPTS[theMovie]',
-            '[1:v]scale=' + width + ':-1[bumperRescaled]',
+            '[1:v]scale=' + width + ':-1,format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]',
             '[2:v]scale=' + width + 'x' + height + ',trim=duration=' + (duration + bumperLength - fade) + '[blackVideo]',
-            '[bumperRescaled]format=yuva420p,setpts=PTS-STARTPTS+((' + (duration - fade) + ')/TB)[theBumper]', {
+            {
                 filter: 'overlay',
                 options: { x: 0, y: 0 },
                 inputs: ['blackVideo', 'theMovie'],
@@ -418,9 +417,12 @@ router.post('/burnSubs', function(req, res) {
     }
 
     // Check if we need to mix mulitple audiofiles
-    if (audio !== false) {
+    if (audio !== false && bumperAudio !== true) {
         ffmpegCommand.input(audio);
         complexFilter.push('amix=inputs=2:duration=first:dropout_transition=3');
+    } else if (bumperAudio === true) {
+        var audioBumperDelay = (duration - fade) * 1000;
+        complexFilter.push('[1:a]adelay=' + audioBumperDelay + '|' + audioBumperDelay + '[bumperSound];[0:1][bumperSound]amix=inputs=2');
     } else {
         complexFilter.push('amix=inputs=1:duration=first:dropout_transition=3');
     }
