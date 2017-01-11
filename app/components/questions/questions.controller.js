@@ -27,12 +27,7 @@ export default class QuestionsController {
         this.sessions = this.$firebaseArray(query);
     }
 
-    addQuestion(question, type) {
-        question.type = type;
-        console.log(question.name);
-        if (question.name == null) {
-            question.name === 'anoniem';
-        }
+    addQuestion(question) {
         question.timestamp = firebase.database.ServerValue.TIMESTAMP;
         this.questions.$add(question).then((ref) => {
             this.questionInput = '';

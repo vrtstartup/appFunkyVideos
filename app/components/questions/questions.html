@@ -1,5 +1,5 @@
-<md-content layout="column">
-    <md-switch ng-model="vm.live" aria-label="Live" layout-padding>
+<md-content layout="column" >
+    <md-switch ng-model="vm.live" aria-label="Live" layout-padding >
         Live
     </md-switch>
     <div layout="row">
@@ -25,51 +25,27 @@
                 </md-list-item>
             </md-list>
         </section>
-        <section flex ng-hide="vm.activeSession == ''">
+        <section flex ng-hide="vm.activeSession == ''" >
             <div layout="row" ng-if="!vm.live" layout-padding class="question-input">
-                <md-input-container flex="80">
+                <md-input-container flex="80" >
                     <label>Vraag</label>
-                    <input ng-model="vm.questionInput.text" type="text" ng-keyup="$event.keyCode == 13 && vm.addQuestion(vm.questionInput, 'question')">
+                    <input ng-model="vm.questionInput.text" type="text">
                 </md-input-container>
                 <md-input-container flex="20">
                     <label>Naam</label>
-                    <input ng-model="vm.questionInput.name" type="text" ng-keyup="$event.keyCode == 13 && vm.addQuestion(vm.questionInput, 'question')">
+                    <input ng-model="vm.questionInput.name" type="text">
                 </md-input-container>
                 <md-input-container>
-                    <i style="padding-top:8px;" ng-click="vm.addQuestion(vm.questionInput, 'question')" class="material-icons grid-iconbutton">&#xE145;</i>
+                    <i style="padding-top:8px;" ng-click="vm.addQuestion(vm.questionInput)" class="material-icons grid-iconbutton">&#xE145;</i>
                 </md-input-container>
             </div>
-            <div layout="row" ng-if="!vm.live" layout-padding class="question-input--remark">
-                <md-input-container flex="100">
-                    <label>Regieaanwijzing</label>
-                    <input ng-model="vm.remarkInput.text" type="text" ng-keyup="$event.keyCode == 13 && vm.addQuestion(vm.remarkInput, 'remark')">
-                </md-input-container>
-                <md-input-container>
-                    <i style="padding-top:8px; " ng-click="vm.addQuestion(vm.remarkInput, 'remark')" class="material-icons grid-iconbutton">&#xE145;</i>
-                </md-input-container>
-            </div>
-            <div ng-repeat="q in vm.questions | orderBy:'timestamp':true" layout="row" layout-padding class="questions questions--{{q.type}}" ng-class="{ 'questions--live': vm.live }">
-                <div class="questions__output">
-                    <div ng-if="vm.live != true" flex="100" layout="column">
-                        <md-input-container flex="100" ng-if="q.type == 'question'">
-                            <label>Naam</label>
-                            <input ng-model="q.name" ng-change="vm.questions.$save(q)" type="text">
-                        </md-input-container>
-
-                        <md-input-container flex="100">
-                            <label ng-if="q.type == 'remark'">Regieaanwijzing</label>
-                            <label ng-if="q.type == 'question'">Tekst</label>
-                            <input ng-model="q.text" type="text" ng-change="vm.questions.$save(q)">
-                        </md-input-container>
-                    </div>
-                    <div ng-if="vm.live == true">
-                        <span class="questions__output__name" ng-if="q.type == 'question'">{{q.name}} vraagt:</span>
-                        <span class="questions__output__name" ng-if="q.type == 'remark'">Regie aanwijzing:</span>
-                        <h1>{{q.text}}</h1>
-                    </div>
+            <div ng-repeat="q in vm.questions | orderBy:'timestamp':true" layout="row" layout-padding class="questions">
+                <div class="question-output">
+                    {{q.name}} vraagt:
+                    <h1>{{q.text}}</h1>
                 </div>
                 <span flex></span>
-                <i ng-click="vm.deleteQuestion(q)" ng-style="vm.live ? { 'font-size': '3rem' } : { 'font-size': '1rem' }" class="material-icons">&#xE14C;</i>
+                <i ng-click="vm.deleteQuestion(q)" class="material-icons grid-iconbutton">&#xE14C;</i>
             </div>
         </section>
     </div>

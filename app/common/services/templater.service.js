@@ -394,11 +394,13 @@ export default class templaterService {
             'name': 'Terzake 1',
             'id': 8,
             'brand': 'canvas',
-            'fileLocal': 'assets/bumpers/terzake_1.gif',
-            'fileServer': 'assets/bumpers/terzake_1.mov',
-            'fileRemote': this.root + 'bumpers\\terzake_1.mov',
-            'fade': 2,
-            'bumperLength': 4
+            'fileLocal': 'assets/bumpers/terzake_3.gif',
+            'fileServer': 'assets/bumpers/terzake_3.mov',
+            'fileRemote': this.root + 'bumpers\\terzake_3.mov',
+            'fade': 0,
+            'bumperLength': 5,
+            'audio': true
+
         }, {
             'name': 'Sporza 1',
             'id': 9,
@@ -517,7 +519,6 @@ export default class templaterService {
         let ffmpegCommand = '';
         let res = {};
         let totalClips = parseInt(clips.length);
-
 
         for (var key in clips) {
 
@@ -800,7 +801,7 @@ export default class templaterService {
         const deferred = this.$q.defer();
         let fade = 0;
         let bumperLength = '';
-        let logo, audio, bumper;
+        let logo, audio, bumper, bumperAudio;
 
         if (meta.logo > 0) {
             logo = this.logos[meta.logo].fileServer;
@@ -814,13 +815,15 @@ export default class templaterService {
             fade = this.bumpers[meta.bumper].fade;
             bumperLength = this.bumpers[meta.bumper].bumperLength;
             bumper = this.bumpers[meta.bumper].fileServer;
+            bumperAudio = this.bumpers[meta.bumper].audio;
         } else { bumper = false };
         let assets = {
             fade: fade,
             bumperLength: bumperLength,
             logo: logo,
             audio: audio,
-            bumper: bumper
+            bumper: bumper,
+            bumperAudio: bumperAudio
         }
         deferred.resolve(assets);
         return deferred.promise;
@@ -866,7 +869,7 @@ export default class templaterService {
 
                 if (!visualClips && assFile) {
                     this.$http({
-                            data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips },
+                            data: { ass: assFile.data.url, email: meta.email, videoName: videoName, movie: meta.movieUrl, duration: meta.movieDuration, width: meta.movieWidth, height: meta.movieHeight, logo: assets.logo, audio: assets.audio, bumper: assets.bumper, fade: assets.fade, bumperLength: assets.bumperLength, project: projectId, visualClips: visualClips, bumperAudio: assets.bumperAudio },
                             method: 'POST',
                             url: '/api/movie/burnSubs/'
                         })

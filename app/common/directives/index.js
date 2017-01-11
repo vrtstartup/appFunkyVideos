@@ -51,6 +51,7 @@ import zdd03 from './pictureTemplates/zdd03';
 import zdd04 from './pictureTemplates/zdd04';
 import zdd05 from './pictureTemplates/zdd05';
 import veertienachtien01 from './pictureTemplates/veertienachtien01';
+import radio1_01 from './pictureTemplates/radio1_01';
 
 const module = angular.module('app.common.directives', [
     // pieChart, text, screenshot, templateDethklok, templateBob, templateTina, templateLinda, templateGin,
@@ -59,7 +60,7 @@ const module = angular.module('app.common.directives', [
     imagePreview, eventBlock, subtitleLine, videoUploader, videoPlayer, feedback, track, maxlines, gridBar, mapsSimple,
     userLogin, draggable, templateFinn, templateJake, templateGiantBomb, movable, templateBmo, templateLumpy,
     artistBlock, templateCinnabon, templateBubblegum, templateTrunk, templateIceKing, templateMarceline,
-    audioPlayer, templatePeppermint, templateStampington, videoSlider, drd01, drd02, drd03, drd04, drd05, zdd01, zdd02, zdd03, zdd04, zdd05, veertienachtien01
+    audioPlayer, templatePeppermint, templateStampington, videoSlider, drd01, drd02, drd03, drd04, drd05, zdd01, zdd02, zdd03, zdd04, zdd05, veertienachtien01, radio1_01
 ]);
 
 export default module.name;

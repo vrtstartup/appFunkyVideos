@@ -546,6 +546,67 @@ $veertienachtien-font-bold: "bookmanBold";
             }
         }
     }
+    &-radio1 {
+        &__iemand {
+            &__container {
+                color: white;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                position: relative;
+            }
+            &__textblock {
+                position: absolute;
+                left: 0;
+                right: 0;
+                margin: auto;
+                display: block;
+                height: 44px;
+                bottom: 50%;
+                text-align: center;
+                display: flex;
+                pointer-events: none;
+                -webkit-align-items: center;
+                -ms-flex-align: center;
+                align-items: center;
+                -webkit-justify-content: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+            }
+            &__logo {
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                &__image {
+                    height: 100%;
+                    width: auto;
+                }
+            }
+            &__quote {
+                font-family: "Calibre-Black", sans-serif;
+                font-size: 44px;
+                line-height: 82px;
+                text-shadow: 2px 2px 20px #000;
+                white-space: pre-wrap;
+                margin: 0;
+                &::before {
+                    content: '\201C ';
+                    color: white;
+                }
+                &::after {
+                    content: ' \201D';
+                    color: white;
+                }
+            }
+            &__title {
+                margin: 0;
+                white-space: pre-wrap;
+                font-family: "Calibre-Medium", sans-serif;
+                font-size: 32px;
+            }
+        }
+    }
 }
 
 .pictures-drd__quote--cond {
