@@ -1,10 +1,7 @@
 <section class='wrap container-screenshot'>
     <div class='image' style="background-image: url('{{vm.image}}')" vrt-movable ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
-        <div ng-class="vm.image ? 'overlay' : 'no-overlay'" style="pointer-events: none;">
+        <div ng-class="vm.image ? 'overlay' : 'overlay'" style="background: rgba(20, 40, 74, .8);pointer-events: none;">
             <img class='logo logo-terzake' src="/assets/logo_terzake2.png">
-            <img class="logo logo-ak" src="/assets/logoak.svg">
-            <img class='logo logo-drd' src="/assets/deredactie.svg">
-            <img class='logo logo-r1' src="/assets/logor1.svg">
             <div class="long-quote-wrap">
                 <p class='quote'><span class="sign">“</span>{{vm.quote}}<span class="sign">”</span></p>
             </div>
