@@ -48,9 +48,23 @@
         <input ng-model="vm.image" type="file" name="img" required vrt-image-preview="onFileSelect($files)" />
 
     </div>
+
+
+    <div layout>
+        <div flex="10" layout layout-align="center center">
+            <span class="md-body-1">Afbeelding grootte</span>
+        </div>
+        <md-slider flex ng-init="vm.template.imageSize=100" ng-model="vm.template.imageSize" min="0" max="200" id="imageSize-slider" class="md-primary">
+        </md-slider>
+        <div flex="20" layout layout-align="center center">
+            <input flex type="number" ng-model="vm.template.imageSize" aria-controls="imageSize-slider">
+        </div>
+    </div>
+
+
     <div class="dir-wrap">
         <vrt-template-linda class="dir-wrap" is-hidden-sign="true" author-name-one="vm.quote.authorName1" title-one="vm.quote.authorTitle1" author-name-two="vm.quote.authorName2" title-two="vm.quote.authorTitle2" author-name-three="vm.quote.authorName3" title-three="vm.quote.authorTitle3"
-            quote="vm.quote.question" image="vm.image">
+            quote="vm.quote.question" image="vm.image" image-size="vm.template.imageSize">
         </vrt-template-linda>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <section class='wrap container-screenshot' style="background: white, rgba(20, 40, 74, .2);">
-    <div class='image' style="background-image: url('{{vm.image}}')">
-        <div ng-class="vm.image ? 'overlay' : 'overlay'" style="background: rgba(20, 40, 74, .8);">
-            <img class='logo logo-terzake' src="/assets/logo_terzake2.svg">
+    <div class='image' style="background-image: url('{{vm.image}}')" vrt-movable ng-style="{'background-image': 'url(' + vm.image + ')', 'background-size': vm.imageSize + '%'}">
+        <div ng-class="vm.image ? 'overlay' : 'overlay'" style="background: rgba(20, 40, 74, .8);pointer-events: none;">
+            <img class='logo logo-terzake' src="/assets/logo_terzake2.png">
             <div class="wrap-announce">
                 <div class="announce-block">
                     <p class='auth-title'>{{vm.titleOne}}</p>

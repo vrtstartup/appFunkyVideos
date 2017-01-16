@@ -33,12 +33,14 @@ export const templateLindaDirective = function() {
         controllerAs: 'vm',
         bindToController: {
             image: '=',
+            imageSize: '=',
             authorNameOne: '=',
             authorNameTwo: '=',
             authorNameThree: '=',
             titleOne: '=',
             titleTwo: '=',
             titleThree: '=',
+
         },
     };
 };

@@ -196,28 +196,33 @@
         top: 45px;
     }
     .quote {
-        font-family: 'NarzissTextBold', serif;
+        font-family: 'forma-bold', serif;
         font-style: normal;
         font-weight: 100;
-        font-size: 55px;
+        font-size: 50px;
         line-height: 1.2em;
+        bottom: 105px;
+        position: absolute;
+        white-space: pre-wrap;
     }
     .author {
+        font-family: 'forma-bold', serif;
         text-align: center;
     }
     .skwg-author {
         left: unset;
     }
     .auth-name {
-        font-family: 'dinbold', sans-serif;
+        font-family: 'forma-bold', sans-serif;
         font-size: 31px;
-        line-height: 1em;
+        line-height: 40px;
         margin: 0;
+        text-transform: none;
         //letter-spacing: 0.1em;
     }
     .auth-title {
-        font-family: 'NarzissTextRegular', serif;
-        font-size: 28px;
+        font-family: 'forma-light', serif;
+        font-size: 24px;
         font-style: normal;
         line-height: 1.1em;
         margin: 0;
