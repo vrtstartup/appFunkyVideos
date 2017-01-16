@@ -146,9 +146,9 @@ export default class templaterService {
                     'brand': 'deredactie.be',
                     'excludeBrand': '',
                     'type': 'sub',
-                    'img': 'assets/videoTemplates/dr_defaultSub.png',
-                    'view': '/components/subtitles/views/template.subtitle.normalSub.view.html',
-                    'roles': ['0', '1']
+                    'img': 'assets/videoTemplates/dr_backDropSub.png',
+                    'view': '/components/subtitles/views/template.subtitle.backDropSub.view.html',
+                    'roles': ['0', '1', '2', '']
                 },
                 clip: {
                     'style': 'DeredactieBackdrop',
