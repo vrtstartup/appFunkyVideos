@@ -1,28 +1,30 @@
 .wrap-announce {
-  text-align: right;
-  margin: 25px;
-  color: #fff;
+    text-align: left;
+    margin: 25px;
+    color: #fff;
+    position: absolute;
+    bottom: 0px;
+    left: 75px;
 }
 
 .announce-block {
-  .auth-title {
-    font-family: 'NarzissTextBold', serif;
-    font-size: 45px;
-    text-transform: uppercase;
-    display: inline-block;
-  }
-
-  .auth-name {
-    font-family: 'din-med', serif;
-    font-size: 30px;
-    text-transform: none;
-  }
-
-  .line-separator {
-    margin: 10px 0 15px 0;
-    height: 1px;
-    background-color: #fff;
-    margin-left: auto;
-    margin-right: 0;
-  }
+    padding-bottom: 30px;
+    .auth-title {
+        font-family: 'forma-bold', serif;
+        font-size: 45px;
+        // text-transform: uppercase;
+        display: inline-block;
+    }
+    .auth-name {
+        font-family: 'forma-light', serif;
+        font-size: 30px;
+        text-transform: none;
+    }
+    .line-separator {
+        margin: 10px 0 15px 0;
+        height: 1px;
+        background-color: #fff;
+        margin-left: auto;
+        margin-right: 0;
+    }
 }

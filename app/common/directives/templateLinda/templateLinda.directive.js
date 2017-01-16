@@ -8,10 +8,10 @@ class TemplateLindaDirectiveController {
 
         $scope.$watchCollection('[vm.titleOne, vm.titleTwo, vm.titleThree, vm.titleFour, ' +
             'vm.authorNameOne, vm.authorNameTwo, vm.authorNameThree, vm.authorNameFour]', (value) => {
-            if(!value) return;
+                if (!value) return;
 
-            this.setLineWidth();
-        });
+                this.setLineWidth();
+            });
 
     }
 
@@ -36,11 +36,9 @@ export const templateLindaDirective = function() {
             authorNameOne: '=',
             authorNameTwo: '=',
             authorNameThree: '=',
-            authorNameFour: '=',
             titleOne: '=',
             titleTwo: '=',
             titleThree: '=',
-            titleFour: '=',
         },
     };
 };

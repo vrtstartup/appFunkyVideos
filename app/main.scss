@@ -12,6 +12,20 @@
 }
 
 @font-face {
+    font-family: 'forma-light';
+    src: url('./fonts/forma_light.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('./fonts/forma_light.woff') format('woff');
+    /* Pretty Modern Browsers */
+}
+
+@font-face {
+    font-family: 'forma-bold';
+    src: url('./fonts/forma_bold.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('./fonts/forma_bold.woff') format('woff');
+    /* Pretty Modern Browsers */
+}
+
+@font-face {
     font-family: 'din-med';
     src: url('./fonts/din-med.ttf') format('truetype'), /* Safari, Android, iOS */
     url('./fonts/din-med.woff') format('woff');

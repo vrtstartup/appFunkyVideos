@@ -1,27 +1,22 @@
-<section class='wrap container-screenshot'>
+<section class='wrap container-screenshot' style="background: white, rgba(20, 40, 74, .2);">
     <div class='image' style="background-image: url('{{vm.image}}')">
-        <div ng-class="vm.image ? 'overlay' : 'no-overlay'">
-            <img class='logo logo-terzake' src="/assets/logo_terzake.svg">
+        <div ng-class="vm.image ? 'overlay' : 'overlay'" style="background: rgba(20, 40, 74, .8);">
+            <img class='logo logo-terzake' src="/assets/logo_terzake2.svg">
             <div class="wrap-announce">
                 <div class="announce-block">
                     <p class='auth-title'>{{vm.titleOne}}</p>
                     <p class='auth-name'>{{vm.authorNameOne}}</p>
-                    <div class='line-separator' ng-if="vm.titleOne || vm.authorNameOne" ng-style="{'width': vm.width + 'px'}"></div>
+
                 </div>
-                <div class="announce-block">
+                <div class="announce-block" ng-if="vm.titleTwo">
                     <p class='auth-title'>{{vm.titleTwo}}</p>
-                    <p class='auth-name' >{{vm.authorNameTwo}}</p>
-                    <div class='line-separator' ng-if="vm.titleTwo || vm.authorNameTwo" ng-style="{'width': vm.width + 'px'}"></div>
+                    <p class='auth-name'>{{vm.authorNameTwo}}</p>
+
                 </div>
-                <div class="announce-block">
+                <div class="announce-block" ng-if="vm.titleThree">
                     <p class='auth-title'>{{vm.titleThree}}</p>
-                    <p class='auth-name' >{{vm.authorNameThree}}</p>
-                    <div class='line-separator' ng-if="vm.authorNameThree || vm.titleThree" ng-style="{'width': vm.width + 'px'}"></div>
-                </div>
-                <div class="announce-block">
-                    <p class='auth-title'>{{vm.titleFour}}</p>
-                    <p class='auth-name' >{{vm.authorNameFour}}</p>
-                    <div class='line-separator' ng-if="vm.titleFour || vm.authorNameFour" ng-style="{'width': vm.width + 'px'}"></div>
+                    <p class='auth-name'>{{vm.authorNameThree}}</p>
+
                 </div>
             </div>
         </div>
