@@ -1,34 +1,52 @@
 @import "../../common/style/variables";
-
 .session-list {
-        background-color: transparentize($vrt-supl, .9);
+    background-color: transparentize($vrt-supl, .9);
 }
 
 .question-input {
-
-}
-
-.questions {
-
-    &:nth-child(2n) {
-        background-color: transparentize($vrt-supl, .9);
-
+    &--remark {
+        background-color: transparentize($vrt-learnings, .9);
+        border-bottom-color: transparentize(black, .5);
+        border-bottom-style: solid;
+        border-bottom-width: 1rem;
     }
 }
 
-.question-output {
-    font-size: 2rem;
-    h1 {
-        font-size: 3rem;
+.questions {
+    margin: 10px 0 10px 0;
+    background-color: transparentize($vrt-supl, .7);
+    &:nth-child(2n) {
+        background-color: transparentize($vrt-supl, .9);
+    }
+    &--remark {
+        background-color: transparentize($vrt-learnings, .7) !important;
+        h1 {
+            text-align: center;
+        }
+    }
+    &__output {
+        font-size: 1rem;
+        width: 100%;
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+    &--live {
+        .questions__output {
+            font-size: 1.2rem;
+            width: 100%;
+            h1 {
+                font-size: 2rem;
+            }
+        }
     }
 }
 
 .session-list-item {
-
     &:nth-child(2n-1) {
         background-color: transparentize($vrt-tool, .9);
     }
- &.active {
+    &.active {
         background-color: transparentize($vrt-guide, .5);
     }
 }
