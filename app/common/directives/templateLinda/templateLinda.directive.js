@@ -37,9 +37,12 @@ export const templateLindaDirective = function() {
             authorNameOne: '=',
             authorNameTwo: '=',
             authorNameThree: '=',
+            authorNameFour: '=',
             titleOne: '=',
             titleTwo: '=',
             titleThree: '=',
+            titleFour: '=',
+
 
         },
     };
