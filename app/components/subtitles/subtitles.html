@@ -17,10 +17,10 @@
             </div>
 
             <div layout="column" class="vertical-divider"></div>
-            
+
             <div layout="column" flex="15">
                 <md-button class="md-raised" aria-label="filmpje starten" ng-click="vm.createMovie()">
-                   Nieuw
+                    Nieuw
                 </md-button>
             </div>
 
@@ -32,11 +32,11 @@
         </div>
     </div>
 
+
     <div ng-if="vm.projectActive == true" style="" layout="row" style="background:#f0f0f0;">
         <md-toolbar class="md-primary" ng-if="!vm.uploading && vm.meta.movieUrl == null">
             <div class="md-toolbar-tools">
-                <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'"
-                    ngf-select="vm.upload($file)" type="file">
+                <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'" ngf-select="vm.upload($file)" type="file">
                     Add a Movie
                 </md-button>
             </div>
@@ -46,22 +46,21 @@
     <div layout="row" style="height:calc(100% - 3rem)">
         <section flex="20" layout="column">
             <md-content>
-            <div ng-if="vm.meta.movieUrl != null">
-                <md-list style="overflow-y: scroll;">
-                    <div>
-                        <md-list-item class="md-2-line animate-repeat subtitles-clips__list--{{c.type}}" ng-click="vm.selectClip(c.$id, c.start, c.end, c.type, c.template, 'form'); vm.loop = true"
-                            ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" ng-repeat="(key, c) in vm.subs | orderBy: 'start'">
-                            <div class="md-list-item-text">
-                                <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
-                                <p>{{ c.text }}</p>
-                            </div>
-                            <md-button class="md-secondary md-icon-button" ng-click="vm.subs.$remove(c)" aria-label="remove clip">
-                                <i class="material-icons" ng-click="vm.subs.$remove(c)">close</i>
-                            </md-button>
-                        </md-list-item>
-                    </div>
-                </md-list>
-            </div>
+                <div ng-if="vm.meta.movieUrl != null">
+                    <md-list style="overflow-y: scroll;">
+                        <div>
+                            <md-list-item class="md-2-line animate-repeat subtitles-clips__list--{{c.type}}" ng-click="vm.selectClip(c.$id, c.start, c.end, c.type, c.template, 'form'); vm.loop = true" ng-class="c.$id == vm.selectedSub.id ? 'list__item--selected' : ''" ng-repeat="(key, c) in vm.subs | orderBy: 'start'">
+                                <div class="md-list-item-text">
+                                    <h3>{{c.start | limitTo: 5}} - {{c.end | limitTo: 5}}</h3>
+                                    <p>{{ c.text }}</p>
+                                </div>
+                                <md-button class="md-secondary md-icon-button" ng-click="vm.subs.$remove(c)" aria-label="remove clip">
+                                    <i class="material-icons" ng-click="vm.subs.$remove(c)">close</i>
+                                </md-button>
+                            </md-list-item>
+                        </div>
+                    </md-list>
+                </div>
             </md-content>
 
         </section>
@@ -74,7 +73,7 @@
 
         <section ng-if="vm.meta.movieUrl != null" layout-padding flex="30" style="border:1px solid #f2f2f2">
             <div ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id">
-                <subtitle-input template="vm.selectedTemplate" updateparent="vm.saveSubs(c)"  ref="c"></subtitle-input>
+                <subtitle-input template="vm.selectedTemplate" updateparent="vm.saveSubs(c)" ref="c"></subtitle-input>
             </div>
         </section>
 
@@ -83,8 +82,7 @@
             <md-list>
                 <md-list-item ng-if="!vm.uploading && vm.meta.movieUrl != null">
                     <md-button class="md-raised" href="{{vm.meta.movieUrl}}">Download orig</md-button>
-                    <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'"
-                        ngf-select="vm.upload($file)" type="file">
+                    <md-button class="md-raised" aria-label="Plaats nieuw filmpje" ng-model="vm.subtitle.video" ngf-accept="'video/mp4, video/quicktime'" ngf-select="vm.upload($file)" type="file">
                         Change Movie
                     </md-button>
                 </md-list-item>
@@ -117,9 +115,7 @@
         </section>
 
         <section ng-if="vm.meta.movieUrl != null" layout="row">
-            <div flex="70" layout-align="center center" ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id" class="clipSlider"
-                style="width: 100%;position: fixed;bottom: 20px;left: calc(15% - 1px); background-color: transparent; z-index: 3;"
-                ng-class="vm.loop ? '' : 'videoLooping'">
+            <div flex="70" layout-align="center center" ng-repeat="(key, c) in vm.subs" ng-if="c.$id == vm.selectedSub.id" class="clipSlider" style="width: 100%;position: fixed;bottom: 20px;left: calc(15% - 1px); background-color: transparent; z-index: 3;" ng-class="vm.loop ? '' : 'videoLooping'">
                 <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.subSlider.options"></rzslider>
                 <!-- <rzslider rz-slider-model="c.start" rz-slider-high="c.end" rz-slider-options="vm.visualSlider.options"></rzslider> -->
             </div>
