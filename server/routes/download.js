@@ -5,20 +5,20 @@ var fs = require('fs');
 var youtubedl = require('youtube-dl');
 var emailService = require('../services/emailService.js');
 
-
+//
 //url /api
 router.get('/download', function(req, res) {
-    res.json({message: 'download'}).send();
+    res.json({ message: 'download' }).send();
 });
 
 router.post('/download', function(req, res) {
     var url = req.body.url;
     var email = req.body.email;
 
-    if(!url) return;
+    if (!url) return;
 
     var filename = shortId.generate() + '.mp4';
-    var path = 'temp/downloads/'+filename;
+    var path = 'temp/downloads/' + filename;
 
     var video = youtubedl(url);
 
@@ -35,7 +35,7 @@ router.post('/download', function(req, res) {
     video.on('end', function() {
         console.log('Download ended');
         sendNotification(email, filename);
-        res.json({url: path}).send();
+        res.json({ url: path }).send();
     });
 
 });
