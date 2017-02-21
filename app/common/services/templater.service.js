@@ -216,9 +216,7 @@ export default class templaterService {
                 input: {
                     "Text2DR": "",
                 }
-            },
-
-            {
+            }, {
                 meta: {
                     'id': 'bottomLeft',
                     'brand': 'canvas',
@@ -248,7 +246,76 @@ export default class templaterService {
                     "Text2DR": "",
                     "Text5": ""
                 }
+            }, {
+                meta: {
+                    'id': 'deredactieExplainerTop',
+                    'brand': 'deredactie.be',
+                    'excludeBrand': '',
+                    'type': 'sub',
+                    'img': 'assets/videoTemplates/dr_backDropSub.png',
+                    'view': '/components/subtitles/views/template.subtitle.backDropSub.view.html',
+                    'roles': ['0', '1']
+                },
+                clip: {
+                    'style': 'DeredactieExplainerTop',
+                    'text': ""
+                },
+                input: {
+                    'text': "",
+                }
+            }, {
+                meta: {
+                    'id': 'deredactieExplainerBottom',
+                    'brand': 'deredactie.be',
+                    'excludeBrand': '',
+                    'type': 'sub',
+                    'img': 'assets/videoTemplates/dr_backDropSub.png',
+                    'view': '/components/subtitles/views/template.subtitle.backDropSub.view.html',
+                    'roles': ['0', '1']
+                },
+                clip: {
+                    'style': 'DeredactieExplainerBottom',
+                    'text': ""
+                },
+                input: {
+                    'text': "",
+                }
+            }, {
+                meta: {
+                    'id': 'deredactieExplainerBottomLeft',
+                    'brand': 'deredactie.be',
+                    'excludeBrand': '',
+                    'type': 'sub',
+                    'img': 'assets/videoTemplates/dr_backDropSub.png',
+                    'view': '/components/subtitles/views/template.subtitle.backDropSub.view.html',
+                    'roles': ['0', '1']
+                },
+                clip: {
+                    'style': 'DeredactieExplainerBottomLeft',
+                    'text': ""
+                },
+                input: {
+                    'text': "",
+                }
+            }, {
+                meta: {
+                    'id': 'deredactieExplainerTopLeft',
+                    'brand': 'deredactie.be',
+                    'excludeBrand': '',
+                    'type': 'sub',
+                    'img': 'assets/videoTemplates/dr_backDropSub.png',
+                    'view': '/components/subtitles/views/template.subtitle.backDropSub.view.html',
+                    'roles': ['0', '1']
+                },
+                clip: {
+                    'style': 'DeredactieExplainerTopLeft',
+                    'text': ""
+                },
+                input: {
+                    'text': "",
+                }
             }
+
 
         ];
 
@@ -762,8 +829,11 @@ export default class templaterService {
             string = string + '[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n';
             string = string + 'Style: Default,arial,24,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,1,0,2,5,5,30,1\n';
             string = string + 'Style: DeredactieBackdrop,arial,24,&H00FFFFFF,&H00FFFFFF,&H64000000,&H64000000,0,0,0,0,100,100,0,0,3,1,0,2,10,10,30,1\n';
-            string = string + 'Style: DeredactieMarkering,arial,24,&H00FFFFFF,&H000000FF,&H0023D846,&H003E301D,0,0,0,0,100,100,0,0,3,2,0,2,10,10,10,1\n';
-            string = string + 'Style: DeredactieHighlight,arial,24,&H00FFFFFF,&H000000FF,&H0023D846,&H003E301D,0,0,0,0,100,100,0,0,3,2,0,2,10,10,10,1\n';
+            string = string + 'Style: DeredactieHighlight,DIN Condensed Bold,35,&H00FFFFFF,,&H0000FFFF,&H000000FF,0,0,0,0,100,100,0,0,3,1,0,2,10,10,30,1\n';
+            string = string + 'Style: DeredactieExplainerBottom,DIN Condensed Bold,30,&H00FFFFFF,,,,0,0,0,0,100,100,0,0,0,0,0,2,5,5,30,1\n';
+            string = string + 'Style: DeredactieExplainerTop,DIN Condensed Bold,30,&H00FFFFFF,,,,0,0,0,0,100,100,0,0,0,0,0,6,5,5,30,1\n';
+            string = string + 'Style: DeredactieExplainerTopLeft,DIN Condensed Bold,30,&H00FFFFFF,,,,0,0,0,0,100,100,0,0,0,0,0,5,5,5,30,1\n';
+            string = string + 'Style: DeredactieExplainerBottomLeft,DIN Condensed Bold,30,&H00FFFFFF,,,,0,0,0,0,100,100,0,0,0,0,0,1,5,5,30,1\n';
             string = string + 'Style: StubruDefault,helvetica,16,&H00FFFFFF,,&H00000000,,0,0,0,0,100,100,0,0,1,0.6,0,2,5,5,21,1\n';
             string = string + '[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
             angular.forEach(subs, (line) => {
@@ -773,9 +843,10 @@ export default class templaterService {
                     if (text.indexOf('\n') > -1) {
                         text = text.replace(/\n/g, '\\N');
                     }
-                    text = text.replace('[', '{\\rDeredactieHighlight}');
-                    text = text.replace(']', '{\\r}');
+                    text = text.replace(/\[/g, '{\\rDeredactieHighlight}');
+                    text = text.replace(/\]/g, '{\\r}');
                     // if (text)
+                    if (this.clipTemplates[line.template].clip.style.includes('DeredactieExplainer')) { text = '{\\fad(400,250)}' + text };
                     string = string + 'Dialogue: 0,' + this.msToTime(line.start) + ',' + this.msToTime(line.end) + ',' + this.clipTemplates[line.template].clip.style + ',,0,0,0,,' + text + '\n';
                 }
             });
