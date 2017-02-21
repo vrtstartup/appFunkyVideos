@@ -107,7 +107,7 @@ router.post('/getTempUrl', function(req, res, next) {
 
 
 router.post('/upload-to-dropbox', function(req, res, next) {
-    logger.info('received call to upload to dropbox');
+    // logger.info('received call to upload to dropbox');
     var fileName = '';
     var file = {};
     var count = 0;
@@ -123,7 +123,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
 
     form.on('error', function(err) {
-        logger.crit('Error parsing form: ' + err.stack);
+        // logger.crit('Error parsing form: ' + err.stack);
     });
 
     // Parts are emitted when parsing the form
@@ -134,7 +134,7 @@ router.post('/upload-to-dropbox', function(req, res, next) {
         if (!part.filename) {
 
             // filename is not defined when this is a field and not a file
-            logger.info('got field named ' + part.name);
+            // logger.info('got field named ' + part.name);
             // ignore field's content
             part.resume();
         }
@@ -142,20 +142,20 @@ router.post('/upload-to-dropbox', function(req, res, next) {
         if (part.filename) {
             // filename is defined when this is a file
             count++;
-            logger.info('got file named ' + part.name);
+            // logger.info('got file named ' + part.name);
             // ignore file's content here
             part.resume();
         }
 
         part.on('error', function(err) {
-            logger.crit('Error on part: ' + err);
+            // logger.crit('Error on part: ' + err);
             // decide what to do
         });
     });
 
     // Close emitted after form parsed
     form.on('close', function() {
-        logger.info('Take in completed!');
+        // logger.info('Take in completed!');
 
 
         // res.setHeader('video/mp4');
@@ -175,8 +175,8 @@ router.post('/upload-to-dropbox', function(req, res, next) {
 
             dbPath = '/in/' + fileName + '.mp4';
             dbPathSmall = '/in/' + fileName + '_small.mp4';
-            logger.info('the path where the file is now: ', file.path);
-            logger.info('File should go to Dropbox at:', dbPath);
+            // logger.info('the path where the file is now: ', file.path);
+            // logger.info('File should go to Dropbox at:', dbPath);
 
             // Upload hi res version
             uploadHiRes(file.path, dbPath);
@@ -184,24 +184,24 @@ router.post('/upload-to-dropbox', function(req, res, next) {
             // Probe file for width and height
             ffmpeg.ffprobe(file.path, function(err, metadata) {
                 if (err) {
-                    logger.crit('Tried to probe the file using ffprobe, but returned error:', err);
+                    // logger.crit('Tried to probe the file using ffprobe, but returned error:', err);
                     return next(Boom.badImplementation('unexpected error, tried to probe the file, but returned error.'));
                 }
-                logger.info('ffprobe worked, checking if metadata is available.');
+                // logger.info('ffprobe worked, checking if metadata is available.');
                 if (metadata) {
                     logger.info('Metadata is available. Metadata: ', metadata);
                     logger.info('Looping through metadata, checking if codec_type = video');
                     for (i = 0; i < metadata.streams.length; i++) {
                         logger.info('Checking stream ' + i + ' for metadata.');
                         if (metadata.streams[i].codec_type === 'video') {
-                            logger.info('Found a stream with codec Video. Stream ' + i);
-                            logger.info('Checking stream ' + i + ' for width and height.');
+                            // logger.info('Found a stream with codec Video. Stream ' + i);
+                            // logger.info('Checking stream ' + i + ' for width and height.');
                             width = metadata.streams[i].width;
-                            logger.info('video width', width);
+                            // logger.info('video width', width);
                             height = metadata.streams[i].height;
-                            logger.info('video height', height);
+                            // logger.info('video height', height);
 
-                            logger.info('got everything, let\'s send this back for saving.');
+                            // logger.info('got everything, let\'s send this back for saving.');
 
 
                             tempUrlSmall = tempPath + '/' + fileName + '_small.mp4';
@@ -212,49 +212,49 @@ router.post('/upload-to-dropbox', function(req, res, next) {
                                 .format('mp4')
                                 .output(tempUrlSmall)
                                 .on('start', function(commandLine) {
-                                    logger.info('Started creating Low Res version.');
+                                    // logger.info('Started creating Low Res version.');
                                 })
                                 .on('error', function(err, stdout, stderr) {
-                                    logger.crit('Error creating low res version.', err);
-                                    logger.crit('ffmpeg stdout:\n' + stdout);
+                                    // logger.crit('Error creating low res version.', err);
+                                    // logger.crit('ffmpeg stdout:\n' + stdout);
                                     logger.crit('ffmpeg stderr:\n' + stderr);
 
                                 })
                                 .on('progress', function(progress) {
-                                    logger.info('creating low res version', progress);
+                                    // logger.info('creating low res version', progress);
                                 })
                                 .on('end', function() {
-                                    logger.info('finished ffmpeg command');
-                                    logger.info('reading file from temp location', tempUrlSmall)
+                                    // logger.info('finished ffmpeg command');
+                                    // logger.info('reading file from temp location', tempUrlSmall)
                                     fs.readFile(tempUrlSmall, function(err, data) {
                                         var smallFile = data;
 
                                         if (err) {
-                                            logger.crit('error while reading low res file', err);
+                                            // logger.crit('error while reading low res file', err);
                                         } else {
-                                            logger.info('starting upload low res version', dbPathSmall);
+                                            // logger.info('starting upload low res version', dbPathSmall);
 
 
                                             // TODO should be replaced by general send to dropbox function
                                             dbClient.filesUpload({ path: dbPathSmall, contents: smallFile, mode: 'overwrite' })
                                                 .then(function(response) {
 
-                                                    logger.info('done uploading the small file', response);
-                                                    logger.info('Get the temp link of the small file');
+                                                    // logger.info('done uploading the small file', response);
+                                                    // logger.info('Get the temp link of the small file');
 
                                                     deleteLocalFile(tempUrlSmall);
                                                     deleteLocalFile(file.path);
 
                                                     dbClient.filesGetTemporaryLink({ path: dbPathSmall })
                                                         .then(function(response) {
-                                                            logger.info('got temporary url', response);
+                                                            // logger.info('got temporary url', response);
 
                                                             res.json({ image: response.link, dbPath: dbPath, width: width, height: height, fileName: fileName, filenameOut: fileName, filenameIn: fileName })
                                                                 .send();
                                                         });
                                                 })
                                                 .catch(function(err) {
-                                                    logger.crit('something went wrong uploading the low res file');
+                                                    // logger.crit('something went wrong uploading the low res file');
 
                                                 });
                                         }
