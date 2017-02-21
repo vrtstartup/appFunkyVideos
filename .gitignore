@@ -9,6 +9,8 @@ bower_components
 
 ### Node ###
 # Logs
+logs
+*.log
 npm-debug.log*
 
 # Runtime data
