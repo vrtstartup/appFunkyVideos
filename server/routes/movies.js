@@ -109,165 +109,165 @@ router.post('/getTempUrl', function(req, res, next) {
 router.post('/upload-to-dropbox', function(req, res, next) {
     // logger.info('received call to upload to dropbox');
 
-    // var fileName = '';
-    // var file = {};
-    // var count = 0;
-    // var dbPath = '';
-    // var response = {};
-    // var tempUrl = '';
-    // var tempPath = 'temp/subtitleVideos';
-    // var tempUrlSmall = '';
-    // var width = 0;
-    // var height = 0;
-    // var form = new multiparty.Form({ autoFiles: true, uploadDir: tempPath });
-    // // Add errors and so on (https://github.com/andrewrk/node-multiparty)
+    var fileName = '';
+    var file = {};
+    var count = 0;
+    var dbPath = '';
+    var response = {};
+    var tempUrl = '';
+    var tempPath = 'temp/subtitleVideos';
+    var tempUrlSmall = '';
+    var width = 0;
+    var height = 0;
+    var form = new multiparty.Form({ autoFiles: true, uploadDir: tempPath });
+    // Add errors and so on (https://github.com/andrewrk/node-multiparty)
 
 
-    // form.on('error', function(err) {
-    //     // logger.crit('Error parsing form: ' + err.stack);
-    // });
+    form.on('error', function(err) {
+        // logger.crit('Error parsing form: ' + err.stack);
+    });
 
-    // // Parts are emitted when parsing the form
-    // form.on('part', function(part) {
-    //     // You *must* act on the part by reading it
-    //     // NOTE: if you want to ignore it, just call "part.resume()"
+    // Parts are emitted when parsing the form
+    form.on('part', function(part) {
+        // You *must* act on the part by reading it
+        // NOTE: if you want to ignore it, just call "part.resume()"
 
-    //     if (!part.filename) {
+        if (!part.filename) {
 
-    //         // filename is not defined when this is a field and not a file
-    //         // logger.info('got field named ' + part.name);
-    //         // ignore field's content
-    //         part.resume();
-    //     }
+            // filename is not defined when this is a field and not a file
+            // logger.info('got field named ' + part.name);
+            // ignore field's content
+            part.resume();
+        }
 
-    //     if (part.filename) {
-    //         // filename is defined when this is a file
-    //         count++;
-    //         // logger.info('got file named ' + part.name);
-    //         // ignore file's content here
-    //         part.resume();
-    //     }
+        if (part.filename) {
+            // filename is defined when this is a file
+            count++;
+            // logger.info('got file named ' + part.name);
+            // ignore file's content here
+            part.resume();
+        }
 
-    //     part.on('error', function(err) {
-    //         // logger.crit('Error on part: ' + err);
-    //         // decide what to do
-    //     });
-    // });
+        part.on('error', function(err) {
+            // logger.crit('Error on part: ' + err);
+            // decide what to do
+        });
+    });
 
-    // // Close emitted after form parsed
-    // form.on('close', function() {
-    //     // logger.info('Take in completed!');
-
-
-    //     // res.setHeader('video/mp4');
-    //     // res.end('Received ' + count + ' files');
-    // });
+    // Close emitted after form parsed
+    form.on('close', function() {
+        // logger.info('Take in completed!');
 
 
-
-    // form.parse(req, function(err, fields, files) {
-    //     Object.keys(fields).forEach(function(name) {
-    //         logger.info('got field named ' + name);
-    //     });
-
-    //     Object.keys(files).forEach(function(name) {
-    //         file = files[name][0];
-    //         fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
-
-    //         dbPath = '/in/' + fileName + '.mp4';
-    //         dbPathSmall = '/in/' + fileName + '_small.mp4';
-    //         // logger.info('the path where the file is now: ', file.path);
-    //         // logger.info('File should go to Dropbox at:', dbPath);
-
-    //         // Upload hi res version
-    //         uploadHiRes(file.path, dbPath);
-
-    //         // Probe file for width and height
-    //         ffmpeg.ffprobe(file.path, function(err, metadata) {
-    //             if (err) {
-    //                 // logger.crit('Tried to probe the file using ffprobe, but returned error:', err);
-    //                 return next(Boom.badImplementation('unexpected error, tried to probe the file, but returned error.'));
-    //             }
-    //             // logger.info('ffprobe worked, checking if metadata is available.');
-    //             if (metadata) {
-    //                 logger.info('Metadata is available. Metadata: ', metadata);
-    //                 logger.info('Looping through metadata, checking if codec_type = video');
-    //                 for (i = 0; i < metadata.streams.length; i++) {
-    //                     logger.info('Checking stream ' + i + ' for metadata.');
-    //                     if (metadata.streams[i].codec_type === 'video') {
-    //                         // logger.info('Found a stream with codec Video. Stream ' + i);
-    //                         // logger.info('Checking stream ' + i + ' for width and height.');
-    //                         width = metadata.streams[i].width;
-    //                         // logger.info('video width', width);
-    //                         height = metadata.streams[i].height;
-    //                         // logger.info('video height', height);
-
-    //                         // logger.info('got everything, let\'s send this back for saving.');
+        // res.setHeader('video/mp4');
+        // res.end('Received ' + count + ' files');
+    });
 
 
-    //                         tempUrlSmall = tempPath + '/' + fileName + '_small.mp4';
 
-    //                         ffmpeg(file.path).size('320x?')
-    //                             .outputOptions('-strict -2')
-    //                             .audioCodec('copy')
-    //                             .format('mp4')
-    //                             .output(tempUrlSmall)
-    //                             .on('start', function(commandLine) {
-    //                                 // logger.info('Started creating Low Res version.');
-    //                             })
-    //                             .on('error', function(err, stdout, stderr) {
-    //                                 // logger.crit('Error creating low res version.', err);
-    //                                 // logger.crit('ffmpeg stdout:\n' + stdout);
-    //                                 logger.crit('ffmpeg stderr:\n' + stderr);
+    form.parse(req, function(err, fields, files) {
+        Object.keys(fields).forEach(function(name) {
+            logger.info('got field named ' + name);
+        });
 
-    //                             })
-    //                             .on('progress', function(progress) {
-    //                                 // logger.info('creating low res version', progress);
-    //                             })
-    //                             .on('end', function() {
-    //                                 // logger.info('finished ffmpeg command');
-    //                                 // logger.info('reading file from temp location', tempUrlSmall)
-    //                                 fs.readFile(tempUrlSmall, function(err, data) {
-    //                                     var smallFile = data;
+        Object.keys(files).forEach(function(name) {
+            file = files[name][0];
+            fileName = file.originalFilename.replace(/(?:\.([^.]+))?$/, '');
 
-    //                                     if (err) {
-    //                                         // logger.crit('error while reading low res file', err);
-    //                                     } else {
-    //                                         // logger.info('starting upload low res version', dbPathSmall);
+            dbPath = '/in/' + fileName + '.mp4';
+            dbPathSmall = '/in/' + fileName + '_small.mp4';
+            // logger.info('the path where the file is now: ', file.path);
+            // logger.info('File should go to Dropbox at:', dbPath);
+
+            // Upload hi res version
+            uploadHiRes(file.path, dbPath);
+
+            // Probe file for width and height
+            ffmpeg.ffprobe(file.path, function(err, metadata) {
+                if (err) {
+                    // logger.crit('Tried to probe the file using ffprobe, but returned error:', err);
+                    return next(Boom.badImplementation('unexpected error, tried to probe the file, but returned error.'));
+                }
+                // logger.info('ffprobe worked, checking if metadata is available.');
+                if (metadata) {
+                    logger.info('Metadata is available. Metadata: ', metadata);
+                    logger.info('Looping through metadata, checking if codec_type = video');
+                    for (i = 0; i < metadata.streams.length; i++) {
+                        logger.info('Checking stream ' + i + ' for metadata.');
+                        if (metadata.streams[i].codec_type === 'video') {
+                            // logger.info('Found a stream with codec Video. Stream ' + i);
+                            // logger.info('Checking stream ' + i + ' for width and height.');
+                            width = metadata.streams[i].width;
+                            // logger.info('video width', width);
+                            height = metadata.streams[i].height;
+                            // logger.info('video height', height);
+
+                            // logger.info('got everything, let\'s send this back for saving.');
 
 
-    //                                         // TODO should be replaced by general send to dropbox function
-    //                                         dbClient.filesUpload({ path: dbPathSmall, contents: smallFile, mode: 'overwrite' })
-    //                                             .then(function(response) {
+                            tempUrlSmall = tempPath + '/' + fileName + '_small.mp4';
 
-    //                                                 // logger.info('done uploading the small file', response);
-    //                                                 // logger.info('Get the temp link of the small file');
+                            ffmpeg(file.path).size('320x?')
+                                .outputOptions('-strict -2')
+                                .audioCodec('copy')
+                                .format('mp4')
+                                .output(tempUrlSmall)
+                                .on('start', function(commandLine) {
+                                    // logger.info('Started creating Low Res version.');
+                                })
+                                .on('error', function(err, stdout, stderr) {
+                                    // logger.crit('Error creating low res version.', err);
+                                    // logger.crit('ffmpeg stdout:\n' + stdout);
+                                    logger.crit('ffmpeg stderr:\n' + stderr);
 
-    //                                                 deleteLocalFile(tempUrlSmall);
-    //                                                 deleteLocalFile(file.path);
+                                })
+                                .on('progress', function(progress) {
+                                    // logger.info('creating low res version', progress);
+                                })
+                                .on('end', function() {
+                                    // logger.info('finished ffmpeg command');
+                                    // logger.info('reading file from temp location', tempUrlSmall)
+                                    fs.readFile(tempUrlSmall, function(err, data) {
+                                        var smallFile = data;
 
-    //                                                 dbClient.filesGetTemporaryLink({ path: dbPathSmall })
-    //                                                     .then(function(response) {
-    //                                                         // logger.info('got temporary url', response);
+                                        if (err) {
+                                            // logger.crit('error while reading low res file', err);
+                                        } else {
+                                            // logger.info('starting upload low res version', dbPathSmall);
 
-    //                                                         res.json({ image: response.link, dbPath: dbPath, width: width, height: height, fileName: fileName, filenameOut: fileName, filenameIn: fileName })
-    //                                                             .send();
-    //                                                     });
-    //                                             })
-    //                                             .catch(function(err) {
-    //                                                 // logger.crit('something went wrong uploading the low res file');
 
-    //                                             });
-    //                                     }
-    //                                 });
-    //                             })
-    //                             .run();
-    //                     }
-    //                 }
-    //             }
-    //         });
-    //     });
-    // });
+                                            // TODO should be replaced by general send to dropbox function
+                                            dbClient.filesUpload({ path: dbPathSmall, contents: smallFile, mode: 'overwrite' })
+                                                .then(function(response) {
+
+                                                    // logger.info('done uploading the small file', response);
+                                                    // logger.info('Get the temp link of the small file');
+
+                                                    deleteLocalFile(tempUrlSmall);
+                                                    deleteLocalFile(file.path);
+
+                                                    dbClient.filesGetTemporaryLink({ path: dbPathSmall })
+                                                        .then(function(response) {
+                                                            // logger.info('got temporary url', response);
+
+                                                            res.json({ image: response.link, dbPath: dbPath, width: width, height: height, fileName: fileName, filenameOut: fileName, filenameIn: fileName })
+                                                                .send();
+                                                        });
+                                                })
+                                                .catch(function(err) {
+                                                    // logger.crit('something went wrong uploading the low res file');
+
+                                                });
+                                        }
+                                    });
+                                })
+                                .run();
+                        }
+                    }
+                }
+            });
+        });
+    });
 });
 
 router.post('/generateSub', multipartyMiddleware, function(req, res, next) {
