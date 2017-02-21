@@ -107,7 +107,8 @@ router.post('/getTempUrl', function(req, res, next) {
 
 
 router.post('/upload-to-dropbox', function(req, res, next) {
-    logger.info('received call to upload to dropbox');
+    // logger.info('received call to upload to dropbox');
+
     // var fileName = '';
     // var file = {};
     // var count = 0;
