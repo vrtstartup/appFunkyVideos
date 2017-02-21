@@ -12,7 +12,7 @@
 
             <md-input-container class="md-block">
                 <label>Auteur naam</label>
-                <textarea ng-model="vm.quote.authorName1" md-maxlength="340" rows="3" vrt-maxlines="5" maxlines-prevent-enter="false"></textarea>
+                <textarea ng-model="vm.quote.authorName1" md-maxlength="140" rows="3" vrt-maxlines="3" maxlines-prevent-enter="false"></textarea>
             </md-input-container>
 
         </md-content>
@@ -24,12 +24,13 @@
                 <label>Title</label>
                 <input ng-model="vm.quote.authorTitle2" md-maxlength="100">
 
+
             </md-input-container>
         </md-content>
         <md-content layout-padding="" flex="50">
             <md-input-container class="md-block">
                 <label>Auteur naam</label>
-                <textarea ng-model="vm.quote.authorName2" md-maxlength="340" rows="3" vrt-maxlines="5" maxlines-prevent-enter="false"></textarea>
+                <textarea ng-model="vm.quote.authorName2" md-maxlength="140" rows="3" vrt-maxlines="3" maxlines-prevent-enter="false"></textarea>
             </md-input-container>
 
         </md-content>
@@ -40,34 +41,17 @@
 
                 <label>Title</label>
                 <input ng-model="vm.quote.authorTitle3" md-maxlength="100">
+
             </md-input-container>
         </md-content>
         <md-content layout-padding="" flex="50">
             <md-input-container class="md-block">
                 <label>Auteur naam</label>
-                <textarea ng-model="vm.quote.authorName3" md-maxlength="340" rows="3" vrt-maxlines="5" maxlines-prevent-enter="false"></textarea>
+                <textarea ng-model="vm.quote.authorName3" md-maxlength="140" rows="3" vrt-maxlines="3" maxlines-prevent-enter="false"></textarea>
             </md-input-container>
 
         </md-content>
     </div>
-
-    <div layout-gt-sm="row">
-        <md-content layout-padding="" flex="50">
-            <md-input-container class="md-block">
-                <label>Titel</label>
-                <textarea ng-model="vm.quote.authorTitle4" md-maxlength="340" rows="3" vrt-maxlines="5" maxlines-prevent-enter="false"></textarea>
-            </md-input-container>
-        </md-content>
-        <md-content layout-padding="" flex="50">
-            <md-input-container class="md-block">
-                <label>Auteur naam</label>
-                <textarea ng-model="vm.quote.authorName4" md-maxlength="340" rows="3" vrt-maxlines="5" maxlines-prevent-enter="false"></textarea>
-            </md-input-container>
-
-        </md-content>
-    </div>
-
-
 
     <div layout-gt-sm="row">
 
@@ -91,7 +75,7 @@
 
     <div class="dir-wrap">
         <vrt-template-linda class="dir-wrap" is-hidden-sign="true" author-name-one="vm.quote.authorName1" title-one="vm.quote.authorTitle1" author-name-two="vm.quote.authorName2" title-two="vm.quote.authorTitle2" author-name-three="vm.quote.authorName3" title-three="vm.quote.authorTitle3"
-            author-name-four="vm.quote.authorName4" title-four="vm.quote.authorTitle4" quote="vm.quote.question" image="vm.image" image-size="vm.template.imageSize">
+            quote="vm.quote.question" image="vm.image" image-size="vm.template.imageSize">
         </vrt-template-linda>
     </div>
 </div>
