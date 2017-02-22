@@ -156,10 +156,10 @@ router.post('/upload-to-dropbox', function(req, res, next) {
     // Close emitted after form parsed
     form.on('close', function() {
         logger.info('Take in completed!');
+        console.log('test');
 
-
-        res.setHeader('video/mp4');
-        res.end('Received ' + count + ' files');
+        // res.setHeader('video/mp4');
+        // res.end('Received ' + count + ' files');
     });
 
 
