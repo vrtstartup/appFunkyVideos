@@ -6,9 +6,6 @@ const cors = require('cors');
 const Boom = require('boom');
 //const httpProxy = require('http-proxy');
 const mkdirp = require('mkdirp');
-// var firebase = require("firebase");
-// Init firebase
-
 
 const errorHandler = require('./middleware/errorHandler');
 // const logger = require('./middleware/logger');
@@ -179,7 +176,3 @@ var server = app.listen(port, function() {
     console.log('Express server listening on port: ' + server.address().port);
     console.log('Current environment is: ' + env);
 });
-
-
-
-
