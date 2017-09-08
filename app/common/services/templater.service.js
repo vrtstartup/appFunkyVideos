@@ -477,6 +477,24 @@ export default class templaterService {
             'fileRemote': this.root + 'bumpers\\sporza_1.mov',
             'fade': 0,
             'bumperLength': 2
+        }, {
+            'name': 'De Afspraak 1',
+            'id': 10,
+            'brand': 'canvas',
+            'fileLocal': 'assets/bumpers/deafspraak1.gif',
+            'fileServer': 'assets/bumpers/deafspraak_1.mov',
+            'fileRemote': this.root + 'bumpers\\deafspraak_1.mov',
+            'fade': 1,
+            'bumperLength': 4
+        }, {
+            'name': 'De Afspraak 2',
+            'id': 11,
+            'brand': 'canvas',
+            'fileLocal': 'assets/bumpers/deafspraak2.gif',
+            'fileServer': 'assets/bumpers/deafspraak_2.mov',
+            'fileRemote': this.root + 'bumpers\\deafspraak_2.mov',
+            'fade': 0,
+            'bumperLength': 4
         }];
     }
 
